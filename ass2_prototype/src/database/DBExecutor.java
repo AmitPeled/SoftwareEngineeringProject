@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.locks.ReentrantLock;
 
+import hash.sha1;
+
 public class DBExecutor {
 	static final String usersdetailsTable = "usersDetails";
 	static final String userspurchasesTable = "usersPurchases";
@@ -22,6 +24,7 @@ public class DBExecutor {
 	}
 
 	public static boolean userExists(String username, String password) {
+		password = sha1.applyHash(password);
 		String sqlquery = "SELECT username FROM " + usersdetailsTable + " WHERE username = '" + username
 				+ "' AND password = '" + password + "';";
 		boolean success = false;
@@ -51,6 +54,7 @@ public class DBExecutor {
 	}
 
 	public static boolean addUser(String username, String password) {
+		password = sha1.applyHash(password);
 		int numPurchases = 0;
 		boolean success = false;
 		String sqlquery = "INSERT INTO " + usersdetailsTable + " values ('" + username + "', '" + password + "', "
@@ -69,6 +73,7 @@ public class DBExecutor {
 	}
 
 	public static void addPurchase(String username, String password) {
+		password = sha1.applyHash(password);
 		String sqlquery = "UPDATE " + usersdetailsTable + " SET numPurchases = numPurchases + 1 WHERE username = '"
 				+ username + "' AND password = '" + password + "';";
 		try {
@@ -82,6 +87,7 @@ public class DBExecutor {
 	}
 
 	static public int getNumPurchases(String username, String password) {
+		password = sha1.applyHash(password);
 		String sqlquery = "SELECT numPurchases FROM " + usersdetailsTable + " WHERE username = '" + username
 				+ "' AND password = '" + password + "';";
 		int numPurchases = -1;
@@ -100,6 +106,7 @@ public class DBExecutor {
 	}
 
 	public static ResultSet getPurchases(String un, String ps) {
+		ps = sha1.applyHash(ps);
 		// TODO Auto-generated method stub
 		return null;
 	}

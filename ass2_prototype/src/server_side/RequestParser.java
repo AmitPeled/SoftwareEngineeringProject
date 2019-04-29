@@ -14,6 +14,7 @@ import com.google.api.client.http.UrlEncodedParser;
 import com.google.api.client.util.Charsets;
 
 import database.DBExecutor;
+import hash.sha1;
 
 public class RequestParser {
 
@@ -38,6 +39,9 @@ public class RequestParser {
 		try {
 			byte[] msg;
 			Object action = m.get("action"), un = m.get("username"), ps = m.get("password");
+//			String hashedPass = null;
+//			if (ps != null)
+//				hashedPass = sha1.applyHash(ps.toString());
 			switch (action.toString()) {
 			case "[register]":
 				msg = register(un.toString(), ps.toString()).getBytes();
