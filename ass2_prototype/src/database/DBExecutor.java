@@ -1,30 +1,36 @@
 package database;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.locks.ReentrantLock;
 
 import hash.sha1;
 
-public class DBExecutor implements IDBExecute {
-	String username;
-	String password;
+public class DBExecutor {
+	static final String usersdetailsTable = "usersDetails";
+	static final String userspurchasesTable = "usersPurchases";
+	static ReentrantLock dbAccess = new ReentrantLock();
 
-	public DBExecutor(String username, String password) {
-		this.username = username;
-		this.password = sha1.applyHash(password);
+	public static void cleanTables() {
+		try {
+			synchronized (dbAccess) {
+				DBConnector.getStatement().execute("truncate table " + usersdetailsTable + ";");
+				DBConnector.getStatement().execute("truncate table " + userspurchasesTable + ";");
+			}
+		} catch (SQLException e) {
+			System.err.println("Error in erasing tables data");
+			System.err.println(e.getMessage());
+		}
 	}
 
-	public boolean detailsExist() {
-		String sqlquery = "SELECT username FROM " + usersdetailsTable + " WHERE username = ? AND password = ?;";
+	public static boolean userExists(String username, String password) {
+		password = sha1.applyHash(password);
+		String sqlquery = "SELECT username FROM " + usersdetailsTable + " WHERE username = '" + username
+				+ "' AND password = '" + password + "';";
 		boolean success = false;
 		try {
-			PreparedStatement pstmt = DBConnector.conn.prepareStatement(sqlquery);
-			pstmt.setString(1, username);
-			pstmt.setString(2, password);
 			synchronized (dbAccess) {
-				success = pstmt.executeQuery().next();
+				success = DBConnector.connStmt.executeQuery(sqlquery).next();
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in verifying user");
@@ -33,14 +39,12 @@ public class DBExecutor implements IDBExecute {
 		return success;
 	}
 
-	public boolean userExists() {
-		String sqlquery = "SELECT username FROM " + usersdetailsTable + " WHERE username = ?;";
+	public static boolean userExists(String username) {
+		String sqlquery = "SELECT username FROM " + usersdetailsTable + " WHERE username = '" + username + "';";
 		boolean success = false;
 		try {
-			PreparedStatement pstmt = DBConnector.conn.prepareStatement(sqlquery);
-			pstmt.setString(1, username);
 			synchronized (dbAccess) {
-				success = pstmt.executeQuery().next();
+				success = DBConnector.connStmt.executeQuery(sqlquery).next();
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in verifying user");
@@ -49,36 +53,32 @@ public class DBExecutor implements IDBExecute {
 		return success;
 	}
 
-	public boolean addUser() {
+	public static boolean addUser(String username, String password) {
+		password = sha1.applyHash(password);
 		int numPurchases = 0;
-		String sqlquery = "INSERT INTO " + usersdetailsTable + " values (?, ?, ?);";
+		boolean success = false;
+		String sqlquery = "INSERT INTO " + usersdetailsTable + " values ('" + username + "', '" + password + "', "
+				+ numPurchases + ");";
 		try {
-			PreparedStatement pstmt = DBConnector.conn.prepareStatement(sqlquery);
-			pstmt.setString(1, username);
-			pstmt.setString(2, password);
-			pstmt.setInt(3, numPurchases);
-			if (!detailsExist()) {
+			if (!userExists(username)) {
 				synchronized (dbAccess) {
-					pstmt.executeUpdate();
+					success = DBConnector.connStmt.execute(sqlquery);
 				}
-				return true;
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in adding user");
 			System.err.println(e.getMessage());
 		}
-		return false;
+		return success;
 	}
 
-	public void addPurchase() {
-		String sqlquery = "UPDATE " + usersdetailsTable + " SET numPurchases = numPurchases + 1 WHERE username = ? AND "
-				+ "password = ?;";
+	public static void addPurchase(String username, String password) {
+		password = sha1.applyHash(password);
+		String sqlquery = "UPDATE " + usersdetailsTable + " SET numPurchases = numPurchases + 1 WHERE username = '"
+				+ username + "' AND password = '" + password + "';";
 		try {
-			PreparedStatement pstmt = DBConnector.conn.prepareStatement(sqlquery);
-			pstmt.setString(1, username);
-			pstmt.setString(2, password);
 			synchronized (dbAccess) {
-				pstmt.executeUpdate();
+				DBConnector.connStmt.execute(sqlquery);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error in inserting new purchase");
@@ -86,15 +86,14 @@ public class DBExecutor implements IDBExecute {
 		}
 	}
 
-	public int getNumPurchases() {
-		String sqlquery = "SELECT numPurchases FROM " + usersdetailsTable + " WHERE username = ? AND password = ?;";
+	static public int getNumPurchases(String username, String password) {
+		password = sha1.applyHash(password);
+		String sqlquery = "SELECT numPurchases FROM " + usersdetailsTable + " WHERE username = '" + username
+				+ "' AND password = '" + password + "';";
 		int numPurchases = -1;
 		try {
-			PreparedStatement pstmt = DBConnector.conn.prepareStatement(sqlquery);
-			pstmt.setString(1, username);
-			pstmt.setString(2, password);
 			synchronized (dbAccess) {
-				ResultSet rs = pstmt.executeQuery();
+				ResultSet rs = DBConnector.connStmt.executeQuery(sqlquery);
 				rs.next();
 				numPurchases = rs.getInt("numPurchases");
 				rs.close();
@@ -106,20 +105,9 @@ public class DBExecutor implements IDBExecute {
 		return numPurchases;
 	}
 
-	public ResultSet getPurchases() {
+	public static ResultSet getPurchases(String un, String ps) {
+		ps = sha1.applyHash(ps);
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public void cleanTables() {
-		try {
-			synchronized (dbAccess) {
-				DBConnector.getStatement().execute("truncate table " + usersdetailsTable + ";");
-				DBConnector.getStatement().execute("truncate table " + userspurchasesTable + ";");
-			}
-		} catch (SQLException e) {
-			System.err.println("Error in erasing tables data");
-			System.err.println(e.getMessage());
-		}
 	}
 }

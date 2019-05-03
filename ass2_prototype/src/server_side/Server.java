@@ -21,13 +21,12 @@ public class Server {
 			server = new ServerSocket(PORT_NUMBER);
 			DBConnector.connect();
 
-			while (true) {
-				new ServerThread(server.accept());
+			while (true) { 
+				new serverThread(server.accept());
 			}
 
 		} catch (IOException ex) {
 			System.out.println("Unable to start server.");
-			System.err.println(ex.getMessage());
 		} finally {
 			try {
 				DBConnector.closeConnection();
