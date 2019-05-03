@@ -1,4 +1,6 @@
-/client_side/
+/transport_objects/
+/hash/
 /database/
+/client_side/
 /gui/
 /server_side/

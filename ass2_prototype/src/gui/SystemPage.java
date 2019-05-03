@@ -1,26 +1,26 @@
 package gui;
 
 import javax.swing.*;
-
 import client_side.Client;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class SystemPage extends JFrame implements ActionListener {
-	static String loggedUser;
+	Client client;
+	String loggedUser;
 	JButton addPurchase;
 	JButton viewDetails;
 	JPanel panel;
 	JLabel detailsLabel;
-	SystemPage(String un) {
-		loggedUser = un;
+	SystemPage(Client client) {
+		this.client = client;
+		loggedUser = client.getUsername();
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("System Page");
 		setSize(400, 200);
 		this.setVisible(true);
-		JLabel HelloLabel = new JLabel("Hello " + un);
+		JLabel HelloLabel = new JLabel("Hello " + loggedUser);
 		detailsLabel = new JLabel();
 
 		this.getContentPane().add(HelloLabel);
@@ -40,15 +40,15 @@ class SystemPage extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		StringBuilder msg = new StringBuilder();
 		if (ae.getSource() == addPurchase) {
-			if (Client.addPurchase(msg)) { // TODO
+			if (client.addPurchase(msg)) { 
 				JOptionPane.showMessageDialog(this, msg);
-				System.out.println("purchase added.");
+				System.out.println(msg);
 			} else {
 				System.out.println(msg);
 				JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (ae.getSource() == viewDetails) {
-			if (Client.getNumPurchases(msg)) {
+			if (client.getNumPurchases(msg)) {
 				detailsLabel.setText("username: " + loggedUser + ". num purchases: " + msg);
 				System.out.println("user details: " + "username = " + loggedUser + ". num purchases = " + msg);
 			} else {
