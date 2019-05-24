@@ -1,4 +1,0 @@
-CREATE DATABASE IF NOT EXISTS X6SgPM1fb2;
-USE X6SgPM1fb2;
-DROP TABLE IF EXISTS usersDetails;
-CREATE TABLE usersDetails (username varchar(20), password varchar(40), numPurchases int);
