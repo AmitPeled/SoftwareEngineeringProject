@@ -12,4 +12,8 @@ public final class Coordinates {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public Boolean equals(Coordinates other) {
+		return this.x == other.x && this.y == other.y;
+	}
 }

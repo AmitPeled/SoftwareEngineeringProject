@@ -23,4 +23,10 @@ class CoordinatesTest {
 		assertEquals(DEFAULT_X, defaultCoordinates.x);
 		assertEquals(DEFAULT_Y, defaultCoordinates.y);
 	}
+	
+	@Test
+	void equals() {
+		Coordinates otherCoordinates = new Coordinates(DEFAULT_X , DEFAULT_Y);
+		assertTrue(defaultCoordinates.equals(otherCoordinates));
+	}
 }
