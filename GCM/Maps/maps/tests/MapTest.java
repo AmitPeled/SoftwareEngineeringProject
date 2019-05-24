@@ -20,13 +20,13 @@ class MapTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		map = new Map(1,DEFAULT_WIDTH,DEFAULT_HEIGHT);
+		map = new Map(DEFAULT_ID,DEFAULT_WIDTH,DEFAULT_HEIGHT);
 	}
 
 	@Test
 	void constructor_idLessThanOne_ThrowsException() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			new Map(-1,DEFAULT_WIDTH,DEFAULT_HEIGHT);
+			new Map(-DEFAULT_ID,DEFAULT_WIDTH,DEFAULT_HEIGHT);
 		});
 	}
 
@@ -63,9 +63,9 @@ class MapTest {
 	
 	@Test
 	void constructor_offsetIsSet() {
-		Coordinates coordinates = new Coordinates(NON_DEFAULT_COORDINATES_X,NON_DEFAULT_COORDINATES_Y);
-		Map anotherMap = new Map(DEFAULT_ID, DEFAULT_WIDTH, DEFAULT_HEIGHT,coordinates);
-		assertEquals(coordinates, anotherMap.getOffset());
-		assertTrue(coordinates.equals(anotherMap.getOffset()));
+		Coordinates offset = new Coordinates(NON_DEFAULT_COORDINATES_X,NON_DEFAULT_COORDINATES_Y);
+		Map anotherMap = new Map(DEFAULT_ID, DEFAULT_WIDTH, DEFAULT_HEIGHT,offset);
+		assertEquals(offset, anotherMap.getOffset());
+		assertTrue(offset.equals(anotherMap.getOffset()));
 	}
 }
