@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import maps.Map;
 
 class MapTest {
-	static final int defaultId = 1;
+	static final int DEFAULT_ID = 1;
 	private Map map;
 	
 	@BeforeEach
@@ -21,4 +21,9 @@ class MapTest {
 		new Map(-1);
 	});}
 
+	@Test
+	void constructor_idIsSet() {
+		int result = map.getId();
+		assertEquals(DEFAULT_ID, result);
+	}
 }
