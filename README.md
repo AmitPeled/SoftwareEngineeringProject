@@ -64,12 +64,16 @@ The best way by far to work with github and with a central repository in general
   Locally, don't work on top of the master branch. 
   Create a new local branch (Also called **feature branch**) and work on it. 
   Do as many commits as you want locally, and work however you want on your local branch. 
-  When you want to push your changes, they need to be in the master branch one commit ahead of the current head. There are 2 ways to do it. 
-  One is to merge from the feature branch and delete the local branch, push the new commit (Make sure to change the commit message to explain what this commit does). 
-  The other option is to switch to master, merge/rebase (it doesn't matter because it will just 'fast-forward'), reset (**not hard!** it will delete all your changes before you push them) back to the original last master commit, stage changes and create a new commit, and push this commit. It's the same as the other method but you don't delete your local feature branch this way.
+* **Create a pull request when you want to push your changes**
+  You need to push the local branch you creates, go to GitHub and create a pull request on your branch. Than ask for someone else to approve it and it will merge your branch to the master branch.
 
 
-### Standards
+### Code Standards
+- ##### Documentation
+  There's a standard in Java called JavaDoc that's used to document your classes. There are some examples here:
+  https://www.tutorialspoint.com/java/java_documentation.htm .
+  It's part of the project requirements but it's also very important.
+  
 - ##### No inheritance
   Inheritance is a dumb idea that never works and always leads to madness. Don't use it. If you want to use it please talk to me and we'll find a better solution. I'll give an example from this project:
 In this project we had some requirements around user privileges. They heavily implied that we do this:
@@ -87,8 +91,10 @@ And it makes sense, until you need to change something. Some day some time you'r
    ```
    And it's no coincidence. Inheritance also did something in this solution that shouldn't have happened. We now have dependnacy between all these different types of users who have really nothing to do with each other. Why does the admin need to be affected by what the content editor does? Why does the content admin needs to know what the user class has? every time you change something in one class, you have to think about what happens in the 4190 other classes in the inheritance chain. 
    So we don't use inheritance, but what do we do instead? Use interfaces
+   
 - ##### Use interfaces between logic classes
   Interfaces are like abstract classes, but with no implementations. They are basically a list of public function signatures. Unlike normal inheritance, a class can `implement` (not inherit, although it's similar) as many interfaces as you want. When a class inherits an interface, you can reference the class by it's interface type without knowing it's actual type. When you implement an interface you have to implement all the function signatures.
   Unless it's classes that are just holding data (data types like `User` and other examples from above), **the interactions between classes shuold always be through an interface**. It's also good because it's easier to mock and test your classes. Instead of constructing 5 classes because you have a dependency in those classes, you simply mock an interface.
+  Here's an example of inetrface usage: https://www.w3schools.com/java/java_interface.asp
 
 Everytime you're not sure about anything, feel free to contact me and I'd be more than happy to help.
