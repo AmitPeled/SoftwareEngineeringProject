@@ -31,7 +31,7 @@ public final class MapViewerView {
 		this.mapImage = new Image(mapPathString);
 	}
 	
-	Scene getScene() {
+	public Scene getScene() {
 		GridPane gridPane = GetPane();
 		Scene scene = new Scene(gridPane, WIDTH, HEIGHT);
 		
