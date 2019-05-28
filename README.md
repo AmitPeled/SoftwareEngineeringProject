@@ -1,3 +1,9 @@
+# TASKS - by the end of the weekend 
+- Designing the main application GUI (Gabri)
+- Writing client side interface for database access (Amit)
+- Writing the map-viewer screen (Asaf)
+- Build the log in screen (Eli)
+
 # GCM - Global City Map
 Software engineering course final project.
 
