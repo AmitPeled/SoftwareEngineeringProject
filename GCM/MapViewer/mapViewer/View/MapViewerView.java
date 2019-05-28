@@ -10,6 +10,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import mapViewer.ViewModel.*;
 
 /**
@@ -18,8 +19,8 @@ import mapViewer.ViewModel.*;
  */
 public final class MapViewerView {
 	
-	static final int WIDTH = 400;
-	static final int HEIGHT = 400;
+	static final int WIDTH = 1280;
+	static final int HEIGHT = 720;
 	
 	private MapViewerViewModel viewModel;
 	private String mapPathString;
@@ -28,7 +29,7 @@ public final class MapViewerView {
 	public MapViewerView(MapViewerViewModel viewModel) {
 		this.viewModel = viewModel;
 		this.mapPathString = viewModel.getMapPath();
-		this.mapImage = new Image(mapPathString);
+		this.mapImage = new Image("file:Import/resources/Gta3_map.gif");
 	}
 	
 	public Scene getScene() {
@@ -50,7 +51,6 @@ public final class MapViewerView {
 		
 		Background background = new Background(backgroundImage);
 		gridPane.setBackground(background);
-		
 		return gridPane;
 	}
 }
