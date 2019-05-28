@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="Users"/>
 	<classpathentry kind="src" path="Maps"/>
 	<classpathentry kind="src" path="App"/>
+	<classpathentry kind="src" path="DataAccess"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>

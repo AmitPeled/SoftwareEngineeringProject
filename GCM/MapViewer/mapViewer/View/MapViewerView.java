@@ -29,7 +29,7 @@ public final class MapViewerView {
 	public MapViewerView(MapViewerViewModel viewModel) {
 		this.viewModel = viewModel;
 		this.mapPathString = viewModel.getMapPath();
-		this.mapImage = new Image("file:Import/resources/Gta3_map.gif");
+		this.mapImage = new Image(mapPathString);
 	}
 	
 	public Scene getScene() {
