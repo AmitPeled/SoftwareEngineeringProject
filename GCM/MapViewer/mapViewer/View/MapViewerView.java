@@ -1,7 +1,5 @@
 package mapViewer.View;
 
-import java.lang.reflect.Constructor;
-
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -10,7 +8,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import mapViewer.ViewModel.*;
 
 /**
@@ -22,7 +19,7 @@ public final class MapViewerView {
 	static final int WIDTH = 1280;
 	static final int HEIGHT = 720;
 	
-	private MapViewerViewModel viewModel;
+	//private MapViewerViewModel viewModel;
 	private String mapPathString;
 	private Image mapImage;
 	
