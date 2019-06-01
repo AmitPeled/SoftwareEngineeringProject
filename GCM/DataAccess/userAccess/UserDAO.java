@@ -1,13 +1,5 @@
 package userAccess;
 
-import maps.Map;
-
-import java.awt.List;
-import java.io.File;
-
-import data_classes.AccessDetails;
-
-import transport_objects.ResponseObject;
 import users.User;
 
 public interface UserDAO {

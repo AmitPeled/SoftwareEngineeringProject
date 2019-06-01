@@ -19,7 +19,7 @@ public final class MapViewerView {
 	static final int WIDTH = 1280;
 	static final int HEIGHT = 720;
 	
-	//private MapViewerViewModel viewModel;
+	private MapViewerViewModel viewModel;
 	private String mapPathString;
 	private Image mapImage;
 	
