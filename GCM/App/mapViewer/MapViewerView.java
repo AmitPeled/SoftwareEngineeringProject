@@ -24,7 +24,6 @@ public final class MapViewerView {
 	private Image mapImage;
 	
 	public MapViewerView(MapViewerViewModel viewModel) {
-		this.viewModel = viewModel;
 		this.mapPathString = viewModel.getMapPath();
 		this.mapImage = new Image(mapPathString);
 	}
