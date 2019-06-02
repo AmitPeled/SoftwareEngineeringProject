@@ -1,4 +1,4 @@
-package requestHandling;
+package requestHandle;
 
 public interface IHandleRequest {
 
