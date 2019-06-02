@@ -6,5 +6,7 @@ public final class MapViewerViewModel {
 	public String getMapPath() {
 		return TEST_IMAGE_FILE;
 	}
+	
+	// Example comment
 
 }
