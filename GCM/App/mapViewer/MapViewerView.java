@@ -8,7 +8,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
-import mapViewer.ViewModel.*;
 
 /**
  * Contains the view elements of the MapViewer.

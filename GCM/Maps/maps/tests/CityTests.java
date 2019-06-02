@@ -15,7 +15,7 @@ class CityTests {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		City city = new City(defaultId,defaultName);		
+		city = new City(defaultId,defaultName);		
 	}
 
 	@Test
