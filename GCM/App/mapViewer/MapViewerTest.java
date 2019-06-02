@@ -1,4 +1,4 @@
-package mapViewer.Tests;
+package mapViewer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
