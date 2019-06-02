@@ -1,4 +1,4 @@
-package mapViewer.View;
+package mapViewer;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

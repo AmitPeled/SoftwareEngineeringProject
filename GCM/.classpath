@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="MapViewer"/>
 	<classpathentry kind="src" path="Users"/>
 	<classpathentry kind="src" path="Maps"/>
 	<classpathentry kind="src" path="App"/>
