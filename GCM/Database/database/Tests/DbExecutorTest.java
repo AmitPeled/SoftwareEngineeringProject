@@ -7,12 +7,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import database.connection.DBConnector;
-import database.execution.DatabaseExecutor;
-import database.execution.IExecuteQueries;
+import database.Connection.DBConnector;
+import database.Execution.DatabaseExecutor;
+import database.Execution.IExecuteQueries;
 
 class DbExecutorTest {
 	IExecuteQueries dbExecutor = new DatabaseExecutor(DBConnector.connect());;

@@ -1,4 +1,4 @@
-package userAccess;
+package dataAccess.users;
 
 import users.User;
 

@@ -1,4 +1,4 @@
-package database.execution;
+package database.Execution;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.connection.DBConnector;
+import database.Connection.DBConnector;
 
 public class DatabaseExecutor implements IExecuteQueries {
 	private Connection dbConnection;

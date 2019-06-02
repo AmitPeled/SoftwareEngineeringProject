@@ -1,4 +1,4 @@
-package database.objectParse;
+package database.ObjectParse;
 
 import java.sql.ResultSet;
 import java.util.List;

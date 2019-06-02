@@ -1,4 +1,4 @@
-package mapAccess;
+package dataAccess.maps;
 
 import java.io.File;
 

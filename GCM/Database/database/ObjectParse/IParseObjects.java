@@ -1,4 +1,4 @@
-package database.objectParse;
+package database.ObjectParse;
 
 import java.util.List;
 import java.sql.ResultSet;
@@ -13,7 +13,7 @@ import maps.Site;
  *         our objects to the way they should be stored in the database.
  *
  *         first and last 3 functions is of the same rule (the first of them is
- *         documented, and the rest purpose applies for different object type)
+ *         documented, and the rest are of the same purpose for a different object type)
  * 
  *
  */
@@ -34,10 +34,26 @@ public interface IParseObjects {
 	 */
 	List<Map> ResultsetToMaps(ResultSet resultSet);
 
+	/**
+	 * same as for maps, the database row structure for Site is: 
+	 * id(int) | description(String) | x_coordinate(float) | y_coordinate(float)
+	 * 
+	 * @param resultSet
+	 * @return Site List
+	 */
 	List<Site> ResultsetToSites(ResultSet resultSet);
 
+	/**
+	 * same as for maps, the database row structure for Site is: 
+	 * id(int) | name(String) 
+	 * 
+	 * @param resultSet
+	 * @return City List
+	 */
 	List<City> ResultsetToCities(ResultSet resultSet);
 
+	
+	
 	/**
 	 * this function rule is to parse the Map object into a List of Objects. the
 	 * list should contain the objects in the *same order* it is stored in the
