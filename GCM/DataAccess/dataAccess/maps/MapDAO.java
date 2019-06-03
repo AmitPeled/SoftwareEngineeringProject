@@ -2,6 +2,7 @@ package dataAccess.maps;
 
 import java.io.File;
 
+import maps.City;
 import maps.Map;
 
 public interface MapDAO {
@@ -21,4 +22,11 @@ public interface MapDAO {
 	 * @return Map image file of the map associated with this mapID
 	 */
 	public File getMapFile(int mapID); // -for map viewing and downloading
+	
+	public int addMapToCity(int cityId, Map mapDetails, File mapFile);
+	
+	public void deleteMap(int mapId);
+
+	public int addCity(City city);
+
 }

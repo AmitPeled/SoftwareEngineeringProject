@@ -1,19 +1,28 @@
-/**
- * 
- */
+
 package users;
 
+import java.io.Serializable;
+
 /**
- * @author aagami
- * 
+ * @author amit
+ *
  */
-public final class User {
+public final class User implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
-	public int getId() { return id; }
-	
-	public User(int id) {
-		this.id = id;
+	public User(String email, String phoneNumber) {
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+
 	}
-	
-	private int id;
+	public String getEmail() {
+		return email;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	private String email;
+	private String phoneNumber;
 }
+
+// Membership membership - membership type, purchase date

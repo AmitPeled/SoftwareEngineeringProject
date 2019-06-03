@@ -19,5 +19,10 @@ public enum RequestState {
 	/**
 	 * when a user's details format is not valid
 	 */
-	longPassword, shortPassword, longUsername, shortUsername
+	longPassword, shortPassword, longUsername, shortUsername,
+	
+	notPrivileged,
+	
+	somethingWrongHappend
+	
 }

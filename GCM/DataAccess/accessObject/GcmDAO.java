@@ -4,23 +4,27 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import dataAccess.maps.MapDAO;
 import dataAccess.users.UserDAO;
+import maps.City;
 import maps.Map;
 import queries.GcmQuery;
 import queries.RequestState;
 import request.RequestObject;
+import request.UserType;
 import response.ResponseObject;
 import users.User;
 
 //import javax.net.ssl.SSLSocket;
 //import javax.net.ssl.SSLSocketFactory;
 
-public class GcmDAO implements UserDAO, MapDAO {
+@SuppressWarnings("serial")
+public class GcmDAO implements UserDAO, MapDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
 	String password = null;
@@ -33,50 +37,60 @@ public class GcmDAO implements UserDAO, MapDAO {
 		this.password = password;
 	}
 
+	public GcmDAO(String username, String password) {
+		serverHostname = "localhost";
+		serverPortNumber = 8080;
+		this.username = username;
+		this.password = password;
+	}
+
 	@Override
 	public Map getMapDetails(int mapID) {
-		@SuppressWarnings("serial")
-		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapDetails, new ArrayList<Object>() {
-			{
-				add(mapID);
-			}
-		}, username, password));
+		ResponseObject responseObject = send(
+				new RequestObject(UserType.notLogged, GcmQuery.getMapDetails, new ArrayList<Object>() {
+					{
+						add(mapID);
+					}
+				}, username, password));
 		return (Map) responseObject.getResponse().get(0);
 	}
 
 	@Override
 	public File getMapFile(int mapID) {
-		@SuppressWarnings("serial")
-		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
-			{
-				add(mapID);
-			}
-		}, username, password));
+		ResponseObject responseObject = send(
+				new RequestObject(UserType.editor, GcmQuery.getMapFile, new ArrayList<Object>() {
+					{
+
+						add(mapID);
+					}
+				}, username, password));
 		return (File) responseObject.getResponse().get(0);
 	}
 
 	@Override
 	public RequestState register(String username, String password, User user) {
-		@SuppressWarnings("serial")
-		ResponseObject responseObject = send(new RequestObject(GcmQuery.addUser, new ArrayList<Object>() {
-			{
-				add(username);
-				add(password);
-				add(user);
-			}
-		}, username, password));
+		ResponseObject responseObject = send(
+				new RequestObject(UserType.notLogged, GcmQuery.addCustomer, new ArrayList<Object>() {
+					{
+						add(username);
+						add(password);
+						add(user);
+					}
+				}, username, password));
 		return responseObject.getRequestState();
 	}
 
 	@Override
 	public RequestState login(String username, String password) {
-		@SuppressWarnings("serial")
-		ResponseObject responseObject = send(new RequestObject(GcmQuery.verifyUser, new ArrayList<Object>() {
-			{
-				add(username);
-				add(password);
-			}
-		}, username, password));
+		ResponseObject responseObject = send(
+				new RequestObject(UserType.notLogged, GcmQuery.verifyCustomer, new ArrayList<Object>() {
+					private static final long serialVersionUID = 1L;
+
+					{
+						add(username);
+						add(password);
+					}
+				}, username, password));
 		return responseObject.getRequestState();
 	}
 
@@ -116,6 +130,9 @@ public class GcmDAO implements UserDAO, MapDAO {
 		} catch (IOException e1) {
 			System.err.println("error in sending data to server");
 			System.err.println(e1.getMessage());
+			System.err.println(req.getUname() + req.getPass() + req.getQuery() + req.getUserType());
+			System.exit(1);
+
 		}
 		System.out.println("data sent. receiving data:");
 		Object res = null;
@@ -141,5 +158,35 @@ public class GcmDAO implements UserDAO, MapDAO {
 			System.err.println(e.getMessage());
 		}
 		return resObject;
+	}
+
+	@Override
+	public int addMapToCity(int cityId, Map mapDetails, File mapFile) {
+		return (int) send(new RequestObject(UserType.editor, GcmQuery.addMap, new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(mapDetails);
+				add(mapFile);
+			}
+		}, username, password)).getResponse().get(0);
+	}
+
+	@Override
+	public void deleteMap(int mapId) {
+		send(new RequestObject(UserType.editor, GcmQuery.deleteMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public int addCity(City city) {
+		return (int) send(new RequestObject(UserType.editor, GcmQuery.addCity, new ArrayList<Object>() {
+			{
+				add(city);
+			}
+		}, username, password)).getResponse().get(0);
 	}
 }

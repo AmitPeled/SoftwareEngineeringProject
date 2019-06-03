@@ -9,84 +9,89 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import java.sql.Statement;
+
 /**
  * @author amit
  *
  */
 public class DatabaseExecutor implements IExecuteQueries {
 	private Connection dbConnection;
-	private String dbName;
+	//private String dbName;
 	/**
 	 * global database access synchronization.
 	 */
 	static private ReentrantLock dbAccess = new ReentrantLock();
 
-	public DatabaseExecutor(Connection connection, String dbName) {
+	public DatabaseExecutor(Connection connection/*, String dbName*/) {
 		dbConnection = connection;
-		this.dbName = dbName;
+		//this.dbName = dbName;
 	}
 
 	@Override
 	public int insertAndGenerateId(String tableName, List<Object> objects) throws SQLException {
-		String sqlquery = "INSERT " + tableName + " VALUES (";
 		if (objects.size() > 0) {
-			for (int i = 0; i <= objects.size() - 1; i++) {
+			String sqlquery = "INSERT " + tableName + " VALUES (";
+			for (int i = 0; i < objects.size() - 1; i++) {
 				sqlquery = sqlquery.concat("?, ");
 			}
-			sqlquery = sqlquery.concat("?)");
+			sqlquery = sqlquery.concat("?);");
+			System.out.println(sqlquery);
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+			int id = generateId(tableName);
+			preparedStatement.setObject(1, id);
+			for (int i = 1; i < objects.size(); i++) {
+				preparedStatement.setObject(i + 1, objects.get(i)); // start from second '?' and value.
+			}
+			synchronized (dbAccess) {
+				preparedStatement.execute();
+			}
+			return id;
 		}
-		System.out.println(sqlquery);
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
-		int id = generateId(tableName);
-		preparedStatement.setObject(1, id);
-		for (int i = 0; i < objects.size(); i++) {
-			preparedStatement.setObject(i + 2, objects.get(i)); // start from second '?'
-		}
-		synchronized (dbAccess) {
-			preparedStatement.execute();
-		}
-		return id;
+		return -1;
 	}
 
 	@Override
 	public void insertToTable(String tableName, List<Object> objects) throws SQLException {
-		String sqlquery = "INSERT " + tableName + " VALUES (";
 		if (objects.size() > 0) {
+			String sqlquery = "INSERT " + tableName + " VALUES (";
 			for (int i = 0; i < objects.size() - 1; i++) {
 				sqlquery = sqlquery.concat("?, ");
 			}
-			sqlquery = sqlquery.concat("?)");
-		}
-		System.out.println(sqlquery);
+			sqlquery = sqlquery.concat("?);");
 
-		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
-		for (int i = 0; i < objects.size(); i++) {
-			preparedStatement.setObject(i + 1, objects.get(i)); // start from second '?'
-		}
-		synchronized (dbAccess) {
-			preparedStatement.execute();
+			System.out.println(sqlquery);
+
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+			for (int i = 0; i < objects.size(); i++) {
+				preparedStatement.setObject(i + 1, objects.get(i)); // start from second '?'
+			}
+			synchronized (dbAccess) {
+				preparedStatement.execute();
+			}
 		}
 	}
 
 	private int generateId(String tableName) throws SQLException {
-		String sqlquery = "SELECT id,ORDINAL_POSITION FROM COLUMNS WHERE TABLE_SCHEMA = " + dbName + " AND TABLE_NAME= "
-				+ tableName + " ORDER BY ORDINAL_POSITION desc limit 1";
+		Statement s2 = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		int id = -1;
-		// very dangerous to use if dataAccess is taken
 		synchronized (dbAccess) {
-			dbConnection.prepareStatement("USE information schema;").execute();
-			ResultSet resultSet = dbConnection.prepareStatement(sqlquery).executeQuery();
-			resultSet.next();
-			id = resultSet.getInt(1);
+			ResultSet rset = s2.executeQuery("select * from " + tableName);
+			if (rset.next()) {
+				rset.afterLast();
+				rset.previous();
+				id = rset.getInt(1);
+			} else
+				id = 1;
 		}
-		return id;
+
+		return id + 1;
 	}
 
 	@Override
 	public void deleteValueFromTable(String tableName, String objectName, Object object) throws SQLException {
-		String sqlquery = "DELETE from " + tableName + " WHERE " + objectName + " = ? ;";
+		String sqlquery = "DELETE from " + tableName + " WHERE " + objectName + " = ?;";
 		System.out.println(sqlquery);
-
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setObject(1, object);
 		synchronized (dbAccess) {
@@ -110,8 +115,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@Override
 	public List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames,
 			List<Object> objectsValues, String columnsToSelect) throws SQLException {
-		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE ";
 		if (objectsValues.size() > 0) {
+			String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE ";
 			for (int i = 0; i < objectNames.size() - 1; i++) {
 				sqlquery = sqlquery.concat(objectNames.get(i) + " = ? AND ");
 			}

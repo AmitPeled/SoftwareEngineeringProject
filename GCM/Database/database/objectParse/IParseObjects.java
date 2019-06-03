@@ -1,10 +1,12 @@
 package database.objectParse;
 
 import java.util.List;
+import java.util.SortedSet;
 
 import maps.City;
 import maps.Map;
 import maps.Site;
+import users.User;
 
 /**
  * @author amit
@@ -17,17 +19,17 @@ public interface IParseObjects {
 	 * object.
 	 * 
 	 * 
-	 * @param objectList a list of the map fields. each object in the list contains
-	 *                   the correspond map field, sorted by the constructor
-	 *                   signature field order.
+	 * @param metaFieldsList, L a list of the map fields. each object in the list
+	 *        contains the correspond map field, sorted by the constructor signature
+	 *        field order.
 	 * 
 	 * @return a map that contain the fields
 	 */
-	Map getMap(List<Object> objectList);
+	Map getMap(List<Object> metaFieldsList, SortedSet<Site> sitesList);
 
-	Site getSite(List<Object> objectList);
+	Site getSite(List<Object> fieldsList);
 
-	City getCity(List<Object> objectList, List<Object> mapsIds, List<Object> sitesIds);
+//	City getCity(List<Object> fieldsList, SortedSet<Integer> mapsIds, SortedSet<Integer> sitesIds);
 
 	/**
 	 * this function rule is to parse a Map object into a List of its fields values.
@@ -42,5 +44,7 @@ public interface IParseObjects {
 	List<Object> getSiteFieldsList(Site site);
 
 	List<Object> getCityMetaFieldsList(City city);
+	
+	List<Object> getUserFieldsList(User user);
 
 }

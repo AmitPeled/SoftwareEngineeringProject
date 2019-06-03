@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import database.metadata.databaseMetaData;
+import database.metadata.DatabaseMetaData;
 
 public class DBConnector {
 	public static final String dbPassword = "AUTfbYZpT5";
@@ -33,8 +33,8 @@ public class DBConnector {
 	public static Connection connect() {
 		if (conn == null) {
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://" + databaseMetaData.getHostName() + ":3306/" + databaseMetaData.getDbName()
-						+ "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", databaseMetaData.getDbUsername(), dbPassword);
+				conn = DriverManager.getConnection("jdbc:mysql://" + DatabaseMetaData.getHostName() + ":3306/" + DatabaseMetaData.getDbName()
+						+ "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", DatabaseMetaData.getDbUsername(), dbPassword);
 				connStmt = conn.createStatement();
 				
 			} catch (SQLException e) {

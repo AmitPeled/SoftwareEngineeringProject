@@ -3,13 +3,16 @@
  */
 package maps;
 
+import java.io.Serializable;
+
 //import java.util.SortedSet;
 
 /**
  * Contains references (by ID) to the maps and sites that are associated to the City
  *
  */
-public final class City {
+public final class City implements  Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private int id;
 	private String name;

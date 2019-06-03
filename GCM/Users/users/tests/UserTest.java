@@ -9,17 +9,19 @@ import users.User;
 
 class UserTest {
 	static final int DEFAULT_USER_ID = 1;
-	
+
 	private User defaultUser;
-	
+
 	@BeforeEach
 	void setUp() throws Exception {
-		defaultUser = new User(1);
+		defaultUser = new User("moshe@gmail.com", "050000000");
 	}
 
 	@Test
 	void getIdReturnsCorrectId() {
-		assertEquals(1, defaultUser.getId());
+		assertEquals("moshe@gmail.com", defaultUser.getEmail());
+		assertEquals("050000000", defaultUser.getPhoneNumber());
+
 	}
 
 }

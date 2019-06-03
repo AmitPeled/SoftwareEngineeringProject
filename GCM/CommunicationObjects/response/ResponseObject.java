@@ -5,8 +5,8 @@ import java.util.List;
 
 import queries.RequestState;
 
-@SuppressWarnings("serial")
 public class ResponseObject implements Serializable {
+	private static final long serialVersionUID = 1L;
 	List<Object> objects;
 	RequestState requestState;
 
@@ -14,8 +14,9 @@ public class ResponseObject implements Serializable {
 		objects = null;
 	}
 
-	public ResponseObject(List<Object> objects) {
+	public ResponseObject(RequestState state, List<Object> objects) {
 		this.objects = objects;
+		this.requestState = state;
 	}
 
 	public List<Object> getResponse() {

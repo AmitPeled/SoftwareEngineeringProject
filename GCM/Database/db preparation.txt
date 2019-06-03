@@ -1,0 +1,18 @@
+CREATE DATABASE IF NOT EXISTS X6SgPM1fb2;
+USE X6SgPM1fb2;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS mapsMetaDetails;
+DROP TABLE IF EXISTS mapsFiles;
+DROP TABLE IF EXISTS mapsSites;
+DROP TABLE IF EXISTS citiesMetaDetails;
+DROP TABLE IF EXISTS citiesMaps;
+DROP TABLE IF EXISTS citiesSites;
+DROP TABLE IF EXISTS sites;
+CREATE TABLE users(username varchar(20), password varchar(40), email varchar(40), phoneNumber varchar(12));
+CREATE TABLE sites(siteId int, siteDescription Text, site_x_coordinate float, site_y_coordinate float);
+CREATE TABLE mapsMetaDetails(mapId int, mapWidth float, mapHeight float, map_x_offset float, map_y_offset float);
+CREATE TABLE mapsFiles(mapId int, path Text);
+CREATE TABLE mapsSites(mapId int, siteId int);
+CREATE TABLE citiesMetaDetails(cityId int, cityName Text);
+CREATE TABLE citiesMaps(cityId int, mapId int);
+CREATE TABLE citiesSites(cityId int, siteId int);

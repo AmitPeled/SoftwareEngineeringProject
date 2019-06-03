@@ -3,7 +3,6 @@ package database.execution;
 import java.sql.SQLException;
 import java.util.List;
 
-
 /**
  * @author amit
  *

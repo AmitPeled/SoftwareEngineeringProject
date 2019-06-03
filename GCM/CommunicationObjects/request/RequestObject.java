@@ -1,22 +1,24 @@
 package request;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import queries.GcmQuery;
 
-@SuppressWarnings("serial")
 public class RequestObject implements Serializable {
-	GcmQuery query;
-	List<Object> objectsToSend;
-	String username, password;
+	private static final long serialVersionUID = 2L;
+	private UserType userType;
+	private GcmQuery query;
+	private List<Object> objectsToSend;
+	private String username, password; // future session hash
 
-	public RequestObject(GcmQuery query, List<Object> objects, String username, String password) {
+	public RequestObject(UserType userType, GcmQuery query, List<Object> objects, String username, String password) {
+		this.userType = userType;
 		this.query = query;
 		objectsToSend = objects;
 		this.username = username;
 		this.password = password;
-
 	}
 
 	public RequestObject(GcmQuery query, String username, String password) {
@@ -24,6 +26,10 @@ public class RequestObject implements Serializable {
 		objectsToSend = null;
 		this.username = username;
 		this.password = password;
+	}
+
+	public UserType getUserType() {
+		return userType;
 	}
 
 	public GcmQuery getQuery() {
