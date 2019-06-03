@@ -1,64 +1,87 @@
 package accessObject;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import dataAccess.maps.MapDAO;
 import dataAccess.users.UserDAO;
 import maps.Map;
-
-import serverMetaData.ServerMetaDataHandler;
+import queries.GcmQuery;
+import queries.RequestState;
+import request.RequestObject;
+import response.ResponseObject;
 import users.User;
 
 //import javax.net.ssl.SSLSocket;
 //import javax.net.ssl.SSLSocketFactory;
 
-public class GcmDAO implements UserDAO, MapDAO{
+public class GcmDAO implements UserDAO, MapDAO {
 	String serverHostname;
 	int serverPortNumber;
 	String password = null;
 	String username = null;
 
-	public GcmDAO(String username, String password) {
-		serverHostname = ServerMetaDataHandler.getServerHostName();
-		serverPortNumber = ServerMetaDataHandler.getServerPortNumer();
+	public GcmDAO(String username, String password, String host, int port) {
+		serverHostname = host;
+		serverPortNumber = port;
 		this.username = username;
 		this.password = password;
 	}
 
 	@Override
 	public Map getMapDetails(int mapID) {
-		// TODO Auto-generated method stub
-		return null;
+		@SuppressWarnings("serial")
+		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapDetails, new ArrayList<Object>() {
+			{
+				add(mapID);
+			}
+		}, username, password));
+		return (Map) responseObject.getResponse().get(0);
 	}
 
 	@Override
 	public File getMapFile(int mapID) {
-		// TODO Auto-generated method stub
-		return null;
+		@SuppressWarnings("serial")
+		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
+			{
+				add(mapID);
+			}
+		}, username, password));
+		return (File) responseObject.getResponse().get(0);
 	}
 
 	@Override
-	public boolean register(User user) {
-		// TODO Auto-generated method stub
-		return false;
+	public RequestState register(String username, String password, User user) {
+		@SuppressWarnings("serial")
+		ResponseObject responseObject = send(new RequestObject(GcmQuery.addUser, new ArrayList<Object>() {
+			{
+				add(username);
+				add(password);
+				add(user);
+			}
+		}, username, password));
+		return responseObject.getRequestState();
 	}
 
 	@Override
-	public boolean login(String username, String password) {
-		// TODO Auto-generated method stub
-		return false;
+	public RequestState login(String username, String password) {
+		@SuppressWarnings("serial")
+		ResponseObject responseObject = send(new RequestObject(GcmQuery.verifyUser, new ArrayList<Object>() {
+			{
+				add(username);
+				add(password);
+			}
+		}, username, password));
+		return responseObject.getRequestState();
 	}
-	
+
 	private ResponseObject send(RequestObject req) { // false for error, true otherwise
-		System.out.println("Connecting to host " + serverHostname + " on port " + port + ".");
+		System.out.println("Connecting to host " + serverHostname + " on port " + serverPortNumber + ".");
 //		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 //		SSLSocket serverSocket = null;
 		Socket serverSocket = null;
@@ -70,7 +93,7 @@ public class GcmDAO implements UserDAO, MapDAO{
 		}
 		try {
 			System.out.println("connecting to server: ");
-			serverSocket = new Socket(serverHostname, port);
+			serverSocket = new Socket(serverHostname, serverPortNumber);
 //			factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 //			serverSocket = (SSLSocket) factory.createSocket(serverHostname, port);
 //			serverSocket.startHandshake();

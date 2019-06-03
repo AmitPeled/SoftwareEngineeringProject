@@ -1,4 +1,4 @@
-package database.Connection;
+package database.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,11 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import database.metadata.databaseMetaData;
+
 public class DBConnector {
-	static final String host = "remotemysql.com";
-	static final String DBName = "X6SgPM1fb2";
-	static final String username = "X6SgPM1fb2";
-	static final String password = "AUTfbYZpT5";
+	public static final String dbPassword = "AUTfbYZpT5";
 	static Connection conn = null;
 	static Statement connStmt = null;
 
@@ -34,8 +33,8 @@ public class DBConnector {
 	public static Connection connect() {
 		if (conn == null) {
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + DBName
-						+ "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", username, password);
+				conn = DriverManager.getConnection("jdbc:mysql://" + databaseMetaData.getHostName() + ":3306/" + databaseMetaData.getDbName()
+						+ "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", databaseMetaData.getDbUsername(), dbPassword);
 				connStmt = conn.createStatement();
 				
 			} catch (SQLException e) {
