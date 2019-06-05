@@ -14,6 +14,8 @@ public interface IExecuteQueries {
 
 	void deleteValueFromTable(String tableName, String objectName, Object object) throws SQLException;
 
+	void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects) throws SQLException;
+
 	List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object, String columnsToSelect)
 			throws SQLException;
 

@@ -15,6 +15,7 @@ public final class Map implements Serializable {
 	private float width;
 	private float height;
 	private Coordinates offset;
+//	private SortedSet<Integer> siteIds;
 
 	/**
 	 * Creates a new Map instance with no offset

@@ -5,8 +5,6 @@ package maps;
 
 import java.io.Serializable;
 
-//import java.util.SortedSet;
-
 /**
  * Contains references (by ID) to the maps and sites that are associated to the City
  *

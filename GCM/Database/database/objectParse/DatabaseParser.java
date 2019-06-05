@@ -17,14 +17,14 @@ import users.User;
 public class DatabaseParser implements IParseObjects {
 
 	@Override
-	public Map getMap(List<Object> objectList, SortedSet<Site> sites) {
+	public Map getMap(List<Object> objectList, SortedSet<Integer> siteIds) {
 		return new Map((int) objectList.get(0), (float) objectList.get(1), (float) objectList.get(2),
 				new Coordinates((float) objectList.get(3), (float) objectList.get(4)));
 	}
 
 	@Override
 	public Site getSite(List<Object> objectList) {
-		return new Site((int) objectList.get(0), new Coordinates((float) objectList.get(1), (float) objectList.get(2)));
+		return new Site((int) objectList.get(0), new Coordinates((float) objectList.get(2), (float) objectList.get(3)));
 	}
 
 //	@Override

@@ -29,7 +29,7 @@ public interface IGcmDataExecute {
 
 	int addNewSiteToCity(int cityId, Site site) throws SQLException;
 
-	void addExistingSiteToMap(int cityId, int siteId) throws SQLException;
+	void addExistingSiteToMap(int mapId, int siteId) throws SQLException;
 
 	void DeleteSiteFromMap(int mapId, int siteId) throws SQLException;
 

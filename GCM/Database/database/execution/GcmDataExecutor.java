@@ -105,25 +105,24 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		else {
 			List<List<Object>> mapSitesRows = queryExecutor
 					.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId");
-			SortedSet<Site> mapsSites = new TreeSet<>();
+			SortedSet<Integer> mapSitesIds = new TreeSet<Integer>();
 			for (List<Object> list : mapSitesRows) {
-				int siteId = (int) list.get(0);
-				mapsSites.add(getSite(siteId));
+				mapSitesIds.add((int) list.get(0));
 			}
-			return objectParser.getMap(metaDetailsRows.get(0), mapsSites); // only one row correspond to this id
+			return objectParser.getMap(metaDetailsRows.get(0), mapSitesIds); // only one row correspond to this id
 		}
 	}
 
-	private Site getSite(int siteId) throws SQLException {
-		List<List<Object>> metaDetailsRows = queryExecutor
-				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites), "siteId", siteId, "*");
-		if (metaDetailsRows.isEmpty())
+	public Site getSite(int siteId) throws SQLException {
+		List<List<Object>> siteRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
+				"siteId", siteId, "*");
+		if (siteRows.isEmpty())
 			return null;
-		else {
-			return objectParser.getSite(metaDetailsRows.get(0)); // only one site row correspond to this id
-		}
+		else
+			return objectParser.getSite(siteRows.get(0)); // only one site row correspond to this id
 	}
 
+	
 	@Override
 	public File getMapFile(/* String pathToFilesFolder, */int mapId) throws SQLException {
 		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsFiles),
@@ -260,12 +259,24 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public void DeleteSiteFromMap(int mapId, int siteId) throws SQLException {
-		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "siteId", siteId);
+		queryExecutor.deleteValuesFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), new ArrayList<String>() {
+			{
+				add("mapId");
+				add("siteId");
+			}
+		}, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(siteId);
+			}
+		});
 	}
 
 	@Override
 	public void DeleteSite(int siteId) throws SQLException {
-		// TODO Auto-generated method stub
+		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "siteId", siteId);
+		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesSitesIds), "siteId", siteId);
+		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", siteId);
 	}
 
 }

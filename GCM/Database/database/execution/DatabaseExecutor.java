@@ -17,15 +17,15 @@ import java.sql.Statement;
  */
 public class DatabaseExecutor implements IExecuteQueries {
 	private Connection dbConnection;
-	//private String dbName;
+	// private String dbName;
 	/**
 	 * global database access synchronization.
 	 */
 	static private ReentrantLock dbAccess = new ReentrantLock();
 
-	public DatabaseExecutor(Connection connection/*, String dbName*/) {
+	public DatabaseExecutor(Connection connection/* , String dbName */) {
 		dbConnection = connection;
-		//this.dbName = dbName;
+		// this.dbName = dbName;
 	}
 
 	@Override
@@ -115,16 +115,12 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@Override
 	public List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames,
 			List<Object> objectsValues, String columnsToSelect) throws SQLException {
-		if (objectsValues.size() > 0) {
+		if (objectNames.size() > 0) {
+
 			String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE ";
-			for (int i = 0; i < objectNames.size() - 1; i++) {
-				sqlquery = sqlquery.concat(objectNames.get(i) + " = ? AND ");
-			}
-			sqlquery = sqlquery.concat(objectNames.get(objectNames.size() - 1) + " = ?;");
+			sqlquery = concatConditionalsSymbols(sqlquery, objectNames);
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
-			for (int i = 0; i < objectsValues.size(); i++) {
-				preparedStatement.setObject(i + 1, objectsValues.get(i));
-			}
+			putValuesInSymbols(preparedStatement, objectsValues);
 			List<List<Object>> fields = new ArrayList<>();
 			synchronized (dbAccess) {
 				fields = toList(preparedStatement.executeQuery());
@@ -132,6 +128,24 @@ public class DatabaseExecutor implements IExecuteQueries {
 			return fields;
 		} else
 			return null;
+
+	}
+
+	String concatConditionalsSymbols(String baseString, List<String> objectNames) {
+		if (objectNames.size() > 0) {
+			for (int i = 0; i < objectNames.size() - 1; i++) {
+				baseString = baseString.concat(objectNames.get(i) + " = ? AND ");
+			}
+			baseString = baseString.concat(objectNames.get(objectNames.size() - 1) + " = ?;");
+		}
+		return baseString;
+	}
+
+	void putValuesInSymbols(PreparedStatement preparedStatement, List<Object> objects)
+			throws SQLException {
+		for (int i = 0; i < objects.size(); i++) {
+			preparedStatement.setObject(i + 1, objects.get(i));
+		}
 	}
 
 	private List<List<Object>> toList(ResultSet resultSet) throws SQLException {
@@ -149,5 +163,18 @@ public class DatabaseExecutor implements IExecuteQueries {
 			rowsData.add(rowData);
 		}
 		return rowsData;
+	}
+
+	@Override
+	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects)
+			throws SQLException {
+		String sqlquery = "DELETE from " + tableName + " WHERE ";
+		System.out.println(sqlquery);
+		concatConditionalsSymbols(sqlquery, objectNames);
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		putValuesInSymbols(preparedStatement, objects);
+		synchronized (dbAccess) {
+			preparedStatement.execute();
+		}
 	}
 }

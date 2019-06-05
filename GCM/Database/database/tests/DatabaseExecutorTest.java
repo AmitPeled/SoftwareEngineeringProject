@@ -15,6 +15,10 @@ import database.execution.IExecuteQueries;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
 
+/**
+ * @author amit
+ *
+ */
 class DatabaseExecutorTest {
 	static IExecuteQueries dbExecutor;
 	static String tableName;

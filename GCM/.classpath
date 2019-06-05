@@ -7,7 +7,6 @@
 	<classpathentry kind="src" path="App"/>
 	<classpathentry kind="src" path="DataAccess"/>
 	<classpathentry kind="src" path="ServerMetaData"/>
-	<classpathentry kind="src" path="DatabaseMetaData"/>
 	<classpathentry kind="src" path="Database"/>
 	<classpathentry kind="src" path="Server"/>
 	<classpathentry kind="src" path="CommunicationObjects"/>

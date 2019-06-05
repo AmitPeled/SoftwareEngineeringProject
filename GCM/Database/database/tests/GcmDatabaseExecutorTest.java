@@ -11,25 +11,33 @@ import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
 import database.execution.IGcmDataExecute;
-import database.metadata.DatabaseMetaData;
 import database.objectParse.DatabaseParser;
 import maps.City;
+import maps.Coordinates;
 import maps.Map;
+import maps.Site;
 import users.User;
 
+/**
+ * @author amit
+ *
+ */
 class GcmDatabaseExecutorTest {
 	static IGcmDataExecute gcmDataExecutor;
 	static int cityId;
 	static int mapId;
+	static int siteId;
 	static File mapFile;
 
 	@BeforeAll
 	static void setAll() throws IllegalArgumentException, SQLException {
 		gcmDataExecutor = new GcmDataExecutor(
-				new DatabaseExecutor(DBConnector.connect()/*, DatabaseMetaData.getDbName()*/), new DatabaseParser());
+				new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		cityId = gcmDataExecutor.addCity(new City(11, "haifa"));
 		mapId = gcmDataExecutor.addMapToCity(cityId, new Map(11, 13.1f, 11.1f), mapFile);
+		siteId = gcmDataExecutor.addNewSiteToCity(cityId, new Site(11, new Coordinates(7, 9)));
+		gcmDataExecutor.addExistingSiteToMap(mapId, siteId);
 	}
 
 	@Test
@@ -60,9 +68,8 @@ class GcmDatabaseExecutorTest {
 		gcmDataExecutor.deleteMap(mapId);
 		assertNull(gcmDataExecutor.getMapDetails(mapId));
 		assertNull(gcmDataExecutor.getMapFile(mapId));
-
-
 	}
+
 //	@Test
 //	void deleteCityTest() throws SQLException {
 //		gcmDataExecutor.deleteCity(cityId);

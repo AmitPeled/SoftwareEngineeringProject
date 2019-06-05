@@ -25,7 +25,7 @@ public interface IParseObjects {
 	 * 
 	 * @return a map that contain the fields
 	 */
-	Map getMap(List<Object> metaFieldsList, SortedSet<Site> sitesList);
+	Map getMap(List<Object> metaFieldsList, SortedSet<Integer> siteIds);
 
 	Site getSite(List<Object> fieldsList);
 
