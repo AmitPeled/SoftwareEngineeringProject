@@ -7,8 +7,8 @@ import java.io.File;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import accessObject.GcmDAO;
 import dataAccess.maps.MapDAO;
+import gcmDataAccess.GcmDAO;
 import maps.City;
 import maps.Map;
 import users.User;

@@ -1,4 +1,4 @@
-package accessObject;
+package gcmDataAccess;
 
 import java.io.File;
 import java.io.IOException;
