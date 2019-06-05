@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="register.RegisterSceneController">
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <children>
+      <Label text="Register" />
+      <TextField fx:id="nametxt" maxWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="name">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </TextField>
+      <TextField fx:id="lastnametxt" maxWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="last name">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </TextField>
+      <TextField fx:id="emailtxt" maxWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="email">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </TextField>
+      <TextField fx:id="usernametxt" maxWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="username">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </TextField>
+      <PasswordField fx:id="passwordtxt" maxWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="password">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </PasswordField>
+      <PasswordField fx:id="confirmpasswordtxt" maxWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="confirm password">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </PasswordField>
+      <PasswordField fx:id="phonetxt" maxWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="phone number">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </PasswordField>
+      <HBox alignment="TOP_RIGHT" spacing="80.0">
+         <children>
+            <Button fx:id="backbtn" mnemonicParsing="false" onAction="#back" text="Back" />
+            <Button fx:id="rgisterbtn" defaultButton="true" mnemonicParsing="false" onAction="#register" text="Register" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

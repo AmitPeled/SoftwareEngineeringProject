@@ -11,7 +11,8 @@
       <TextField fx:id="usernametxt" promptText="Username" />
       <PasswordField fx:id="passwordtxt" promptText="Password" />
       <Button fx:id="loginbtn" mnemonicParsing="false" onAction="#LogIn" text="Log In" />
-      <Button fx:id="Fpasswordbtn" mnemonicParsing="false" onAction="#forgatPassword" text="Forgat password" />
+      <Button fx:id="Fpasswordbtn" mnemonicParsing="false" onAction="#forgatPassword" text="Forgot password" />
+      <Button mnemonicParsing="false" onAction="#forgatUsername" text="Forgot Username" />
       <Button fx:id="registerbtn" mnemonicParsing="false" onAction="#rgister" text="Register" />
    </children>
    <padding>
