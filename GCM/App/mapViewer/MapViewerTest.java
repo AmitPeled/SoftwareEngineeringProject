@@ -10,15 +10,16 @@ import mapViewer.MapViewer;
 class MapViewerTest {
 
 	MapViewer mapViewer;
+	private String testFile = "file:Import/resources/Gta3_map.gif";
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		mapViewer = new MapViewer();
+		mapViewer = new MapViewer(testFile);
 	}
 
 	@Test
-	void testGetNumber() {
-		assertEquals(3, mapViewer.getNumber());
+	void testGetImageFilePath() {
+		assertEquals(testFile, mapViewer.getImageFilePath());
 	}
 
 }

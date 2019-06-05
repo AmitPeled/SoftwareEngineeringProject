@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import mapViewer.MapViewer;
 import mapViewer.MapViewerView;
 import mapViewer.MapViewerViewModel;
 
@@ -20,7 +21,7 @@ public final class TestApplication extends Application{
 	private MapViewerView mapViewerView;
 	
 	public TestApplication() {
-		mapViewerView = new MapViewerView(new MapViewerViewModel());
+		mapViewerView = new MapViewerView(new MapViewerViewModel(new MapViewer("file:Import/resources/Gta3_map.gif")));
 	}
 	
 	public static void main(String[] args) {

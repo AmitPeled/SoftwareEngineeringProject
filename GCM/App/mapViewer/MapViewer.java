@@ -1,12 +1,12 @@
 package mapViewer;
 
 public final class MapViewer {
-	private int number;
-	public MapViewer() {
-		number = 3;
+	
+	private String imageFilePath;
+	
+	public MapViewer(String imageFilePath) {
+		this.imageFilePath = imageFilePath;
 	}
 	
-	public int getNumber() {
-		return number;
-	}
+	public String getImageFilePath() { return imageFilePath; }
 }

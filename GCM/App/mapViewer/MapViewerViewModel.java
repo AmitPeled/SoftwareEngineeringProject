@@ -1,10 +1,15 @@
 package mapViewer;
 
 public final class MapViewerViewModel {
-	static final String TEST_IMAGE_FILE = "file:Import/resources/Gta3_map.gif";
+	
+	private MapViewer mapViewer;
+	
+	public MapViewerViewModel(MapViewer mapViewer) {
+		this.mapViewer = mapViewer;
+	}
 	
 	public String getMapPath() {
-		return TEST_IMAGE_FILE;
+		return mapViewer.getImageFilePath();
 	}
 	
 	// Example comment
