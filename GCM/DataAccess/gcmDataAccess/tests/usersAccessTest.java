@@ -17,12 +17,11 @@ class usersAccessTest {
 
 	@BeforeAll
 	static void setAll() {
-		userAccess = new GcmDAO("", "");
+		userAccess = new GcmDAO();
 	}
 
 	@Test
 	void test() {
-		userAccess.login("abcd", "abcd");
 		assertEquals(RequestState.wrongDetails, userAccess.login("abcd", "abcd"));
 		userAccess.register("abcda", "abvdc", new User("a", "05"));
 		assertEquals(RequestState.success, userAccess.login("abcda", "abvdc"));

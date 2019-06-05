@@ -30,18 +30,14 @@ public class GcmDAO implements UserDAO, MapDAO, Serializable {
 	String password = null;
 	String username = null;
 
-	public GcmDAO(String username, String password, String host, int port) {
+	public GcmDAO(String host, int port) {
 		serverHostname = host;
 		serverPortNumber = port;
-		this.username = username;
-		this.password = password;
 	}
 
-	public GcmDAO(String username, String password) {
+	public GcmDAO() {
 		serverHostname = "localhost";
 		serverPortNumber = 8080;
-		this.username = username;
-		this.password = password;
 	}
 
 	@Override
@@ -69,6 +65,7 @@ public class GcmDAO implements UserDAO, MapDAO, Serializable {
 
 	@Override
 	public RequestState register(String username, String password, User user) {
+		setDetails(username, password);
 		ResponseObject responseObject = send(
 				new RequestObject(UserType.notLogged, GcmQuery.addCustomer, new ArrayList<Object>() {
 					{
@@ -82,6 +79,7 @@ public class GcmDAO implements UserDAO, MapDAO, Serializable {
 
 	@Override
 	public RequestState login(String username, String password) {
+		setDetails(username, password);
 		ResponseObject responseObject = send(
 				new RequestObject(UserType.notLogged, GcmQuery.verifyCustomer, new ArrayList<Object>() {
 					private static final long serialVersionUID = 1L;
@@ -188,5 +186,10 @@ public class GcmDAO implements UserDAO, MapDAO, Serializable {
 				add(city);
 			}
 		}, username, password)).getResponse().get(0);
+	}
+	
+	private void setDetails(String username, String password) {
+		this.username = username;
+		this.password = password;
 	}
 }
