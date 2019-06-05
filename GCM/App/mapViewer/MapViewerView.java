@@ -1,13 +1,8 @@
 package mapViewer;
 
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 
 /**
  * Contains the view elements of the MapViewer.
@@ -20,32 +15,29 @@ public final class MapViewerView {
 	
 //	private MapViewerViewModel viewModel;
 	private String mapPathString;
-	private Image mapImage;
+	private ImageView mapImage;
 	
 	public MapViewerView(MapViewerViewModel viewModel) {
 		this.mapPathString = viewModel.getMapPath();
-		this.mapImage = new Image(mapPathString);
+		this.mapImage = new ImageView(mapPathString);
+		mapImage.setOnMouseClicked(e-> {OnMouseClick(e.getX(), e.getY());});
 	}
 	
 	public Scene getScene() {
-		GridPane gridPane = GetPane();
-		Scene scene = new Scene(gridPane, WIDTH, HEIGHT);
+		StackPane stackPane = GetPane();
+		Scene scene = new Scene(stackPane, WIDTH, HEIGHT);
 		
 		return scene;
 	}
 	
-	GridPane GetPane() {
-		GridPane gridPane = new GridPane();
+	private StackPane GetPane() {
+		StackPane stackPane = new StackPane();
+		stackPane.getChildren().add(mapImage);
 		
-		BackgroundImage backgroundImage = new BackgroundImage(
-				mapImage, 
-				BackgroundRepeat.NO_REPEAT, 
-				BackgroundRepeat.NO_REPEAT, 
-				BackgroundPosition.CENTER, 
-				BackgroundSize.DEFAULT);
-		
-		Background background = new Background(backgroundImage);
-		gridPane.setBackground(background);
-		return gridPane;
+		return stackPane;
+	}
+	
+	private void OnMouseClick(double x, double y) {
+		System.out.println("Mouse click registered in ["+x+","+y+"]");
 	}
 }
