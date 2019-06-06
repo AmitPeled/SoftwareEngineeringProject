@@ -7,14 +7,23 @@ public class Site implements Serializable {
 
 	private int id;
 	private String descriptionString;
+	private String name;
 	private Coordinates locationCoordinates;
 
-	public Site(int id, Coordinates locationCoordinates) {
-		if (id < 0)
-			throw new IllegalArgumentException("id");
-
+	public Site(int id, String name, String description, Coordinates locationCoordinates) {
+		if (id <= 0)
+			throw new IllegalArgumentException("id has to be a positive number");
 		this.id = id;
+		this.name = name;
+		this.descriptionString = description;
 		this.locationCoordinates = locationCoordinates;
+	}
+	
+	/**
+	 * default no description string
+	 */
+	public Site(int id, String name, Coordinates locationCoordinates) {
+		this(id, name, null, locationCoordinates);
 	}
 
 	/**
@@ -42,6 +51,10 @@ public class Site implements Serializable {
 	 */
 	public String getDescription() {
 		return this.descriptionString;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 
 	public Coordinates getCoordinates() {

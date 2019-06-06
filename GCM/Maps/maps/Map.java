@@ -1,6 +1,7 @@
 package maps;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Contains all the information that describes a map in the client application
@@ -12,13 +13,14 @@ public final class Map implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+	private String descriptionString;
 	private float width;
 	private float height;
 	private Coordinates offset;
-//	private SortedSet<Integer> siteIds;
+	private List<Site> mapSites;
 
 	/**
-	 * Creates a new Map instance with no offset
+	 * Creates a new Map instance with no offset, description nor sites
 	 * 
 	 * @param id     The ID number associated with this map. Used for identification
 	 *               in the database and helps to find the map image files
@@ -28,23 +30,36 @@ public final class Map implements Serializable {
 	 *                                  positive numbers
 	 */
 	public Map(int id, float width, float height) throws IllegalArgumentException {
+		// By default the description null, offset (0,0)
+		this(id, width, height, null, new Coordinates(), null);
+	}
+
+	public Map(int id, float width, float height, String description) throws IllegalArgumentException {
 		// By default the offset (0,0)
-		this(id, width, height, new Coordinates());
+		this(id, width, height, description, new Coordinates(), null);
+	}
+
+	public Map(int id, float width, float height, Coordinates offset) throws IllegalArgumentException {
+		// By default the description null
+		this(id, width, height, null, offset, null);
 	}
 
 	/**
-	 * Creates a new Map instance with no offset
+	 * Creates a new Map instance
 	 * 
-	 * @param id     The ID number associated with this map. Used for identification
-	 *               in the database and helps to find the map image files
-	 * @param width  The width size of the map in real-world meters
-	 * @param height The height size of the map in real-world meters
-	 * @param offset The location of the top left pixel of the map compared to the
-	 *               default which is zero (no offset)
+	 * @param id          The ID number associated with this map. Used for
+	 *                    identification in the database and helps to find the map
+	 *                    image files
+	 * @param description The description string of the map
+	 * @param width       The width size of the map in real-world meters
+	 * @param height      The height size of the map in real-world meters
+	 * @param offset      The location of the top left pixel of the map compared to
+	 *                    the default which is zero (no offset)
 	 * @throws IllegalArgumentException Thrown when id, width or height are not
 	 *                                  positive numbers
 	 */
-	public Map(int id, float width, float height, Coordinates offset) throws IllegalArgumentException {
+	public Map(int id, float width, float height, String description, Coordinates offset, List<Site> sites)
+			throws IllegalArgumentException {
 		if (id <= 0)
 			throw new IllegalArgumentException("id has to be a positive number");
 		if (width <= 0.0f)
@@ -56,6 +71,7 @@ public final class Map implements Serializable {
 		this.width = width;
 		this.height = height;
 		this.offset = offset;
+		this.mapSites = sites;
 	}
 
 	/**
@@ -66,6 +82,24 @@ public final class Map implements Serializable {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	/**
+	 * Description setter
+	 * 
+	 * @param descriptionString the new description string
+	 */
+	public void setDescription(String descriptionString) {
+		this.descriptionString = descriptionString;
+	}
+
+	/**
+	 * Description getter
+	 * 
+	 * @return Site description string
+	 */
+	public String getDescription() {
+		return this.descriptionString;
 	}
 
 	/**

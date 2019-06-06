@@ -31,22 +31,22 @@ class GcmDatabaseExecutorTest {
 
 	@BeforeAll
 	static void setAll() throws IllegalArgumentException, SQLException {
-		gcmDataExecutor = new GcmDataExecutor(
-				new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
+		gcmDataExecutor = new GcmDataExecutor(new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
-		cityId = gcmDataExecutor.addCity(new City(11, "haifa"));
+		cityId = gcmDataExecutor.addCity(new City(11, "haifa", "desc"));
 		mapId = gcmDataExecutor.addMapToCity(cityId, new Map(11, 13.1f, 11.1f), mapFile);
-		siteId = gcmDataExecutor.addNewSiteToCity(cityId, new Site(11, new Coordinates(7, 9)));
+		siteId = gcmDataExecutor.addNewSiteToCity(cityId, new Site(11, "name", "desc", new Coordinates(7, 9)));
 		gcmDataExecutor.addExistingSiteToMap(mapId, siteId);
 	}
 
 	@Test
 	void userTest() throws SQLException {
-		String username = "user1", password = "pass1", email = "aa", phoneNumber = "052";
-		gcmDataExecutor.addUser(username, password, new User(email, phoneNumber));
+		String username = "user1", password = "pass1", firstName = "first", lastName = "last", email = "aa",
+				phoneNumber = "052";
+		gcmDataExecutor.addUser(username, password, new User(firstName, lastName, email, phoneNumber));
 		assertTrue(gcmDataExecutor.verifyUser(username, password));
 		assertFalse(gcmDataExecutor.verifyUser(username, "bla"));
-		assertFalse(gcmDataExecutor.addUser(username, "bla", new User(email, phoneNumber)));
+		assertFalse(gcmDataExecutor.addUser(username, "bla", new User(firstName, lastName, email, phoneNumber)));
 	}
 
 	@Test
@@ -70,6 +70,15 @@ class GcmDatabaseExecutorTest {
 		assertNull(gcmDataExecutor.getMapFile(mapId));
 	}
 
+	@Test
+	void addNewSiteToCityTest() {
+
+	}
+
+	@Test
+	void addExistingSiteToMapTest() {
+
+	}
 //	@Test
 //	void deleteCityTest() throws SQLException {
 //		gcmDataExecutor.deleteCity(cityId);

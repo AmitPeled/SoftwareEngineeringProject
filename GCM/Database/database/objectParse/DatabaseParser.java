@@ -17,14 +17,16 @@ import users.User;
 public class DatabaseParser implements IParseObjects {
 
 	@Override
-	public Map getMap(List<Object> objectList, SortedSet<Integer> siteIds) {
+	public Map getMap(List<Object> objectList, List<Site> mapSites) {
 		return new Map((int) objectList.get(0), (float) objectList.get(1), (float) objectList.get(2),
-				new Coordinates((float) objectList.get(3), (float) objectList.get(4)));
+				(String) objectList.get(3), new Coordinates((float) objectList.get(4), (float) objectList.get(5)),
+				mapSites);
 	}
 
 	@Override
 	public Site getSite(List<Object> objectList) {
-		return new Site((int) objectList.get(0), new Coordinates((float) objectList.get(2), (float) objectList.get(3)));
+		return new Site((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
+				new Coordinates((float) objectList.get(3), (float) objectList.get(4)));
 	}
 
 //	@Override
@@ -34,12 +36,13 @@ public class DatabaseParser implements IParseObjects {
 
 	@SuppressWarnings("serial")
 	@Override
-	public List<Object> getMapFieldsList(Map map) {
+	public List<Object> getMapMetaFieldsList(Map map) {
 		return new ArrayList<Object>() {
 			{
 				add(map.getId());
 				add(map.getWidth());
 				add(map.getHeight());
+				add(map.getDescription());
 				add(map.getOffset().x);
 				add(map.getOffset().y);
 			}
@@ -52,6 +55,7 @@ public class DatabaseParser implements IParseObjects {
 		return new ArrayList<Object>() {
 			{
 				add(site.getId());
+				add(site.getName());
 				add(site.getDescription());
 				add(site.getCoordinates().x);
 				add(site.getCoordinates().y);
@@ -66,6 +70,7 @@ public class DatabaseParser implements IParseObjects {
 			{
 				add(city.getId());
 				add(city.getName());
+				add(city.getDescription());
 			}
 		};
 	}
@@ -75,6 +80,8 @@ public class DatabaseParser implements IParseObjects {
 	public List<Object> getUserFieldsList(User user) {
 		return new ArrayList<Object>() {
 			{
+				add(user.getFirstName());
+				add(user.getLastName());
 				add(user.getEmail());
 				add(user.getPhoneNumber());
 			}

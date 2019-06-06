@@ -78,7 +78,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	public int addMapToCity(int cityId, Map mapDescription, File mapFile/* , String pathToFilesFolder */)
 			throws SQLException {
 		int mapId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
-				objectParser.getMapFieldsList(mapDescription));
+				objectParser.getMapMetaFieldsList(mapDescription));
 		List<Object> mapFileRow = new ArrayList<Object>() {
 			{
 				add(mapId);
@@ -105,11 +105,11 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		else {
 			List<List<Object>> mapSitesRows = queryExecutor
 					.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId");
-			SortedSet<Integer> mapSitesIds = new TreeSet<Integer>();
+			List<Site> mapSites = new ArrayList<>();
 			for (List<Object> list : mapSitesRows) {
-				mapSitesIds.add((int) list.get(0));
+				mapSites.add(getSite((int)list.get(0)));
 			}
-			return objectParser.getMap(metaDetailsRows.get(0), mapSitesIds); // only one row correspond to this id
+			return objectParser.getMap(metaDetailsRows.get(0), mapSites); // only one row correspond to this id
 		}
 	}
 

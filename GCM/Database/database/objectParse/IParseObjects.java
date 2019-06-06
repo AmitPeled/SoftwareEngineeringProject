@@ -25,7 +25,7 @@ public interface IParseObjects {
 	 * 
 	 * @return a map that contain the fields
 	 */
-	Map getMap(List<Object> metaFieldsList, SortedSet<Integer> siteIds);
+	Map getMap(List<Object> metaFieldsList, List<Site> sites);
 
 	Site getSite(List<Object> fieldsList);
 
@@ -39,7 +39,7 @@ public interface IParseObjects {
 	 * @return List of the values of the map fields, sorted by the order it is
 	 *         stored in the database.
 	 */
-	List<Object> getMapFieldsList(Map map);
+	List<Object> getMapMetaFieldsList(Map map);
 
 	List<Object> getSiteFieldsList(Site site);
 

@@ -14,7 +14,7 @@ class UserTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		defaultUser = new User("moshe@gmail.com", "050000000");
+		defaultUser = new User("moshe","last-name","moshe@gmail.com", "050000000");
 	}
 
 	@Test

@@ -23,13 +23,13 @@ class mapsAccessTest {
 	@BeforeAll
 	static void setAll() {
 		GcmDAO gcmDAO = new GcmDAO();
-		gcmDAO.register("correctUsername", "correctPassword", new User("", ""));
+		gcmDAO.register("correctUsername", "correctPassword", new User("", "", "", ""));
 		mapAccess = gcmDAO;
 	}
 
 	@Test
 	void testAll() {
-		cityId = mapAccess.addCity(new City(97, "my city"));
+		cityId = mapAccess.addCity(new City(97, "name", "desc"));
 		map = new Map(97, 13.1f, 2.2f);
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		mapId = mapAccess.addMapToCity(cityId, map, mapFile);
