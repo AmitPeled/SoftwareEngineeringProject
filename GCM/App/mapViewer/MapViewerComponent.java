@@ -4,10 +4,16 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Contains a component that presents a map and listens to mouse clicks on the map.
@@ -15,14 +21,14 @@ import javafx.scene.layout.Pane;
  * It's possible to add listeners using the constructor or with the addListener() method that listen
  * to mouse click events.
  */
-public final class MapViewerComponent {
+public final class MapViewerComponent implements MapViewer {
 	private Set<MapViewerListener> listeners;
 	private ImageView mapImage;
-	private Pane pane;
+	private StackPane group;
 	private Scene scene;
 	private double width;
 	private double height;
-	
+	private Text statusText;
 	/**
 	 * Constructs a MapViewerComponent object with no listeners.
 	 * @param mapPath
@@ -42,7 +48,12 @@ public final class MapViewerComponent {
 	 * @param A collection of listener objects that will be invoked when a mouse click occurs on the map
 	 */
 	public MapViewerComponent(String mapPath, Set<MapViewerListener> listeners) {
-		this.listeners = listeners;
+		if(listeners == null) {
+			listeners = new HashSet<MapViewerListener>();
+		} else {
+			this.listeners = listeners;			
+		}
+		
 		Image image = new Image(mapPath);
 		mapImage = new ImageView(image);
 		mapImage.setPickOnBounds(true);
@@ -52,21 +63,48 @@ public final class MapViewerComponent {
 		height = image.getHeight();
 		
 		System.out.println(width + "x" + height);
+
+		// Placing empty status text holder in the top-middle of the map
+		statusText = new Text();
+		statusText.setTextOrigin(VPos.TOP);
+		statusText.setTextAlignment(TextAlignment.CENTER);
+		statusText.setFont(Font.font(null,FontWeight.BOLD,22));
+		statusText.setX(Math.round(width/2));
 		
-		pane = new Pane();
-		pane.getChildren().add(mapImage);
-		
-		scene = new Scene(pane, width, height);
+		group = new StackPane();
+		group.getChildren().add(mapImage);
+		group.getChildren().add(statusText);
+		StackPane.setAlignment(statusText,Pos.CENTER);
+		scene = new Scene(group, width, height);
 	}
 
+	@Override
 	public double getImageWidth() { return width; }
+	@Override
 	public double getImageHeight() { return height; }
+	@Override
 	public Scene getScene() { return scene; }
 	
+	@Override
 	public void addListener(MapViewerListener listener) {
+		if(listener == null) return;
+		if(listeners == null) {
+			listeners = new HashSet<MapViewerListener>();
+		}
+		
 		listeners.add(listener);
 	}
 
+	@Override
+	public void updateStatusText(String text) {
+		statusText.setText(text);
+		//statusText.setTextOrigin(VPos.TOP);
+		//statusText.setTextAlignment(TextAlignment.CENTER);
+		//statusText.setFont(Font.font(null,FontWeight.BOLD,22));
+		//statusText.setX(Math.round(width/2));
+		StackPane.setAlignment(statusText,Pos.TOP_CENTER);
+	}
+	
 	/**
 	 * Called when a mouse click occurs on the map. Translates the coordinates to relative (from 0 to 1) and calls 
 	 * the onMapClick function on every listener object.
@@ -79,9 +117,11 @@ public final class MapViewerComponent {
 		double relativeY = y/height;
 		double relativeX = x/width;
 		
-		System.out.println("Mouse click registered in ["+x+","+y+"]");
 		for (MapViewerListener mapViewerListener : listeners) {
 			mapViewerListener.onMapClick(relativeX,relativeY);
 		}
 	}
+
+	@Override
+	public void clearStatusText() { statusText.setText(""); }
 }

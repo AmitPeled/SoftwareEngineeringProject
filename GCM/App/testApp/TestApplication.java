@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import mapViewer.MapViewer;
 import mapViewer.MapViewerComponent;
 import mapViewerClientExample.MapViewerClientExample;
 
@@ -17,7 +18,7 @@ public final class TestApplication extends Application{
 	static final int SCREEN_HEIGHT = 400;
 	
 	private Stage primaryStage;
-	private MapViewerComponent mapViewerComponent;
+	private MapViewer mapViewerComponent;
 	private MapViewerClientExample clientExample;
 	
 	public TestApplication() {

@@ -4,12 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 class MapViewerTest {
 
-	MapViewerComponent mapViewerComponent;
+	MapViewer mapViewerComponent;
 	MapViewerListener listener;
 	private String testFile = "file:Import/resources/Gta3_map.gif";
 	
