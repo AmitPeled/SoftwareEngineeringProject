@@ -58,13 +58,15 @@ public final class MapViewerComponent {
 		
 		scene = new Scene(pane, width, height);
 	}
-	
+
+	public double getImageWidth() { return width; }
+	public double getImageHeight() { return height; }
 	public Scene getScene() { return scene; }
 	
 	public void addListener(MapViewerListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	/**
 	 * Called when a mouse click occurs on the map. Translates the coordinates to relative (from 0 to 1) and calls 
 	 * the onMapClick function on every listener object.
