@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+
 
 class MapViewerTest {
 
@@ -14,7 +14,6 @@ class MapViewerTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		listener = Mockito.mock(MapViewerListener.class);
 		mapViewerComponent = new MapViewerComponent(testFile);
 	}
 	
