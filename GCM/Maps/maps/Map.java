@@ -70,4 +70,4 @@ public final class Map {
 	 * is zero, but used to describe maps that don't completely overlap
 	 */
 	public Coordinates getOffset() { return offset; }
-}
+}//
