@@ -8,8 +8,10 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 
 import dataAccess.maps.MapDAO;
+import dataAccess.search.searchDAO;
 import dataAccess.users.UserDAO;
 import maps.City;
 import maps.Map;
@@ -24,7 +26,7 @@ import users.User;
 //import javax.net.ssl.SSLSocketFactory;
 
 @SuppressWarnings("serial")
-public class GcmDAO implements UserDAO, MapDAO, Serializable {
+public class GcmDAO implements UserDAO, MapDAO, searchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
 	String password = null;
@@ -81,7 +83,7 @@ public class GcmDAO implements UserDAO, MapDAO, Serializable {
 	public RequestState login(String username, String password) {
 		setDetails(username, password);
 		ResponseObject responseObject = send(
-				new RequestObject(UserType.notLogged, GcmQuery.verifyCustomer, new ArrayList<Object>() {
+				new RequestObject(UserType.notLogged, GcmQuery.verifyUser, new ArrayList<Object>() {
 					private static final long serialVersionUID = 1L;
 
 					{
@@ -187,9 +189,42 @@ public class GcmDAO implements UserDAO, MapDAO, Serializable {
 			}
 		}, username, password)).getResponse().get(0);
 	}
-	
+
 	private void setDetails(String username, String password) {
 		this.username = username;
 		this.password = password;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map> getMapsByCityName(String cityName) {
+		return (List<Map>) (Object) send(
+				new RequestObject(UserType.customer, GcmQuery.getMapsByCityName, new ArrayList<Object>() {
+					{
+						add(cityName);
+					}
+				}, username, password)).getResponse();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map> getMapsBySiteName(String siteName) {
+		return (List<Map>) (Object) send(
+				new RequestObject(UserType.customer, GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
+					{
+						add(siteName);
+					}
+				}, username, password)).getResponse();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map> getMapsByDescription(String description) {
+		return (List<Map>) (Object) send(
+				new RequestObject(UserType.customer, GcmQuery.getMapsByDescription, new ArrayList<Object>() {
+					{
+						add(description);
+					}
+				}, username, password)).getResponse();
 	}
 }

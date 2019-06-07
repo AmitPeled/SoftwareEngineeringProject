@@ -23,7 +23,7 @@ class mapsAccessTest {
 	@BeforeAll
 	static void setAll() {
 		GcmDAO gcmDAO = new GcmDAO();
-		gcmDAO.register("correctUsername", "correctPassword", new User("", "", "", ""));
+		gcmDAO.register("editor", "editor", new User("", "", "", ""));
 		mapAccess = gcmDAO;
 	}
 

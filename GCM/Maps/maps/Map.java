@@ -129,4 +129,8 @@ public final class Map implements Serializable {
 	public Coordinates getOffset() {
 		return offset;
 	}
+	
+	public List<Site> getSites() {
+		return mapSites;
+	}
 }

@@ -16,6 +16,7 @@ import maps.City;
 import maps.Coordinates;
 import maps.Map;
 import maps.Site;
+import queries.RequestState;
 import users.User;
 
 /**
@@ -41,11 +42,11 @@ class GcmDatabaseExecutorTest {
 
 	@Test
 	void userTest() throws SQLException {
-		String username = "user1", password = "pass1", firstName = "first", lastName = "last", email = "aa",
+		String username = "editor", password = "editor", firstName = "first", lastName = "last", email = "aa",
 				phoneNumber = "052";
 		gcmDataExecutor.addUser(username, password, new User(firstName, lastName, email, phoneNumber));
-		assertTrue(gcmDataExecutor.verifyUser(username, password));
-		assertFalse(gcmDataExecutor.verifyUser(username, "bla"));
+		assertEquals(RequestState.editor, gcmDataExecutor.verifyUser(username, password));
+		assertNotEquals(RequestState.editor, gcmDataExecutor.verifyUser(username, "bla"));
 		assertFalse(gcmDataExecutor.addUser(username, "bla", new User(firstName, lastName, email, phoneNumber)));
 	}
 
@@ -55,6 +56,12 @@ class GcmDatabaseExecutorTest {
 		assertEquals(13.1f, map.getWidth());
 		assertEquals(11.1f, map.getHeight());
 		assertEquals(0f, map.getOffset().x);
+		Site site = map.getSites().get(0);
+		assertEquals(siteId, site.getId());
+		assertEquals("name", site.getName());
+		assertEquals("desc", site.getDescription());
+
+
 	}
 
 	@Test
@@ -70,15 +77,6 @@ class GcmDatabaseExecutorTest {
 		assertNull(gcmDataExecutor.getMapFile(mapId));
 	}
 
-	@Test
-	void addNewSiteToCityTest() {
-
-	}
-
-	@Test
-	void addExistingSiteToMapTest() {
-
-	}
 //	@Test
 //	void deleteCityTest() throws SQLException {
 //		gcmDataExecutor.deleteCity(cityId);

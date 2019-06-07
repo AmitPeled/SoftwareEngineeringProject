@@ -19,6 +19,7 @@ import database.objectParse.IParseObjects;
 import maps.City;
 import maps.Map;
 import maps.Site;
+import queries.RequestState;
 import users.User;
 
 /**
@@ -53,7 +54,12 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	}
 
 	@Override
-	public boolean verifyUser(String username, String password) throws SQLException {
+	public RequestState verifyUser(String username, String password) throws SQLException {
+		if (username.equals("editor") && password.equals("editor")) {
+			return RequestState.editor;
+		} else if (username.equals("manager") && password.equals("manager")) {
+			return RequestState.manager;
+		}
 		List<Object> valuesList = new ArrayList<Object>() {
 			{
 				add(username);
@@ -68,10 +74,11 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		};
 		List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.users),
 				namesList, valuesList, "username, password");
+
 		if (rows.isEmpty())
-			return false;
+			return RequestState.wrongDetails;
 		else
-			return true;
+			return RequestState.customer;
 	}
 
 	@Override
@@ -107,7 +114,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 					.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId");
 			List<Site> mapSites = new ArrayList<>();
 			for (List<Object> list : mapSitesRows) {
-				mapSites.add(getSite((int)list.get(0)));
+				mapSites.add(getSite((int) list.get(0)));
 			}
 			return objectParser.getMap(metaDetailsRows.get(0), mapSites); // only one row correspond to this id
 		}
@@ -122,7 +129,6 @@ public class GcmDataExecutor implements IGcmDataExecute {
 			return objectParser.getSite(siteRows.get(0)); // only one site row correspond to this id
 	}
 
-	
 	@Override
 	public File getMapFile(/* String pathToFilesFolder, */int mapId) throws SQLException {
 		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsFiles),
@@ -165,7 +171,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		return id;
 	}
 
-	public static byte[] getBytes(Object object) {
+	private static byte[] getBytes(Object object) {
 		byte[] objectBytes = null;
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -181,7 +187,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		return objectBytes;
 	}
 
-	public static Object getObject(byte[] bytes) {
+	private static Object getObject(byte[] bytes) {
 
 		Object object = bytes;
 		ByteArrayInputStream bais;
@@ -198,7 +204,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	}
 
 	// Returns the contents of the file in a byte array.
-	public static byte[] getBytesFromFile(File file) throws IOException {
+	private static byte[] getBytesFromFile(File file) throws IOException {
 		// Get the size of the file
 		long length = file.length();
 
@@ -277,6 +283,64 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "siteId", siteId);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesSitesIds), "siteId", siteId);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", siteId);
+	}
+
+	private List<Map> getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField)
+			throws SQLException {
+		List<List<Object>> cityIdRows;
+		if (withPartialField) {
+			cityIdRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+					fieldName, "%" + (String) fieldVal + "%", "cityId");
+		} else {
+			cityIdRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+					fieldName, fieldVal, "cityId");
+		}
+		List<Map> maps = new ArrayList<>();
+		for (List<Object> cityIdRow : cityIdRows) {
+			List<List<Object>> mapIdRows = queryExecutor.selectColumnsByValue(
+					DatabaseMetaData.getTableName(Tables.citiesMapsIds), "cityId", (int) cityIdRow.get(0), "mapId");
+			for (List<Object> mapIdRow : mapIdRows) {
+				maps.add(getMapDetails((int) mapIdRow.get(0)));
+			}
+		}
+		return maps;
+	}
+
+	private List<Map> getMapsBySiteField(String fieldName, Object fieldVal, boolean withPartialField)
+			throws SQLException {
+		List<List<Object>> siteIdRows;
+		if (withPartialField)
+			siteIdRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites), fieldName,
+					"%" + (String) fieldVal + "%", "siteId");
+		else
+			siteIdRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites), fieldName,
+					fieldVal, "siteId");
+		List<Map> maps = new ArrayList<>();
+		for (List<Object> siteIdRow : siteIdRows) {
+			List<List<Object>> mapIdRows = queryExecutor.selectColumnsByValue(
+					DatabaseMetaData.getTableName(Tables.mapsSites), "siteId", (int) siteIdRow.get(0), "mapId");
+			for (List<Object> mapIdRow : mapIdRows) {
+				maps.add(getMapDetails((int) mapIdRow.get(0)));
+			}
+		}
+		return maps;
+	}
+
+	@Override
+	public List<Map> getMapsByCityName(String cityName) throws SQLException {
+		return getMapsByCityField("cityName", cityName, false);
+	}
+
+	@Override
+	public List<Map> getMapsBySiteName(String siteName) throws SQLException {
+		return getMapsBySiteField("siteName", siteName, false);
+	}
+
+	@Override
+	public List<Map> getMapsByDescription(String description) throws SQLException {
+		List<Map> mapsByDescription = getMapsByCityField("cityDescription", description, true);
+		mapsByDescription.addAll(getMapsBySiteField("siteDescription", description, true));
+		return mapsByDescription;
 	}
 
 }

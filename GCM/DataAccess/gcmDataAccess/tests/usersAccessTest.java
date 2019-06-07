@@ -24,7 +24,7 @@ class usersAccessTest {
 	void test() {
 		assertEquals(RequestState.wrongDetails, userAccess.login("abcd", "abcd"));
 		userAccess.register("abcda", "abvdc", new User("first", "last", "email", "05"));
-		assertEquals(RequestState.success, userAccess.login("abcda", "abvdc"));
+		assertEquals(RequestState.customer, userAccess.login("abcda", "abvdc"));
 		assertEquals(RequestState.usernameAlreadyExists,
 				userAccess.register("abcda", "aadabcd", new User("", "", "", "")));
 	}

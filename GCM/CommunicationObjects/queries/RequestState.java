@@ -2,9 +2,9 @@ package queries;
 
 public enum RequestState {
 	/**
-	 * when a request executes properly
+	 * when a log-in executes properly, it returns the user's account type.
 	 */
-	success,
+	customer, editor, manager,
 
 	/**
 	 * when login details are wrong
@@ -20,9 +20,11 @@ public enum RequestState {
 	 * when a user's details format is not valid
 	 */
 	longPassword, shortPassword, longUsername, shortUsername,
-	
-	notPrivileged,
-	
+
+	/**
+	 * when a user tries to operate a function out of its privilege
+	 */
+
 	somethingWrongHappend
-	
+
 }

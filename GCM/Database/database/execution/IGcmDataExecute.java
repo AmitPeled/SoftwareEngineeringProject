@@ -2,10 +2,12 @@ package database.execution;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 
 import maps.City;
 import maps.Map;
 import maps.Site;
+import queries.RequestState;
 import users.User;
 
 /**
@@ -15,7 +17,7 @@ import users.User;
 public interface IGcmDataExecute {
 	boolean addUser(String username, String password, User user) throws SQLException;
 
-	boolean verifyUser(String username, String password) throws SQLException;
+	RequestState verifyUser(String username, String password) throws SQLException;
 
 	int addMapToCity(int cityId, Map mapDescription, File mapFile) throws SQLException;
 
@@ -34,6 +36,12 @@ public interface IGcmDataExecute {
 	void DeleteSiteFromMap(int mapId, int siteId) throws SQLException;
 
 	void DeleteSite(int siteId) throws SQLException;
+
+	List<Map> getMapsByCityName(String cityName) throws SQLException;
+
+	List<Map> getMapsBySiteName(String siteName) throws SQLException;
+
+	List<Map> getMapsByDescription(String description) throws SQLException;
 
 	// publish map/site/city
 	// purchaseMap
