@@ -18,6 +18,7 @@ public final class Map implements Serializable {
 	private float height;
 	private Coordinates offset;
 	private List<Site> mapSites;
+	private double price;
 
 	/**
 	 * Creates a new Map instance with no offset, description nor sites
@@ -129,8 +130,12 @@ public final class Map implements Serializable {
 	public Coordinates getOffset() {
 		return offset;
 	}
-	
+
 	public List<Site> getSites() {
 		return mapSites;
+	}
+
+	public double getPrice() {
+		return price;
 	}
 }

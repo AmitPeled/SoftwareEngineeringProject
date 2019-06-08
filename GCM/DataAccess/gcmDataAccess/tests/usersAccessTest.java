@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import dataAccess.maps.MapDAO;
 import dataAccess.users.UserDAO;
 import gcmDataAccess.GcmDAO;
 import queries.RequestState;

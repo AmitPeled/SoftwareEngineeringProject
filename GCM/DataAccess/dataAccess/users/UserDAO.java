@@ -24,4 +24,5 @@ public interface UserDAO {
 	 *         wrong
 	 */
 	public RequestState login(String username, String password); // verifies details correctness
+
 }

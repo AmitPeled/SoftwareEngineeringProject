@@ -1,7 +1,6 @@
 package database.objectParse;
 
 import java.util.List;
-import java.util.SortedSet;
 
 import maps.City;
 import maps.Map;

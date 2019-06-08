@@ -19,12 +19,12 @@ public final class MapViewerView {
 	static final int WIDTH = 1280;
 	static final int HEIGHT = 720;
 	
-	private MapViewerViewModel viewModel;
+//	private MapViewerViewModel viewModel;
 	private String mapPathString;
 	private Image mapImage;
 	
 	public MapViewerView(MapViewerViewModel viewModel) {
-		this.viewModel = viewModel;
+//		this.viewModel = viewModel;
 		this.mapPathString = viewModel.getMapPath();
 		this.mapImage = new Image(mapPathString);
 	}

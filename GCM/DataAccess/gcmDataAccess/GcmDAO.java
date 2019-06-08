@@ -10,15 +10,18 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dataAccess.maps.MapDAO;
+import dataAccess.customer.CustomerDAO;
+import dataAccess.editor.EditorDAO;
 import dataAccess.search.searchDAO;
+import dataAccess.users.Membership;
+import dataAccess.users.PurchaseDetails;
 import dataAccess.users.UserDAO;
 import maps.City;
 import maps.Map;
+import maps.Site;
 import queries.GcmQuery;
 import queries.RequestState;
 import request.RequestObject;
-import request.UserType;
 import response.ResponseObject;
 import users.User;
 
@@ -26,7 +29,7 @@ import users.User;
 //import javax.net.ssl.SSLSocketFactory;
 
 @SuppressWarnings("serial")
-public class GcmDAO implements UserDAO, MapDAO, searchDAO, Serializable {
+public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
 	String password = null;
@@ -43,54 +46,50 @@ public class GcmDAO implements UserDAO, MapDAO, searchDAO, Serializable {
 	}
 
 	@Override
-	public Map getMapDetails(int mapID) {
-		ResponseObject responseObject = send(
-				new RequestObject(UserType.notLogged, GcmQuery.getMapDetails, new ArrayList<Object>() {
-					{
-						add(mapID);
-					}
-				}, username, password));
+	public Map getPublishedMapDetails(int mapID) {
+		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapDetails, new ArrayList<Object>() {
+			{
+				add(mapID);
+			}
+		}, username, password));
 		return (Map) responseObject.getResponse().get(0);
 	}
 
 	@Override
-	public File getMapFile(int mapID) {
-		ResponseObject responseObject = send(
-				new RequestObject(UserType.editor, GcmQuery.getMapFile, new ArrayList<Object>() {
-					{
+	public File getPublishedMapFile(int mapID) {
+		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
+			{
 
-						add(mapID);
-					}
-				}, username, password));
+				add(mapID);
+			}
+		}, username, password));
 		return (File) responseObject.getResponse().get(0);
 	}
 
 	@Override
 	public RequestState register(String username, String password, User user) {
 		setDetails(username, password);
-		ResponseObject responseObject = send(
-				new RequestObject(UserType.notLogged, GcmQuery.addCustomer, new ArrayList<Object>() {
-					{
-						add(username);
-						add(password);
-						add(user);
-					}
-				}, username, password));
+		ResponseObject responseObject = send(new RequestObject(GcmQuery.addCustomer, new ArrayList<Object>() {
+			{
+				add(username);
+				add(password);
+				add(user);
+			}
+		}, username, password));
 		return responseObject.getRequestState();
 	}
 
 	@Override
 	public RequestState login(String username, String password) {
 		setDetails(username, password);
-		ResponseObject responseObject = send(
-				new RequestObject(UserType.notLogged, GcmQuery.verifyUser, new ArrayList<Object>() {
-					private static final long serialVersionUID = 1L;
+		ResponseObject responseObject = send(new RequestObject(GcmQuery.verifyUser, new ArrayList<Object>() {
+			private static final long serialVersionUID = 1L;
 
-					{
-						add(username);
-						add(password);
-					}
-				}, username, password));
+			{
+				add(username);
+				add(password);
+			}
+		}, username, password));
 		return responseObject.getRequestState();
 	}
 
@@ -130,9 +129,6 @@ public class GcmDAO implements UserDAO, MapDAO, searchDAO, Serializable {
 		} catch (IOException e1) {
 			System.err.println("error in sending data to server");
 			System.err.println(e1.getMessage());
-			System.err.println(req.getUname() + req.getPass() + req.getQuery() + req.getUserType());
-			System.exit(1);
-
 		}
 		System.out.println("data sent. receiving data:");
 		Object res = null;
@@ -161,8 +157,8 @@ public class GcmDAO implements UserDAO, MapDAO, searchDAO, Serializable {
 	}
 
 	@Override
-	public int addMapToCity(int cityId, Map mapDetails, File mapFile) {
-		return (int) send(new RequestObject(UserType.editor, GcmQuery.addMap, new ArrayList<Object>() {
+	public int addMapToPublishedCity(int cityId, Map mapDetails, File mapFile) {
+		return (int) send(new RequestObject(GcmQuery.addMap, new ArrayList<Object>() {
 			{
 				add(cityId);
 				add(mapDetails);
@@ -172,18 +168,18 @@ public class GcmDAO implements UserDAO, MapDAO, searchDAO, Serializable {
 	}
 
 	@Override
-	public void deleteMap(int mapId) {
-		send(new RequestObject(UserType.editor, GcmQuery.deleteMap, new ArrayList<Object>() {
+	public int deletePublishedMap(int mapId) {
+		send(new RequestObject(GcmQuery.deleteMap, new ArrayList<Object>() {
 			{
 				add(mapId);
 			}
 		}, username, password));
-
+		return 0; // TODO
 	}
 
 	@Override
 	public int addCity(City city) {
-		return (int) send(new RequestObject(UserType.editor, GcmQuery.addCity, new ArrayList<Object>() {
+		return (int) send(new RequestObject(GcmQuery.addCity, new ArrayList<Object>() {
 			{
 				add(city);
 			}
@@ -198,33 +194,133 @@ public class GcmDAO implements UserDAO, MapDAO, searchDAO, Serializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsByCityName(String cityName) {
-		return (List<Map>) (Object) send(
-				new RequestObject(UserType.customer, GcmQuery.getMapsByCityName, new ArrayList<Object>() {
-					{
-						add(cityName);
-					}
-				}, username, password)).getResponse();
+		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByCityName, new ArrayList<Object>() {
+			{
+				add(cityName);
+			}
+		}, username, password)).getResponse();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsBySiteName(String siteName) {
-		return (List<Map>) (Object) send(
-				new RequestObject(UserType.customer, GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
-					{
-						add(siteName);
-					}
-				}, username, password)).getResponse();
+		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
+			{
+				add(siteName);
+			}
+		}, username, password)).getResponse();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsByDescription(String description) {
-		return (List<Map>) (Object) send(
-				new RequestObject(UserType.customer, GcmQuery.getMapsByDescription, new ArrayList<Object>() {
-					{
-						add(description);
-					}
-				}, username, password)).getResponse();
+		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByDescription, new ArrayList<Object>() {
+			{
+				add(description);
+			}
+		}, username, password)).getResponse();
 	}
+
+	@Override
+	public List<Map> getMaps() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int addMapToUnPublishedCity(int cityChangeId, Map mapDetails, File mapFile) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteChange(int changeId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updatePublishedCity(int cityId, City city) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateUnPublishedCity(int chageCityId, City city) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteCity(City city) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addNewSiteToPublishedCity(int cityId, Site site) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addNewSiteToUnPublishedCity(int cityId, Site site) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addExistingSiteToMap(int mapId, int siteId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int DeleteSiteFromMap(int mapId, int siteId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int UpdateSite(int siteId, Site newSite) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int DeleteSite(int siteId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean purchaseMembership(Membership membershipType, PurchaseDetails purchaseDetails) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public File purchaseMap(int mapId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public File getPurchasedMap(int mapId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getPurchasedMaps() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getUserDetails() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

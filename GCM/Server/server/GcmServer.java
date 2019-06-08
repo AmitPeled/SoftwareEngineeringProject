@@ -8,7 +8,6 @@ import java.sql.Connection;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
-import database.metadata.DatabaseMetaData;
 import database.objectParse.DatabaseParser;
 import requestHandle.RequestHandler;
 import serverThread.ServerThread;

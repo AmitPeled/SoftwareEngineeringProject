@@ -6,6 +6,8 @@ import maps.Map;
 
 public interface searchDAO {
 
+	List<Map> getMaps();
+	
 	List<Map> getMapsByCityName(String cityName);
 
 	List<Map> getMapsBySiteName(String siteName);

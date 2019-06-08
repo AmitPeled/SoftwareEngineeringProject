@@ -1,7 +1,6 @@
 package requestHandle;
 
 import request.RequestObject;
-import request.UserType;
 import response.ResponseObject;
 import users.User;
 
