@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="641.0" prefWidth="526.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="785.0" prefWidth="526.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="search.ListViewController">
    <children>
       <Group fx:id="SearchArea">
          <children>
@@ -29,15 +29,9 @@
             </Text>
          </children>
       </Group>
-      <Group fx:id="listView">
-         <children>
-            <ListView layoutX="47.0" layoutY="263.0" prefHeight="498.0" prefWidth="435.0" />
-            <Button fx:id="buySubscriptionBtn" layoutX="133.0" layoutY="282.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" />
-            <Button fx:id="addNewMapBtn" layoutX="133.0" layoutY="282.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" />
-            <Group >
-			<Pane fx:id="listViewItems" layoutX="58.0" layoutY="292.0"></Pane>
-            </Group>
-         </children>
-      </Group>
+      <Group />
+      <Button fx:id="addNewMapBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" />
+      <Button fx:id="buySubscriptionBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" />
+   	<ListView fx:id="listView" layoutX="53.0" layoutY="327.0" prefHeight="444.0" prefWidth="435.0" />
    </children>
 </AnchorPane>
