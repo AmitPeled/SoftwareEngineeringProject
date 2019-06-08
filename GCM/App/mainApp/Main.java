@@ -7,6 +7,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		GcmClient gcm = new GcmClientImpl(primaryStage);
+		IntroController introController = new IntroController();
+		introController.setClient(gcm);
 		gcm.switchScene(Scenes.INTRO);
 	}
 

@@ -1,17 +1,16 @@
 package mainApp;
 
-import java.util.Dictionary;
-
+import java.util.EnumMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GcmClientImpl implements GcmClient {
+class GcmClientImpl implements GcmClient {
 	/**
 	 * Contains the mapping between scenes and their .fxml file path
 	 */
-	private Dictionary<Scenes, String> fxmlFilePath;
+	private EnumMap<Scenes, String> fxmlFilePath;
 	
 	/**
 	 * A reference to the primary stage (used to switch scenes)
@@ -20,6 +19,9 @@ public class GcmClientImpl implements GcmClient {
 	
 	public GcmClientImpl(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		this.fxmlFilePath = new EnumMap<Scenes,String>(Scenes.class);
+		fxmlFilePath.put(Scenes.LOGIN, "/fxml/login/LoginScene.fxml");
+		fxmlFilePath.put(Scenes.INTRO, "/fxml/Intro.fxml");
 	}
 	
 	@Override
@@ -29,7 +31,7 @@ public class GcmClientImpl implements GcmClient {
 			loader.setLocation(getClass().getResource(fxmlFilePath.get(destinationScenes)));
 			Parent root = loader.load();
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
