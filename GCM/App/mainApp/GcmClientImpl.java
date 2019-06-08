@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GcmClientImpl {
+public class GcmClientImpl implements GcmClient {
 	/**
 	 * Contains the mapping between scenes and their .fxml file path
 	 */
@@ -22,6 +22,7 @@ public class GcmClientImpl {
 		this.primaryStage = primaryStage;
 	}
 	
+	@Override
 	public void switchScene(Scenes destinationScenes) {
 		try {
 			FXMLLoader loader = new FXMLLoader();

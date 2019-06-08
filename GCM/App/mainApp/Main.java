@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-		GcmClientImpl gcm = new GcmClientImpl(primaryStage);
+		GcmClient gcm = new GcmClientImpl(primaryStage);
 		gcm.switchScene(Scenes.INTRO);
 	}
 
