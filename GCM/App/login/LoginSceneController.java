@@ -42,7 +42,7 @@ public class LoginSceneController {
 		// need to do the same for the rest of the actionevents -> dont forget to close
 		// current window!
 
-		switchScene(event, "/fxml/ForgotPasswordScene.fxml");
+		switchScene(event, "/fxml/login/ForgotPasswordScene.fxml");
 	}
 
 	@FXML
@@ -54,13 +54,13 @@ public class LoginSceneController {
 		// current window!
 
 		//Parent ForgotUsernameParent = FXMLLoader.load(getClass().getResource("ForgotUsernameScene.fxml"));
-		switchScene(event, "/fxml/ForgotUsernameScene.fxml");
+		switchScene(event, "/fxml/login/ForgotUsernameScene.fxml");
 	}
 	
 	@FXML
 	public void register(ActionEvent event) throws IOException {
 		// go to register scene
-		switchScene(event,"/fxml/RegisterScene.fxml");
+		switchScene(event,"/fxml/register/RegisterScene.fxml");
 		System.out.println("going to register");
 
 	}
