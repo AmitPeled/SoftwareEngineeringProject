@@ -12,6 +12,7 @@ import login.LoginSceneController;
 import mainApp.GcmClient;
 import mainApp.IntroController;
 import mainApp.SceneNames;
+import menu.MenuController;
 import register.RegisterSceneController;
 
 public final class ScenesInitializerImpl implements ScenesInitializer{
@@ -40,6 +41,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		fxmlFilePath.put(SceneNames.REGISTER, "/fxml/register/RegisterScene.fxml");
 		fxmlFilePath.put(SceneNames.FORGOT_PASSWORD, "/fxml/login/ForgotPasswordScene.fxml");
 		fxmlFilePath.put(SceneNames.FORGOT_USERNAME, "/fxml/login/ForgotUsernameScene.fxml");
+		fxmlFilePath.put(SceneNames.MENU, "/fxml/menu/MenuScene.fxml");
 	}
 	
 	private void initControllers() {
@@ -48,6 +50,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		controllers.put(SceneNames.REGISTER,        new RegisterSceneController(gcmClient));
 		controllers.put(SceneNames.FORGOT_PASSWORD, new ForgotPasswordcontroller(gcmClient));
 		controllers.put(SceneNames.FORGOT_USERNAME, new ForgotUsernameController(gcmClient));	
+		controllers.put(SceneNames.MENU,            new MenuController(gcmClient));	
 	}
 	
 	private void populateScenesMap() {
