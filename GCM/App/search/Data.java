@@ -1,4 +1,4 @@
-package Search;
+package search;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

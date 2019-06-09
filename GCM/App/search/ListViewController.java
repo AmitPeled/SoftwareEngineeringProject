@@ -1,4 +1,4 @@
-package Search;
+package search;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -9,8 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import Search.CustomListCell;
-import Search.MapItem;
+import search.CustomListCell;
+import search.MapItem;
 
 public class ListViewController implements Initializable
 {
