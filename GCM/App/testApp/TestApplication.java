@@ -8,8 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import mapViewer.MapViewerView;
-import mapViewer.MapViewerViewModel;
+import mapViewer.View.MapViewerView;
+import mapViewer.ViewModel.MapViewerViewModel;
 
 public final class TestApplication extends Application{
 

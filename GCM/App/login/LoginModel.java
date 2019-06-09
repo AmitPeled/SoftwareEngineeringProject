@@ -1,24 +1,25 @@
 package login;
 
-import userAccess.UserDAO;
+import dataAccess.users.UserDAO;
+import queries.RequestState;
 import users.User;
 
 public class LoginModel implements UserDAO {
 
 	@Override
-	public boolean register(User user) {
+	public RequestState register(String username, String password, User user) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean login(String username, String password) {
+	public RequestState login(String username, String password) {
 		// TODO Auto-generated method stub
 		// check some database shit
 		if (username.equals("user") && password.equals("pass")) {
-			return true;
+			return RequestState.customer;
 		}
-		return false;
+		return RequestState.wrongDetails;
 	}
 
 }
