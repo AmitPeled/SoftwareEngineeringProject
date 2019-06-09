@@ -3,6 +3,7 @@ package mainApp;
 import java.util.EnumMap;
 import java.util.Stack;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -56,5 +57,10 @@ class GcmClientImpl implements GcmClient {
 		scenesStack.pop();
 		primaryStage.setScene(scenesStack.peek());
 		primaryStage.show();
+	}
+	
+	@Override
+	public void shutdown() {
+		Platform.exit();
 	}
 }

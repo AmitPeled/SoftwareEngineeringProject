@@ -20,6 +20,6 @@ public final class IntroController implements Controller {
 	
 	@FXML
 	public void onExitButton() {
-		return;
+		gcmClient.shutdown();
 	}
 }

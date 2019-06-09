@@ -12,4 +12,9 @@ public interface GcmClient {
 	 * Goes back to the previous scene
 	 */
 	void back();
+
+	/**
+	 * Closes the application
+	 */
+	void shutdown();
 }
