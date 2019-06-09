@@ -10,16 +10,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mainApp.Controller;
+import mainApp.GcmClient;
+import mainApp.SceneNames;
 
-public class RegisterSceneController {
+public class RegisterSceneController implements Controller {
 
+	private GcmClient gcmClient;
+	
 	@FXML
 	private TextField nametxt, lastnametxt,emailtxt, usernametxt, passwordtxt, confirmpasswordtxt, phonetxt;
 	
 	@FXML
 	public void back(ActionEvent event) throws IOException {
 		System.out.println("well, im going back");
-		returnToLoginScreen(event);
+		gcmClient.back();
 	}
 	
 	@FXML
@@ -27,10 +32,10 @@ public class RegisterSceneController {
 		System.out.println("Register!!!");
 		//Add validation for all fields		
 		
-		returnToLoginScreen(event);
+		gcmClient.switchScene(SceneNames.LOGIN);
 	}
 
-	private void returnToLoginScreen(ActionEvent event) throws IOException {
+/*	private void returnToLoginScreen(ActionEvent event) throws IOException {
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/fxml/login/LoginScene.fxml"));
@@ -39,6 +44,11 @@ public class RegisterSceneController {
 		LoginSceneScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		window.setScene(LoginSceneScene);
 		window.show();
+	}*/
+
+	@Override
+	public void setClient(GcmClient gcmClient) {
+		this.gcmClient = gcmClient; 
 	}
 	
 }

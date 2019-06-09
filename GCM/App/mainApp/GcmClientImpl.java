@@ -42,6 +42,7 @@ class GcmClientImpl implements GcmClient {
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			scenesStack.push(scene);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -50,7 +51,10 @@ class GcmClientImpl implements GcmClient {
 	/**
 	 * Goes back to the previous scene
 	 */
+	@Override
 	public void back() {
-		
+		scenesStack.pop();
+		primaryStage.setScene(scenesStack.peek());
+		primaryStage.show();
 	}
 }

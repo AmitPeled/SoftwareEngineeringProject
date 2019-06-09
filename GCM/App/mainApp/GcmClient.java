@@ -8,4 +8,8 @@ public interface GcmClient {
 	 */
 	void switchScene(SceneNames destinationScene);
 
+	/**
+	 * Goes back to the previous scene
+	 */
+	void back();
 }
