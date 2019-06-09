@@ -1,13 +1,16 @@
 package mainApp;
 
+import init.*;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		GcmClient gcm = new GcmClientImpl(primaryStage);
+		ScenesInitializer initializer = new ScenesInitializerImpl(gcm);
+		SceneManager manager = new SceneManagerImpl(initializer.getScenes());
+		gcm.setSceneManager(manager);
 		gcm.switchScene(SceneNames.INTRO);
 	}
 
