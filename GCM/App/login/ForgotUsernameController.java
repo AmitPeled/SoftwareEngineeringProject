@@ -10,9 +10,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mainApp.GcmClient;
 
 public class ForgotUsernameController {
 
+	private GcmClient gcmClient;
+	
+	public ForgotUsernameController(GcmClient gcmClient) {
+		this.gcmClient = gcmClient;
+	}
+	
 	@FXML
 	private TextField emailtxt;
 
