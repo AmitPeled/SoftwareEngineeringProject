@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="450.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text fx:id="title" layoutX="156.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Text>
+      <Button fx:id="searchBtn" layoutX="149.0" layoutY="110.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Search" />
+      <Button fx:id="addanewcityBtn" layoutX="150.0" layoutY="161.0" mnemonicParsing="false" text="Add a new city" />
+      <Button fx:id="reportsBtn" layoutX="150.0" layoutY="192.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Reports" />
+      <Button fx:id="logoutBtn" layoutX="150.0" layoutY="243.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Logout" />
+   </children>
+</AnchorPane>

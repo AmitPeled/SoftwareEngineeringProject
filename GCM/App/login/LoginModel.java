@@ -14,7 +14,7 @@ public class LoginModel implements UserDAO {
 	@Override
 	public boolean login(String username, String password) {
 		// TODO Auto-generated method stub
-		// cheack some database shit
+		// check some database shit
 		if (username.equals("user") && password.equals("pass")) {
 			return true;
 		}
