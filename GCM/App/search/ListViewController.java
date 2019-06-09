@@ -30,37 +30,36 @@ public class ListViewController implements Initializable
     private Button searchBtn;
 	@FXML
 	private TextField searchBar;
+	
 	@FXML
-	ToggleGroup rBtnGroup;
+	public ToggleGroup searchOptions;
 	@FXML
-	private RadioButton button1;
+	private RadioButton rCityname;
 	@FXML
-	private RadioButton button2;
+	private RadioButton rPointofinterest;
 	@FXML
-	private RadioButton button3;
+	private RadioButton rDescription;
 	
 	String selectedRadioBtn;
-	
+
+			
 	public void setRadioButtons() {
-		rBtnGroup = new ToggleGroup();
 		// Radio 1: cityName
-		button1 = new RadioButton("rCityName");
-		button1.setToggleGroup(rBtnGroup);
-		button1.setSelected(true);
-		 
+		rCityname.setToggleGroup(searchOptions);
+		rCityname.setSelected(true);
+
 		// Radio 2: pointOfInterest.
-		button2 = new RadioButton("rPointOfInterest");
-		button2.setToggleGroup(rBtnGroup);
+		rPointofinterest.setToggleGroup(searchOptions);
+		
 		// Radio 3: description.
-		button3 = new RadioButton("rDescription");
-		button3.setToggleGroup(rBtnGroup);
+		rDescription.setToggleGroup(searchOptions);
 	}
 	public void searchListener() {	
 		searchBtn.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
-	            public void handle(MouseEvent event) {
-	            	RadioButton selectedRadioButton = (RadioButton) rBtnGroup.getSelectedToggle();
-	            	selectedRadioBtn = selectedRadioButton.getText();
+	            public void handle(MouseEvent event) { 
+	            	RadioButton selectRadio = (RadioButton) searchOptions.getSelectedToggle();
+	            	selectedRadioBtn = selectRadio.getText();
 	            	ObservableList<MapItem> data = FXCollections.observableArrayList();
 	                data.addAll(new MapItem(searchBar.getText(), selectedRadioBtn, "2", "3"), new MapItem("london", "1", "2", "3"), new MapItem("jerusalem", "1", "2", "3"));
 	                listView.setItems(data);
@@ -69,18 +68,8 @@ public class ListViewController implements Initializable
 			})
 		);
 	}
-	public void radioBtnListener() {
-//		rBtnGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>()
-//	    {
-//	    @Override
-//	    public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1)
-//	        {
-//	        RadioButton chk = (RadioButton)t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
-//	        System.out.println("Selected Radio Button - "+chk.getText());
-//	        }
-//	    });
+	
 
-	}
 	public int checkForPermissions() {
 		return 1;
 	}
@@ -98,10 +87,9 @@ public class ListViewController implements Initializable
 	* @param url
 	* @param rb
 	**/
-    @Override
+    @Override 
 	public void initialize(URL url, ResourceBundle rb) {
     	setRadioButtons();
-    	radioBtnListener();
     	searchListener();
     	
         listView.setCellFactory(new Callback<ListView<MapItem>, ListCell<MapItem>>() {
