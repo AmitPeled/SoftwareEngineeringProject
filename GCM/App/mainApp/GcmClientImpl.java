@@ -29,6 +29,8 @@ class GcmClientImpl implements GcmClient {
 		fxmlFilePath.put(SceneNames.INTRO, "/fxml/Intro.fxml");
 		fxmlFilePath.put(SceneNames.LOGIN, "/fxml/login/LoginScene.fxml");
 		fxmlFilePath.put(SceneNames.REGISTER, "/fxml/register/RegisterScene.fxml");
+		fxmlFilePath.put(SceneNames.FORGOT_PASSWORD, "/fxml/login/ForgotPasswordScene.fxml");
+		fxmlFilePath.put(SceneNames.FORGOT_USERNAME, "/fxml/login/ForgotUsernameScene.fxml");
 	}
 	
 	@Override
