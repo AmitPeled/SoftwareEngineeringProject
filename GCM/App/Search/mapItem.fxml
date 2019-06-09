@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="149.0" prefWidth="272.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+		<Text layoutX="27.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Map name:" underline="true" />
+		<Text layoutX="26.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" underline="true" />
+		<Text layoutX="14.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Point of interest" underline="true" />
+		<TextField fx:id="description" editable="false" layoutX="105.0" layoutY="46.0">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect></TextField>
+		<TextField fx:id="mapName" editable="false" layoutX="105.0" layoutY="11.0">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect></TextField>
+		<TextField fx:id="pointOfInterest" editable="false" layoutX="105.0" layoutY="81.0">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect></TextField>
+		<TextField fx:id="tours" editable="false" layoutX="105.0" layoutY="116.0">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect></TextField>
+		<Text layoutX="42.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tours" underline="true" />
+   </children>
+</AnchorPane>
