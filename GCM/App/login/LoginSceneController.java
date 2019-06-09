@@ -4,11 +4,10 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import mainApp.Controller;
 import mainApp.GcmClient;
 import mainApp.SceneNames;
 
-public class LoginSceneController implements Controller {
+public class LoginSceneController{
 
 	private GcmClient gcmClient;
 	
@@ -17,6 +16,10 @@ public class LoginSceneController implements Controller {
 
 	@FXML
 	private TextField passwordtxt;
+
+	public LoginSceneController(GcmClient gcmClient) {
+		this.gcmClient = gcmClient;
+	}
 
 	@FXML
 	public void LogIn(ActionEvent event) throws IOException {
@@ -56,10 +59,4 @@ public class LoginSceneController implements Controller {
 	public void onBackButton() {
 		gcmClient.back();
 	}
-	
-	@Override
-	public void setClient(GcmClient gcmClient) {
-		this.gcmClient = gcmClient;
-	}
-
 }

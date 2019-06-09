@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="340.0" prefWidth="280.0" spacing="10.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="mainApp.IntroController">
+<VBox alignment="CENTER" prefHeight="340.0" prefWidth="280.0" spacing="10.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/">
    <children>
       <Label alignment="TOP_CENTER" text="Welcome to GCM!">
          <VBox.margin>

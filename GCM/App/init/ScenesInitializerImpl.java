@@ -32,7 +32,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 	}
 	
 	@Override
-	public Scene getScene(SceneNames name) { return scenes.get(name); }
+	public EnumMap<SceneNames, Scene> getScenes() { return scenes; }
 	
 	private void populateFxmlFilesMap(){
 		fxmlFilePath.put(SceneNames.INTRO, "/fxml/Intro.fxml");
