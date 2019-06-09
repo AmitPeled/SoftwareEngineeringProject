@@ -58,6 +58,11 @@ public class LoginSceneController implements Controller {
 		System.out.println("going to register");
 	}
 
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
+	
 	@Override
 	public void setClient(GcmClient gcmClient) {
 		this.gcmClient = gcmClient;
