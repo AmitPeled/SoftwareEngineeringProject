@@ -7,6 +7,7 @@ import maps.City;
 import maps.Coordinates;
 import maps.Map;
 import maps.Site;
+import maps.Tour;
 import users.User;
 
 /**
@@ -16,10 +17,10 @@ import users.User;
 public class DatabaseParser implements IParseObjects {
 
 	@Override
-	public Map getMap(List<Object> objectList, List<Site> mapSites) {
+	public Map getMap(List<Object> objectList, List<Site> mapSites, List<Tour> mapTours) {
 		return new Map((int) objectList.get(0), (float) objectList.get(1), (float) objectList.get(2),
 				(String) objectList.get(3), new Coordinates((float) objectList.get(4), (float) objectList.get(5)),
-				mapSites);
+				(double) objectList.get(6), mapSites, mapTours);
 	}
 
 	@Override

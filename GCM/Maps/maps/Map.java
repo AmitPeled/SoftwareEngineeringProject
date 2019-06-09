@@ -17,9 +17,9 @@ public final class Map implements Serializable {
 	private float width;
 	private float height;
 	private Coordinates offset;
+	private double price;
 	private List<Site> mapSites;
 	private List<Tour> mapTours;
-	private double price;
 
 	/**
 	 * Creates a new Map instance with no offset, description, sites, tour and price
