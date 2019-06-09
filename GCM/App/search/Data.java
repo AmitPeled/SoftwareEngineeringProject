@@ -18,7 +18,9 @@ public class Data
     private TextField pointOfInterest;
 	@FXML // fx:id="tours"
     private TextField tours;
-
+	
+	
+	
     public Data(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mapItem.fxml"));
         fxmlLoader.setController(this);

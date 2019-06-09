@@ -12,15 +12,18 @@
    <children>
       <Group fx:id="SearchArea">
          <children>
-            <RadioButton fx:id="radioCityname" layoutX="189.0" layoutY="141.0" mnemonicParsing="false" text="City name" />
-            <RadioButton fx:id="radioDescription" layoutX="189.0" layoutY="193.0" mnemonicParsing="false" text="Description" />
-            <TextField fx:id="searchbar" layoutX="180.0" layoutY="75.0" prefHeight="25.0" prefWidth="157.0" />
+            <RadioButton fx:id="rCityname" layoutX="189.0" layoutY="141.0" mnemonicParsing="false" onAction="#setRadioButtons" selected="true" text="City name">
+               <toggleGroup>
+                  <ToggleGroup fx:id="options" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="rDescription" layoutX="189.0" layoutY="193.0" mnemonicParsing="false" onAction="#setRadioButtons" text="Description" toggleGroup="$options" />
+            <TextField fx:id="searchBar" layoutX="180.0" layoutY="75.0" onAction="#searchListener" prefHeight="25.0" prefWidth="157.0" />
             <Text fx:id="subtitle" layoutX="189.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by:" underline="true">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <RadioButton fx:id="radioPointofinterest" layoutX="189.0" layoutY="167.0" mnemonicParsing="false" text="Point of interest" />
+            <RadioButton fx:id="rPointofinterest" layoutX="189.0" layoutY="167.0" mnemonicParsing="false" onAction="#setRadioButtons" text="Point of interest" toggleGroup="$options" />
             <Button fx:id="searchBtn" layoutX="184.0" layoutY="221.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0" text="Search" />
             <Text fx:id="title" layoutX="210.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" wrappingWidth="106.0">
                <font>
@@ -30,8 +33,8 @@
          </children>
       </Group>
       <Group />
-      <Button fx:id="addNewMapBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" />
-      <Button fx:id="buySubscriptionBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" />
+      <Button fx:id="addNewMapBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" visible="false" />
+      <Button fx:id="buySubscriptionBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" visible="false" />
    	<ListView fx:id="listView" layoutX="53.0" layoutY="327.0" prefHeight="444.0" prefWidth="435.0" />
    </children>
 </AnchorPane>
