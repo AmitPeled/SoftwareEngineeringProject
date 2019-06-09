@@ -2,19 +2,20 @@ package mainApp;
 
 import javafx.fxml.FXML;
 
-public final class IntroController {
-	private static GcmClient gcmClient;
+public final class IntroController implements Controller {
+	private GcmClient gcmClient;
 	
-	public static void setClient(GcmClient gcmClient) { IntroController.gcmClient = gcmClient; } // It's a weird hack I did. Need to look at it later
+	@Override
+	public void setClient(GcmClient gcmClient) { this.gcmClient = gcmClient; } 
 	
 	@FXML
 	public void onLoginButton() {
-		gcmClient.switchScene(Scenes.LOGIN);
+		gcmClient.switchScene(SceneNames.LOGIN);
 	}
 	
 	@FXML
 	public void onRegisterButton() {
-		return;
+		gcmClient.switchScene(SceneNames.REGISTER);;
 	}
 	
 	@FXML

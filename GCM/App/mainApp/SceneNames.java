@@ -1,6 +1,6 @@
 package mainApp;
 
-public enum Scenes {
+public enum SceneNames {
 	INTRO,
 	LOGIN,
 	FORGOT_PASSWORD,
