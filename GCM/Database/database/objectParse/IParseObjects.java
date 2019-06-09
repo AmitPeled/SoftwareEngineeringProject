@@ -5,6 +5,7 @@ import java.util.List;
 import maps.City;
 import maps.Map;
 import maps.Site;
+import maps.Tour;
 import users.User;
 
 /**
@@ -24,7 +25,7 @@ public interface IParseObjects {
 	 * 
 	 * @return a map that contain the fields
 	 */
-	Map getMap(List<Object> metaFieldsList, List<Site> sites);
+	Map getMap(List<Object> metaFieldsList, List<Site> sites, List<Tour> tours);
 
 	Site getSite(List<Object> fieldsList);
 

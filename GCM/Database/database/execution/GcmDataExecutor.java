@@ -111,7 +111,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 			for (List<Object> list : mapSitesRows) {
 				mapSites.add(getSite((int) list.get(0)));
 			}
-			return objectParser.getMap(metaDetailsRows.get(0), mapSites); // only one row correspond to this id
+			return objectParser.getMap(metaDetailsRows.get(0), mapSites, null); // only one row correspond to this id
 		}
 	}
 
@@ -346,19 +346,19 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	@Override
 	public void updateCity(int cityId, City city) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteCity(City city) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void UpdateSite(int siteId, Site newSite) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
