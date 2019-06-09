@@ -21,6 +21,8 @@ import maps.Site;
  */
 public interface EditorDAO {
 
+	public Map getMapDetails(int mapID);
+
 	/**
 	 * Retrieves Map image file of a map by its ID value
 	 * 
@@ -42,31 +44,4 @@ public interface EditorDAO {
 	public int updateContent(int contentId, Object newContent);
 	
 	public int deleteContent(int contentId);
-	
-//last version	
-//	public int addMapToUnPublishedCity(int cityChangeId, Map mapDetails, File mapFile);
-//
-//	public int deletePublishedMap(int mapId);
-//
-//	public int deleteChange(int changeId);
-//
-//	public int addCity(City city);
-//
-//	public int updatePublishedCity(int cityId, City city);
-//
-//	public int updateUnPublishedCity(int chageCityId, City city);
-//
-//	public int deleteCity(City city);
-//
-//	public int addNewSiteToPublishedCity(int cityId, Site site);
-//
-//	public int addNewSiteToUnPublishedCity(int cityId, Site site);
-//
-//	public int addExistingSiteToMap(int mapId, int siteId);
-//
-//	public int DeleteSiteFromMap(int mapId, int siteId);
-//
-//	public int UpdateSite(int siteId, Site newSite);
-//
-//	public int DeleteSite(int siteId);
 }

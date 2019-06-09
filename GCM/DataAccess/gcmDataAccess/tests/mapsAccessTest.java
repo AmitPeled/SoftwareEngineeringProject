@@ -37,7 +37,7 @@ class mapsAccessTest {
 		assertEquals(map.getHeight(), mapAccess.getMapDetails(mapId).getHeight());
 		assertEquals(map.getWidth(), mapAccess.getMapDetails(mapId).getWidth());
 		assertEquals(mapFile, mapAccess.getMapFile(mapId));
-		mapAccess.deleteMap(mapId);
+		mapAccess.deleteContent(mapId);
 		assertThrows(NullPointerException.class, () -> mapAccess.getMapDetails(mapId).getHeight());
 		assertNull(mapAccess.getMapFile(mapId));
 

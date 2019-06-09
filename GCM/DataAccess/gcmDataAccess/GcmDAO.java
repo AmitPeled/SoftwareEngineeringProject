@@ -13,7 +13,6 @@ import java.util.List;
 import dataAccess.customer.CustomerDAO;
 import dataAccess.editor.EditorDAO;
 import dataAccess.search.searchDAO;
-import dataAccess.users.Membership;
 import dataAccess.users.PurchaseDetails;
 import dataAccess.users.UserDAO;
 import maps.City;
@@ -46,7 +45,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 	}
 
 	@Override
-	public Map getPublishedMapDetails(int mapID) {
+	public Map getMapDetails(int mapID) {
 		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapDetails, new ArrayList<Object>() {
 			{
 				add(mapID);
@@ -56,7 +55,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 	}
 
 	@Override
-	public File getPublishedMapFile(int mapID) {
+	public File getMapFile(int mapID) {
 		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
 			{
 
@@ -157,7 +156,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 	}
 
 	@Override
-	public int addMapToPublishedCity(int cityId, Map mapDetails, File mapFile) {
+	public int addMapToCity(int cityId, Map mapDetails, File mapFile) {
 		return (int) send(new RequestObject(GcmQuery.addMap, new ArrayList<Object>() {
 			{
 				add(cityId);
@@ -168,13 +167,12 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 	}
 
 	@Override
-	public int deletePublishedMap(int mapId) {
-		send(new RequestObject(GcmQuery.deleteMap, new ArrayList<Object>() {
+	public int deleteContent(int contentId) {
+		return (int)send(new RequestObject(GcmQuery.deleteContent, new ArrayList<Object>() {
 			{
-				add(mapId);
+				add(contentId);
 			}
-		}, username, password));
-		return 0; // TODO
+		}, username, password)).getResponse().get(0);
 	}
 
 	@Override
@@ -228,43 +226,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 	}
 
 	@Override
-	public int addMapToUnPublishedCity(int cityChangeId, Map mapDetails, File mapFile) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteChange(int changeId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updatePublishedCity(int cityId, City city) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateUnPublishedCity(int chageCityId, City city) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteCity(City city) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int addNewSiteToPublishedCity(int cityId, Site site) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int addNewSiteToUnPublishedCity(int cityId, Site site) {
+	public int addNewSiteToCity(int cityId, Site site) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -282,31 +244,13 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 	}
 
 	@Override
-	public int UpdateSite(int siteId, Site newSite) {
+	public int updateContent(int contentId, Object newContent) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public int DeleteSite(int siteId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean purchaseMembership(Membership membershipType, PurchaseDetails purchaseDetails) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
 	public File purchaseMap(int mapId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public File getPurchasedMap(int mapId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -319,6 +263,42 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 
 	@Override
 	public User getUserDetails() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getMembershipPrice(int cityId, int timeInterval) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean purchaseMembership(int timeInterval, PurchaseDetails purchaseDetails, boolean saveDetailsForNext) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean repurchaseMembershipBySavedDetails() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public File viewMap(int mapId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public File downloadMap(int mapId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

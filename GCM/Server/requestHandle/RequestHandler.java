@@ -57,7 +57,7 @@ public class RequestHandler implements IHandleRequest {
 				case getMapFile:
 					listToSend.add(gcmDataExecutor.getMapFile((int) listObjectReceived.get(0)));
 					break;
-				case deleteMap:
+				case deleteContent:
 					gcmDataExecutor.deleteMap((int) listObjectReceived.get(0));
 					break;
 				case addCity:
@@ -118,7 +118,7 @@ public class RequestHandler implements IHandleRequest {
 			return userType == RequestState.editor || userType == RequestState.manager;
 		case deleteCity:
 			return userType == RequestState.editor || userType == RequestState.manager;
-		case deleteMap:
+		case deleteContent:
 			return userType == RequestState.editor || userType == RequestState.manager;
 		case deleteSiteFromMap:
 			return userType == RequestState.editor || userType == RequestState.manager;

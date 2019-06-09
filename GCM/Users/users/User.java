@@ -3,7 +3,6 @@ package users;
 
 import java.io.Serializable;
 
-//import dataAccess.users.Membership;
 
 /**
  * @author amit
@@ -38,10 +37,7 @@ public final class User implements Serializable {
 	private String phoneNumber;
 	private String firstName;
 	private String lastName;
-//	private Membership membershipType;
+//	private Date membershipExpireDate;
 //	private int numPurchases;
 	
 }
-
-
-// Membership membership - membership type, purchase date

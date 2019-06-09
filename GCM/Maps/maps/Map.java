@@ -18,10 +18,11 @@ public final class Map implements Serializable {
 	private float height;
 	private Coordinates offset;
 	private List<Site> mapSites;
+	private List<Tour> mapTours;
 	private double price;
 
 	/**
-	 * Creates a new Map instance with no offset, description nor sites
+	 * Creates a new Map instance with no offset, description, sites, tour and price
 	 * 
 	 * @param id     The ID number associated with this map. Used for identification
 	 *               in the database and helps to find the map image files
@@ -32,17 +33,17 @@ public final class Map implements Serializable {
 	 */
 	public Map(int id, float width, float height) throws IllegalArgumentException {
 		// By default the description null, offset (0,0)
-		this(id, width, height, null, new Coordinates(), null);
+		this(id, width, height, null, new Coordinates(), -1, null, null);
 	}
 
 	public Map(int id, float width, float height, String description) throws IllegalArgumentException {
 		// By default the offset (0,0)
-		this(id, width, height, description, new Coordinates(), null);
+		this(id, width, height, description, new Coordinates(), -1, null, null);
 	}
 
 	public Map(int id, float width, float height, Coordinates offset) throws IllegalArgumentException {
 		// By default the description null
-		this(id, width, height, null, offset, null);
+		this(id, width, height, null, offset, -1, null, null);
 	}
 
 	/**
@@ -59,8 +60,8 @@ public final class Map implements Serializable {
 	 * @throws IllegalArgumentException Thrown when id, width or height are not
 	 *                                  positive numbers
 	 */
-	public Map(int id, float width, float height, String description, Coordinates offset, List<Site> sites)
-			throws IllegalArgumentException {
+	public Map(int id, float width, float height, String description, Coordinates offset, double price,
+			List<Site> sites, List<Tour> tours) throws IllegalArgumentException {
 		if (id <= 0)
 			throw new IllegalArgumentException("id has to be a positive number");
 		if (width <= 0.0f)
@@ -72,7 +73,9 @@ public final class Map implements Serializable {
 		this.width = width;
 		this.height = height;
 		this.offset = offset;
+		this.price = price;
 		this.mapSites = sites;
+		this.mapTours = tours;
 	}
 
 	/**
@@ -133,6 +136,10 @@ public final class Map implements Serializable {
 
 	public List<Site> getSites() {
 		return mapSites;
+	}
+
+	public List<Tour> getTours() {
+		return mapTours;
 	}
 
 	public double getPrice() {
