@@ -5,5 +5,6 @@ public enum SceneNames {
 	LOGIN,
 	FORGOT_PASSWORD,
 	FORGOT_USERNAME,
-	REGISTER
+	REGISTER, 
+	MENU
 }

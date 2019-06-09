@@ -60,4 +60,10 @@ class GcmClientImpl implements GcmClient {
 	public void shutdown() {
 		Platform.exit();
 	}
+	
+	@Override
+	public void Logout() {
+		//TODO - logout related stuff goes here
+		switchScene(SceneNames.INTRO);
+	}
 }

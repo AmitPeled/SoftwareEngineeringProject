@@ -30,7 +30,7 @@ public class LoginSceneController{
 			System.out.println("Log in faild");
 		} else {
 			System.out.println("Log in success, go to app main scene");
-			gcmClient.back();
+			gcmClient.switchScene(SceneNames.MENU);
 		}
 
 	}
