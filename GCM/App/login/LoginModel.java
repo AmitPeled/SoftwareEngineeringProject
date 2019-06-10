@@ -1,18 +1,15 @@
 package login;
 
-import dataAccess.users.UserDAO;
+import mainApp.GcmClient;
+import mainApp.SceneNames;
 import queries.RequestState;
-import users.User;
 
-public class LoginModel implements UserDAO {
+public class LoginModel {
 
-	@Override
-	public RequestState register(String username, String password, User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private GcmClient gcmClient;
+	
+	public LoginModel(GcmClient gcmClient) { this.gcmClient = gcmClient; }
 
-	@Override
 	public RequestState login(String username, String password) {
 		if (username.equals("user") && password.equals("pass")) {
 			return RequestState.customer;
@@ -20,4 +17,7 @@ public class LoginModel implements UserDAO {
 			return RequestState.wrongDetails;
 	}
 
+	public void switchScene(SceneNames scene) { gcmClient.switchScene(scene); }
+
+	public void back() { gcmClient.back(); }
 }

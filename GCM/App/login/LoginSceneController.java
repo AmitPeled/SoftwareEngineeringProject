@@ -10,7 +10,7 @@ import queries.RequestState;
 
 public class LoginSceneController {
 
-	private GcmClient gcmClient;
+	private LoginModel loginModel;
 
 	@FXML
 	private TextField usernametxt;
@@ -18,20 +18,19 @@ public class LoginSceneController {
 	@FXML
 	private TextField passwordtxt;
 
-	public LoginSceneController(GcmClient gcmClient) {
-		this.gcmClient = gcmClient;
+	public LoginSceneController(LoginModel model) {
+		
 	}
 
 	@FXML
 	public void LogIn(ActionEvent event) throws IOException {
 		// send to data base to confirm that he is in the system
 		System.out.println("Logging in....");
-		LoginModel loginModel = new LoginModel();
 		if (loginModel.login(usernametxt.getText(), passwordtxt.getText()) == RequestState.wrongDetails) {
 			System.out.println("Log in faild");
 		} else {
 			System.out.println("Log in success, go to app main scene");
-			gcmClient.switchScene(SceneNames.MENU);
+			loginModel.switchScene(SceneNames.MENU);
 		}
 
 	}
@@ -40,7 +39,7 @@ public class LoginSceneController {
 	public void forgotPassword(ActionEvent event) throws IOException {
 		// open scene with email to send a new password -> new password password confirm
 		System.out.println("guess what, you are an idiot");
-		gcmClient.switchScene(SceneNames.FORGOT_PASSWORD);
+		loginModel.switchScene(SceneNames.FORGOT_PASSWORD);
 	}
 
 	@FXML
