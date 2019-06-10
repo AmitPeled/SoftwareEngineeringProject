@@ -30,7 +30,7 @@ class editorTest {
 	@Test
 	void testAll() {
 		cityId = mapAccess.addCity(new City(97, "name", "desc"));
-		map = new Map(97, 13.1f, 2.2f);
+		map = new Map(13.1f, 2.2f);
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		mapId = mapAccess.addMapToCity(cityId, map, mapFile);
 		assertEquals(mapId, mapAccess.getMapDetails(mapId).getId());
