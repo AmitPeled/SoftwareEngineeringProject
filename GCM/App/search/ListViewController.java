@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import login.LoginModel;
 import mainApp.GcmClient;
 import maps.Map;
 import search.CustomListCell;
@@ -26,8 +27,7 @@ import search.MapItem;
 
 public class ListViewController implements Initializable
 {
-	private GcmClient gcmClient;
-	private GcmDAO ISearch = new GcmDAO();
+	private GcmDAO gcmDAO;
 	private int permission;
 	
 	@FXML 
@@ -53,13 +53,10 @@ public class ListViewController implements Initializable
 	String selectedRadioBtn;
 	RadioButton selectRadio;
 	
-	public ListViewController(GcmClient gcmClient) {
-		if(gcmClient == null) throw new IllegalArgumentException("gcmClient is null");
-		this.gcmClient = gcmClient;
+	public ListViewController(GcmDAO gcmDAO) {
+		this.gcmDAO = gcmDAO;
 	}
-	public ListViewController() {
 
-	}
 	
 	public void initRadioButtons() {
 		// Radio 1: cityName
@@ -86,22 +83,32 @@ public class ListViewController implements Initializable
 		            	
 		            	List<Map> resultSet;
 		            	if(selectedRadioBtn.equals("City name")) {
-		            		resultSet = ISearch.getMapsByCityName(searchText);
+		            		resultSet = gcmDAO.getMapsByCityName(searchText);
 		            	}else if(selectedRadioBtn.equals("Description")) {
-		            		resultSet = ISearch.getMapsBySiteName(searchText);
+		            		resultSet = gcmDAO.getMapsByDescription(searchText);
 		            	}else{
-		            		resultSet = ISearch.getMapsByDescription(searchText);
+		            		resultSet = gcmDAO.getMapsBySiteName(searchText);
 		            	}
 		            	List<MapItem> results = parseResultSet(resultSet);
 		            	
-		            	ObservableList<MapItem> data = FXCollections.observableArrayList();
-		            	for (MapItem item : results) 
-		            	{ 
-		            		 data.add(item);
+		            	if(results.isEmpty()) {
+		            		System.out.println("NO MAPS FOUND");
+		            		listView.setItems(null);
+		            		addNewMapBtn.setVisible(false);
+		            		buySubscriptionBtn.setVisible(false);
+		            	}else {
+		            		ObservableList<MapItem> data = FXCollections.observableArrayList();
+			            	for (MapItem item : results) 
+			            	{ 
+			            		 data.add(item);
+			            	}
+			                listView.setItems(data);
+			                permissions();
 		            	}
-		               System.out.println(data);
-		                listView.setItems(data);
-		                permissions();
+	            	}else {
+	            		listView.setItems(null);
+	            		addNewMapBtn.setVisible(false);
+	            		buySubscriptionBtn.setVisible(false);
 	            	}
 	            }
 			})
@@ -114,21 +121,33 @@ public class ListViewController implements Initializable
 		for (Map item : resultSet) 
     	{ 
 			int id = item.getId();
-			//String name = item.getName();
+			String mapName = item.getName();
 			String description = item.getDescription();
-			String pointOfInterest = Integer.toString(item.getSites().size());
-			String tours = Integer.toString(item.getTours().size());
+			String pointOfInterest;
+			
+			if(item.getSites() != null) {
+				pointOfInterest = Integer.toString(item.getSites().size());
+			}else {
+				pointOfInterest = "0";
+			}
+			String tours;
+			if(item.getTours() != null) {
+				tours = Integer.toString(item.getTours().size());
+			}else {
+				tours = "0";
+			}
 			double price = item.getPrice();
-			MapItem currentMapItem = new MapItem(id, "haifa", description, pointOfInterest, tours, price);
+			
+			MapItem currentMapItem = new MapItem(id, mapName, description, pointOfInterest, tours, price);
 			resultList.add(currentMapItem);
     	}
 		return resultList;
 	}
-	@FXML
-	private void handleMapAction(ActionEvent event)
-	{
-	    System.out.println("You clicked me!");
-	}
+//	@FXML
+//	private void handleMapAction(ActionEvent event)
+//	{
+//	    System.out.println("You clicked me!");
+//	}
 	public int checkForPermissions() {
 		return 1;
 	}
@@ -137,8 +156,6 @@ public class ListViewController implements Initializable
 		permission = checkForPermissions();
 		if(permission == 0) {
 			buySubscriptionBtn.setVisible(true);
-		}else if(permission == 1) {
-			addNewMapBtn.setVisible(true);
 		}else {
 			addNewMapBtn.setVisible(true);
 		}
