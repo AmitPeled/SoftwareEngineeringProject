@@ -13,6 +13,7 @@ public final class Map implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+	private String name;
 	private String descriptionString;
 	private float width;
 	private float height;
@@ -31,19 +32,15 @@ public final class Map implements Serializable {
 	 * @throws IllegalArgumentException Thrown when id, width or height are not
 	 *                                  positive numbers
 	 */
-	public Map(int id, float width, float height) throws IllegalArgumentException {
+	public Map(float width, float height) throws IllegalArgumentException {
 		// By default the description null, offset (0,0)
-		this(id, width, height, null, new Coordinates(), -1, null, null);
+		this(null, null, width, height, new Coordinates());
 	}
 
-	public Map(int id, float width, float height, String description) throws IllegalArgumentException {
+	public Map(String name, String description, float width, float height, Coordinates offset)
+			throws IllegalArgumentException {
 		// By default the offset (0,0)
-		this(id, width, height, description, new Coordinates(), -1, null, null);
-	}
-
-	public Map(int id, float width, float height, Coordinates offset) throws IllegalArgumentException {
-		// By default the description null
-		this(id, width, height, null, offset, -1, null, null);
+		this(1, name, description, width, height, offset, -1, null, null);
 	}
 
 	/**
@@ -60,7 +57,7 @@ public final class Map implements Serializable {
 	 * @throws IllegalArgumentException Thrown when id, width or height are not
 	 *                                  positive numbers
 	 */
-	public Map(int id, float width, float height, String description, Coordinates offset, double price,
+	public Map(int id, String name, String description, float width, float height, Coordinates offset, double price,
 			List<Site> sites, List<Tour> tours) throws IllegalArgumentException {
 		if (id <= 0)
 			throw new IllegalArgumentException("id has to be a positive number");
@@ -145,5 +142,13 @@ public final class Map implements Serializable {
 
 	public double getPrice() {
 		return price;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

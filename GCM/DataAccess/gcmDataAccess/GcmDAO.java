@@ -308,4 +308,10 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 		return null;
 	}
 
+	@Override
+	public City getCityByMapId(int mapId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

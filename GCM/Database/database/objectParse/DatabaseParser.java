@@ -1,5 +1,7 @@
 package database.objectParse;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +20,23 @@ public class DatabaseParser implements IParseObjects {
 
 	@Override
 	public Map getMap(List<Object> objectList, List<Site> mapSites, List<Tour> mapTours) {
-		return new Map((int) objectList.get(0), (float) objectList.get(1), (float) objectList.get(2),
-				(String) objectList.get(3), new Coordinates((float) objectList.get(4), (float) objectList.get(5)),
-				(double) objectList.get(6), mapSites, mapTours);
+		return new Map((int) objectList.get(0),(String) objectList.get(1),(String) objectList.get(2), (float) objectList.get(3), (float) objectList.get(4),
+				 new Coordinates((float) objectList.get(5), (float) objectList.get(6)),
+				(double) objectList.get(7), mapSites, mapTours);
 	}
 
 	@Override
 	public Site getSite(List<Object> objectList) {
 		return new Site((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
 				new Coordinates((float) objectList.get(3), (float) objectList.get(4)));
+	}
+
+	@Override
+	public User getUser(List<Object> objectList) throws ParseException {
+		return new User((String) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
+				(String) objectList.get(3), (String) objectList.get(4), (int) objectList.get(6),
+				new SimpleDateFormat("dd/MM/yyyy").parse((String) objectList.get(5)), (int) objectList.get(7),
+				(int) objectList.get(8));
 	}
 
 //	@Override
@@ -40,9 +50,10 @@ public class DatabaseParser implements IParseObjects {
 		return new ArrayList<Object>() {
 			{
 				add(map.getId());
+				add(map.getName());
+				add(map.getDescription());
 				add(map.getWidth());
 				add(map.getHeight());
-				add(map.getDescription());
 				add(map.getOffset().x);
 				add(map.getOffset().y);
 				add(map.getPrice());
@@ -85,6 +96,10 @@ public class DatabaseParser implements IParseObjects {
 				add(user.getLastName());
 				add(user.getEmail());
 				add(user.getPhoneNumber());
+				add(0);
+				add(null);
+				add(0);
+				add(0);
 			}
 		};
 	}
