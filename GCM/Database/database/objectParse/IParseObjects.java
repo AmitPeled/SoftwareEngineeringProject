@@ -1,74 +1,50 @@
 package database.objectParse;
 
 import java.util.List;
-import java.sql.ResultSet;
 
 import maps.City;
 import maps.Map;
 import maps.Site;
+import maps.Tour;
+import users.User;
 
 /**
- * @author amit This class rule is to parse between the way the database stores
- *         its data to the actual data objects, and vice versa - parse bewteen
- *         our objects to the way they should be stored in the database.
- *
- *         first and last 3 functions is of the same rule (the first of them is
- *         documented, and the rest are of the same purpose for a different object type)
- * 
+ * @author amit
  *
  */
 public interface IParseObjects {
 
 	/**
-	 * this function rule is to parse Database map data back into a Map. map data is
-	 * stored in the database by the following row (each '|' represents column
-	 * separator): id_number (int) | width (float) | height (float) |
-	 * x_offset_coordinate(float) | y_offset_coordinate (float)
+	 * this function rule is to parse a list of a map's fields values into a Map
+	 * object.
 	 * 
 	 * 
-	 * @param resultSet the maps data from the database. ResultSet is simply a list
-	 *                  of the database corresponding rows (in our case, each row
-	 *                  contains the map data as mentioned above)
+	 * @param metaFieldsList, L a list of the map fields. each object in the list
+	 *        contains the correspond map field, sorted by the constructor signature
+	 *        field order.
 	 * 
-	 * @return List of the corresponding maps whose data is contained in resultSet
+	 * @return a map that contain the fields
 	 */
-	List<Map> ResultsetToMaps(ResultSet resultSet);
+	Map getMap(List<Object> metaFieldsList, List<Site> sites, List<Tour> tours);
+
+	Site getSite(List<Object> fieldsList);
+
+//	City getCity(List<Object> fieldsList, SortedSet<Integer> mapsIds, SortedSet<Integer> sitesIds);
 
 	/**
-	 * same as for maps, the database row structure for Site is: 
-	 * id(int) | description(String) | x_coordinate(float) | y_coordinate(float)
-	 * 
-	 * @param resultSet
-	 * @return Site List
-	 */
-	List<Site> ResultsetToSites(ResultSet resultSet);
-
-	/**
-	 * same as for maps, the database row structure for Site is: 
-	 * id(int) | name(String) 
-	 * 
-	 * @param resultSet
-	 * @return City List
-	 */
-	List<City> ResultsetToCities(ResultSet resultSet);
-
-	
-	
-	/**
-	 * this function rule is to parse the Map object into a List of Objects. the
-	 * list should contain the objects in the *same order* it is stored in the
-	 * database. i.e: id_number, width, height, x_offset_coordinate,
-	 * y_offset_coordinate
+	 * this function rule is to parse a Map object into a List of its fields values.
 	 * 
 	 * 
 	 * @param map the map to parse
 	 * @return List of the values of the map fields, sorted by the order it is
 	 *         stored in the database.
 	 */
-	List<Object> MapToObjectList(Map map);
+	List<Object> getMapMetaFieldsList(Map map);
 
-	List<Object> SiteToObjectList(Site site);
+	List<Object> getSiteFieldsList(Site site);
 
-	List<Object> CityToResultset(City city);
+	List<Object> getCityMetaFieldsList(City city);
+	
+	List<Object> getUserFieldsList(User user);
 
 }
