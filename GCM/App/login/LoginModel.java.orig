@@ -1,0 +1,43 @@
+package login;
+
+<<<<<<< HEAD
+import userAccess.UserDAO;
+=======
+import dataAccess.users.UserDAO;
+import queries.RequestState;
+>>>>>>> master
+import users.User;
+
+public class LoginModel implements UserDAO {
+
+	@Override
+<<<<<<< HEAD
+	public boolean register(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean login(String username, String password) {
+		// TODO Auto-generated method stub
+		// cheack some database shit
+		if (username.equals("user") && password.equals("pass")) {
+			return true;
+		}
+		return false;
+=======
+	public RequestState register(String username, String password, User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RequestState login(String username, String password) {
+		if (username.equals("user") && password.equals("pass")) {
+			return RequestState.customer;
+		} else
+			return RequestState.wrongDetails;
+>>>>>>> master
+	}
+
+}

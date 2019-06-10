@@ -1,4 +1,4 @@
-package database.tests;
+package database.Tests;
 
 import static org.junit.Assert.fail;
 

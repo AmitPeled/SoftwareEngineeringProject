@@ -37,6 +37,5 @@ public class ForgotUsernameController {
 		System.out.println("after validate the email -> send mail -> go back to the log in screen");
 		// going back to log in screen
 		gcmClient.switchScene(SceneNames.LOGIN);
-		window.show();
 	}
 }
