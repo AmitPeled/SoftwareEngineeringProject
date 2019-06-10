@@ -268,8 +268,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 
 	@Override
 	public User getUserDetails() {
-		// TODO Auto-generated method stub
-		return null;
+		return (User) send(new RequestObject(GcmQuery.getUserDetails, null, username, password)).getResponse().get(0);
 	}
 
 	@Override

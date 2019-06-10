@@ -61,7 +61,6 @@ class GcmDatabaseExecutorTest {
 		assertEquals("name", site.getName());
 		assertEquals("desc", site.getDescription());
 
-
 	}
 
 	@Test
@@ -75,6 +74,16 @@ class GcmDatabaseExecutorTest {
 		gcmDataExecutor.deleteMap(mapId);
 		assertNull(gcmDataExecutor.getMapDetails(mapId));
 		assertNull(gcmDataExecutor.getMapFile(mapId));
+	}
+
+	@Test
+	void getUserTest() throws SQLException {
+		gcmDataExecutor.addUser(".", ".", new User("a", "b", "c", "d"));
+		User user = gcmDataExecutor.getUserDetails(".");
+		assertEquals("a", user.getFirstName());
+
+		assertEquals("c", user.getEmail());
+
 	}
 
 //	@Test

@@ -2,6 +2,7 @@ package database.execution;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import maps.City;
@@ -50,6 +51,8 @@ public interface IGcmDataExecute {
 	List<Map> getMapsBySiteName(String siteName) throws SQLException;
 
 	List<Map> getMapsByDescription(String description) throws SQLException;
+
+	User getUserDetails(String username) throws SQLException;
 
 	// publish map/site/city
 	// purchaseMap

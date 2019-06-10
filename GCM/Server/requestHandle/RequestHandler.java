@@ -60,7 +60,9 @@ public class RequestHandler implements IHandleRequest {
 				case addExistingSiteToMap:
 					gcmDataExecutor.addExistingSiteToMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
 					break;
-
+				case getUserDetails:
+					listToSend.add(gcmDataExecutor.getUserDetails(username));
+					break;
 				case getMapDetails:
 					listToSend.add(gcmDataExecutor.getMapDetails((int) listObjectReceived.get(0)));
 					break;
@@ -117,21 +119,23 @@ public class RequestHandler implements IHandleRequest {
 		case getMapsByDescription:
 			return true;
 		case getMapFile:
-			return userType == RequestState.editor || userType == RequestState.manager;
+			return userType == RequestState.editor || userType == RequestState.contentManager;
+		case getUserDetails:
+			return userType == RequestState.customer ||userType == RequestState.editor || userType == RequestState.contentManager;
 		case addCity:
-			return userType == RequestState.editor || userType == RequestState.manager;
+			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case addExistingSiteToMap:
-			return userType == RequestState.editor || userType == RequestState.manager;
+			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case addMap:
-			return userType == RequestState.editor || userType == RequestState.manager;
+			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case addNewSiteToCity:
-			return userType == RequestState.editor || userType == RequestState.manager;
+			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case deleteCity:
-			return userType == RequestState.editor || userType == RequestState.manager;
+			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case deleteContent:
-			return userType == RequestState.editor || userType == RequestState.manager;
+			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case deleteSiteFromMap:
-			return userType == RequestState.editor || userType == RequestState.manager;
+			return userType == RequestState.editor || userType == RequestState.contentManager;
 		default:
 			return false;
 		}

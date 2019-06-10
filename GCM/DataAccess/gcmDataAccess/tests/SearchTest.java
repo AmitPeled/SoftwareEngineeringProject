@@ -19,7 +19,7 @@ import maps.Map;
 import maps.Site;
 import users.User;
 
-public class searchTest {
+public class SearchTest {
 	static SearchDAO searchDAO;
 	static EditorDAO editorDAO;
 	static String cityName = "cityName", cityDescription = "nice city", siteName = "siteName",
