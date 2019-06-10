@@ -62,15 +62,14 @@ public final class MapViewerComponent implements MapViewer {
 		mapImage = new ImageView(image);
 		mapImage.setPickOnBounds(true);
 		mapImage.setPreserveRatio(true);
-		//mapImage.setOnMouseClicked(e-> {OnMouseClick(e.getX(), e.getY());});
 		width = image.getWidth();
 		height = image.getHeight();
 		
 		canvas = new Canvas(width,height);
 		graphicsContext = canvas.getGraphicsContext2D();
 		graphicsContext.setFill(javafx.scene.paint.Color.RED);
-		graphicsContext.fillOval(200, 300, 200, 20);
-		graphicsContext.setGlobalBlendMode(BlendMode.SCREEN);
+		graphicsContext.fillOval(200, 300, 15, 15);
+		graphicsContext.setGlobalBlendMode(BlendMode.OVERLAY);
 		graphicsContext.drawImage(image, 0, 0);
 		canvas.setOnMouseClicked(e-> {OnMouseClick(e.getX(), e.getY());});
 		
