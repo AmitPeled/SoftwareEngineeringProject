@@ -14,6 +14,8 @@ import javafx.stage.Stage;
  */
 class GcmClientImpl implements GcmClient {
 	
+	private static final String gcmAppTitle = "GCM";
+
 	private SceneManager manager;
 	
 	/**
@@ -37,6 +39,7 @@ class GcmClientImpl implements GcmClient {
 			Scene scene = manager.getScene(targetScenes);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			primaryStage.setTitle(gcmAppTitle);
 			scenesStack.push(scene);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -56,5 +59,11 @@ class GcmClientImpl implements GcmClient {
 	@Override
 	public void shutdown() {
 		Platform.exit();
+	}
+	
+	@Override
+	public void Logout() {
+		//TODO - logout related stuff goes here
+		switchScene(SceneNames.INTRO);
 	}
 }

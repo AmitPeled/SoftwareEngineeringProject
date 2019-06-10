@@ -10,6 +10,7 @@ package mainApp;
  */
 public interface GcmClient {
 	/**
+	 * Used in Main once.
 	 * Before doing any action, the SceneManager dependency needs to be set (This is called delayed dependency injection).
 	 * @param manager A SceneManager object reference that contains all the loaded scenes
 	 */
@@ -30,4 +31,9 @@ public interface GcmClient {
 	 * Closes the application
 	 */
 	void shutdown();
+
+	/**
+	 * Logs out of the user account and switches to the INTRO scene
+	 */
+	void Logout();
 }
