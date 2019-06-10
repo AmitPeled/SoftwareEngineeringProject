@@ -11,6 +11,8 @@ public class MapItem {
     private String pointOfInterest;
 	@FXML // fx:id="tours"
     private String tours;
+	@FXML // fx:id="price"
+    private double price;
 	
     public String getName() {
         return name;
@@ -24,11 +26,15 @@ public class MapItem {
     public String getTours() {
         return tours;
     }
-    public MapItem(String name, String description, String pointOfInterest, String tours) {
+    public double getPrice() {
+        return price;
+    }
+    public MapItem(String name, String description, String pointOfInterest, String tours, double price) {
         super();
         this.name = name;
         this.description = description;
         this.pointOfInterest = pointOfInterest;
         this.tours = tours;
+        this.price = price;
     }
 }
