@@ -13,11 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ForgotPasswordcontroller {
+public class ForgotPasswordController {
 
 	private GcmClient gcmClient;
 	
-	public ForgotPasswordcontroller(GcmClient gcmClient) {
+	public ForgotPasswordController(GcmClient gcmClient) {
 		if(gcmClient == null) throw new IllegalArgumentException("gcmClient is null");
 		
 		this.gcmClient = gcmClient;
