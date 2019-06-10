@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,15 +25,18 @@ import javafx.scene.text.TextAlignment;
  * to mouse click events.
  */
 public final class MapViewerComponent implements MapViewer {
+	private static final double statusTextWidthPosition = 0.5;
+	private static final double statusTextHeightPosition = 0.1;
 	private Set<MapViewerListener> listeners;
 	private ImageView mapImage;
 	private StackPane group;
 	private Scene scene;
 	private double width;
 	private double height;
-	private Text statusText;
+	private String statusText;
 	private final Canvas canvas;
 	private final GraphicsContext graphicsContext;
+	private Image image;
 	/**
 	 * Constructs a MapViewerComponent object with no listeners.
 	 * @param mapPath
@@ -58,7 +62,7 @@ public final class MapViewerComponent implements MapViewer {
 			this.listeners = listeners;			
 		}
 		
-		Image image = new Image(mapPath);
+		image = new Image(mapPath);
 		mapImage = new ImageView(image);
 		mapImage.setPickOnBounds(true);
 		mapImage.setPreserveRatio(true);
@@ -66,27 +70,27 @@ public final class MapViewerComponent implements MapViewer {
 		height = image.getHeight();
 		
 		canvas = new Canvas(width,height);
-		graphicsContext = canvas.getGraphicsContext2D();
-		graphicsContext.setFill(javafx.scene.paint.Color.RED);
-		graphicsContext.fillOval(200, 300, 15, 15);
-		graphicsContext.setGlobalBlendMode(BlendMode.OVERLAY);
-		graphicsContext.drawImage(image, 0, 0);
 		canvas.setOnMouseClicked(e-> {OnMouseClick(e.getX(), e.getY());});
-		
-		System.out.println(width + "x" + height);
-
-		// Placing empty status text holder in the top-middle of the map
-		statusText = new Text();
-		statusText.setTextOrigin(VPos.TOP);
-		statusText.setTextAlignment(TextAlignment.CENTER);
-		statusText.setFont(Font.font(null,FontWeight.BOLD,22));
-		statusText.setX(Math.round(width/2));
-		
+		graphicsContext = canvas.getGraphicsContext2D();
+		graphicsContext.setTextAlign(TextAlignment.CENTER);
+		graphicsContext.setTextBaseline(VPos.TOP);
+		graphicsContext.setFont(Font.font(20));
+		render();
 		group = new StackPane();
 		group.getChildren().add(canvas);
-		group.getChildren().add(statusText);
-		StackPane.setAlignment(statusText,Pos.CENTER);
 		scene = new Scene(group, width, height);
+	}
+
+	private void render() {
+		graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		graphicsContext.setFill(javafx.scene.paint.Color.RED);
+		graphicsContext.drawImage(image, 0, 0);
+		graphicsContext.fillOval(200, 300, 15, 15);
+		graphicsContext.fillText(
+				statusText, 
+				Math.round(width* statusTextWidthPosition), 
+				Math.round(height * statusTextHeightPosition)
+			);
 	}
 
 	@Override
@@ -107,14 +111,7 @@ public final class MapViewerComponent implements MapViewer {
 	}
 
 	@Override
-	public void updateStatusText(String text) {
-		statusText.setText(text);
-		//statusText.setTextOrigin(VPos.TOP);
-		//statusText.setTextAlignment(TextAlignment.CENTER);
-		//statusText.setFont(Font.font(null,FontWeight.BOLD,22));
-		//statusText.setX(Math.round(width/2));
-		StackPane.setAlignment(statusText,Pos.TOP_CENTER);
-	}
+	public void updateStatusText(String text) { statusText = text; }
 	
 	/**
 	 * Called when a mouse click occurs on the map. Translates the coordinates to relative (from 0 to 1) and calls 
@@ -134,8 +131,9 @@ public final class MapViewerComponent implements MapViewer {
 		for (MapViewerListener mapViewerListener : listeners) {
 			mapViewerListener.onMapClick(relativeX,relativeY);
 		}
+		render();
 	}
 
 	@Override
-	public void clearStatusText() { statusText.setText(""); }
+	public void clearStatusText() { statusText = ""; }
 }
