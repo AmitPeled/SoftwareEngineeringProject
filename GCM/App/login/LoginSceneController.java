@@ -2,6 +2,8 @@ package login;
 
 import java.io.IOException;
 
+import dataAccess.users.UserDAO;
+import gcmDataAccess.GcmDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,8 +35,9 @@ public class LoginSceneController {
 	public void LogIn(ActionEvent event) throws IOException {
 		// send to data base to confirm that he is in the system
 		System.out.println("Logging in....");
-		LoginModel loginModel = new LoginModel();
-		if (loginModel.login(usernametxt.getText(), passwordtxt.getText()) == RequestState.wrongDetails) {
+//		LoginModel loginModel = new LoginModel();
+		UserDAO userDAO = new GcmDAO();
+		if (userDAO.login(usernametxt.getText(), passwordtxt.getText()) == RequestState.wrongDetails) {
 			System.out.println("Log in faild");
 		} else {
 			System.out.println("Log in success, go to app main scene");
