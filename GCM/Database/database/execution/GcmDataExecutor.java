@@ -34,7 +34,8 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public boolean addUser(String username, String password, User user) throws SQLException {
-		if (queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
+		if (queryExecutor
+				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
 				.isEmpty()) {
 			List<Object> userList = new ArrayList<Object>() {
 				{
@@ -51,31 +52,33 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public RequestState verifyUser(String username, String password) throws SQLException {
-		if (username.equals("editor") && password.equals("editor")) {
-			System.out.println("editor");
-			return RequestState.editor;
-		} else if (username.equals("manager") && password.equals("manager")) {
-			return RequestState.contentManager;
-		}
-		List<Object> valuesList = new ArrayList<Object>() {
-			{
-				add(username);
-				add(password);
+		if (username != null && password != null) {
+			if (username.equals("editor") && password.equals("editor")) {
+				System.out.println("editor");
+				return RequestState.editor;
+			} else if (username.equals("manager") && password.equals("manager")) {
+				return RequestState.contentManager;
 			}
-		};
-		List<String> namesList = new ArrayList<String>() {
-			{
-				add("username");
-				add("password");
-			}
-		};
-		List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.customerUsers),
-				namesList, valuesList, "username, password");
+			List<Object> valuesList = new ArrayList<Object>() {
+				{
+					add(username);
+					add(password);
+				}
+			};
+			List<String> namesList = new ArrayList<String>() {
+				{
+					add("username");
+					add("password");
+				}
+			};
+			List<List<Object>> rows = queryExecutor.selectColumnsByValues(
+					DatabaseMetaData.getTableName(Tables.customerUsers), namesList, valuesList, "username, password");
 
-		if (rows.isEmpty())
-			return RequestState.wrongDetails;
-		else
-			return RequestState.customer;
+			if (!rows.isEmpty())
+				return RequestState.customer;
+		}
+		return RequestState.wrongDetails;
+
 	}
 
 	@Override
@@ -379,7 +382,9 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public User getUserDetails(String username) throws SQLException {
-		return objectParser.getUser(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*").get(0));
+		return objectParser.getUser(queryExecutor
+				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
+				.get(0));
 	}
 
 }
