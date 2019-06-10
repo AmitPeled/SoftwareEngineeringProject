@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS tours;
 DROP TABLE IF EXISTS toursSites;
 
 
-CREATE TABLE users(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text);
+CREATE TABLE users(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text, numPurchases int, membershipExpireDate Text, purchasedMembershipPeriod int, numTimesRepurchasedMembership int);
 CREATE TABLE sites(siteId int,siteName Text, siteDescription Text, site_x_coordinate float, site_y_coordinate float);
 CREATE TABLE tours(tourId int, tourDescription Text, tourSuggestedTimeToVisit int);
 CREATE TABLE mapsMetaDetails(mapId int, mapWidth float, mapHeight float,mapDescription Text, map_x_offset float, map_y_offset float, mapPrice double);
