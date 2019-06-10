@@ -6,11 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import mainApp.GcmClient;
 import mainApp.SceneNames;
+import queries.RequestState;
 
-public class LoginSceneController{
+public class LoginSceneController {
 
 	private GcmClient gcmClient;
-	
+
 	@FXML
 	private TextField usernametxt;
 
@@ -26,7 +27,7 @@ public class LoginSceneController{
 		// send to data base to confirm that he is in the system
 		System.out.println("Logging in....");
 		LoginModel loginModel = new LoginModel();
-		if (!loginModel.login(usernametxt.getText(), passwordtxt.getText())) {
+		if (loginModel.login(usernametxt.getText(), passwordtxt.getText()) == RequestState.wrongDetails) {
 			System.out.println("Log in faild");
 		} else {
 			System.out.println("Log in success, go to app main scene");
@@ -48,7 +49,7 @@ public class LoginSceneController{
 		System.out.println("guess what, you are an idiot");
 		gcmClient.switchScene(SceneNames.FORGOT_USERNAME);
 	}
-	
+
 	@FXML
 	public void register(ActionEvent event) throws IOException {
 		gcmClient.switchScene(SceneNames.REGISTER);

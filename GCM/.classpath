@@ -5,9 +5,13 @@
 	<classpathentry kind="src" path="Maps"/>
 	<classpathentry kind="src" path="App"/>
 	<classpathentry kind="src" path="DataAccess"/>
+	<classpathentry kind="src" path="ServerMetaData"/>
 	<classpathentry kind="src" path="Database"/>
+	<classpathentry kind="src" path="Server"/>
+	<classpathentry kind="src" path="CommunicationObjects"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="lib" path="Import/mysql-connector-java-8.0.15/mysql-connector-java-8.0.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
