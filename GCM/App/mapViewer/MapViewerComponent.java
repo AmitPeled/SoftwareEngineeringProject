@@ -25,8 +25,9 @@ import javafx.scene.text.TextAlignment;
  * to mouse click events.
  */
 public final class MapViewerComponent implements MapViewer {
-	private static final double statusTextWidthPosition = 0.5;
-	private static final double statusTextHeightPosition = 0.1;
+	private static final int FONT_SIZE = 20;
+	private static final double STATUS_TEXT_WIDTH_POSITION = 0.5;
+	private static final double STATUS_TEXT_HEIGHT_POSITION = 0.05;
 	private Set<MapViewerListener> listeners;
 	private ImageView mapImage;
 	private StackPane group;
@@ -74,7 +75,7 @@ public final class MapViewerComponent implements MapViewer {
 		graphicsContext = canvas.getGraphicsContext2D();
 		graphicsContext.setTextAlign(TextAlignment.CENTER);
 		graphicsContext.setTextBaseline(VPos.TOP);
-		graphicsContext.setFont(Font.font(20));
+		graphicsContext.setFont(Font.font(null,FontWeight.BOLD,FONT_SIZE));
 		render();
 		group = new StackPane();
 		group.getChildren().add(canvas);
@@ -88,8 +89,8 @@ public final class MapViewerComponent implements MapViewer {
 		graphicsContext.fillOval(200, 300, 15, 15);
 		graphicsContext.fillText(
 				statusText, 
-				Math.round(width* statusTextWidthPosition), 
-				Math.round(height * statusTextHeightPosition)
+				Math.round(width* STATUS_TEXT_WIDTH_POSITION), 
+				Math.round(height * STATUS_TEXT_HEIGHT_POSITION)
 			);
 	}
 
