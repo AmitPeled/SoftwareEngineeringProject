@@ -45,6 +45,7 @@ public class DatabaseParser implements IParseObjects {
 				add(map.getDescription());
 				add(map.getOffset().x);
 				add(map.getOffset().y);
+				add(map.getPrice());
 			}
 		};
 	}

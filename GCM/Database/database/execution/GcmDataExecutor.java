@@ -51,6 +51,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	@Override
 	public RequestState verifyUser(String username, String password) throws SQLException {
 		if (username.equals("editor") && password.equals("editor")) {
+			System.out.println("editor");
 			return RequestState.editor;
 		} else if (username.equals("manager") && password.equals("manager")) {
 			return RequestState.manager;
@@ -282,43 +283,56 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	private List<Map> getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField)
 			throws SQLException {
-		List<List<Object>> cityIdRows;
+		List<Integer> cityIds;
 		if (withPartialField) {
-			cityIdRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
-					fieldName, "%" + (String) fieldVal + "%", "cityId");
+			cityIds = toIdList(
+					queryExecutor.selectColumnsByPartialValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+							fieldName, "%" + (String) fieldVal + "%", "cityId"));
 		} else {
-			cityIdRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
-					fieldName, fieldVal, "cityId");
+			cityIds = toIdList(queryExecutor.selectColumnsByValue(
+					DatabaseMetaData.getTableName(Tables.citiesMetaDetails), fieldName, fieldVal, "cityId"));
 		}
 		List<Map> maps = new ArrayList<>();
-		for (List<Object> cityIdRow : cityIdRows) {
-			List<List<Object>> mapIdRows = queryExecutor.selectColumnsByValue(
-					DatabaseMetaData.getTableName(Tables.citiesMapsIds), "cityId", (int) cityIdRow.get(0), "mapId");
-			for (List<Object> mapIdRow : mapIdRows) {
-				maps.add(getMapDetails((int) mapIdRow.get(0)));
-			}
+		List<List<Object>> mapIdRows = new ArrayList<>();
+		for (int cityId : cityIds) {
+			mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
+					"cityId", cityId, "mapId"));
 		}
+		List<Integer> mapsIds = toIdList(mapIdRows);
+		for (int mapId : mapsIds)
+			maps.add(getMapDetails(mapId));
+
 		return maps;
 	}
 
 	private List<Map> getMapsBySiteField(String fieldName, Object fieldVal, boolean withPartialField)
 			throws SQLException {
-		List<List<Object>> siteIdRows;
+		List<Integer> sitesIds;
 		if (withPartialField)
-			siteIdRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites), fieldName,
-					"%" + (String) fieldVal + "%", "siteId");
+			sitesIds = toIdList(queryExecutor.selectColumnsByPartialValue(DatabaseMetaData.getTableName(Tables.sites),
+					fieldName, "%" + (String) fieldVal + "%", "siteId"));
 		else
-			siteIdRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites), fieldName,
-					fieldVal, "siteId");
+			sitesIds = toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
+					fieldName, fieldVal, "siteId"));
+
 		List<Map> maps = new ArrayList<>();
-		for (List<Object> siteIdRow : siteIdRows) {
-			List<List<Object>> mapIdRows = queryExecutor.selectColumnsByValue(
-					DatabaseMetaData.getTableName(Tables.mapsSites), "siteId", (int) siteIdRow.get(0), "mapId");
-			for (List<Object> mapIdRow : mapIdRows) {
-				maps.add(getMapDetails((int) mapIdRow.get(0)));
-			}
+		List<List<Object>> mapIdRows = new ArrayList<>();
+		for (int siteId : sitesIds) {
+			mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
+					"siteId", siteId, "mapId"));
 		}
+		List<Integer> mapsIds = toIdList(mapIdRows);
+		for (int mapId : mapsIds)
+			maps.add(getMapDetails(mapId));
 		return maps;
+	}
+
+	private List<Integer> toIdList(List<List<Object>> idsRows) {
+		List<Integer> ids = new ArrayList<>();
+		for (List<Object> idRow : idsRows)
+			if (!ids.contains((int) idRow.get(0)))
+				ids.add((int) idRow.get(0));
+		return ids;
 	}
 
 	@Override
@@ -335,6 +349,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	public List<Map> getMapsByDescription(String description) throws SQLException {
 		List<Map> mapsByDescription = getMapsByCityField("cityDescription", description, true);
 		mapsByDescription.addAll(getMapsBySiteField("siteDescription", description, true));
+		System.out.println("----" + mapsByDescription.size());
 		return mapsByDescription;
 	}
 

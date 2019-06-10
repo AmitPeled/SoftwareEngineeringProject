@@ -12,6 +12,7 @@ import java.util.List;
 import database.execution.IGcmDataExecute;
 import maps.City;
 import maps.Map;
+import maps.Site;
 import queries.GcmQuery;
 import queries.RequestState;
 
@@ -51,6 +52,15 @@ public class RequestHandler implements IHandleRequest {
 					listToSend.add(gcmDataExecutor.addMapToCity((int) listObjectReceived.get(0),
 							(Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
 					break;
+					
+				case addNewSiteToCity:
+					listToSend.add(gcmDataExecutor.addNewSiteToCity((int) listObjectReceived.get(0), (Site) listObjectReceived.get(1)));
+					break;
+
+				case addExistingSiteToMap:
+					gcmDataExecutor.addExistingSiteToMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
+					break;
+
 				case getMapDetails:
 					listToSend.add(gcmDataExecutor.getMapDetails((int) listObjectReceived.get(0)));
 					break;

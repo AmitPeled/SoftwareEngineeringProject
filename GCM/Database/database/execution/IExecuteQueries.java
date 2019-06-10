@@ -18,6 +18,9 @@ public interface IExecuteQueries {
 
 	List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object, String columnsToSelect)
 			throws SQLException;
+	
+	List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object, String columnsToSelect)
+			throws SQLException;
 
 	List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames, List<Object> objectsValues,
 			String columnsToSelect) throws SQLException;

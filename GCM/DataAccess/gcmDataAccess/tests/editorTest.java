@@ -13,7 +13,7 @@ import maps.City;
 import maps.Map;
 import users.User;
 
-class mapsAccessTest {
+class editorTest {
 	static EditorDAO mapAccess;
 	int cityId;
 	int mapId;

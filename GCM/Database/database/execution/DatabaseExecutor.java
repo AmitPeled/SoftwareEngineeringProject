@@ -141,8 +141,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 		return baseString;
 	}
 
-	void putValuesInSymbols(PreparedStatement preparedStatement, List<Object> objects)
-			throws SQLException {
+	void putValuesInSymbols(PreparedStatement preparedStatement, List<Object> objects) throws SQLException {
 		for (int i = 0; i < objects.size(); i++) {
 			preparedStatement.setObject(i + 1, objects.get(i));
 		}
@@ -176,5 +175,18 @@ public class DatabaseExecutor implements IExecuteQueries {
 		synchronized (dbAccess) {
 			preparedStatement.execute();
 		}
+	}
+
+	@Override
+	public List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
+			String columnsToSelect) throws SQLException {
+		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE " + objectName + " like ? ;";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		preparedStatement.setString(1, "%" + (String) object + "%");
+		List<List<Object>> fields = new ArrayList<>();
+		synchronized (dbAccess) {
+			fields = toList(preparedStatement.executeQuery());
+		}
+		return fields;
 	}
 }

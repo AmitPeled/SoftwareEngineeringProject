@@ -11,6 +11,8 @@ DROP TABLE IF EXISTS citiesMaps;
 DROP TABLE IF EXISTS citiesSites;
 DROP TABLE IF EXISTS sites;
 DROP TABLE IF EXISTS tours;
+DROP TABLE IF EXISTS toursSites;
+
 
 CREATE TABLE users(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text);
 CREATE TABLE sites(siteId int,siteName Text, siteDescription Text, site_x_coordinate float, site_y_coordinate float);

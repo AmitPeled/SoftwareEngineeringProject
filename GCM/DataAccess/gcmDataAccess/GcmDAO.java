@@ -12,7 +12,7 @@ import java.util.List;
 
 import dataAccess.customer.CustomerDAO;
 import dataAccess.editor.EditorDAO;
-import dataAccess.search.searchDAO;
+import dataAccess.search.SearchDAO;
 import dataAccess.users.PurchaseDetails;
 import dataAccess.users.UserDAO;
 import maps.City;
@@ -28,7 +28,7 @@ import users.User;
 //import javax.net.ssl.SSLSocketFactory;
 
 @SuppressWarnings("serial")
-public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Serializable {
+public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
 	String password = null;
@@ -168,11 +168,13 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 
 	@Override
 	public int deleteContent(int contentId) {
-		return (int)send(new RequestObject(GcmQuery.deleteContent, new ArrayList<Object>() {
+		// by now delete map only
+		send(new RequestObject(GcmQuery.deleteContent, new ArrayList<Object>() {
 			{
 				add(contentId);
 			}
-		}, username, password)).getResponse().get(0);
+		}, username, password));
+		return 0;// TODO
 	}
 
 	@Override
@@ -220,20 +222,23 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, searchDAO, Seria
 	}
 
 	@Override
-	public List<Map> getMaps() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int addNewSiteToCity(int cityId, Site site) {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) send(new RequestObject(GcmQuery.addNewSiteToCity, new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(site);
+			}
+		}, username, password)).getResponse().get(0);
 	}
 
 	@Override
 	public int addExistingSiteToMap(int mapId, int siteId) {
-		// TODO Auto-generated method stub
+		send(new RequestObject(GcmQuery.addExistingSiteToMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(siteId);
+			}
+		}, username, password));
 		return 0;
 	}
 

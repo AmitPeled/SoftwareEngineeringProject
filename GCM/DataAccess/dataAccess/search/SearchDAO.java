@@ -4,9 +4,7 @@ import java.util.List;
 
 import maps.Map;
 
-public interface searchDAO {
-
-	List<Map> getMaps();
+public interface SearchDAO {
 	
 	List<Map> getMapsByCityName(String cityName);
 
