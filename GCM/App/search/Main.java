@@ -12,7 +12,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		 // constructing our scene
-		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SearchScene.fxml"));
+		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/SearchScene.fxml"));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
 

@@ -14,6 +14,7 @@ import mainApp.IntroController;
 import mainApp.SceneNames;
 import menu.MenuController;
 import register.RegisterSceneController;
+import search.ListViewController;
 
 public final class ScenesInitializerImpl implements ScenesInitializer{
 	
@@ -42,6 +43,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		fxmlFilePath.put(SceneNames.FORGOT_PASSWORD, "/fxml/login/ForgotPasswordScene.fxml");
 		fxmlFilePath.put(SceneNames.FORGOT_USERNAME, "/fxml/login/ForgotUsernameScene.fxml");
 		fxmlFilePath.put(SceneNames.MENU, "/fxml/menu/MenuScene.fxml");
+		fxmlFilePath.put(SceneNames.SEARCH, "/fxml/search/SearchScene.fxml");
 	}
 	
 	private void initControllers() {
@@ -51,6 +53,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		controllers.put(SceneNames.FORGOT_PASSWORD, new ForgotPasswordcontroller(gcmClient));
 		controllers.put(SceneNames.FORGOT_USERNAME, new ForgotUsernameController(gcmClient));	
 		controllers.put(SceneNames.MENU,            new MenuController(gcmClient));	
+		controllers.put(SceneNames.SEARCH,          new ListViewController(gcmClient));
 	}
 	
 	private void populateScenesMap() {

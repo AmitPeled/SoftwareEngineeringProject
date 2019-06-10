@@ -14,11 +14,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import mainApp.GcmClient;
 import search.CustomListCell;
 import search.MapItem;
 
 public class ListViewController implements Initializable
 {
+	private GcmClient gcmClient;
+	
 	private int permission;
 	@FXML 
     private ListView<MapItem> listView;
@@ -42,8 +45,14 @@ public class ListViewController implements Initializable
 	
 	String selectedRadioBtn;
 
-			
-	public void setRadioButtons() {
+	public ListViewController(GcmClient gcmClient) {
+		if(gcmClient == null) throw new IllegalArgumentException("gcmClient is null");
+		this.gcmClient = gcmClient;
+	}
+	public ListViewController() {
+
+	}
+	public void initRadioButtons() {
 		// Radio 1: cityName
 		rCityname.setToggleGroup(searchOptions);
 		rCityname.setSelected(true);
@@ -54,6 +63,7 @@ public class ListViewController implements Initializable
 		// Radio 3: description.
 		rDescription.setToggleGroup(searchOptions);
 	}
+	
 	public void searchListener() {	
 		searchBtn.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
@@ -73,6 +83,7 @@ public class ListViewController implements Initializable
 	public int checkForPermissions() {
 		return 1;
 	}
+	
 	public void permissions() {
 		permission = checkForPermissions();
 		if(permission == 0) {
@@ -89,7 +100,7 @@ public class ListViewController implements Initializable
 	**/
     @Override 
 	public void initialize(URL url, ResourceBundle rb) {
-    	setRadioButtons();
+    	initRadioButtons();
     	searchListener();
     	
         listView.setCellFactory(new Callback<ListView<MapItem>, ListCell<MapItem>>() {
