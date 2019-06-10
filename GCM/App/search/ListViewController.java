@@ -1,13 +1,18 @@
 package search;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import dataAccess.search.SearchDAO;
+import gcmDataAccess.GcmDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,14 +20,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import mainApp.GcmClient;
+import maps.Map;
 import search.CustomListCell;
 import search.MapItem;
 
 public class ListViewController implements Initializable
 {
 	private GcmClient gcmClient;
-	
+	private GcmDAO ISearch = new GcmDAO();
 	private int permission;
+	
 	@FXML 
     private ListView<MapItem> listView;
 	@FXML 
@@ -44,7 +51,8 @@ public class ListViewController implements Initializable
 	private RadioButton rDescription;
 	
 	String selectedRadioBtn;
-
+	RadioButton selectRadio;
+	
 	public ListViewController(GcmClient gcmClient) {
 		if(gcmClient == null) throw new IllegalArgumentException("gcmClient is null");
 		this.gcmClient = gcmClient;
@@ -52,6 +60,7 @@ public class ListViewController implements Initializable
 	public ListViewController() {
 
 	}
+	
 	public void initRadioButtons() {
 		// Radio 1: cityName
 		rCityname.setToggleGroup(searchOptions);
@@ -68,18 +77,58 @@ public class ListViewController implements Initializable
 		searchBtn.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) { 
-	            	RadioButton selectRadio = (RadioButton) searchOptions.getSelectedToggle();
-	            	selectedRadioBtn = selectRadio.getText();
-	            	ObservableList<MapItem> data = FXCollections.observableArrayList();
-	                data.addAll(new MapItem(searchBar.getText(), selectedRadioBtn, "2", "3"), new MapItem("london", "1", "2", "3"), new MapItem("jerusalem", "1", "2", "3"));
-	                listView.setItems(data);
-	                permissions();
+	            	
+	            	String searchText = searchBar.getText();
+	            	
+	            	if(searchText != null && !searchText.isEmpty()) {
+	            		selectRadio = (RadioButton) searchOptions.getSelectedToggle();
+		            	selectedRadioBtn = selectRadio.getText();
+		            	
+		            	List<Map> resultSet;
+		            	if(selectedRadioBtn.equals("City name")) {
+		            		resultSet = ISearch.getMapsByCityName(searchText);
+		            	}else if(selectedRadioBtn.equals("Description")) {
+		            		resultSet = ISearch.getMapsBySiteName(searchText);
+		            	}else{
+		            		resultSet = ISearch.getMapsByDescription(searchText);
+		            	}
+		            	List<MapItem> results = parseResultSet(resultSet);
+		            	
+		            	ObservableList<MapItem> data = FXCollections.observableArrayList();
+		            	for (MapItem item : results) 
+		            	{ 
+		            		 data.add(item);
+		            	}
+		               System.out.println(data);
+		                listView.setItems(data);
+		                permissions();
+	            	}
 	            }
 			})
 		);
 	}
 	
+	public ArrayList<MapItem> parseResultSet(List<Map> resultSet){
+		ArrayList<MapItem> resultList = new ArrayList<MapItem>();
 
+		for (Map item : resultSet) 
+    	{ 
+			int id = item.getId();
+			//String name = item.getName();
+			String description = item.getDescription();
+			String pointOfInterest = Integer.toString(item.getSites().size());
+			String tours = Integer.toString(item.getTours().size());
+			double price = item.getPrice();
+			MapItem currentMapItem = new MapItem(id, "haifa", description, pointOfInterest, tours, price);
+			resultList.add(currentMapItem);
+    	}
+		return resultList;
+	}
+	@FXML
+	private void handleMapAction(ActionEvent event)
+	{
+	    System.out.println("You clicked me!");
+	}
 	public int checkForPermissions() {
 		return 1;
 	}
