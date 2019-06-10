@@ -8,7 +8,10 @@ public class LoginModel {
 
 	private GcmClient gcmClient;
 	
-	public LoginModel(GcmClient gcmClient) { this.gcmClient = gcmClient; }
+	public LoginModel(GcmClient gcmClient) { 
+		if(gcmClient == null) throw new IllegalArgumentException("GCM client is null");
+		this.gcmClient = gcmClient; 
+	}
 
 	public RequestState login(String username, String password) {
 		if (username.equals("user") && password.equals("pass")) {

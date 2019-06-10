@@ -4,13 +4,12 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import mainApp.GcmClient;
 import mainApp.SceneNames;
 import queries.RequestState;
 
 public class LoginSceneController {
 
-	private LoginModel loginModel;
+	private final LoginModel loginModel;
 
 	@FXML
 	private TextField usernametxt;
@@ -19,7 +18,7 @@ public class LoginSceneController {
 	private TextField passwordtxt;
 
 	public LoginSceneController(LoginModel model) {
-		
+		loginModel = model;
 	}
 
 	@FXML
@@ -46,17 +45,17 @@ public class LoginSceneController {
 	public void forgotUsername(ActionEvent event) throws IOException {
 		// open scene with email to send a new password -> new password password confirm
 		System.out.println("guess what, you are an idiot");
-		gcmClient.switchScene(SceneNames.FORGOT_USERNAME);
+		loginModel.switchScene(SceneNames.FORGOT_USERNAME);
 	}
 
 	@FXML
 	public void register(ActionEvent event) throws IOException {
-		gcmClient.switchScene(SceneNames.REGISTER);
+		loginModel.switchScene(SceneNames.REGISTER);
 		System.out.println("going to register");
 	}
 
 	@FXML
 	public void onBackButton() {
-		gcmClient.back();
+		loginModel.back();
 	}
 }
