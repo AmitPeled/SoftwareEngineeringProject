@@ -3,10 +3,12 @@ package mapViewer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -29,6 +31,8 @@ public final class MapViewerComponent implements MapViewer {
 	private double width;
 	private double height;
 	private Text statusText;
+	private final Canvas canvas;
+	private final GraphicsContext graphicsContext;
 	/**
 	 * Constructs a MapViewerComponent object with no listeners.
 	 * @param mapPath
@@ -58,9 +62,17 @@ public final class MapViewerComponent implements MapViewer {
 		mapImage = new ImageView(image);
 		mapImage.setPickOnBounds(true);
 		mapImage.setPreserveRatio(true);
-		mapImage.setOnMouseClicked(e-> {OnMouseClick(e.getX(), e.getY());});
+		//mapImage.setOnMouseClicked(e-> {OnMouseClick(e.getX(), e.getY());});
 		width = image.getWidth();
 		height = image.getHeight();
+		
+		canvas = new Canvas(width,height);
+		graphicsContext = canvas.getGraphicsContext2D();
+		graphicsContext.setFill(javafx.scene.paint.Color.RED);
+		graphicsContext.fillOval(200, 300, 200, 20);
+		graphicsContext.setGlobalBlendMode(BlendMode.SCREEN);
+		graphicsContext.drawImage(image, 0, 0);
+		canvas.setOnMouseClicked(e-> {OnMouseClick(e.getX(), e.getY());});
 		
 		System.out.println(width + "x" + height);
 
@@ -72,7 +84,7 @@ public final class MapViewerComponent implements MapViewer {
 		statusText.setX(Math.round(width/2));
 		
 		group = new StackPane();
-		group.getChildren().add(mapImage);
+		group.getChildren().add(canvas);
 		group.getChildren().add(statusText);
 		StackPane.setAlignment(statusText,Pos.CENTER);
 		scene = new Scene(group, width, height);
@@ -112,11 +124,14 @@ public final class MapViewerComponent implements MapViewer {
 	 * @param y absolute y coordinates of the mouse click on the map
 	 */
 	private void OnMouseClick(double x, double y) {
+		
+		
 		if(listeners == null || listeners.isEmpty()) return;
 		
 		double relativeY = y/height;
 		double relativeX = x/width;
 		
+		// Notify all listeners that a mouse click occurred
 		for (MapViewerListener mapViewerListener : listeners) {
 			mapViewerListener.onMapClick(relativeX,relativeY);
 		}
