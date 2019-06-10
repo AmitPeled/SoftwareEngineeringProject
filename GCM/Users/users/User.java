@@ -17,11 +17,11 @@ public final class User implements Serializable {
 	}
 
 	public User(String firstName, String lastName, String email, String phoneNumber, String username) {
-		this(firstName, lastName, email, phoneNumber, null, null, 0);
+		this(firstName, lastName, email, phoneNumber, null, 0, null, 0, 0);
 	}
 
-	public User(String firstName, String lastName, String email, String phoneNumber, String username,
-			Date membershipExpireDate, int numPurchases) {
+	public User(String firstName, String lastName, String email, String phoneNumber, String username, int numPurchases,
+			Date membershipExpireDate, int purchasedMembershipPeriod, int numTimesRepurchasedMembership) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -29,6 +29,8 @@ public final class User implements Serializable {
 		this.username = username;
 		this.setMembershipExpireDate(membershipExpireDate);
 		this.setNumPurchases(numPurchases);
+		this.purchasedMembershipPeriod = purchasedMembershipPeriod;
+		this.numTimesRepurchasedMembership = numTimesRepurchasedMembership;
 	}
 
 	public String getEmail() {
@@ -50,7 +52,7 @@ public final class User implements Serializable {
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public String setUsername(String username) {
 		return this.username = username;
 	}
@@ -71,12 +73,29 @@ public final class User implements Serializable {
 		this.numPurchases = numPurchases;
 	}
 
+	public int getPurchasedMembershipPeriod() {
+		return purchasedMembershipPeriod;
+	}
+
+	public void setPurchasedMembershipPeriod(int purchasedMembershipPeriod) {
+		this.purchasedMembershipPeriod = purchasedMembershipPeriod;
+	}
+
+	public int getNumTimesRepurchasedMembership() {
+		return numTimesRepurchasedMembership;
+	}
+
+	public void setNumTimesRepurchasedMembership(int numTimesRepurchasedMembership) {
+		this.numTimesRepurchasedMembership = numTimesRepurchasedMembership;
+	}
+
 	private String username;
 	private String email;
 	private String phoneNumber;
 	private String firstName;
 	private String lastName;
-	private Date membershipExpireDate;
 	private int numPurchases;
-
+	private Date membershipExpireDate;
+	private int purchasedMembershipPeriod;
+	private int numTimesRepurchasedMembership;
 }
