@@ -2,14 +2,8 @@ package register;
 
 import java.io.IOException;
 
-import dataAccess.users.UserDAO;
-import gcmDataAccess.GcmDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import mainApp.GcmClient;
 import mainApp.SceneNames;
@@ -17,6 +11,7 @@ import mainApp.SceneNames;
 public class RegisterSceneController {
 
 	private GcmClient gcmClient;
+	private RegisterModel RegisterModel;
 	
 	@FXML
 	private TextField nametxt, lastnametxt,emailtxt, usernametxt, passwordtxt, confirmpasswordtxt, phonetxt;
@@ -36,6 +31,9 @@ public class RegisterSceneController {
 		System.out.println("Register!!!");
 		//Add validation for all fields		
 		//UserDAO register = new GcmDAO();
+		if(!RegisterModel.Validusername(usernametxt)) {
+			
+		}
 		//register.register(username, password, user);
 		gcmClient.switchScene(SceneNames.LOGIN);
 	}
