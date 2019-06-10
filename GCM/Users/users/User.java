@@ -17,10 +17,10 @@ public final class User implements Serializable {
 	}
 
 	public User(String firstName, String lastName, String email, String phoneNumber, String username) {
-		this(firstName, lastName, email, phoneNumber, null, 0, null, 0, 0);
+		this(null, firstName, lastName, email, phoneNumber, 0, null, 0, 0);
 	}
 
-	public User(String firstName, String lastName, String email, String phoneNumber, String username, int numPurchases,
+	public User(String username, String firstName, String lastName, String email, String phoneNumber, int numPurchases,
 			Date membershipExpireDate, int purchasedMembershipPeriod, int numTimesRepurchasedMembership) {
 		this.firstName = firstName;
 		this.lastName = lastName;

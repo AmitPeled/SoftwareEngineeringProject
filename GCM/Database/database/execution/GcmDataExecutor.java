@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import database.metadata.DatabaseMetaData;
@@ -33,7 +34,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public boolean addUser(String username, String password, User user) throws SQLException {
-		if (queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.users), "username", username, "*")
+		if (queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
 				.isEmpty()) {
 			List<Object> userList = new ArrayList<Object>() {
 				{
@@ -42,7 +43,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 				}
 			};
 			userList.addAll(objectParser.getUserFieldsList(user));
-			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.users), userList);
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.customerUsers), userList);
 			return true;
 		}
 		return false;
@@ -54,7 +55,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 			System.out.println("editor");
 			return RequestState.editor;
 		} else if (username.equals("manager") && password.equals("manager")) {
-			return RequestState.manager;
+			return RequestState.contentManager;
 		}
 		List<Object> valuesList = new ArrayList<Object>() {
 			{
@@ -68,7 +69,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 				add("password");
 			}
 		};
-		List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.users),
+		List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.customerUsers),
 				namesList, valuesList, "username, password");
 
 		if (rows.isEmpty())
@@ -374,6 +375,11 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	public void UpdateSite(int siteId, Site newSite) throws SQLException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public User getUserDetails(String username) throws SQLException {
+		return objectParser.getUser(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*").get(0));
 	}
 
 }

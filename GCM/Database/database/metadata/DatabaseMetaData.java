@@ -9,7 +9,11 @@ public class DatabaseMetaData {
 	@SuppressWarnings("serial")
 	private static HashMap<Tables, String> tablesNames = new HashMap<Tables, String>() {
 		{
-			put(Tables.users, "users");
+			put(Tables.customerUsers, "customerUsers");
+			put(Tables.editorUsers, "editorUsers");
+			put(Tables.contentManagerUsers, "contentManagerUsers");
+			put(Tables.generalManagerUsers, "generalManagerUsers");
+
 			put(Tables.mapsMetaDetails, "mapsMetaDetails");
 			put(Tables.mapsFiles, "mapsFiles");
 			put(Tables.mapsSites, "mapsSites");
@@ -21,7 +25,8 @@ public class DatabaseMetaData {
 	};
 
 	public static enum Tables {
-		users, mapsMetaDetails, mapsFiles, mapsSites, citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites
+		customerUsers, editorUsers, contentManagerUsers, generalManagerUsers, mapsMetaDetails, mapsFiles, mapsSites,
+		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites
 	}
 
 	public static String getHostName() {
