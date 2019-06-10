@@ -10,27 +10,24 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+import mainApp.GcmClient;
+import mainApp.SceneNames;
 
 public class ForgotUsernameController {
 
+	private GcmClient gcmClient;
+	
+	public ForgotUsernameController(GcmClient gcmClient) {
+		this.gcmClient = gcmClient;
+	}
+	
 	@FXML
 	private TextField emailtxt;
 
 	@FXML
 	public void back(ActionEvent event) throws IOException {
-		
-		System.out.println("well, im going back");
-		
-		// going back to log in screen
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		//Parent LoginSceneParent = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/fxml/LoginScene.fxml"));
-		Parent LoginSceneParent = loader.load();
-		Scene LoginSceneScene = new Scene(LoginSceneParent);
-		LoginSceneScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		window.setScene(LoginSceneScene);
-		window.show();
+		gcmClient.back();
 	}
 
 	@FXML
@@ -39,14 +36,7 @@ public class ForgotUsernameController {
 		
 		System.out.println("after validate the email -> send mail -> go back to the log in screen");
 		// going back to log in screen
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		//Parent LoginSceneParent = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/fxml/LoginScene.fxml"));
-		Parent LoginSceneParent = loader.load();
-		Scene LoginSceneScene = new Scene(LoginSceneParent);
-		LoginSceneScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		window.setScene(LoginSceneScene);
+		gcmClient.switchScene(SceneNames.LOGIN);
 		window.show();
 	}
 }

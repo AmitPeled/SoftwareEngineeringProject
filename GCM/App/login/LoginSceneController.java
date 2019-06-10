@@ -10,8 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import mainApp.GcmClient;
+import mainApp.SceneNames;
+import queries.RequestState;
 
 public class LoginSceneController {
+
+	private GcmClient gcmClient;
 
 	@FXML
 	private TextField usernametxt;
@@ -19,78 +25,46 @@ public class LoginSceneController {
 	@FXML
 	private TextField passwordtxt;
 
+	public LoginSceneController(GcmClient gcmClient) {
+		this.gcmClient = gcmClient;
+	}
+
 	@FXML
 	public void LogIn(ActionEvent event) throws IOException {
 		// send to data base to confirm that he is in the system
 		System.out.println("Logging in....");
 		LoginModel loginModel = new LoginModel();
-		if (!loginModel.login(usernametxt.getText(), passwordtxt.getText())) {
+		if (loginModel.login(usernametxt.getText(), passwordtxt.getText()) == RequestState.wrongDetails) {
 			System.out.println("Log in faild");
 		} else {
-			// need to move to the main scene (search and shit)
 			System.out.println("Log in success, go to app main scene");
-
+			gcmClient.switchScene(SceneNames.MENU);
 		}
 
 	}
 
 	@FXML
-	public void forgatPassword(ActionEvent event) throws IOException {
+	public void forgotPassword(ActionEvent event) throws IOException {
 		// open scene with email to send a new password -> new password password confirm
 		System.out.println("guess what, you are an idiot");
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		// need to make new fmxl file to go to the main scene
-		// need to do the same for the rest of the actionevents -> dont forget to close
-		// current window!
-
-		
-		
-		//Parent ForgotPasswordParent = FXMLLoader.load(getClass().getResource("ForgotPasswordScene.fxml"));
-		FXMLLoader loader = new FXMLLoader();
-	
-		loader.setLocation(getClass().getResource("/fxml/ForgotPasswordScene.fxml"));
-		Parent ForgotPasswordParent = loader.load();
-		
-		Scene ForgotPasswordScene = new Scene(ForgotPasswordParent);
-		ForgotPasswordScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		window.setScene(ForgotPasswordScene);
-		window.show();
-
+		gcmClient.switchScene(SceneNames.FORGOT_PASSWORD);
 	}
 
 	@FXML
-	public void forgatUsername(ActionEvent event) throws IOException {
+	public void forgotUsername(ActionEvent event) throws IOException {
 		// open scene with email to send a new password -> new password password confirm
 		System.out.println("guess what, you are an idiot");
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		// need to make new fmxl file to go to the main scene
-		// need to do the same for the rest of the actionevents -> dont forget to close
-		// current window!
-
-		//Parent ForgotUsernameParent = FXMLLoader.load(getClass().getResource("ForgotUsernameScene.fxml"));
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/fxml/ForgotUsernameScene.fxml"));
-		Parent ForgotUsernameParent = loader.load();
-		Scene ForgotUsernameScene = new Scene(ForgotUsernameParent);
-		ForgotUsernameScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		window.setScene(ForgotUsernameScene);
-		window.show();
-
+		gcmClient.switchScene(SceneNames.FORGOT_USERNAME);
 	}
-	
+
 	@FXML
-	public void rgister(ActionEvent event) throws IOException {
-		// go to register scene
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/fxml/RegisterScene.fxml"));
-		Parent ForgotUsernameParent = loader.load();
-		Scene ForgotUsernameScene = new Scene(ForgotUsernameParent);
-		ForgotUsernameScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		window.setScene(ForgotUsernameScene);
-		window.show();
+	public void register(ActionEvent event) throws IOException {
+		gcmClient.switchScene(SceneNames.REGISTER);
 		System.out.println("going to register");
-
 	}
 
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
 }
