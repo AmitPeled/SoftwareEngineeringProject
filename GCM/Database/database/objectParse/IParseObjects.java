@@ -48,6 +48,6 @@ public interface IParseObjects {
 	
 	List<Object> getUserFieldsList(User user);
 
-	User getUser(List<Object> objectList) throws ParseException;
+	User getUser(List<Object> objectList);
 
 }

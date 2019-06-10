@@ -9,7 +9,7 @@ import gcmDataAccess.GcmDAO;
 import queries.RequestState;
 import users.User;
 
-class usersAccessTest {
+class UsersAccessTest {
 
 	static UserDAO userAccess;
 

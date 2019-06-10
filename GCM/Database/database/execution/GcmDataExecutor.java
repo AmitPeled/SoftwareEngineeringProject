@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import database.metadata.DatabaseMetaData;
@@ -54,7 +55,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 			System.out.println("editor");
 			return RequestState.editor;
 		} else if (username.equals("manager") && password.equals("manager")) {
-			return RequestState.manager;
+			return RequestState.contentManager;
 		}
 		List<Object> valuesList = new ArrayList<Object>() {
 			{
@@ -374,6 +375,11 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	public void UpdateSite(int siteId, Site newSite) throws SQLException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public User getUserDetails(String username) throws SQLException {
+		return objectParser.getUser(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.users), "username", username, "*").get(0));
 	}
 
 }
