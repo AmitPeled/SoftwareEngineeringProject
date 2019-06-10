@@ -1,4 +1,4 @@
-package mapViewer.View;
+package mapViewer;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -8,7 +8,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
-import mapViewer.ViewModel.*;
 
 /**
  * Contains the view elements of the MapViewer.
@@ -24,7 +23,6 @@ public final class MapViewerView {
 	private Image mapImage;
 	
 	public MapViewerView(MapViewerViewModel viewModel) {
-//		this.viewModel = viewModel;
 		this.mapPathString = viewModel.getMapPath();
 		this.mapImage = new Image(mapPathString);
 	}

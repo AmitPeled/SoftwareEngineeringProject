@@ -14,12 +14,10 @@ public class LoginModel implements UserDAO {
 
 	@Override
 	public RequestState login(String username, String password) {
-		// TODO Auto-generated method stub
-		// check some database shit
 		if (username.equals("user") && password.equals("pass")) {
 			return RequestState.customer;
-		}
-		return RequestState.wrongDetails;
+		} else
+			return RequestState.wrongDetails;
 	}
 
 }
