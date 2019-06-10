@@ -67,6 +67,8 @@ public final class Map implements Serializable {
 			throw new IllegalArgumentException("height has to be a positive number");
 
 		this.id = id;
+		this.name = name;
+		this.descriptionString=description;
 		this.width = width;
 		this.height = height;
 		this.offset = offset;
