@@ -1,5 +1,6 @@
 package mainApp;
 
+import userInfo.UserInfo;
 
 /**
  * The GcmClient class's responsibility is encapsulating all the high-level JavaFX/FXML related 
@@ -36,4 +37,10 @@ public interface GcmClient {
 	 * Logs out of the user account and switches to the INTRO scene
 	 */
 	void Logout();
+
+	/**
+	 * Returns the UserInfo module used for login and user related data access
+	 * @return a UserInfo object reference
+	 */
+	UserInfo getUserInfo();
 }
