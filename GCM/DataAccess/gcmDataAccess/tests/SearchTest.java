@@ -22,6 +22,7 @@ import users.User;
 public class SearchTest {
 	static SearchDAO searchDAO;
 	static EditorDAO editorDAO;
+	static GcmDAO gcmDAO;
 	static String cityName = "cityName", cityDescription = "nice city", siteName = "siteName",
 			siteDescription = "bad site";
 	static int mapId;
@@ -31,7 +32,7 @@ public class SearchTest {
 	@BeforeAll
 	static void setAll() {
 		// by now, editors load to the published section.
-		GcmDAO gcmDAO = new GcmDAO();
+		gcmDAO = new GcmDAO();
 		gcmDAO.register("editor", "editor", new User("", "", "", ""));
 		editorDAO = gcmDAO;
 		searchDAO = gcmDAO;
@@ -42,14 +43,14 @@ public class SearchTest {
 
 	@BeforeEach
 	void deleteInsertions() {
-		editorDAO.deleteContent(mapId);
+		gcmDAO.deleteContent(mapId);
 		mapId = editorDAO.addMapToCity(cityId, new Map(12f, 8.4f), new File("import\\resources\\Gta3_map.gif"));
 		editorDAO.addExistingSiteToMap(mapId, siteId);
 	}
 
 	@AfterAll
 	static void eraseAll() {
-		editorDAO.deleteContent(mapId);
+		gcmDAO.deleteContent(mapId);
 		// cityId
 
 	}
@@ -97,7 +98,7 @@ public class SearchTest {
 		assertEquals(8.4f, maps.get(0).getHeight());
 		assertEquals(1f, maps.get(1).getWidth());
 		assertEquals(1f, maps.get(1).getHeight());
-		editorDAO.deleteContent(mapId);
+		gcmDAO.deleteContent(mapId);
 
 	}
 }
