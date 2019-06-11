@@ -19,7 +19,7 @@ import maps.Map;
 import maps.Site;
 import users.User;
 
-public class searchTest {
+public class SearchTest {
 	static SearchDAO searchDAO;
 	static EditorDAO editorDAO;
 	static String cityName = "cityName", cityDescription = "nice city", siteName = "siteName",
@@ -43,7 +43,7 @@ public class searchTest {
 	@BeforeEach
 	void deleteInsertions() {
 		editorDAO.deleteContent(mapId);
-		mapId = editorDAO.addMapToCity(cityId, new Map(1, 12f, 8.4f), new File("import\\resources\\Gta3_map.gif"));
+		mapId = editorDAO.addMapToCity(cityId, new Map(12f, 8.4f), new File("import\\resources\\Gta3_map.gif"));
 		editorDAO.addExistingSiteToMap(mapId, siteId);
 	}
 
@@ -89,7 +89,7 @@ public class searchTest {
 		maps = searchDAO.getMapsByDescription(siteDescription + "a");
 		assertEquals(0, maps.size());
 		int siteId = editorDAO.addNewSiteToCity(cityId, new Site(1, "", siteDescription + "a", new Coordinates()));
-		int mapId = editorDAO.addMapToCity(cityId, new Map(1, 1f, 1f), null);
+		int mapId = editorDAO.addMapToCity(cityId, new Map(1f, 1f), null);
 		editorDAO.addExistingSiteToMap(mapId, siteId);
 		maps = searchDAO.getMapsByDescription(siteDescription);
 		assertEquals(2, maps.size());

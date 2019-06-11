@@ -4,10 +4,16 @@ import java.io.File;
 import java.util.List;
 
 import dataAccess.users.PurchaseDetails;
+import maps.City;
 import maps.Map;
 import users.User;
 
 public interface CustomerDAO {
+
+	/**
+	 * the city contains the map
+	 */
+	City getCityByMapId(int mapId);
 
 	/**
 	 * @param cityId       id of the city to purchase membership
@@ -31,7 +37,6 @@ public interface CustomerDAO {
 	 * @return false for invalid purchase details
 	 */
 	boolean repurchaseMembership(PurchaseDetails purchaseDetails);
-
 	/**
 	 * @return false if no valid user purchase details are stored in the database.
 	 */

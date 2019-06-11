@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import database.metadata.DatabaseMetaData;
@@ -33,7 +34,8 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public boolean addUser(String username, String password, User user) throws SQLException {
-		if (queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.users), "username", username, "*")
+		if (queryExecutor
+				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
 				.isEmpty()) {
 			List<Object> userList = new ArrayList<Object>() {
 				{
@@ -42,7 +44,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 				}
 			};
 			userList.addAll(objectParser.getUserFieldsList(user));
-			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.users), userList);
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.customerUsers), userList);
 			return true;
 		}
 		return false;
@@ -50,31 +52,33 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public RequestState verifyUser(String username, String password) throws SQLException {
-		if (username.equals("editor") && password.equals("editor")) {
-			System.out.println("editor");
-			return RequestState.editor;
-		} else if (username.equals("manager") && password.equals("manager")) {
-			return RequestState.manager;
-		}
-		List<Object> valuesList = new ArrayList<Object>() {
-			{
-				add(username);
-				add(password);
+		if (username != null && password != null) {
+			if (username.equals("editor") && password.equals("editor")) {
+				System.out.println("editor");
+				return RequestState.editor;
+			} else if (username.equals("manager") && password.equals("manager")) {
+				return RequestState.contentManager;
 			}
-		};
-		List<String> namesList = new ArrayList<String>() {
-			{
-				add("username");
-				add("password");
-			}
-		};
-		List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.users),
-				namesList, valuesList, "username, password");
+			List<Object> valuesList = new ArrayList<Object>() {
+				{
+					add(username);
+					add(password);
+				}
+			};
+			List<String> namesList = new ArrayList<String>() {
+				{
+					add("username");
+					add("password");
+				}
+			};
+			List<List<Object>> rows = queryExecutor.selectColumnsByValues(
+					DatabaseMetaData.getTableName(Tables.customerUsers), namesList, valuesList, "username, password");
 
-		if (rows.isEmpty())
-			return RequestState.wrongDetails;
-		else
-			return RequestState.customer;
+			if (!rows.isEmpty())
+				return RequestState.customer;
+		}
+		return RequestState.wrongDetails;
+
 	}
 
 	@Override
@@ -374,6 +378,13 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	public void UpdateSite(int siteId, Site newSite) throws SQLException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public User getUserDetails(String username) throws SQLException {
+		return objectParser.getUser(queryExecutor
+				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
+				.get(0));
 	}
 
 }

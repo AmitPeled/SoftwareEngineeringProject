@@ -35,7 +35,7 @@ class GcmDatabaseExecutorTest {
 		gcmDataExecutor = new GcmDataExecutor(new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		cityId = gcmDataExecutor.addCity(new City(11, "haifa", "desc"));
-		mapId = gcmDataExecutor.addMapToCity(cityId, new Map(11, 13.1f, 11.1f), mapFile);
+		mapId = gcmDataExecutor.addMapToCity(cityId, new Map(13.1f, 11.1f), mapFile);
 		siteId = gcmDataExecutor.addNewSiteToCity(cityId, new Site(11, "name", "desc", new Coordinates(7, 9)));
 		gcmDataExecutor.addExistingSiteToMap(mapId, siteId);
 	}
@@ -61,7 +61,6 @@ class GcmDatabaseExecutorTest {
 		assertEquals("name", site.getName());
 		assertEquals("desc", site.getDescription());
 
-
 	}
 
 	@Test
@@ -75,6 +74,16 @@ class GcmDatabaseExecutorTest {
 		gcmDataExecutor.deleteMap(mapId);
 		assertNull(gcmDataExecutor.getMapDetails(mapId));
 		assertNull(gcmDataExecutor.getMapFile(mapId));
+	}
+
+	@Test
+	void getUserTest() throws SQLException {
+		gcmDataExecutor.addUser(".", ".", new User("a", "b", "c", "d"));
+		User user = gcmDataExecutor.getUserDetails(".");
+		assertEquals("a", user.getFirstName());
+
+		assertEquals("c", user.getEmail());
+
 	}
 
 //	@Test

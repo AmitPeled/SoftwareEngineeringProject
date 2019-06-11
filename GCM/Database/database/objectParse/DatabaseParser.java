@@ -1,6 +1,9 @@
 package database.objectParse;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import maps.City;
@@ -18,15 +21,34 @@ public class DatabaseParser implements IParseObjects {
 
 	@Override
 	public Map getMap(List<Object> objectList, List<Site> mapSites, List<Tour> mapTours) {
-		return new Map((int) objectList.get(0), (float) objectList.get(1), (float) objectList.get(2),
-				(String) objectList.get(3), new Coordinates((float) objectList.get(4), (float) objectList.get(5)),
-				(double) objectList.get(6), mapSites, mapTours);
+		return new Map((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
+				(float) objectList.get(3), (float) objectList.get(4),
+				new Coordinates((float) objectList.get(5), (float) objectList.get(6)), (double) objectList.get(7),
+				mapSites, mapTours);
 	}
 
 	@Override
 	public Site getSite(List<Object> objectList) {
 		return new Site((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
 				new Coordinates((float) objectList.get(3), (float) objectList.get(4)));
+	}
+
+	@Override
+	public User getUser(List<Object> objectList) {
+		Date expireDate;
+		try {
+			expireDate = new SimpleDateFormat("dd/MM/yyyy").parse((String) objectList.get(7));
+			Date currentDate = new Date();
+			if (expireDate.after(currentDate))
+				expireDate = null;
+		} catch (Exception e) {
+			expireDate = null;
+		}
+		System.out.println((String) objectList.get(1));
+		System.out.println((String) objectList.get(2));
+		return new User((String) objectList.get(0), (String) objectList.get(2), (String) objectList.get(3),
+				(String) objectList.get(4), (String) objectList.get(5), (int) objectList.get(6), expireDate,
+				(int) objectList.get(8), (int) objectList.get(9));
 	}
 
 //	@Override
@@ -40,9 +62,10 @@ public class DatabaseParser implements IParseObjects {
 		return new ArrayList<Object>() {
 			{
 				add(map.getId());
+				add(map.getName());
+				add(map.getDescription());
 				add(map.getWidth());
 				add(map.getHeight());
-				add(map.getDescription());
 				add(map.getOffset().x);
 				add(map.getOffset().y);
 				add(map.getPrice());
@@ -85,6 +108,10 @@ public class DatabaseParser implements IParseObjects {
 				add(user.getLastName());
 				add(user.getEmail());
 				add(user.getPhoneNumber());
+				add(0);
+				add(null);
+				add(0);
+				add(0);
 			}
 		};
 	}
