@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="214.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="109.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buy subscription" />
+      <Text layoutX="65.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscription period:" />
+      <Button fx:id="buy" layoutX="64.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Buy" />
+      <ComboBox fx:id="monthsPicker" layoutX="64.0" layoutY="82.0" prefHeight="25.0" prefWidth="106.0" />
+      <Text layoutX="64.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" />
+      <TextField fx:id="price" layoutX="97.0" layoutY="125.0" prefHeight="25.0" prefWidth="71.0" />
+   </children>
+</AnchorPane>

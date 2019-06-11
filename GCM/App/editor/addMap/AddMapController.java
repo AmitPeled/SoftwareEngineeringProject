@@ -37,6 +37,14 @@ public class AddMapController implements Initializable
 	@FXML
 	TextField mapDescription;
 	@FXML
+	TextField height;
+	@FXML
+	TextField width;
+	@FXML
+	TextField xCor;
+	@FXML
+	TextField yCor;
+	@FXML
 	Button uploadMap;
 	@FXML
 	Button addMap;
@@ -60,11 +68,19 @@ public class AddMapController implements Initializable
 	            public void handle(MouseEvent event) {
 	            	String name = mapName.getText();
 	            	String description = mapDescription.getText();
-	            	int width = bufferedImage.getWidth();
-	            	int height = bufferedImage.getHeight();
+	            	String mapHeight = height.getText();
+	            	String mapWidth = width.getText();
+	            	String xCoordinates = xCor.getText();
+	            	String yCoordinates = yCor.getText();
 	            	
-	            	if(name != null && !name.isEmpty() && description != null && !description.isEmpty() && file != null) {
-	            		Map newMap = new Map(name, description, width, height, new Coordinates());
+	            	if(name != null && !name.isEmpty() && 
+	            			description != null && !description.isEmpty() && 
+	            				mapHeight != null && !mapHeight.isEmpty() &&
+	            						mapWidth != null && !mapWidth.isEmpty() &&
+	            								xCoordinates != null && !xCoordinates.isEmpty() && 
+	            										yCoordinates != null && !yCoordinates.isEmpty() &&
+	            											file != null) {
+	            		Map newMap = new Map(name, description, Float.parseFloat(mapWidth), Float.parseFloat(mapHeight), new Coordinates(Float.parseFloat(xCoordinates), Float.parseFloat(yCoordinates)));
 	            		gcmDAO.addMapToCity(cityId, newMap, file);
 	            	}
 	            }

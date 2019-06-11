@@ -11,7 +11,6 @@
       <Text layoutX="51.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a new city" />
       <TextField fx:id="cityName" layoutX="15.0" layoutY="67.0" promptText="City name" />
       <Button fx:id="addCity" layoutX="21.0" layoutY="171.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Add city" />
-      <Button fx:id="uploadMap" layoutX="41.0" layoutY="134.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Upload map" />
       <TextField fx:id="cityDescription" layoutX="15.0" layoutY="102.0" promptText="Description" />
    </children>
 </AnchorPane>

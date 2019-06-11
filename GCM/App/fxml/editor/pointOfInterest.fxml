@@ -6,18 +6,20 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="328.0" prefWidth="281.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="328.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="54.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit  a new point of interest" />
-      <TextField fx:id="name" layoutX="66.0" layoutY="55.0" text="Name" />
-      <TextField layoutX="67.0" layoutY="86.0" text="X coordinates" fx:id="xC" />
-      <TextField fx:id="type" layoutX="66.0" layoutY="152.0" text="Type" />
-      <TextField fx:id="description" layoutX="66.0" layoutY="184.0" text="Description" />
-      <Button fx:id="addEditBtn" layoutX="67.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Add/Edit" />
-      <RadioButton fx:id="Dno" layoutX="71.0" layoutY="262.0" mnemonicParsing="false" text="No" />
+      <TextField fx:id="name" layoutX="66.0" layoutY="55.0" promptText="Name" />
+      <TextField layoutX="67.0" layoutY="86.0" promptText="X coordinates" fx:id="xC" />
+      <TextField fx:id="type" layoutX="66.0" layoutY="152.0" promptText="Type" />
+      <TextField fx:id="description" layoutX="66.0" layoutY="184.0" promptText="Description" />
+      <Button fx:id="addEdit" layoutX="67.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Add/Edit" />
+      <RadioButton fx:id="disableNo" layoutX="71.0" layoutY="262.0" mnemonicParsing="false" selected="true" text="No">
+         <toggleGroup>
+            <ToggleGroup fx:id="disableOptions" />
+         </toggleGroup></RadioButton>
       <Text layoutX="67.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipped for disabled?" />
-      <RadioButton fx:id="Dyes" layoutX="70.0" layoutY="239.0" mnemonicParsing="false" text="Yes" />
-      <TextField fx:id="yC" layoutX="66.0" layoutY="119.0" text="Y coordinates" />
+      <RadioButton fx:id="disableyES" layoutX="70.0" layoutY="239.0" mnemonicParsing="false" text="Yes" toggleGroup="$disableOptions" />
+      <TextField fx:id="yC" layoutX="66.0" layoutY="119.0" promptText="Y coordinates" />
    </children>
 </AnchorPane>
