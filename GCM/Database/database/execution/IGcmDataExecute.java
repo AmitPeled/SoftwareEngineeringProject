@@ -2,7 +2,6 @@ package database.execution;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.List;
 
 import maps.City;
