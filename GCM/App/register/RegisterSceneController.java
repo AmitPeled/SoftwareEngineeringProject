@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
 import mainApp.SceneNames;
@@ -32,46 +33,34 @@ public class RegisterSceneController {
 		System.out.println("Register!!!");
 
 		if (!(RegisterModel.validName(nametxt.getText()))) {
-			Node source = (Node) event.getSource();
-			Window theStage = source.getScene().getWindow();
-			RegisterModel.showAlert(AlertType.ERROR, theStage.getScene().getWindow(), "Form Error!",
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
 					"name need to be between 3 to 10 letters");
 			nametxt.clear();
 			// RegisterModel.clear(nametxt);
 
 		} else if (!(RegisterModel.validlastName(lastnametxt.getText()))) {
-			Node source = (Node) event.getSource();
-			Window theStage = source.getScene().getWindow();
-			RegisterModel.showAlert(AlertType.ERROR, theStage.getScene().getWindow(), "Form Error!",
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
 					"lastname need to be between 3 to 10 letters");
 			// RegisterModel.clear(lastnametxt);
 			lastnametxt.clear();
 
 		} else if (!(RegisterModel.Validusername(usernametxt.getText()))) {
-			Node source = (Node) event.getSource();
-			Window theStage = source.getScene().getWindow();
-			RegisterModel.showAlert(AlertType.ERROR, theStage.getScene().getWindow(), "Form Error!",
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
 					"username length need to be between 4 to 10 characters");
 			usernametxt.clear();
 
 		} else if (!(RegisterModel.validpassword(passwordtxt.getText()))) {
-			Node source = (Node) event.getSource();
-			Window theStage = source.getScene().getWindow();
-			RegisterModel.showAlert(AlertType.ERROR, theStage.getScene().getWindow(), "Form Error!",
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
 					"password length need to be between 6 to 10 characters");
 			passwordtxt.clear();
 
 		} else if (!(RegisterModel.validConfirmPassword(passwordtxt.getText(), confirmpasswordtxt.getText()))) {
-			Node source = (Node) event.getSource();
-			Window theStage = source.getScene().getWindow();
-			RegisterModel.showAlert(AlertType.ERROR, theStage.getScene().getWindow(), "Form Error!",
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
 					"password and confirm password dont match");
 			confirmpasswordtxt.clear();
 
 		} else if (!(RegisterModel.validPhoneNumber(phonetxt.getText()))) {
-			Node source = (Node) event.getSource();
-			Window theStage = source.getScene().getWindow();
-			RegisterModel.showAlert(AlertType.ERROR, theStage.getScene().getWindow(), "Form Error!",
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
 					"phone length need to be 10");
 			passwordtxt.clear();
 
@@ -80,4 +69,19 @@ public class RegisterSceneController {
 			RegisterModel.switchScene(SceneNames.LOGIN);
 		}
 	}
+
+	public Window getStageWindow(ActionEvent event) {
+		Node source = (Node) event.getSource();
+		Window theStage = source.getScene().getWindow();
+		return theStage;
+	}
+	
+	public void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(owner);
+        alert.show();
+    }
 }
