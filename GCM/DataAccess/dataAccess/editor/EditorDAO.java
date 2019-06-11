@@ -23,8 +23,11 @@ import maps.Tour;
 
 public interface EditorDAO {
 	
-	public City getContainingCity(int mapId);
-
+	/**
+	 * the city contains the map
+	 */
+	City getCityByMapId(int mapId);
+	
 	public Map getMapDetails(int mapId);
 
 	/**
@@ -37,7 +40,7 @@ public interface EditorDAO {
 
 	public int addMapToCity(int cityId, Map mapDetails, File mapFile);
 
-	public int addCity(City city);
+	public int addCity(City city, Map firstMapDetails, File firstMapFile);
 
 	public int addNewSiteToCity(int cityId, Site site);
 

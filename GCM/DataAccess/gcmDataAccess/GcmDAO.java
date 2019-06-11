@@ -178,10 +178,12 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 	}
 
 	@Override
-	public int addCity(City city) {
+	public int addCity(City city, Map firstMapDetails, File firstMapFile) {
 		return (int) send(new RequestObject(GcmQuery.addCity, new ArrayList<Object>() {
 			{
 				add(city);
+				add(firstMapDetails);
+				add(firstMapFile);
 			}
 		}, username, password)).getResponse().get(0);
 	}
@@ -244,26 +246,41 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 
 	@Override
 	public int deleteSiteFromMap(int mapId, int siteId) {
-		// TODO Auto-generated method stub
+		send(new RequestObject(GcmQuery.deleteSiteFromMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(siteId);
+			}
+		}, username, password));
 		return 0;
 	}
 
 	@Override
 	public int updateContent(int contentId, Object newContent) {
-		// TODO Auto-generated method stub
+		send(new RequestObject(GcmQuery.updateContent, new ArrayList<Object>() {
+			{
+				add(contentId);
+				add(newContent);
+			}
+		}, username, password));
 		return 0;
 	}
 
 	@Override
-	public File purchaseMap(int mapId) {
-		// TODO Auto-generated method stub
-		return null;
+	public File purchaseMap(int mapId, PurchaseDetails purchaseDetails) {
+		return (File) send(new RequestObject(GcmQuery.purchaseMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(purchaseDetails);
+			}
+		}, username, password)).getResponse().get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getPurchasedMaps() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getPurchasedMaps, null, username, password))
+				.getResponse();
 	}
 
 	@Override
@@ -303,20 +320,20 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 
 	@Override
 	public File downloadMap(int mapId) {
-		// TODO Auto-generated method stub
-		return null;
+		return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+			}
+		}, username, password)).getResponse().get(0);
 	}
 
 	@Override
 	public City getCityByMapId(int mapId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public City getContainingCity(int mapId) {
-		// TODO Auto-generated method stub
-		return null;
+		return (City) send(new RequestObject(GcmQuery.getCityByMapId, new ArrayList<Object>() {
+			{
+				add(mapId);
+			}
+		}, username, password)).getResponse().get(0);
 	}
 
 	@Override

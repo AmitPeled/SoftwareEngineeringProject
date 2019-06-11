@@ -36,7 +36,7 @@ public class SearchTest {
 		gcmDAO.register("editor", "editor", new User("", "", "", ""));
 		editorDAO = gcmDAO;
 		searchDAO = gcmDAO;
-		cityId = editorDAO.addCity(new City(1, cityName, cityDescription));
+		cityId = editorDAO.addCity(new City(1, cityName, cityDescription), null,null);
 		siteId = editorDAO.addNewSiteToCity(cityId, new Site(1, siteName, siteDescription, new Coordinates()));
 
 	}

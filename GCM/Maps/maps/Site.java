@@ -18,12 +18,19 @@ public class Site implements Serializable {
 		this.descriptionString = description;
 		this.locationCoordinates = locationCoordinates;
 	}
-	
+
 	/**
 	 * default no description string
 	 */
 	public Site(int id, String name, Coordinates locationCoordinates) {
 		this(id, name, null, locationCoordinates);
+	}
+
+	public Site(String name, String description, Coordinates locationCoordinates) {
+		this.id = -1;
+		this.name = name;
+		this.descriptionString = description;
+		this.locationCoordinates = locationCoordinates;
 	}
 
 	/**

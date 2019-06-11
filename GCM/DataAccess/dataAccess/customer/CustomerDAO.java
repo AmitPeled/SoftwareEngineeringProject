@@ -37,16 +37,16 @@ public interface CustomerDAO {
 	 * @return false for invalid purchase details
 	 */
 	boolean repurchaseMembership(PurchaseDetails purchaseDetails);
+
 	/**
 	 * @return false if no valid user purchase details are stored in the database.
 	 */
 	boolean repurchaseMembershipBySavedDetails();
 
 	/**
-	 * @return null if user doens't currently have an active membership, and the
-	 *         map's File otherwise.
+	 * @return one time purchase map
 	 */
-	File purchaseMap(int mapId);
+	File purchaseMap(int mapId, PurchaseDetails purchaseDetails);
 
 	/**
 	 * both view and download map functionalities are available for period

@@ -17,6 +17,12 @@ public class Tour {
 		this.tourSites = tourSites;
 	}
 
+	public Tour(String description, int suggestedTimeToVisit) {
+		this.id = -1;
+		this.descriptionString = description;
+		this.suggestedTimeToVisit = suggestedTimeToVisit;
+	}
+
 	public int getId() {
 		return this.id;
 	}
