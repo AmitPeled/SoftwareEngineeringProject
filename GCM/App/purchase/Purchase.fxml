@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox minHeight="400.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="purchase" />
+      <TextField promptText="card number" />
+      <TextField promptText="cvc" />
+      <HBox spacing="5.0">
+         <children>
+            <Label text="Valid date" />
+            <MenuButton mnemonicParsing="false" text="year">
+              <items>
+                <MenuItem mnemonicParsing="false" text="19" />
+                <MenuItem mnemonicParsing="false" text="20" />
+                  <MenuItem mnemonicParsing="false" text="21" />
+                  <MenuItem mnemonicParsing="false" text="22" />
+                  <MenuItem mnemonicParsing="false" text="23" />
+                  <MenuItem mnemonicParsing="false" text="24" />
+              </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="mounth">
+              <items>
+                <MenuItem mnemonicParsing="false" text="01" />
+                <MenuItem mnemonicParsing="false" text="02" />
+                  <MenuItem mnemonicParsing="false" text="03" />
+                  <MenuItem mnemonicParsing="false" text="04" />
+                  <MenuItem mnemonicParsing="false" text="05" />
+                  <MenuItem mnemonicParsing="false" text="06" />
+                  <MenuItem mnemonicParsing="false" text="07" />
+                  <MenuItem mnemonicParsing="false" text="08" />
+                  <MenuItem mnemonicParsing="false" text="09" />
+                  <MenuItem mnemonicParsing="false" text="10" />
+                  <MenuItem mnemonicParsing="false" text="11" />
+                  <MenuItem mnemonicParsing="false" text="12" />
+              </items>
+            </MenuButton>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

@@ -4,6 +4,7 @@ import java.util.Stack;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import userInfo.UserInfo;
 
 /**
  * The GcmClient class's responsibility is encapsulating all the high-level JavaFX/FXML related 
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 class GcmClientImpl implements GcmClient {
 	
 	private static final String gcmAppTitle = "GCM";
-
+	private final UserInfo userInfo;
 	private SceneManager manager;
 	
 	/**
@@ -25,9 +26,15 @@ class GcmClientImpl implements GcmClient {
 	
 	private Stack<Scene> scenesStack;
 	
-	public GcmClientImpl(Stage primaryStage) {
+	public GcmClientImpl(Stage primaryStage, UserInfo userInfo) {
 		this.primaryStage = primaryStage;
 		this.scenesStack = new Stack<Scene>();
+		this.userInfo = userInfo;
+	}
+	
+	@Override
+	public UserInfo getUserInfo() {
+		return userInfo;
 	}
 	
 	@Override
