@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="233.0" prefWidth="306.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Text layoutX="109.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buy subscription" />
+      <Text layoutX="65.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscription period:" />
+      <DatePicker fx:id="fromDate" layoutX="101.0" layoutY="78.0" prefHeight="25.0" prefWidth="125.0" />
+      <DatePicker fx:id="untilDate" layoutX="101.0" layoutY="117.0" prefHeight="25.0" prefWidth="125.0" />
+      <Button fx:id="buyBtn" layoutX="64.0" layoutY="157.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Buy" />
+      <Text layoutX="65.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:" />
+      <Text layoutX="66.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Until:" />
+   </children>
+</AnchorPane>

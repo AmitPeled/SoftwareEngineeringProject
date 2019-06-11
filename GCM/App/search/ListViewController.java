@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import login.LoginModel;
 import mainApp.GcmClient;
@@ -30,8 +31,11 @@ public class ListViewController implements Initializable
 	private GcmDAO gcmDAO;
 	private int permission;
 	
+	
 	@FXML 
     private ListView<MapItem> listView;
+	@FXML
+    private AnchorPane mapItem;
 	@FXML 
     private Button buySubscriptionBtn;
 	@FXML 
@@ -143,11 +147,7 @@ public class ListViewController implements Initializable
     	}
 		return resultList;
 	}
-//	@FXML
-//	private void handleMapAction(ActionEvent event)
-//	{
-//	    System.out.println("You clicked me!");
-//	}
+
 	public int checkForPermissions() {
 		return 1;
 	}
@@ -160,6 +160,16 @@ public class ListViewController implements Initializable
 			addNewMapBtn.setVisible(true);
 		}
 	}
+//	@FXML
+//	public void mapItemListener() {
+//		mapItem.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+//		    @Override
+//		    public void handle(MouseEvent mouseEvent) {
+//		        System.out.println("mouse click detected! " + mouseEvent.getSource());
+//		    }
+//		});
+//	}
+	
     /**
 	* @param url
 	* @param rb
@@ -168,7 +178,9 @@ public class ListViewController implements Initializable
 	public void initialize(URL url, ResourceBundle rb) {
     	initRadioButtons();
     	searchListener();
-    	
+//    	mapItemListener();
+        assert mapItem != null : "fx:id=\"anchr\" was not injected: check your FXML file 'AxisFxml.fxml'.";
+
         listView.setCellFactory(new Callback<ListView<MapItem>, ListCell<MapItem>>() {
             @Override
             public ListCell<MapItem> call(ListView<MapItem> listView) {

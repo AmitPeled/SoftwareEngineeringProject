@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="249.0" prefWidth="179.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="51.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a new map" />
+      <TextField fx:id="mapNameText" layoutX="15.0" layoutY="67.0" text="Map name" />
+      <Button fx:id="addMapBtn" layoutX="64.0" layoutY="164.0" mnemonicParsing="false" text="Add map" />
+      <Button fx:id="uploadMapBtn" layoutX="53.0" layoutY="112.0" mnemonicParsing="false" text="Upload map" />
+   </children>
+</AnchorPane>
