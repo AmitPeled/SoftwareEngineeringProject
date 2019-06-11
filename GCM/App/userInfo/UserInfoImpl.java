@@ -11,8 +11,9 @@ public class UserInfoImpl implements UserInfo {
 	private CustomerDAO customerDAO;
 	private User user;
 
-	public UserInfoImpl(UserDAO userDao) {
+	public UserInfoImpl(UserDAO userDao, CustomerDAO customerDAO) {
 		this.userDao = userDao;
+		this.customerDAO = customerDAO;
 	}
 
 	@Override
@@ -20,8 +21,28 @@ public class UserInfoImpl implements UserInfo {
 		if (userDao.login(username, password) == RequestState.wrongDetails) {
 			return false;
 		}
-		// update the user
-		// user = customerDAO.getUserDetails();
+
 		return true;
 	}
+
+	@Override
+	public boolean register(String username, String password, User user) {
+		if (userDao.register(username, password, user) == RequestState.wrongDetails) {
+			return false;
+		}
+		return true;
+	}
+
+	// update the user and den him back
+	public User getUserDetailes() {
+		if (customerDAO.getUserDetails() == null) {
+			System.out.println("need to get user but get null");
+			return null;
+		} else {
+			user = customerDAO.getUserDetails();
+			System.out.println(customerDAO.getUserDetails().getUsername());
+		}
+		return user;
+	}
+
 }
