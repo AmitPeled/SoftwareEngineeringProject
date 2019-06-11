@@ -18,6 +18,7 @@ import dataAccess.users.UserDAO;
 import maps.City;
 import maps.Map;
 import maps.Site;
+import maps.Tour;
 import queries.GcmQuery;
 import queries.RequestState;
 import request.RequestObject;
@@ -166,7 +167,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 		}, username, password)).getResponse().get(0);
 	}
 
-	@Override
 	public int deleteContent(int contentId) {
 		// by now delete map only
 		send(new RequestObject(GcmQuery.deleteContent, new ArrayList<Object>() {
@@ -243,7 +243,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 	}
 
 	@Override
-	public int DeleteSiteFromMap(int mapId, int siteId) {
+	public int deleteSiteFromMap(int mapId, int siteId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -311,6 +311,36 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 	public City getCityByMapId(int mapId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public City getContainingCity(int mapId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int addNewTourToCity(int cityId, Tour tour) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addExistingTourToMap(int mapId, int tourId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addExistingSiteToTour(int tourId, int siteId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteSiteFromTour(int mapId, int siteId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

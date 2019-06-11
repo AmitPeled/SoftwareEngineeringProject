@@ -3,9 +3,6 @@ package search;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
