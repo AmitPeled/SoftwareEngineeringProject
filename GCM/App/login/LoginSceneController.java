@@ -34,6 +34,7 @@ public class LoginSceneController {
 		} else {
 			System.out.println("Log in success, go to app main scene");
 			wornglbl.setVisible(false);
+			clearFields();
 			loginModel.switchScene(SceneNames.MENU);
 		}
 
@@ -43,6 +44,7 @@ public class LoginSceneController {
 	public void forgotPassword(ActionEvent event) throws IOException {
 		// open scene with email to send a new password -> new password password confirm
 		System.out.println("guess what, you are an idiot");
+		clearFields();
 		loginModel.switchScene(SceneNames.FORGOT_PASSWORD);
 	}
 
@@ -50,17 +52,26 @@ public class LoginSceneController {
 	public void forgotUsername(ActionEvent event) throws IOException {
 		// open scene with email to send a new password -> new password password confirm
 		System.out.println("guess what, you are an idiot");
+		clearFields();
 		loginModel.switchScene(SceneNames.FORGOT_USERNAME);
 	}
 
 	@FXML
 	public void register(ActionEvent event) throws IOException {
 		loginModel.switchScene(SceneNames.REGISTER);
+		clearFields();
 		System.out.println("going to register");
 	}
 
 	@FXML
 	public void onBackButton() {
 		loginModel.back();
+	}
+	
+	public void clearFields() {
+		usernametxt.clear();
+		passwordtxt.clear();
+		return;
+		
 	}
 }
