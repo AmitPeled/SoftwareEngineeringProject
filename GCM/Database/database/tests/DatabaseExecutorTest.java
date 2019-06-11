@@ -26,7 +26,7 @@ class DatabaseExecutorTest {
 	@BeforeAll
 	static void setAll() {
 		dbExecutor = new DatabaseExecutor(DBConnector.connect());
-		tableName = DatabaseMetaData.getTableName(Tables.users);
+		tableName = DatabaseMetaData.getTableName(Tables.customerUsers);
 	}
 
 	@AfterAll
