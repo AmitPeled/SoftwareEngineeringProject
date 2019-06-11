@@ -1,7 +1,5 @@
 package register;
 
-import javafx.scene.control.Alert;
-import javafx.stage.Window;
 import mainApp.GcmClient;
 import mainApp.SceneNames;
 

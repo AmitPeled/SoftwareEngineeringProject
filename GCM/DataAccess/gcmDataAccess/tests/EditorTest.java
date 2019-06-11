@@ -15,6 +15,7 @@ import users.User;
 
 class EditorTest {
 	static EditorDAO mapAccess;
+	static GcmDAO gcmDAO;
 	int cityId;
 	int mapId;
 	Map map;
@@ -22,14 +23,14 @@ class EditorTest {
 
 	@BeforeAll
 	static void setAll() {
-		GcmDAO gcmDAO = new GcmDAO();
+		gcmDAO = new GcmDAO();
 		gcmDAO.register("editor", "editor", new User("", "", "", ""));
 		mapAccess = gcmDAO;
 	}
 
 	@Test
 	void testAll() {
-		cityId = mapAccess.addNewCity(new City(97, "name", "desc"));
+		cityId = mapAccess.addCity(new City(97, "name", "desc"));
 		map = new Map(13.1f, 2.2f);
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		mapId = mapAccess.addMapToCity(cityId, map, mapFile);
@@ -37,7 +38,7 @@ class EditorTest {
 		assertEquals(map.getHeight(), mapAccess.getMapDetails(mapId).getHeight());
 		assertEquals(map.getWidth(), mapAccess.getMapDetails(mapId).getWidth());
 		assertEquals(mapFile, mapAccess.getMapFile(mapId));
-		mapAccess.deleteContent(mapId);
+		gcmDAO.deleteContent(mapId);
 		assertThrows(NullPointerException.class, () -> mapAccess.getMapDetails(mapId).getHeight());
 		assertNull(mapAccess.getMapFile(mapId));
 
