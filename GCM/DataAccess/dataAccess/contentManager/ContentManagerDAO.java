@@ -3,6 +3,7 @@ package dataAccess.contentManager;
 import java.util.List;
 
 import maps.Map;
+import maps.Site;
 
 public interface ContentManagerDAO {
 
@@ -25,7 +26,7 @@ public interface ContentManagerDAO {
 	 */
 	List<Map> getMapsEditions();
 	
-	List<Map> getSitesEditions();
+	List<Site> getSitesEditions();
 	
 	List<Map> getCitiesEditions();
 
