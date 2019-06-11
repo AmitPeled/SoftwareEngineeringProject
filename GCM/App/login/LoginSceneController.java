@@ -3,9 +3,9 @@ package login;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import mainApp.SceneNames;
-import queries.RequestState;
 
 public class LoginSceneController {
 
@@ -16,6 +16,9 @@ public class LoginSceneController {
 
 	@FXML
 	private TextField passwordtxt;
+	
+	@FXML
+	private Label wornglbl;
 
 	public LoginSceneController(LoginModel model) {
 		loginModel = model;
@@ -25,10 +28,12 @@ public class LoginSceneController {
 	public void LogIn(ActionEvent event) throws IOException {
 		// send to data base to confirm that he is in the system
 		System.out.println("Logging in....");
-		if (loginModel.login(usernametxt.getText(), passwordtxt.getText()) == RequestState.wrongDetails) {
+		if (!loginModel.login(usernametxt.getText(), passwordtxt.getText())) {
 			System.out.println("Log in faild");
+			wornglbl.setVisible(true);
 		} else {
 			System.out.println("Log in success, go to app main scene");
+			wornglbl.setVisible(false);
 			loginModel.switchScene(SceneNames.MENU);
 		}
 
