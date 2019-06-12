@@ -54,7 +54,7 @@ public interface EditorDAO {
 
 	public int addExistingTourToMap(int mapId, int tourId);
 
-	public int addExistingSiteToTour(int tourId, int siteId);
+	public int addExistingSiteToTour(int tourId, int siteId, int siteDurance);
 
 	public int deleteSiteFromMap(int mapId, int siteId);
 

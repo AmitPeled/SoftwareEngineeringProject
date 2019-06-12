@@ -316,11 +316,12 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 	}
 
 	@Override
-	public int addExistingSiteToTour(int tourId, int siteId) {
+	public int addExistingSiteToTour(int tourId, int siteId, int siteDurance) {
 		return (int) send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
 			{
 				add(tourId);
 				add(siteId);
+				add(siteDurance);
 			}
 		}, username, password)).getResponse().get(0);
 	}
