@@ -29,6 +29,11 @@ public interface IParseObjects {
 
 	Site getSite(List<Object> fieldsList);
 
+	Tour getTour(List<Object> objectList, List<Site> tourSites, List<Integer> sitesDurances);
+	
+	City getCityByMetaFields(List<Object> objectList);
+
+
 //	City getCity(List<Object> fieldsList, SortedSet<Integer> mapsIds, SortedSet<Integer> sitesIds);
 
 	/**
@@ -44,9 +49,11 @@ public interface IParseObjects {
 	List<Object> getSiteFieldsList(Site site);
 
 	List<Object> getCityMetaFieldsList(City city);
-	
+
 	List<Object> getUserFieldsList(User user);
 
 	User getUser(List<Object> objectList);
+
+	List<Object> getTourMetaFieldsList(Tour list);
 
 }

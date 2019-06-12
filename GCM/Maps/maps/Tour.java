@@ -5,16 +5,21 @@ import java.util.List;
 public class Tour {
 	private int id;
 	private String descriptionString;
-	private int suggestedTimeToVisit; // in hours
-	private List<Site> tourSites;
+	private List<Site> sites;
+	private List<Integer> sitesTimeToVisit;
 
-	public Tour(int id, String description, int suggestedTimeToVisit, List<Site> tourSites) {
+	public Tour(int id, String description, List<Site> tourSites, List<Integer> sitesTimeToVisit) {
 		if (id <= 0)
 			throw new IllegalArgumentException("id has to be a positive number");
 		this.id = id;
 		this.descriptionString = description;
-		this.suggestedTimeToVisit = suggestedTimeToVisit;
-		this.tourSites = tourSites;
+		this.setSitesTimeToVisit(sitesTimeToVisit);
+		this.sites = tourSites;
+	}
+
+	public Tour(String description) {
+		this.id = -1;
+		this.descriptionString = description;
 	}
 
 	public int getId() {
@@ -25,12 +30,16 @@ public class Tour {
 		return this.descriptionString;
 	}
 
-	public int getSuggestedTimeToVisit() {
-		return this.suggestedTimeToVisit;
+	public List<Site> getSites() {
+		return this.sites;
 	}
 
-	public List<Site> getSites() {
-		return this.tourSites;
+	public List<Integer> getSitesTimeToVisit() {
+		return sitesTimeToVisit;
+	}
+
+	public void setSitesTimeToVisit(List<Integer> sitesTimeToVisit) {
+		this.sitesTimeToVisit = sitesTimeToVisit;
 	}
 
 }

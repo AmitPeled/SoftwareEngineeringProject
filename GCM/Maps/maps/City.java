@@ -18,6 +18,12 @@ public final class City implements Serializable {
 	private SortedSet<Integer> sites;
 	private SortedSet<Integer> tours;
 
+	
+	public City(String name, String description) throws IllegalArgumentException {
+		this.id = -1;
+		this.name = name;
+		this.descriptionString = description;
+	}
 	/**
 	 * default empty maps, sites and tours
 	 */
