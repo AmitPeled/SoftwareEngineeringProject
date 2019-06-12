@@ -61,15 +61,20 @@ public class RegisterSceneController {
 			confirmpasswordtxt.clear();
 
 		} else if (!(RegisterModel.validPhoneNumber(phonetxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!", "phone length need to be 10");
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
+					"invalid phone number, need to contain 10 digits");
 			phonetxt.clear();
+
+		} else if (!(RegisterModel.validEmail(emailtxt.getText()))) {
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!", "invalid email address");
+			emailtxt.clear();
 
 		} else {
 			// register.register(username, password, user);
 			User user = new User(nametxt.getText(), lastnametxt.getText(), emailtxt.getText(), phonetxt.getText());
 
 			if (!RegisterModel.register(usernametxt.getText(), passwordtxt.getText(), user)) {
-					System.out.println("someting is up");
+				System.out.println("someting is up");
 			}
 			clearFields();
 			RegisterModel.switchScene(SceneNames.LOGIN);
@@ -90,9 +95,9 @@ public class RegisterSceneController {
 		alert.initOwner(owner);
 		alert.show();
 	}
-	
+
 	public void clearFields() {
-	
+
 		nametxt.clear();
 		lastnametxt.clear();
 		emailtxt.clear();
@@ -101,5 +106,5 @@ public class RegisterSceneController {
 		confirmpasswordtxt.clear();
 		phonetxt.clear();
 	}
-	
+
 }
