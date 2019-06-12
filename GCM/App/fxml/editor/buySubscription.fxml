@@ -6,11 +6,11 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="214.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="217.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="109.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buy subscription" />
       <Text layoutX="65.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscription period:" />
-      <Button fx:id="buy" layoutX="64.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Buy" />
+      <Button fx:id="buy" layoutX="71.0" layoutY="179.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Buy" />
       <ComboBox fx:id="monthsPicker" layoutX="64.0" layoutY="82.0" prefHeight="25.0" prefWidth="28.0" />
       <Text layoutX="64.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" />
       <TextField fx:id="price" layoutX="64.0" layoutY="141.0" prefHeight="25.0" prefWidth="50.0" />

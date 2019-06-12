@@ -2,6 +2,8 @@ package editor.pointOfInterest;
 
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import gcmDataAccess.GcmDAO;
@@ -37,23 +39,27 @@ public class PointOfInterestController implements Initializable{
 	Button addEdit;
 	@FXML
 	public ToggleGroup disableOptions;
+	@FXML
+	TextField errors;
 	
 	String selectedRadioBtn;
 	RadioButton selectRadio;
 	
-	int mapId;
+	int cityId;
+	boolean disable;
 	
-	public PointOfInterestController(GcmDAO gcmDAO, int mapId) {
+	public PointOfInterestController(GcmDAO gcmDAO, int cityId) {
 		this.gcmDAO = gcmDAO;
-		this.mapId = mapId;
+		this.cityId = cityId;
 	}
 	public void initRadioButtons() {
 		// Radio 1: disableYes.
 		disableYes.setToggleGroup(disableOptions);
-		disableYes.setSelected(true);
+		
 		
 		// Radio 2: disableNo.
 		disableNo.setToggleGroup(disableOptions);
+		disableNo.setSelected(true);
 	}
 	public void pointOfInterestListener() {	
 		addEdit.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -66,21 +72,53 @@ public class PointOfInterestController implements Initializable{
 	            	String poiDescription = description.getText();
 	            	selectRadio = (RadioButton) disableOptions.getSelectedToggle();
 	            	selectedRadioBtn = selectRadio.getText();
-	            	
-	            	if(poiName != null && !poiName.isEmpty() && 
-	            		poiXC != null && !poiXC.isEmpty() && 
-        				poiYC != null && !poiYC.isEmpty() && 
-        				poiType != null && !poiType.isEmpty() &&
-						poiDescription != null && !poiDescription.isEmpty()) {
-	            		// missing id
-	            		Site site = new Site(mapId, poiName, poiDescription, new Coordinates(Float.parseFloat(poiXC),Float.parseFloat(poiYC)) );
-	            		gcmDAO.addNewSiteToCity(mapId, site);
+	            		
+	            	List<String> list = Arrays.asList(poiName, poiXC, poiYC, poiType, poiDescription);
+	            	if(checkFilledFields(list)) {
+		            	List<String> numericList = Arrays.asList(poiXC, poiYC);
+	            		String result = areAllFieldsNumeric(numericList);
+	            		if(result.equals("yes")) {
+	            			if(selectedRadioBtn.equals("disableYES")) {
+			            		disable = true;
+			            	}else {
+			            		disable = false;
+			            	}
+		            		Site site = new Site(poiName, poiDescription, poiType, disable, new Coordinates(Float.parseFloat(poiXC),Float.parseFloat(poiYC)) );
+		            		gcmDAO.addNewSiteToCity(cityId, site);
+	            		}else {
+	            			errors.setText(result + " should be a numeric value!");
+	            		}
+	            	}else {
+	            		errors.setText("Please fill all fields!");
 	            	}
 	            }
 			})
 		);
 	}
-	
+	public boolean checkFilledFields(List<String> list) {
+		for (String item : list) {
+			if(item == null || item.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	public String areAllFieldsNumeric(List<String> list) {
+		for (String item : list) {
+			if(!isNumeric(item)) {
+				return item;
+			}
+		}
+		return "yes";
+	}
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Float.parseFloat(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+		}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		pointOfInterestListener();		

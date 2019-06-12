@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -45,6 +46,8 @@ public class AddMapController implements Initializable
 	@FXML
 	TextField yCor;
 	@FXML
+	TextField errors;
+	@FXML
 	Button uploadMap;
 	@FXML
 	Button addMap;
@@ -73,33 +76,73 @@ public class AddMapController implements Initializable
 	            	String xCoordinates = xCor.getText();
 	            	String yCoordinates = yCor.getText();
 	            	
-	            	if(name != null && !name.isEmpty() && 
-	            			description != null && !description.isEmpty() && 
-	            				mapHeight != null && !mapHeight.isEmpty() &&
-	            						mapWidth != null && !mapWidth.isEmpty() &&
-	            								xCoordinates != null && !xCoordinates.isEmpty() && 
-	            										yCoordinates != null && !yCoordinates.isEmpty() &&
-	            											file != null) {
-	            		// missing id
-	            		Map newMap = new Map(name, description, Float.parseFloat(mapWidth), Float.parseFloat(mapHeight), new Coordinates(Float.parseFloat(xCoordinates), Float.parseFloat(yCoordinates)));
-	            		gcmDAO.addMapToCity(cityId, newMap, file);
+	            	List<String> list = Arrays.asList(name, description, mapHeight, mapWidth, xCoordinates, yCoordinates);;
+	            	if(checkFilledFields(list)) {
+	            		List<String> numericList = Arrays.asList(mapHeight, mapWidth, xCoordinates, yCoordinates);
+	            		String checkResult = areAllFieldsNumeric(numericList);
+	            		if(checkResult.equals("yes")) {
+
+		            		if(file != null) {
+		            			errors.setVisible(false);
+			            		Map newMap = new Map(name, description, Float.parseFloat(mapWidth), Float.parseFloat(mapHeight), new Coordinates(Float.parseFloat(xCoordinates), Float.parseFloat(yCoordinates)));
+			            		gcmDAO.addMapToCity(cityId, newMap, file);
+		            		
+		            		}else {
+		            			setErrors("No file added");
+		            		}
+	            		}else {
+	            			setErrors(checkResult + " is not numeric value!");
+	            		}
+	            		
+	            	}else {
+	            		setErrors("Please fill all the fields");
 	            	}
 	            }
 			})
 		);
 	}
-	
+	public boolean checkFilledFields(List<String> list) {
+		for (String item : list) {
+			if(item == null || item.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	public String areAllFieldsNumeric(List<String> list) {
+		for (String item : list) {
+			if(!isNumeric(item)) {
+				return item;
+			}
+		}
+		return "yes";
+	}
+	public void setErrors(String error) {
+		errors.setVisible(true);
+		errors.setText(error);
+	}
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Float.parseFloat(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+		}
 	public void uploadMapListener() {	
 		uploadMap.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) { 
 	            	 //Show open file dialog
 	                file = fileChooser.showOpenDialog(null);
-	                           
-	                try {
-	                    bufferedImage = ImageIO.read(file);
-	                    image = SwingFXUtils.toFXImage(bufferedImage, null);
-	                } catch (IOException ex) {
+	                if(file != null) {
+	                	try {
+							bufferedImage = ImageIO.read(file);
+		                    image = SwingFXUtils.toFXImage(bufferedImage, null);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 	                }
 	            }
 			})

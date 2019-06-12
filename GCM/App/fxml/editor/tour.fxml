@@ -6,13 +6,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="282.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="460.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="77.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit tour" />
       <TextField fx:id="description" layoutX="39.0" layoutY="58.0" promptText="Tour description" />
-      <Button fx:id="addEditTour" layoutX="26.0" layoutY="241.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="180.0" text="Add/Edit tour" />
+      <Button fx:id="addEditTour" layoutX="23.0" layoutY="421.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="180.0" text="Add/Edit tour" />
       <TextField fx:id="timeEstimation" layoutX="40.0" layoutY="149.0" promptText="Time estimation" />
       <Button fx:id="addNewPlace" layoutX="41.0" layoutY="182.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Add a new place:" />
       <ComboBox fx:id="sitesPicker" layoutX="41.0" layoutY="116.0" prefWidth="150.0" />
+      <ListView fx:id="listOfSites" layoutX="15.0" layoutY="247.0" prefHeight="128.0" prefWidth="200.0" />
+      <Text layoutX="61.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List of sites on tour:" />
+      <TextField fx:id="errors" disable="true" editable="false" layoutX="17.0" layoutY="387.0" prefHeight="25.0" prefWidth="194.0" />
    </children>
 </AnchorPane>

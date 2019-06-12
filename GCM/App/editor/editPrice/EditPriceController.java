@@ -23,6 +23,8 @@ public class EditPriceController implements Initializable
 	@FXML
 	Button editPrice;
 	int mapId;
+	@FXML
+	TextField errors;
 	
 	public EditPriceController(ContentManagerDAO contentManagerDAO, int mapId) {
 		this.contentManagerDAO = contentManagerDAO;
@@ -35,15 +37,32 @@ public class EditPriceController implements Initializable
 	            public void handle(MouseEvent event) { 
 	            	String newPriceStr = price.getText();
 	            	if(newPriceStr != null && !newPriceStr.isEmpty()) {
-		            	double newPrice = Double.parseDouble(newPriceStr);;
-		            	contentManagerDAO.changeMapPrice(mapId, newPrice);
+	            		if(isNumeric(newPriceStr)) {
+	            			errors.setVisible(false);
+	            			double newPrice = Double.parseDouble(newPriceStr);
+			            	System.out.println(newPrice);
+			            	contentManagerDAO.changeMapPrice(mapId, newPrice);
+	            		}else {
+	            			setErrors("Price should be numeric value!");
+	            		}
 	            	}
 	            	
 	            }
 			})
 		);
 	}
-	
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Float.parseFloat(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+	}
+	public void setErrors(String error) {
+		errors.setVisible(true);
+		errors.setText(error);
+	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		editPriceListener();

@@ -1,6 +1,8 @@
 package editor.tour;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
@@ -15,7 +17,14 @@ public class Main extends Application {
 		 // constructing our scene
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editor/tour.fxml"));
 		 GcmDAO gcmDAO = new GcmDAO();
-		 fxmlLoader.setController(new TourController(gcmDAO, 1));
+		 List<String> sites = new ArrayList<>();
+		 sites.add("haifa");
+		 sites.add("tel aviv");
+		 List<String> timeEstimations = new ArrayList<>();
+		 timeEstimations.add("1:30");
+		 timeEstimations.add("2:00");
+		 TourSites tourSites = new TourSites(sites, timeEstimations);
+		 fxmlLoader.setController(new TourController(gcmDAO, 1, tourSites));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
 

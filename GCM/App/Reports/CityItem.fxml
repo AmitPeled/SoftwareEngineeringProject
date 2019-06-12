@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
 
+<AnchorPane prefHeight="244.0" prefWidth="288.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Text layoutX="61.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City name" wrappingWidth="66.13671875" />
+      <Text layoutX="9.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of maps:" wrappingWidth="104.13671875" />
+      <Text layoutX="14.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="One time subscribers" wrappingWidth="118.13671875" />
+      <Text layoutX="14.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscribers" wrappingWidth="66.13671875" />
+      <Text layoutX="14.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Renewable subscriptions" wrappingWidth="143.13671875" />
+      <Text layoutX="14.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Downloads" wrappingWidth="66.13671875" />
+      <TextField layoutX="151.0" layoutY="39.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField layoutX="151.0" layoutY="68.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField layoutX="151.0" layoutY="93.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField layoutX="151.0" layoutY="123.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField layoutX="151.0" layoutY="155.0" prefHeight="25.0" prefWidth="125.0" />
+   </children>
+</AnchorPane>

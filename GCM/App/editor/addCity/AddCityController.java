@@ -2,6 +2,8 @@ package editor.addCity;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -25,7 +27,8 @@ public class AddCityController implements Initializable
 	TextField cityName;
 	@FXML
 	TextField cityDescription;
-
+	@FXML
+	TextField errors;
 	@FXML
 	Button addCity;
 	
@@ -43,18 +46,31 @@ public class AddCityController implements Initializable
 	            public void handle(MouseEvent event) { 
 	            	String name = cityName.getText();
 	            	String description = cityDescription.getText();
-	            	if(name != null && !name.isEmpty() && description != null && !description.isEmpty()) {
-	            		// missing id
-		            	City newCity = new City(1, name, description);
+	            	List<String> list = Arrays.asList(name, description);
+	            	if(checkFilledFields(list)){
+	            		City newCity = new City(name, description);
 		            	int cityId = gcmDAO.addCity(newCity);
-	            	}
+					}else {
+						setErrors("Please fill all fields!");
+					}
+		            	
 	            }
 			})
 		);
 	}
 
-
-	
+	public void setErrors(String error) {
+		errors.setVisible(true);
+		errors.setText(error);
+	}
+	public boolean checkFilledFields(List<String> list) {
+		for (String item : list) {
+			if(item == null || item.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
     /**
 	* @param url
 	* @param rb
