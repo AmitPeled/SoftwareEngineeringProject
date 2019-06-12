@@ -36,7 +36,8 @@ class GcmDatabaseExecutorTest {
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		cityId = gcmDataExecutor.addCity(new City(11, "haifa", "desc"));
 		mapId = gcmDataExecutor.addMapToCity(cityId, new Map(13.1f, 11.1f), mapFile);
-		siteId = gcmDataExecutor.addNewSiteToCity(cityId, new Site(11, "name", "desc", new Coordinates(7, 9)));
+		siteId = gcmDataExecutor.addNewSiteToCity(cityId,
+				new Site("name", "desc", "type", false, new Coordinates(7, 9)));
 		gcmDataExecutor.addExistingSiteToMap(mapId, siteId);
 	}
 
@@ -60,6 +61,9 @@ class GcmDatabaseExecutorTest {
 		assertEquals(siteId, site.getId());
 		assertEquals("name", site.getName());
 		assertEquals("desc", site.getDescription());
+		assertEquals("type", site.getSiteType());
+		assertEquals(false, site.isAccessibleForDisabled());
+
 
 	}
 

@@ -167,23 +167,11 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 		}, username, password)).getResponse().get(0);
 	}
 
-	public int deleteContent(int contentId) {
-		// by now delete map only
-		send(new RequestObject(GcmQuery.deleteContent, new ArrayList<Object>() {
-			{
-				add(contentId);
-			}
-		}, username, password));
-		return 0;// TODO
-	}
-
 	@Override
-	public int addCity(City city, Map firstMapDetails, File firstMapFile) {
+	public int addCity(City city) {
 		return (int) send(new RequestObject(GcmQuery.addCity, new ArrayList<Object>() {
 			{
 				add(city);
-				add(firstMapDetails);
-				add(firstMapFile);
 			}
 		}, username, password)).getResponse().get(0);
 	}
@@ -244,6 +232,16 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 		return 0;
 	}
 
+	public int deleteContent(int contentId) {
+		// by now delete map only
+		send(new RequestObject(GcmQuery.deleteContent, new ArrayList<Object>() {
+			{
+				add(contentId);
+			}
+		}, username, password));
+		return 0;
+	}
+
 	@Override
 	public int deleteSiteFromMap(int mapId, int siteId) {
 		send(new RequestObject(GcmQuery.deleteSiteFromMap, new ArrayList<Object>() {
@@ -289,6 +287,66 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 	}
 
 	@Override
+	public City getCityByMapId(int mapId) {
+		return (City) send(new RequestObject(GcmQuery.getCityByMapId, new ArrayList<Object>() {
+			{
+				add(mapId);
+			}
+		}, username, password)).getResponse().get(0);
+	}
+
+	@Override
+	public int addNewTourToCity(int cityId, Tour tour) {
+		return (int) send(new RequestObject(GcmQuery.addNewTourToCity, new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(tour);
+			}
+		}, username, password)).getResponse().get(0);
+	}
+
+	@Override
+	public int addExistingTourToMap(int mapId, int tourId) {
+		return (int) send(new RequestObject(GcmQuery.addExistingTourToMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(tourId);
+			}
+		}, username, password)).getResponse().get(0);
+	}
+
+	@Override
+	public int addExistingSiteToTour(int tourId, int siteId) {
+		return (int) send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
+			{
+				add(tourId);
+				add(siteId);
+			}
+		}, username, password)).getResponse().get(0);
+	}
+
+	@Override
+	public int deleteSiteFromTour(int mapId, int siteId) {
+		send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(siteId);
+			}
+		}, username, password)).getResponse().get(0);
+		return 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Site> getCitySites(int cityId) {
+		return (List<Site>) (Object) send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
+			{
+				add(cityId);
+			}
+		}, username, password)).getResponse();
+	}
+
+	@Override
 	public double getMembershipPrice(int cityId, int timeInterval) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -320,44 +378,11 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 
 	@Override
 	public File downloadMap(int mapId) {
-		return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
-			{
-				add(mapId);
-			}
-		}, username, password)).getResponse().get(0);
+//		return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
+//			{
+//				add(mapId);
+//			}
+//		}, username, password)).getResponse().get(0);
+		return null; // TODO
 	}
-
-	@Override
-	public City getCityByMapId(int mapId) {
-		return (City) send(new RequestObject(GcmQuery.getCityByMapId, new ArrayList<Object>() {
-			{
-				add(mapId);
-			}
-		}, username, password)).getResponse().get(0);
-	}
-
-	@Override
-	public int addNewTourToCity(int cityId, Tour tour) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int addExistingTourToMap(int mapId, int tourId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int addExistingSiteToTour(int tourId, int siteId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteSiteFromTour(int mapId, int siteId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

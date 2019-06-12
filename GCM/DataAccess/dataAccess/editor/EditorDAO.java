@@ -1,6 +1,7 @@
 package dataAccess.editor;
 
 import java.io.File;
+import java.util.List;
 
 import maps.City;
 import maps.Map;
@@ -22,12 +23,15 @@ import maps.Tour;
  */
 
 public interface EditorDAO {
-	
+
 	/**
 	 * the city contains the map
 	 */
+
+	List<Site> getCitySites(int cityId);
+
 	City getCityByMapId(int mapId);
-	
+
 	public Map getMapDetails(int mapId);
 
 	/**
@@ -40,7 +44,7 @@ public interface EditorDAO {
 
 	public int addMapToCity(int cityId, Map mapDetails, File mapFile);
 
-	public int addCity(City city, Map firstMapDetails, File firstMapFile);
+	public int addCity(City city);
 
 	public int addNewSiteToCity(int cityId, Site site);
 
@@ -51,13 +55,12 @@ public interface EditorDAO {
 	public int addExistingTourToMap(int mapId, int tourId);
 
 	public int addExistingSiteToTour(int tourId, int siteId);
-	
+
 	public int deleteSiteFromMap(int mapId, int siteId);
-	
+
 	public int deleteSiteFromTour(int mapId, int siteId);
 
 //	public int DeleteTourFromMap(int mapId, int siteId);
-
 
 //	/**
 //	 * Function to edit content. with this function you add, update and delete content.
@@ -68,9 +71,10 @@ public interface EditorDAO {
 //
 //	public int editContent(int contentId, Object editedContent);
 	/**
-	 * to replace a content by a new value. (the content that being modified is the meta fields only, i.e name description etc.)
+	 * to replace a content by a new value. (the content that being modified is the
+	 * meta fields only, i.e name description etc.)
 	 */
-	public int updateContent(int contentId, Object newContent);
+	public int updateContent(int contentId, Object newContent); //site,map,tours
 
 //	/**
 //	 * entirely delete the content and all its occurrences. for example, by deleting
