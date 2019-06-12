@@ -17,6 +17,7 @@ import users.User;
  * @author amit
  *
  */
+@SuppressWarnings("serial")
 public class DatabaseParser implements IParseObjects {
 
 	@Override
@@ -30,7 +31,8 @@ public class DatabaseParser implements IParseObjects {
 	@Override
 	public Site getSite(List<Object> objectList) {
 		return new Site((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
-				new Coordinates((float) objectList.get(3), (float) objectList.get(4)));
+				(String) objectList.get(3), (boolean) objectList.get(4),
+				new Coordinates((float) objectList.get(5), (float) objectList.get(6)));
 	}
 
 	@Override
@@ -56,7 +58,6 @@ public class DatabaseParser implements IParseObjects {
 //		return new City((int) objectList.get(0), new String((String) objectList.get(1)));
 //	}
 
-	@SuppressWarnings("serial")
 	@Override
 	public List<Object> getMapMetaFieldsList(Map map) {
 		return new ArrayList<Object>() {
@@ -73,7 +74,6 @@ public class DatabaseParser implements IParseObjects {
 		};
 	}
 
-	@SuppressWarnings("serial")
 	@Override
 	public List<Object> getSiteFieldsList(Site site) {
 		return new ArrayList<Object>() {
@@ -81,13 +81,14 @@ public class DatabaseParser implements IParseObjects {
 				add(site.getId());
 				add(site.getName());
 				add(site.getDescription());
+				add(site.getSiteType());
+				add(site.isAccessibleForDisabled());
 				add(site.getCoordinates().x);
 				add(site.getCoordinates().y);
 			}
 		};
 	}
 
-	@SuppressWarnings("serial")
 	@Override
 	public List<Object> getCityMetaFieldsList(City city) { // meta fields are all the fields that aren't arrays.
 		return new ArrayList<Object>() {
@@ -99,7 +100,6 @@ public class DatabaseParser implements IParseObjects {
 		};
 	}
 
-	@SuppressWarnings("serial")
 	@Override
 	public List<Object> getUserFieldsList(User user) {
 		return new ArrayList<Object>() {
@@ -114,5 +114,25 @@ public class DatabaseParser implements IParseObjects {
 				add(0);
 			}
 		};
+	}
+
+	@Override
+	public Tour getTour(List<Object> objectList, List<Site> tourSites, List<Integer> sitesDurances) {
+		return new Tour((int) objectList.get(0), (String) objectList.get(1), tourSites, sitesDurances);
+	}
+
+	@Override
+	public List<Object> getTourMetaFieldsList(Tour tour) {
+		return new ArrayList<Object>() {
+			{
+				add(tour.getId());
+				add(tour.getDescription());
+			}
+		};
+	}
+
+	@Override
+	public City getCityByMetaFields(List<Object> objectList) {
+		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2));
 	}
 }

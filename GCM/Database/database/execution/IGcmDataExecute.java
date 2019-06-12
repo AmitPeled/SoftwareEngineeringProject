@@ -8,6 +8,7 @@ import java.util.List;
 import maps.City;
 import maps.Map;
 import maps.Site;
+import maps.Tour;
 import queries.RequestState;
 import users.User;
 
@@ -32,6 +33,8 @@ public interface IGcmDataExecute {
 
 	int addCity(City city) throws SQLException;
 
+	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
+
 	void updateCity(int cityId, City city) throws SQLException;
 
 	void deleteCity(City city) throws SQLException;
@@ -53,6 +56,22 @@ public interface IGcmDataExecute {
 	List<Map> getMapsByDescription(String description) throws SQLException;
 
 	User getUserDetails(String username) throws SQLException;
+
+	File downloadMap(int mapId, String username);
+
+	City getCityByMapId(int mapId) throws SQLException;
+
+	List<Map> getPurchasedMaps(String username) throws SQLException;
+
+	File purchaseMap(String username) throws SQLException;
+
+	int updateContent(int contentId, Object content) throws SQLException;
+
+	List<Site> getCitySites(int cityId) throws SQLException;
+
+	void addExistingSiteToTour(int tourId, int siteId, int durnace)throws SQLException;
+
+	int addNewTourToCity(int cityId, Tour tour) throws SQLException;
 
 	// publish map/site/city
 	// purchaseMap
