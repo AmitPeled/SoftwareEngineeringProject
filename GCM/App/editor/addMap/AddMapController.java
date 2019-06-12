@@ -80,6 +80,7 @@ public class AddMapController implements Initializable
 	            								xCoordinates != null && !xCoordinates.isEmpty() && 
 	            										yCoordinates != null && !yCoordinates.isEmpty() &&
 	            											file != null) {
+	            		// missing id
 	            		Map newMap = new Map(name, description, Float.parseFloat(mapWidth), Float.parseFloat(mapHeight), new Coordinates(Float.parseFloat(xCoordinates), Float.parseFloat(yCoordinates)));
 	            		gcmDAO.addMapToCity(cityId, newMap, file);
 	            	}

@@ -49,6 +49,7 @@ public class BuySubscriptionController implements Initializable
 	            	String monthPickerValue = monthsPicker.getSelectionModel().getSelectedItem();
 
 	            	if(!monthPickerValue.isEmpty()) {
+	            		// add the correct pruchase details
 	            		PurchaseDetails purchaseDetails = new PurchaseDetails("1","2","3","4");
 	            		gcmDAO.purchaseMembership(Integer.parseInt(monthPickerValue), purchaseDetails, true);
 	            	}
@@ -94,6 +95,7 @@ public class BuySubscriptionController implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initMonthsPicker();
+		monthsPickerListener();
 		buyListener();
 	}
 }

@@ -44,6 +44,7 @@ public class AddCityController implements Initializable
 	            	String name = cityName.getText();
 	            	String description = cityDescription.getText();
 	            	if(name != null && !name.isEmpty() && description != null && !description.isEmpty()) {
+	            		// missing id
 		            	City newCity = new City(1, name, description);
 		            	int cityId = gcmDAO.addCity(newCity);
 	            	}

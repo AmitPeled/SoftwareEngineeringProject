@@ -24,8 +24,8 @@ public class EditPriceController implements Initializable
 	Button editPrice;
 	int mapId;
 	
-	public EditPriceController( int mapId) {
-//		this.contentManagerDAO = contentManagerDAO;
+	public EditPriceController(ContentManagerDAO contentManagerDAO, int mapId) {
+		this.contentManagerDAO = contentManagerDAO;
 		this.mapId = mapId;
 	}
 	
@@ -36,7 +36,7 @@ public class EditPriceController implements Initializable
 	            	String newPriceStr = price.getText();
 	            	if(newPriceStr != null && !newPriceStr.isEmpty()) {
 		            	double newPrice = Double.parseDouble(newPriceStr);;
-		            	//contentManagerDAO.changeMapPrice(mapId, newPrice);
+		            	contentManagerDAO.changeMapPrice(mapId, newPrice);
 	            	}
 	            	
 	            }

@@ -1,13 +1,9 @@
 package editor.pointOfInterest;
 
-import static java.lang.Math.toIntExact;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
-import dataAccess.users.PurchaseDetails;
 import gcmDataAccess.GcmDAO;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -76,7 +72,7 @@ public class PointOfInterestController implements Initializable{
         				poiYC != null && !poiYC.isEmpty() && 
         				poiType != null && !poiType.isEmpty() &&
 						poiDescription != null && !poiDescription.isEmpty()) {
-	            		
+	            		// missing id
 	            		Site site = new Site(mapId, poiName, poiDescription, new Coordinates(Float.parseFloat(poiXC),Float.parseFloat(poiYC)) );
 	            		gcmDAO.addNewSiteToCity(mapId, site);
 	            	}

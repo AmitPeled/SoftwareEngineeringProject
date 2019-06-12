@@ -17,8 +17,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		 // constructing our scene
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editor/editPrice.fxml"));
-		 //ContentManagerDAO contentManagerDAO = new GcmDAO();
-		 fxmlLoader.setController(new EditPriceController( 1));
+		 ContentManagerDAO contentManagerDAO = new GcmDAO();
+		 fxmlLoader.setController(new EditPriceController(contentManagerDAO, 1));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
 
