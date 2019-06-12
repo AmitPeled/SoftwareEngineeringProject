@@ -11,10 +11,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import mainApp.SceneNames;
+import userInfo.UserInfoImpl;
+import users.User;
 
 public class PurchaseController implements Initializable {
 
 	private PurchaseModel puchaseModel;
+	
+	/**happen when i will connect with gabri code**/
+	
+	//private UserInfoImpl userInfoImpl;
+	//private User user = userInfoImpl.getUserDetailes();
+	
 	
 	public PurchaseController(PurchaseModel model) {
 		this.puchaseModel = model;
@@ -34,9 +42,14 @@ public class PurchaseController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		mounthPicker.setItems(Monthlist);
 		yearPicker.setItems(Yearlist);
+		
+		/** setting values if user already purchase once 
+		 * check with amit about how he keep user data
+		 * -> mabybe change date type we are saving in user?**/
+		//nametxt.setText(user.getFirstName());
+		//lastnametxt.setText(user.getLastName());
 
 	}
 
@@ -49,6 +62,7 @@ public class PurchaseController implements Initializable {
 		System.out.println("Purchase Map!");
 		//Need to validate all fileds of buyer.
 		//need to send to mail note about purchase of the user buyer
+		//need to update user payment details
 		puchaseModel.switchScene(SceneNames.MENU);
 	}
 
