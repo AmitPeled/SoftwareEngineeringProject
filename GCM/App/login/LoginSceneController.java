@@ -21,7 +21,7 @@ public class LoginSceneController {
 	private Label wornglbl;
 
 	public LoginSceneController(LoginModel model) {
-		loginModel = model;
+		loginModel = model; 
 	}
 
 	@FXML

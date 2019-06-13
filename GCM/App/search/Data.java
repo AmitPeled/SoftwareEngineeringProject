@@ -2,6 +2,7 @@ package search;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.io.IOException;
 public class Data
 {
 	@FXML
-    private AnchorPane anchorpane;
+    private AnchorPane mapItem;
 	@FXML // fx:id="mapName"
     private TextField mapName;
 	@FXML // fx:id="description"
@@ -18,7 +19,8 @@ public class Data
     private TextField pointOfInterest;
 	@FXML // fx:id="tours"
     private TextField tours;
-	
+	@FXML
+	private Button goTo;
 	
 	
     public Data(){
@@ -26,7 +28,7 @@ public class Data
         fxmlLoader.setController(this);
         try
         {
-        	anchorpane = fxmlLoader.load();
+        	mapItem = fxmlLoader.load();
         }
         catch (IOException e)
         {
@@ -40,10 +42,11 @@ public class Data
         description.setText(item.getDescription());
         pointOfInterest.setText(item.getPointOfInterest());
         tours.setText(item.getTours());
+        mapItem.setId(item.getId());
     }
 
     public AnchorPane getBox()
     {
-        return anchorpane;
+        return mapItem;
     }
 }

@@ -26,11 +26,11 @@ import maps.Map;
 import search.CustomListCell;
 import search.MapItem;
 
-public class ListViewController implements Initializable
+public class SearchController implements Initializable
 {
 	private GcmDAO gcmDAO;
 	private int permission;
-	
+	 
 	
 	@FXML 
     private ListView<MapItem> listView;
@@ -53,11 +53,13 @@ public class ListViewController implements Initializable
 	private RadioButton rPointofinterest;
 	@FXML
 	private RadioButton rDescription;
+	@FXML
+	private Button goTo;
 	
 	String selectedRadioBtn;
 	RadioButton selectRadio;
 	
-	public ListViewController(GcmDAO gcmDAO) {
+	public SearchController(GcmDAO gcmDAO) {
 		this.gcmDAO = gcmDAO;
 	}
 
@@ -72,6 +74,18 @@ public class ListViewController implements Initializable
 		
 		// Radio 3: description.
 		rDescription.setToggleGroup(searchOptions);
+	}
+	
+	public void goToMapListener() {
+		goTo.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				//switchScene();
+				System.out.println(goTo.getId());
+			}
+			
+		}));
 	}
 	
 	public void searchListener() {	
@@ -124,7 +138,7 @@ public class ListViewController implements Initializable
 
 		for (Map item : resultSet) 
     	{ 
-			int id = item.getId();
+			String id = Integer.toString(item.getId());
 			String mapName = item.getName();
 			String description = item.getDescription();
 			String pointOfInterest;

@@ -25,10 +25,6 @@ public class PointOfInterestController implements Initializable{
 	@FXML
 	TextField name;
 	@FXML
-	TextField xC;
-	@FXML
-	TextField yC;
-	@FXML
 	TextField type;
 	@FXML
 	TextField description;
@@ -69,29 +65,21 @@ public class PointOfInterestController implements Initializable{
 	            @Override
 	            public void handle(MouseEvent event) {
 	            	String poiName = name.getText();
-	            	String poiXC = xC.getText();
-	            	String poiYC = yC.getText();
 	            	String poiType = type.getText();
 	            	String poiDescription = description.getText();
 	            	selectRadio = (RadioButton) disableOptions.getSelectedToggle();
 	            	selectedRadioBtn = selectRadio.getText();
 	            		
-	            	List<String> list = Arrays.asList(poiName, poiXC, poiYC, poiType, poiDescription);
+	            	List<String> list = Arrays.asList(poiName, poiType, poiDescription);
 	            	if(utilities.checkFilledFields(list)) {
-		            	List<String> numericList = Arrays.asList(poiXC, poiYC);
-	            		String result = utilities.areAllFieldsNumeric(numericList);
-	            		if(result.equals("yes")) {
-	            			errors.setVisible(false);
-	            			if(selectedRadioBtn.equals("disableYES")) {
-			            		disable = true;
-			            	}else {
-			            		disable = false;
-			            	}
-		            		Site site = new Site(poiName, poiDescription, poiType, disable, new Coordinates(Float.parseFloat(poiXC),Float.parseFloat(poiYC)) );
-		            		gcmDAO.addNewSiteToCity(cityId, site);
-	            		}else {
-	            			utilities.setErrors(result + " should be a numeric value!", errors);
-	            		}
+            			errors.setVisible(false);
+            			if(selectedRadioBtn.equals("disableYES")) {
+		            		disable = true;
+		            	}else {
+		            		disable = false;
+		            	}
+	            		Site site = new Site(poiName, poiDescription, poiType, disable, new Coordinates());
+	            		gcmDAO.addNewSiteToCity(cityId, site);
 	            	}else {
 	            		utilities.setErrors("Please fill all fields!", errors);
 	            	}

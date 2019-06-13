@@ -28,7 +28,7 @@ public class TextFieldUtility {
 		if (email == null)
 			return false;
 		return pat.matcher(email).matches();
-	}
+	} 
 
 	/**
 	 * set limit length to text field object
@@ -54,7 +54,7 @@ public class TextFieldUtility {
 	 * set TextField object to have numeric char only
 	 * 
 	 * @param textField
-	 */
+	 */ 
 	public static void numericTextOnly(TextField textField) {
 
 		textField.textProperty().addListener(new ChangeListener<String>() {
@@ -64,7 +64,7 @@ public class TextFieldUtility {
 					textField.setText(newValue.replaceAll("[^\\d]", ""));
 				}
 			}
-		}); 
+		});   
 
 	}
 	public boolean checkFilledFields(List<String> list) {
