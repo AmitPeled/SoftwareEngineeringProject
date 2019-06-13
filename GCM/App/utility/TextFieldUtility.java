@@ -67,6 +67,26 @@ public class TextFieldUtility {
 		});
 
 	}
+	
+	/**
+	 * poo up of alert box
+	 * 
+	 * @param alertType
+	 * @param owner
+	 * @param title
+	 * @param message
+	 *            when called pop to the screen alertbox
+	 */
+	public static void ShowAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.initOwner(owner);
+		alert.show();
+
+	}
+
 	public boolean checkFilledFields(List<String> list) {
 		for (String item : list) {
 			if(item == null || item.isEmpty()) {
