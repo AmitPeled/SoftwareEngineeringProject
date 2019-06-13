@@ -28,6 +28,7 @@ public final class MapViewerComponent implements MapViewer {
 	private static final int FONT_SIZE = 20;
 	private static final double STATUS_TEXT_WIDTH_POSITION = 0.5;
 	private static final double STATUS_TEXT_HEIGHT_POSITION = 0.05;
+	private static final float MOUSE_CLICK_OFFSET = 7.5f;
 	
 	// JavaFX
 	private Image image;
@@ -52,14 +53,14 @@ public final class MapViewerComponent implements MapViewer {
 	 * Constructs a MapViewerComponent object with no listeners.
 	 * @param mapPath
 	 */
-	public MapViewerComponent(String mapPath) { this(mapPath,(Set<MapViewerListener>)null,null); }
+	MapViewerComponent(String mapPath) { this(mapPath,(Set<MapViewerListener>)null,null); }
 	
 	/**
 	 * Constructs a MapViewerComponent object with a single listener
 	 * @param mapPath the path of the map file prefixed by "file:" and using relative path
 	 * @param listener A listener object that will be invoked when a mouse click occurs on the map
 	 */
-	public MapViewerComponent(String mapPath, MapViewerListener listener) { this(mapPath,new HashSet<MapViewerListener>(Arrays.asList(listener)),null); }
+	MapViewerComponent(String mapPath, MapViewerListener listener) { this(mapPath,new HashSet<MapViewerListener>(Arrays.asList(listener)),null); }
 
 	/**
 	 * Constructs a MapViewerComponent object with a several listeners
@@ -67,7 +68,7 @@ public final class MapViewerComponent implements MapViewer {
 	 * @param A collection of listener objects that will be invoked when a mouse click occurs on the map
 	 * @param A collection of all the Sites in this map
 	 */
-	public MapViewerComponent(String mapPath, 
+	MapViewerComponent(String mapPath, 
 			Set<MapViewerListener> listeners, 
 			Set<Site> sites) {
 		if(listeners == null) {
@@ -144,6 +145,9 @@ public final class MapViewerComponent implements MapViewer {
 		for (MapViewerListener mapViewerListener : listeners) {
 			mapViewerListener.onMapClick(relativeX,relativeY);
 		}
+		
+		locationIsSelected = true;
+		selectedLocationPosition = new Coordinates(x,y);
 		render();
 	}
 
@@ -170,7 +174,7 @@ public final class MapViewerComponent implements MapViewer {
 		if(!locationIsSelected) return;
 		
 		graphicsContext.setFill(javafx.scene.paint.Color.RED);
-		graphicsContext.fillOval(selectedLocationPosition.x, selectedLocationPosition.y, CIRCLE_SIZE, CIRCLE_SIZE);
+		graphicsContext.fillOval(selectedLocationPosition.x - MOUSE_CLICK_OFFSET, selectedLocationPosition.y- MOUSE_CLICK_OFFSET, CIRCLE_SIZE, CIRCLE_SIZE);
 	}
 
 	private void drawAllSites() {
