@@ -23,7 +23,7 @@ public class LoginSceneController {
 	public LoginSceneController(LoginModel model) {
 		loginModel = model; 
 	}
-
+ 
 	@FXML
 	public void LogIn(ActionEvent event) throws IOException {
 		// send to data base to confirm that he is in the system

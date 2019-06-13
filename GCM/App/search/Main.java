@@ -19,7 +19,7 @@ public class Main extends Application {
 		 fxmlLoader.setController(new SearchController(gcmDAO));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
-
+  
 		 // setting the stage
 		 primaryStage.setScene( scene );
 		 primaryStage.setTitle( "Search" );

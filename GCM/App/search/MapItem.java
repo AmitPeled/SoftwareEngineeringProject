@@ -15,9 +15,9 @@ public class MapItem {
     private String tours;
 	@FXML // fx:id="price"  
     private double price;
-	
+	 
 	public String getId() {
-        return id; 
+        return id;  
     }
     public String getName() {
         return name;

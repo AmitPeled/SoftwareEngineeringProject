@@ -1,14 +1,17 @@
 package search;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 public class Data
 {
+	private String id;
 	@FXML
     private AnchorPane mapItem;
 	@FXML // fx:id="mapName"
@@ -22,8 +25,8 @@ public class Data
 	@FXML
 	private Button goTo;
 	
-	
-    public Data(){
+	 
+    public Data(){ 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/mapItem.fxml"));
         fxmlLoader.setController(this);
         try
@@ -38,13 +41,25 @@ public class Data
 
     public void setInfo(MapItem item)
     {
+    	id = item.getId();
     	mapName.setText(item.getName());
         description.setText(item.getDescription());
         pointOfInterest.setText(item.getPointOfInterest());
         tours.setText(item.getTours());
-        mapItem.setId(item.getId());
+        goToMapListener();
     }
+	
+	public void goToMapListener() {
+		goTo.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
+			@Override
+			public void handle(MouseEvent arg0) {
+				//switchScene();
+				System.out.println(id);
+			}
+			
+		}));
+	}
     public AnchorPane getBox()
     {
         return mapItem;
