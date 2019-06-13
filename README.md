@@ -44,14 +44,14 @@ Software engineering course final project.
 - [x] Searching maps by Sites (Gavri])
 - [ ] Searching maps by both (Gavri)
 
-## Editing map (Scenes are complete. Gavri to push, Asaf to include in MapViewer scene)
-- [ ] Creating new city (Asaf after Gavri pushes)
-- [ ] Adding new maps to an existing city (Asaf after Gavri pushes)
-- [ ] Adding sites (Gavri to remove X&Y coordinates fields and push and then Asaf)
-- [ ] Editing a site (Asaf after Gavri pushes)
-- [ ] Adding a tour (Asaf after Gavri pushes)
-- [ ] Adding an existing site to an existing tour (Asaf after Gavri pushes)
-- [ ] Sending a notification to users when a map change has been approved (Asaf)
+## Editing map (asaf)
+- [ ] Creating new city 
+- [ ] Adding new maps to an existing city 
+- [ ] Adding sites 
+- [ ] Editing a site 
+- [ ] Adding a tour 
+- [ ] Adding an existing site to an existing tour 
+- [ ] Sending a notification to users when a map change has been approved 
 
 ## Registration (Done)
 - [x] Registring a new user
