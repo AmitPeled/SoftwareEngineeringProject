@@ -91,15 +91,15 @@ public class ReportsController implements Initializable{
 	            	
 	            	if(checkFilledFields(list) && datefrom != null && dateuntil != null) {
 	            		errors.setVisible(false);
-//	            		if(selectedRadioValue.equals("City name")) {
-//		            		List<Map> resultSet;
-//		            		resultSet = gcmDAO.getMapsByCityName(searchText);
-//		            	}else if(selectedRadioValue.equals("Customer")){
-//		            		List<Map> resultSet;
-//		            		resultSet = gcmDAO.getMapsByDescription(searchText);
-//		            	}else {
-//		            		
-//		            	}
+	            		if(selectedRadioValue.equals("City name")) {
+		            		List<Map> resultSet;
+		            		resultSet = gcmDAO.getMapsByCityName(searchText);
+		            	}else if(selectedRadioValue.equals("Customer")){
+		            		List<Map> resultSet;
+		            		resultSet = gcmDAO.getMapsByDescription(searchText);
+		            	}else {
+		            		
+		            	}
 	            	    CityItem city1 = new CityItem(1, "1", "2", "3", "4", "5");
 	            	    CityItem city2 = new CityItem(1, "5", "6", "7", "8", "9");
 	            	    CityItem city3 = new CityItem(1, "10", "11", "12", "13", "14");

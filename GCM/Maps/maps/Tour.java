@@ -1,8 +1,10 @@
 package maps;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Tour {
+@SuppressWarnings("serial")
+public class Tour implements Serializable {
 	private int id;
 	private String descriptionString;
 	private List<Site> sites;

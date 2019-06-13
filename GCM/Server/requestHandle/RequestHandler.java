@@ -93,33 +93,39 @@ public class RequestHandler implements IHandleRequest {
 				case getMapsByDescription:
 					listToSend = (List<Object>) (Object) gcmDataExecutor
 							.getMapsByDescription((String) listObjectReceived.get(0));
+					break;
 				case downloadMap:
 					listToSend.add(gcmDataExecutor.downloadMap((int) listObjectReceived.get(0), username));
+					break;
 				case getCityByMapId:
 					listToSend.add(gcmDataExecutor.getCityByMapId((int) listObjectReceived.get(0)));
+					break;
 				case getPurchasedMaps:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
+					break;
 				case purchaseMap:
 					listToSend.add(gcmDataExecutor.purchaseMap(username));
+					break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (int) listObjectReceived.get(2));
+					break;
 				case addExistingTourToMap:
-					gcmDataExecutor.addExistingSiteToMap((int) listObjectReceived.get(0),
+					gcmDataExecutor.addExistingTourToMap((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1));
+					break;
 				case addNewTourToCity:
 					listToSend.add(gcmDataExecutor.addNewTourToCity((int) listObjectReceived.get(0),
 							(Tour) listObjectReceived.get(1)));
+					break;
 				case deleteSiteFromMap:
-					return null;
-
+					break;
 				case deleteCity:
-					return null;
+					break;
 				case updateContent:
 					listToSend.add(
 							gcmDataExecutor.updateContent((int) listObjectReceived.get(0), listObjectReceived.get(1)));
 					break;
-
 				default:
 					break;
 				}
@@ -131,8 +137,12 @@ public class RequestHandler implements IHandleRequest {
 
 		} catch (SQLException e) {
 			requestState = RequestState.somethingWrongHappend;
+			System.err.println("db exception");
 		}
-
+		catch (Exception e) {
+			System.err.println("server exception");
+		}
+		
 		return new ResponseObject(requestState, listToSend);
 	}
 
@@ -178,6 +188,12 @@ public class RequestHandler implements IHandleRequest {
 		case purchaseMap:
 			return userType == RequestState.customer;
 		case updateContent:
+			return userType == RequestState.editor || userType == RequestState.contentManager;
+		case addNewTourToCity:
+			return userType == RequestState.editor || userType == RequestState.contentManager;
+		case addExistingSiteToTour:
+			return userType == RequestState.editor || userType == RequestState.contentManager;
+		case addExistingTourToMap:
 			return userType == RequestState.editor || userType == RequestState.contentManager;
 		default:
 			return false;

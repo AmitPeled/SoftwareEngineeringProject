@@ -7,5 +7,5 @@ public enum SceneNames {
 	FORGOT_USERNAME,
 	REGISTER, 
 	MENU,
-	SEARCH
+	PURCHASE
 }

@@ -8,8 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import mapViewer.MapViewerView;
-import mapViewer.MapViewerViewModel;
+import mapViewer.MapViewer;
+import mapViewer.MapViewerComponent;
+import mapViewerClientExample.MapViewerClientExample;
 
 public final class TestApplication extends Application{
 
@@ -17,10 +18,12 @@ public final class TestApplication extends Application{
 	static final int SCREEN_HEIGHT = 400;
 	
 	private Stage primaryStage;
-	private MapViewerView mapViewerView;
+	private MapViewer mapViewerComponent;
+	private MapViewerClientExample clientExample;
 	
 	public TestApplication() {
-		mapViewerView = new MapViewerView(new MapViewerViewModel());
+		mapViewerComponent = new MapViewerComponent("file:Import/resources/Gta3_map.gif");
+		clientExample = new MapViewerClientExample(mapViewerComponent);
 	}
 	
 	public static void main(String[] args) {
@@ -52,7 +55,7 @@ public final class TestApplication extends Application{
 	}
 	
 	private void switchToMapViewer(){
-		primaryStage.setScene(mapViewerView.getScene());
+		primaryStage.setScene(clientExample.getScene());
 	}
 	
 }
