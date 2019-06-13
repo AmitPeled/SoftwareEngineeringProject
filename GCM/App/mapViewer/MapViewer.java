@@ -2,6 +2,12 @@ package mapViewer;
 
 import javafx.scene.Scene;
 
+/**
+ * Contains a component that presents a map and listens to mouse clicks on the map.
+ * Use the getScene() method to get the Scene object of this component in order to use it.
+ * It's possible to add listeners using the constructor or with the addListener() method that listen
+ * to mouse click events.
+ */
 public interface MapViewer {
 
 	double getImageWidth();
