@@ -1,6 +1,43 @@
 # GCM - Global City Map
 Software engineering course final project.
 
+# Checklist
+## Search - Didn't work when me and eli tested 
+- [ ] Searching maps by City (Gavri)
+- [ ] Searching maps by Sites (Gavri])
+- [ ] Searching maps by both (Gavri)
+
+## Editing map (Scenes are complete. Gavri to push, Asaf to include in MapViewer scene)
+- [ ] Creating new city (Asaf after Gavri pushes)
+- [ ] Adding new maps to an existing city (Asaf after Gavri pushes)
+- [ ] Adding sites (Gavri to remove X&Y coordinates fields and push and then Asaf)
+- [ ] Editing a site (Asaf after Gavri pushes)
+- [ ] Adding a tour (Asaf after Gavri pushes)
+- [ ] Adding an existing site to an existing tour (Asaf after Gavri pushes)
+- [ ] Sending a notification to users when a map change has been approved (Asaf)
+
+## Registration (Done)
+- [x] Registring a new user
+- [x] Login to the system using an existing username and password
+
+## Purchasing maps
+- [ ] Purchasing maps (Eli and Amit sync on a DAO method)
+- [ ] Downloading purchased maps (?)
+- [ ] Purchasing a subscription (?)
+
+## Notification
+- [ ] System sends a notification to users when subscription runs out (Server)
+
+## Prices
+- [ ] Changing map prices (Gavri to push)
+
+## Reports
+- [ ] Choosing time frame for report 
+- [ ] Report on specific city 
+- [ ] Report on all cities 
+- [ ] A customer can view personal information
+- [ ] Managers can view customers information
+
 # Intro
 This document will be used by us to keep us all on the same page as to what we're doing and what this project is about.
 In the first part I'll overview the design and go over the components of the system along with the different data types. In the second part I'll write some standards that I think we must keep in our codebase, and leave some useful tips and references to some useful lectures about how to write good, clean and robust code, which I invite you all to use. Keep in mind that everything I write here is due to good and bad experience, and I believe we can make our job 5 times easier if we stick to these standards.

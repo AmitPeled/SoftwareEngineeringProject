@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
 import database.objectParse.IParseObjects;
@@ -133,13 +131,20 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		if (metaDetailsRows.isEmpty())
 			return null;
 		else {
-			List<List<Object>> mapSitesRows = queryExecutor
-					.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId");
+			List<Integer> mapSitesIds = toIdList(queryExecutor
+					.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId"));
 			List<Site> mapSites = new ArrayList<>();
-			for (List<Object> list : mapSitesRows) {
-				mapSites.add(getSite((int) list.get(0)));
+			for (int siteId : mapSitesIds) {
+				mapSites.add(getSite(siteId));
 			}
-			return objectParser.getMap(metaDetailsRows.get(0), mapSites, null); // only one row correspond to this id
+			List<Integer> mapToursIds = toIdList(queryExecutor
+					.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapTours), "mapId", mapId, "tourId"));
+			List<Tour> mapTours = new ArrayList<>();
+			for (int tourId : mapToursIds) {
+				mapTours.add(getTour(tourId));
+			}
+			return objectParser.getMap(metaDetailsRows.get(0), mapSites, mapTours); // only one row correspond to this
+																					// id
 		}
 	}
 
@@ -152,14 +157,29 @@ public class GcmDataExecutor implements IGcmDataExecute {
 			return objectParser.getSite(siteRows.get(0)); // only one site row correspond to this id
 	}
 
+	@SuppressWarnings("unchecked")
 	public Tour getTour(int tourId) throws SQLException {
 		List<List<Object>> siteRows = queryExecutor
 				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.toursMetaDetails), "tourId", tourId, "*");
 		if (siteRows.isEmpty())
 			return null;
-//		else
-//			return objectParser.getTour(siteRows.get(0)); // only one site row correspond to this id
-		return null;
+		else {
+			List<List<Object>> siteIdsAndDurances = queryExecutor.selectColumnsByValue(
+					DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId", tourId,
+					"siteId, siteDurance");
+			List<Integer> siteIds = (List<Integer>) (Object) toListOfColumnNum(siteIdsAndDurances, 1);
+			List<Integer> siteDurances = (List<Integer>) (Object) toListOfColumnNum(siteIdsAndDurances, 2);
+			List<Site> sites = getSitesByIds(siteIds);
+			return objectParser.getTour(siteRows.get(0), sites, siteDurances); // only one site row correspond to this
+																				// id
+		}
+	}
+
+	private List<Site> getSitesByIds(List<Integer> siteIds) throws SQLException {
+		List<Site> sites = new ArrayList<>();
+		for (int siteId : siteIds)
+			sites.add(getSite(siteId));
+		return sites;
 	}
 
 	@Override
@@ -397,6 +417,13 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		return ids;
 	}
 
+	private List<Object> toListOfColumnNum(List<List<Object>> listRows, int column) {
+		List<Object> rows = new ArrayList<>();
+		for (List<Object> row : listRows)
+			rows.add(row.get(column));
+		return rows;
+	}
+
 	@Override
 	public List<Map> getMapsByCityName(String cityName) throws SQLException {
 		return getMapsByCityField("cityName", cityName, false);
@@ -426,10 +453,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	public List<Site> getCitySites(int cityId) throws SQLException {
 		List<Integer> siteIds = toIdList(queryExecutor.selectColumnsByValue(
 				DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId"));
-		List<Site> sites = new ArrayList<>();
-		for (int siteId : siteIds)
-			sites.add(getSite(siteId));
-		return sites;
+		return getSitesByIds(siteIds);
 	}
 
 	@Override
@@ -482,6 +506,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public int addNewTourToCity(int cityId, Tour tour) throws SQLException {
+		System.out.println("in addNewTourToCity");
 		int tourId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
 				objectParser.getTourMetaFieldsList(tour));
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.cityTours), new ArrayList<Object>() {
@@ -529,5 +554,15 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	public int updateContent(int contentId, Object content) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void addExistingTourToMap(int mapId, int tourId) throws SQLException {
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapTours), new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(tourId);
+			}
+		});
 	}
 }
