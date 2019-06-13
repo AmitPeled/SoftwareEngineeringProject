@@ -14,7 +14,7 @@ public class RegisterModel {
 	private final int MIN_PASSWOR_LENGTH = 6;
 	private final int MAX_NAMEORLASTNAME_LENGTH = 10;
 	private final int MIN_NAMEORLASTNAME_LENGTH = 3;
-	private final int PHONE_NUBER_LENGTH = 10;
+	
 
 	public RegisterModel(GcmClient gcmClient) {
 		if (gcmClient == null)
@@ -58,13 +58,6 @@ public class RegisterModel {
 		return true;
 	}
 
-	public boolean validPhoneNumber(String phoneNumber) {
-
-		if (phoneNumber.matches("[0-9]+") && phoneNumber.length() == PHONE_NUBER_LENGTH) {
-			return true;
-		}
-		return false;
-	}
 
 	public boolean validEmail(String email) {
 		return TextFieldUtility.validEmail(email);
