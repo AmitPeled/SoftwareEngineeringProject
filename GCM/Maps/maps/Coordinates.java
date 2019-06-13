@@ -32,6 +32,8 @@ public final class Coordinates implements Serializable {
 		this.y = other.y;
 	}
 
+	public Coordinates(double x, double y) { this((float)x,(float)y); }
+
 	/**
 	 * Checks coordinates values equality (not reference equality). The values are floats and their proximity is being compared with an epsilon. 
 	 * @param other the coordinates to be compared
