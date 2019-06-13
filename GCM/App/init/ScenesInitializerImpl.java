@@ -2,8 +2,7 @@ package init;
 
 import java.io.IOException;
 import java.util.EnumMap;
-import init.initializers.ForgotPasswordInitializer;
-import init.initializers.ForgotUsernameInitializer;
+
 import init.initializers.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,6 +32,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		initializers.put(SceneNames.REGISTER, new RegisterInitializer(gcmClient));
 		initializers.put(SceneNames.FORGOT_PASSWORD, new ForgotPasswordInitializer(gcmClient));
 		initializers.put(SceneNames.FORGOT_USERNAME, new ForgotUsernameInitializer(gcmClient));
+		initializers.put(SceneNames.PURCHASE, new PurchaseInitializer(gcmClient));
 	}
 	
 	@Override
