@@ -1,10 +1,47 @@
 # GCM - Global City Map
 Software engineering course final project.
 
+#Tasks
+## Database
+### Editions and approvals (Amit)
+- [ ] Add "Status" columns to every modifyable table
+- [ ] Implement the status column on the server side
+- [ ] Create queries to get all unpublished rows
+- [ ] Create datatypes for the queries
+### Subscription (Eli)
+- [ ] Store in the database subscription information 
+- [ ] Implement relevant queries on server side
+- [ ] Implement DAO methods
+### Purchase And Downloads (Eli)
+- [ ] Store purchase history in the database
+- [ ] Store maps download history 
+- [ ] Build queries for purchase history
+- [ ] Build queries for download statistics (support date ranges!)
+
+## Server
+### Approvals (Amit)
+- [ ] Support price changes (Content manager proposes, general manager approves)
+### Sites 
+- [ ] Support editing sites
+- [ ] Support adding sites
+- [ ] Support removing sites
+### Cities 
+- [ ] Support editing cities
+- [ ] Support adding cities
+- [ ] Support removing cities
+### Tours
+- [ ] Support editing tours
+- [ ] Support adding tours
+- [ ] Support removing tours
+### Maps
+- [ ] Support editing maps
+- [ ] Support adding maps
+- [ ] Support removing maps
+
 # Checklist
-## Search - Didn't work when me and eli tested 
-- [ ] Searching maps by City (Gavri)
-- [ ] Searching maps by Sites (Gavri])
+## Search 
+- [x] Searching maps by City (Gavri)
+- [x] Searching maps by Sites (Gavri])
 - [ ] Searching maps by both (Gavri)
 
 ## Editing map (Scenes are complete. Gavri to push, Asaf to include in MapViewer scene)
@@ -25,18 +62,18 @@ Software engineering course final project.
 - [ ] Downloading purchased maps (?)
 - [ ] Purchasing a subscription (?)
 
-## Notification
-- [ ] System sends a notification to users when subscription runs out (Server)
+## Notification (Asaf will take)
+- [ ] System sends a notification to users when subscription runs out (Asaf)
 
 ## Prices
 - [ ] Changing map prices (Gavri to push)
 
-## Reports
-- [ ] Choosing time frame for report 
-- [ ] Report on specific city 
-- [ ] Report on all cities 
-- [ ] A customer can view personal information
-- [ ] Managers can view customers information
+## Reports (Scenes ready, need server communication)
+- [ ] Choosing time frame for report (Scenes ready, need server communication)
+- [ ] Report on specific city (Scenes ready, need server communication)
+- [ ] Report on all cities (Scenes ready, need server communication)
+- [ ] A customer can view personal information (Scenes ready, need server communication)
+- [ ] Managers can view customers information (Scenes ready, need server communication)
 
 # Intro
 This document will be used by us to keep us all on the same page as to what we're doing and what this project is about.
