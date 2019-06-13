@@ -1,10 +1,9 @@
 package register;
 
-import java.util.regex.Pattern;
-
 import mainApp.GcmClient;
 import mainApp.SceneNames;
 import users.User;
+import utility.TextFieldUtility;
 
 public class RegisterModel {
 
@@ -68,13 +67,7 @@ public class RegisterModel {
 	}
 
 	public boolean validEmail(String email) {
-		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
-				+ "A-Z]{2,7}$";
-
-		Pattern pat = Pattern.compile(emailRegex);
-		if (email == null)
-			return false;
-		return pat.matcher(email).matches();
+		return TextFieldUtility.validEmail(email);
 	}
 
 	public boolean register(String username, String password, User user) {
