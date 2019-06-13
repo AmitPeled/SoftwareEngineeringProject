@@ -21,6 +21,10 @@ public class DatabaseMetaData {
 			put(Tables.citiesMapsIds, "citiesMaps");
 			put(Tables.citiesSitesIds, "citiesSites");
 			put(Tables.sites, "sites");
+			put(Tables.tourSitesIdsAndDurance, "toursSites");
+			put(Tables.cityTours, "citiesTours");
+			put(Tables.toursMetaDetails, "toursMetaDetails");
+			put(Tables.mapTours, "mapsTours");
 		}
 	};
 
