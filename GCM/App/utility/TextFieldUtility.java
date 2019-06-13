@@ -64,14 +64,14 @@ public class TextFieldUtility {
 					textField.setText(newValue.replaceAll("[^\\d]", ""));
 				}
 			}
-		});
+		}); 
 
 	}
 	public boolean checkFilledFields(List<String> list) {
 		for (String item : list) {
 			if(item == null || item.isEmpty()) {
 				return false;
-			}
+			} 
 		}
 		return true;
 	}
@@ -96,7 +96,24 @@ public class TextFieldUtility {
 		errors.setVisible(true);
 		errors.setText(error);
 	}
+	/**
+	 * poo up of alert box
+	 * 
+	 * @param alertType
+	 * @param owner
+	 * @param title
+	 * @param message
+	 *            when called pop to the screen alertbox
+	 */
+	public static void ShowAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.initOwner(owner);
+		alert.show();
 
+	}
 	/**
 	 * give you current window of actionEvent screen
 	 * 
@@ -111,3 +128,6 @@ public class TextFieldUtility {
 	}
 
 }
+
+
+
