@@ -1,5 +1,7 @@
 package register;
 
+import java.util.regex.Pattern;
+
 import mainApp.GcmClient;
 import mainApp.SceneNames;
 import users.User;
@@ -58,10 +60,21 @@ public class RegisterModel {
 	}
 
 	public boolean validPhoneNumber(String phoneNumber) {
-		if (phoneNumber.length() == PHONE_NUBER_LENGTH) {
+
+		if (phoneNumber.matches("[0-9]+") && phoneNumber.length() == PHONE_NUBER_LENGTH) {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean validEmail(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
+
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return false;
+		return pat.matcher(email).matches();
 	}
 
 	public boolean register(String username, String password, User user) {
