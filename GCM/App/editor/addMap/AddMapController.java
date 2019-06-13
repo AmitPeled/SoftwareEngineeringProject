@@ -28,6 +28,7 @@ import maps.City;
 import maps.Coordinates;
 import maps.Map;
 import search.MapItem;
+import utility.TextFieldUtility;
 
 public class AddMapController implements Initializable
 {
@@ -57,12 +58,13 @@ public class AddMapController implements Initializable
 	Image image;
 	private FileChooser fileChooser;
 	BufferedImage bufferedImage;
+	TextFieldUtility utilities;
 	
-	public AddMapController(GcmDAO gcmDAO, int cityId) {
+	public AddMapController(GcmDAO gcmDAO, int cityId, TextFieldUtility utilities) {
 		this.gcmDAO = gcmDAO;
 		fileChooser = new FileChooserInit().getFileChooser();
 		this.cityId = cityId;
-
+		this.utilities = utilities;
 	}
 	
 	public void addMapListener() {	
@@ -77,9 +79,9 @@ public class AddMapController implements Initializable
 	            	String yCoordinates = yCor.getText();
 	            	
 	            	List<String> list = Arrays.asList(name, description, mapHeight, mapWidth, xCoordinates, yCoordinates);;
-	            	if(checkFilledFields(list)) {
+	            	if(utilities.checkFilledFields(list)) {
 	            		List<String> numericList = Arrays.asList(mapHeight, mapWidth, xCoordinates, yCoordinates);
-	            		String checkResult = areAllFieldsNumeric(numericList);
+	            		String checkResult = utilities.areAllFieldsNumeric(numericList);
 	            		if(checkResult.equals("yes")) {
 
 		            		if(file != null) {
@@ -88,47 +90,20 @@ public class AddMapController implements Initializable
 			            		gcmDAO.addMapToCity(cityId, newMap, file);
 		            		
 		            		}else {
-		            			setErrors("No file added");
+		            			utilities.setErrors("No file added", errors);
 		            		}
 	            		}else {
-	            			setErrors(checkResult + " is not numeric value!");
+	            			utilities.setErrors(checkResult + " is not numeric value!", errors);
 	            		}
 	            		
 	            	}else {
-	            		setErrors("Please fill all the fields");
+	            		utilities.setErrors("Please fill all the fields", errors);
 	            	}
 	            }
 			})
 		);
 	}
-	public boolean checkFilledFields(List<String> list) {
-		for (String item : list) {
-			if(item == null || item.isEmpty()) {
-				return false;
-			}
-		}
-		return true;
-	}
-	public String areAllFieldsNumeric(List<String> list) {
-		for (String item : list) {
-			if(!isNumeric(item)) {
-				return item;
-			}
-		}
-		return "yes";
-	}
-	public void setErrors(String error) {
-		errors.setVisible(true);
-		errors.setText(error);
-	}
-	public static boolean isNumeric(String str) { 
-		  try {  
-		    Float.parseFloat(str);  
-		    return true;
-		  } catch(NumberFormatException e){  
-		    return false;  
-		  }  
-		}
+
 	public void uploadMapListener() {	
 		uploadMap.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
@@ -155,6 +130,7 @@ public class AddMapController implements Initializable
 	**/
     @Override 
 	public void initialize(URL url, ResourceBundle rb) {
+    	errors.setVisible(false);
     	addMapListener();
     	uploadMapListener();
     }

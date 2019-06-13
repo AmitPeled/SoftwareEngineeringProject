@@ -25,7 +25,7 @@ public class WorkerData
 	
 	
     public WorkerData(){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/WorkerItem.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/reports/WorkerItem.fxml"));
         fxmlLoader.setController(this);
         try
         {

@@ -6,6 +6,7 @@ import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import utility.TextFieldUtility;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -16,7 +17,8 @@ public class Main extends Application {
 		 // constructing our scene
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editor/addCity.fxml"));
 		 GcmDAO gcmDAO = new GcmDAO();
-		 fxmlLoader.setController(new AddCityController(gcmDAO));
+		 TextFieldUtility utilities = new TextFieldUtility();
+		 fxmlLoader.setController(new AddCityController(gcmDAO, utilities));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
 

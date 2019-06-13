@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import utility.TextFieldUtility;
 
 public class EditPriceController implements Initializable
 {
@@ -25,46 +26,40 @@ public class EditPriceController implements Initializable
 	int mapId;
 	@FXML
 	TextField errors;
+	TextFieldUtility utilities;
 	
-	public EditPriceController(ContentManagerDAO contentManagerDAO, int mapId) {
+	public EditPriceController(ContentManagerDAO contentManagerDAO, int mapId, TextFieldUtility utilities) {
 		this.contentManagerDAO = contentManagerDAO;
 		this.mapId = mapId;
+		this.utilities = utilities;
 	}
-	
+	 
 	public void editPriceListener() {	
 		editPrice.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) { 
 	            	String newPriceStr = price.getText();
 	            	if(newPriceStr != null && !newPriceStr.isEmpty()) {
-	            		if(isNumeric(newPriceStr)) {
+	            		if(utilities.isNumeric(newPriceStr)) {
 	            			errors.setVisible(false);
 	            			double newPrice = Double.parseDouble(newPriceStr);
 			            	System.out.println(newPrice);
 			            	contentManagerDAO.changeMapPrice(mapId, newPrice);
 	            		}else {
-	            			setErrors("Price should be numeric value!");
+	            			utilities.setErrors("Price should be numeric value!", errors);
 	            		}
+	            	}else {
+	            		utilities.setErrors("Please fill all fields!", errors);
 	            	}
 	            	
 	            }
 			})
 		);
 	}
-	public static boolean isNumeric(String str) { 
-		  try {  
-		    Float.parseFloat(str);  
-		    return true;
-		  } catch(NumberFormatException e){  
-		    return false;  
-		  }  
-	}
-	public void setErrors(String error) {
-		errors.setVisible(true);
-		errors.setText(error);
-	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		errors.setVisible(false);
 		editPriceListener();
 		
 	}

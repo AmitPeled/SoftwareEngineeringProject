@@ -20,6 +20,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import maps.Coordinates;
 import maps.Map;
+import utility.TextFieldUtility;
+
 import static java.lang.Math.toIntExact;
 
 
@@ -35,6 +37,7 @@ public class BuySubscriptionController implements Initializable
 	TextField price;
 	
 	int mapId;
+	TextFieldUtility utilities;
 	
 	public BuySubscriptionController(GcmDAO gcmDAO, int mapId) {
 		this.gcmDAO = gcmDAO;

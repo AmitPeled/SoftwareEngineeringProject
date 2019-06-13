@@ -1,5 +1,6 @@
 package utility;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javafx.beans.value.ChangeListener;
@@ -57,7 +58,34 @@ public class TextFieldUtility {
 		});
 
 	}
+	public boolean checkFilledFields(List<String> list) {
+		for (String item : list) {
+			if(item == null || item.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	public String areAllFieldsNumeric(List<String> list) {
+		for (String item : list) {
+			if(!isNumeric(item)) {
+				return item;
+			}
+		}
+		return "yes";
+	}
+	public boolean isNumeric(String str) { 
+		  try {  
+		    Float.parseFloat(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+		}
 	
-	
-	
+	public void setErrors(String error, TextField errors) {
+		errors.setVisible(true);
+		errors.setText(error);
+	}
+
 }

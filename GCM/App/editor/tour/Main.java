@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utility.TextFieldUtility;
 
 public class Main extends Application {
 	@Override
@@ -24,7 +25,8 @@ public class Main extends Application {
 		 timeEstimations.add("1:30");
 		 timeEstimations.add("2:00");
 		 TourSites tourSites = new TourSites(sites, timeEstimations);
-		 fxmlLoader.setController(new TourController(gcmDAO, 1, tourSites));
+		 TextFieldUtility utilities = new TextFieldUtility();
+		 fxmlLoader.setController(new TourController(gcmDAO, 1, tourSites, utilities));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
 

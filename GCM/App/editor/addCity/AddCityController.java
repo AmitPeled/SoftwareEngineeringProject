@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import maps.City;
+import utility.TextFieldUtility;
 
 
 public class AddCityController implements Initializable
@@ -34,9 +35,11 @@ public class AddCityController implements Initializable
 	
 	File file;
 	Image image;
+	TextFieldUtility utilities;
 	
-	public AddCityController(GcmDAO gcmDAO) {
+	public AddCityController(GcmDAO gcmDAO, TextFieldUtility utilities) {
 		this.gcmDAO = gcmDAO;
+		this.utilities = utilities;
 	}
 	
 	
@@ -44,14 +47,15 @@ public class AddCityController implements Initializable
 		addCity.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) { 
+	            	errors.setVisible(false);
 	            	String name = cityName.getText();
 	            	String description = cityDescription.getText();
 	            	List<String> list = Arrays.asList(name, description);
-	            	if(checkFilledFields(list)){
+	            	if(utilities.checkFilledFields(list)){
 	            		City newCity = new City(name, description);
 		            	int cityId = gcmDAO.addCity(newCity);
 					}else {
-						setErrors("Please fill all fields!");
+						utilities.setErrors("Please fill all fields!", errors);
 					}
 		            	
 	            }
@@ -59,24 +63,14 @@ public class AddCityController implements Initializable
 		);
 	}
 
-	public void setErrors(String error) {
-		errors.setVisible(true);
-		errors.setText(error);
-	}
-	public boolean checkFilledFields(List<String> list) {
-		for (String item : list) {
-			if(item == null || item.isEmpty()) {
-				return false;
-			}
-		}
-		return true;
-	}
+
     /**
 	* @param url
 	* @param rb
 	**/
     @Override 
 	public void initialize(URL url, ResourceBundle rb) {
+    	errors.setVisible(false);
     	addCityListener();
     }
 }

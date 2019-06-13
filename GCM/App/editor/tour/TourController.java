@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import maps.Site;
 import search.MapItem;
+import utility.TextFieldUtility;
 
 public class TourController  implements Initializable {
 	private GcmDAO gcmDAO;
@@ -42,13 +43,15 @@ public class TourController  implements Initializable {
 	List<String> newTimeEstimations;
 	TourSites tourSites;
 	int mapId;
+	TextFieldUtility utilities;
 	
-	public TourController(GcmDAO gcmDAO, int mapId, TourSites tourSites) {
+	public TourController(GcmDAO gcmDAO, int mapId, TourSites tourSites, TextFieldUtility utilities) {
 		this.gcmDAO = gcmDAO;
 		this.mapId = mapId;
 		this.tourSites = tourSites;
 		newSites = tourSites.getSites();
 		newTimeEstimations = tourSites.getTimeEstimations();
+		this.utilities = utilities;
 	}
 	public void addPlaceListener() {	
 		addNewPlace.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -70,13 +73,11 @@ public class TourController  implements Initializable {
 		 		            		
 		 		            		timeEstimation.setText("");
 	 	            			}else {
-		 	            			errors.setVisible(true);
-			            			errors.setText("Site already exist!");
+	 	            				utilities.setErrors("Site already exist!", errors);
 			            			timeEstimation.setText("");
 		 	            		}
 		            		}else {
-		            			errors.setVisible(true);
-		            			errors.setText("Please fill the time estimation!");
+		            			utilities.setErrors("Please fill the time estimation!", errors);
 		            			timeEstimation.setText("");	
 		            		}
 	            	}
@@ -97,8 +98,7 @@ public class TourController  implements Initializable {
 	            		// call method to add or edit tour GcmDAO.addSitesToTour(tourSites);
 	            		
 	            	}else{
-	            		errors.setVisible(true);
-	            		errors.setText("Please add a tour description!");
+            			utilities.setErrors("Please add a tour description!", errors);
 	            	}
 	            }
 			})

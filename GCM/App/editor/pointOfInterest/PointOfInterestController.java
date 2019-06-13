@@ -17,6 +17,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import maps.Coordinates;
 import maps.Site;
+import utility.TextFieldUtility;
 
 public class PointOfInterestController implements Initializable{
 	private GcmDAO gcmDAO;
@@ -41,6 +42,7 @@ public class PointOfInterestController implements Initializable{
 	public ToggleGroup disableOptions;
 	@FXML
 	TextField errors;
+	TextFieldUtility utilities;
 	
 	String selectedRadioBtn;
 	RadioButton selectRadio;
@@ -48,9 +50,10 @@ public class PointOfInterestController implements Initializable{
 	int cityId;
 	boolean disable;
 	
-	public PointOfInterestController(GcmDAO gcmDAO, int cityId) {
+	public PointOfInterestController(GcmDAO gcmDAO, int cityId, TextFieldUtility utilities) {
 		this.gcmDAO = gcmDAO;
 		this.cityId = cityId;
+		this.utilities = utilities;
 	}
 	public void initRadioButtons() {
 		// Radio 1: disableYes.
@@ -74,10 +77,11 @@ public class PointOfInterestController implements Initializable{
 	            	selectedRadioBtn = selectRadio.getText();
 	            		
 	            	List<String> list = Arrays.asList(poiName, poiXC, poiYC, poiType, poiDescription);
-	            	if(checkFilledFields(list)) {
+	            	if(utilities.checkFilledFields(list)) {
 		            	List<String> numericList = Arrays.asList(poiXC, poiYC);
-	            		String result = areAllFieldsNumeric(numericList);
+	            		String result = utilities.areAllFieldsNumeric(numericList);
 	            		if(result.equals("yes")) {
+	            			errors.setVisible(false);
 	            			if(selectedRadioBtn.equals("disableYES")) {
 			            		disable = true;
 			            	}else {
@@ -86,41 +90,19 @@ public class PointOfInterestController implements Initializable{
 		            		Site site = new Site(poiName, poiDescription, poiType, disable, new Coordinates(Float.parseFloat(poiXC),Float.parseFloat(poiYC)) );
 		            		gcmDAO.addNewSiteToCity(cityId, site);
 	            		}else {
-	            			errors.setText(result + " should be a numeric value!");
+	            			utilities.setErrors(result + " should be a numeric value!", errors);
 	            		}
 	            	}else {
-	            		errors.setText("Please fill all fields!");
+	            		utilities.setErrors("Please fill all fields!", errors);
 	            	}
 	            }
 			})
 		);
 	}
-	public boolean checkFilledFields(List<String> list) {
-		for (String item : list) {
-			if(item == null || item.isEmpty()) {
-				return false;
-			}
-		}
-		return true;
-	}
-	public String areAllFieldsNumeric(List<String> list) {
-		for (String item : list) {
-			if(!isNumeric(item)) {
-				return item;
-			}
-		}
-		return "yes";
-	}
-	public static boolean isNumeric(String str) { 
-		  try {  
-		    Float.parseFloat(str);  
-		    return true;
-		  } catch(NumberFormatException e){  
-		    return false;  
-		  }  
-		}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		errors.setVisible(false);
 		pointOfInterestListener();		
 	}
 
