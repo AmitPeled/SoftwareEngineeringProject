@@ -123,14 +123,14 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 			System.exit(1);
 		}
 
-		System.out.println("Sending data to server..");
+//		System.out.println("Sending data to server..");
 		try {
 			out.writeObject(req);
 		} catch (IOException e1) {
 			System.err.println("error in sending data to server");
 			System.err.println(e1.getMessage());
 		}
-		System.out.println("data sent. receiving data:");
+//		System.out.println("data sent. receiving data:");
 		Object res = null;
 		try {
 			res = in.readObject();
@@ -139,7 +139,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 			System.err.println(e1.getMessage());
 		}
 		if (!(res instanceof ResponseObject)) {
-			System.err.println("Error! unknown response from server.");
+			System.err.println("Error! unknown response from server." /*+ res.toString()*/);
 			return null;
 		}
 		ResponseObject resObject = (ResponseObject) res;
@@ -307,12 +307,13 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 
 	@Override
 	public int addExistingTourToMap(int mapId, int tourId) {
-		return (int) send(new RequestObject(GcmQuery.addExistingTourToMap, new ArrayList<Object>() {
+		send(new RequestObject(GcmQuery.addExistingTourToMap, new ArrayList<Object>() {
 			{
 				add(mapId);
 				add(tourId);
 			}
-		}, username, password)).getResponse().get(0);
+		}, username, password));
+		return 0;
 	}
 
 	@Override

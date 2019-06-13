@@ -72,6 +72,8 @@ public interface IGcmDataExecute {
 
 	int addNewTourToCity(int cityId, Tour tour) throws SQLException;
 
+	void addExistingTourToMap(int mapId, int tourId) throws SQLException;
+
 	// publish map/site/city
 	// purchaseMap
 }
