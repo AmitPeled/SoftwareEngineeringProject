@@ -8,20 +8,28 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<GridPane gridLinesVisible="true" prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane gridLinesVisible="true" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
-      <ColumnConstraints hgrow="ALWAYS" maxWidth="300.0" minWidth="30.0" prefWidth="250.0" />
+      <ColumnConstraints hgrow="ALWAYS" maxWidth="320.0" minWidth="200.0" prefWidth="250.0" />
       <ColumnConstraints hgrow="ALWAYS" maxWidth="1980.0" minWidth="50.0" prefWidth="800.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="530.0" minHeight="10.0" prefHeight="522.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="294.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1280.0" minHeight="400.0" prefHeight="1024.0" vgrow="NEVER" />
+      <RowConstraints maxHeight="100.0" minHeight="60.0" prefHeight="80.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
       <VBox prefWidth="45.0">
          <children>
-            <Label text="Recommended Tours" />
+            <Label text="Recommended Tours">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
          </children>
          <padding>
             <Insets left="6.0" />

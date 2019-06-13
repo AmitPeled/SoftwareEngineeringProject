@@ -22,8 +22,9 @@ import maps.Site;
  * It's possible to add listeners using the constructor or with the addListener() method that listen
  * to mouse click events.
  */
-public final class MapViewerComponent implements MapViewer {
+final class MapViewerComponent implements MapViewer {
 	// Constants
+	private static final int FIT_HEIGHT = 768;
 	private static final int CIRCLE_SIZE = 15;
 	private static final int FONT_SIZE = 20;
 	private static final double STATUS_TEXT_WIDTH_POSITION = 0.5;
@@ -87,6 +88,7 @@ public final class MapViewerComponent implements MapViewer {
 		image = new Image(mapPath);
 		mapImage = new ImageView(image);
 		mapImage.setPickOnBounds(true);
+		mapImage.setFitHeight(FIT_HEIGHT);
 		mapImage.setPreserveRatio(true);
 		width = image.getWidth();
 		height = image.getHeight();

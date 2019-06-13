@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mapViewer.MapViewer;
-import mapViewer.MapViewerComponent;
+import mapViewer.MapViewerFactory;
 import mapViewerClientExample.MapViewerClientExample;
 
 public final class TestApplication extends Application{
@@ -22,7 +22,7 @@ public final class TestApplication extends Application{
 	private MapViewerClientExample clientExample;
 	
 	public TestApplication() {
-		mapViewerComponent = new MapViewerComponent("file:Import/resources/Gta3_map.gif");
+		mapViewerComponent = MapViewerFactory.getMapViewer(0);
 		clientExample = new MapViewerClientExample(mapViewerComponent);
 	}
 	

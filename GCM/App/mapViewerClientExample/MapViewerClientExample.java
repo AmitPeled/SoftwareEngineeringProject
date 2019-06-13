@@ -17,9 +17,11 @@ import mapViewer.MapViewerListener;
  *
  */
 public class MapViewerClientExample {
-	static final double leftPanelWidth = 80.0;
+	static final double LEFT_PANEL_WIDTH = 320.0;
+	static final double BOTTOM_PANEL_HEIGHT = 80.0;
 	static final int mapViewerGridIndex = 1;
-	static final String FxmlPath = "/fxml/mapViewerClient/MapViewerClientExampleGridPane.fxml";
+	//static final String FxmlPath = "/fxml/mapViewerClient/MapViewerClientExampleGridPane.fxml";
+	static final String FxmlPath = "/fxml/mapViewerClient/MapDisplayScene.fxml";
 	private Scene scene;
 	private MapViewerListener listener;
 	
@@ -36,8 +38,8 @@ public class MapViewerClientExample {
 			gridPane.add(mapViewer.getScene().getRoot(), mapViewerGridIndex , 0);
 			
 			// Creating the Scene object that is returned
-			double width = mapViewer.getImageWidth() + leftPanelWidth;
-			double height = mapViewer.getImageHeight();
+			double width = mapViewer.getImageWidth() + LEFT_PANEL_WIDTH;
+			double height = mapViewer.getImageHeight() + BOTTOM_PANEL_HEIGHT;
 			
 			scene = new Scene(gridPane, width, height);
 		} catch (IOException e) {
