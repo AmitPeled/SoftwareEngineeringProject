@@ -3,8 +3,6 @@ package purchase;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,10 +11,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import mainApp.SceneNames;
+import utility.TextFieldUtility;
 
 public class PurchaseController implements Initializable {
 
 	private PurchaseModel puchaseModel;
+	// private TextFieldUtility textFieldUtility;
+
 	private final int MAX_CVV_LENGTH = 3;
 	private final int MAX_CREDIT_CARD_NUMBER = 16;
 
@@ -43,10 +44,10 @@ public class PurchaseController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		mounthPicker.setItems(Monthlist);
 		yearPicker.setItems(Yearlist);
-		addTextLimiter(cvvtxt, MAX_CVV_LENGTH);
-		addTextLimiter(cardnumtxt, MAX_CREDIT_CARD_NUMBER);
-		numericTextOnly(cvvtxt);
-		numericTextOnly(cardnumtxt);
+		TextFieldUtility.addTextLimiter(cvvtxt, MAX_CVV_LENGTH);
+		TextFieldUtility.addTextLimiter(cardnumtxt, MAX_CREDIT_CARD_NUMBER);
+		TextFieldUtility.numericTextOnly(cvvtxt);
+		TextFieldUtility.numericTextOnly(cardnumtxt);
 
 		/**
 		 * setting values if user already purchase once check with amit about how he
@@ -70,29 +71,5 @@ public class PurchaseController implements Initializable {
 		puchaseModel.switchScene(SceneNames.MENU);
 	}
 
-	public void addTextLimiter(final TextField tf, final int maxLength) {
-		tf.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
-					final String newValue) {
-				if (tf.getText().length() > maxLength) {
-					String s = tf.getText().substring(0, maxLength);
-					tf.setText(s);
-				}
-			}
-		});
-	}
-
-	public void numericTextOnly(TextField tf) {
-
-		tf.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (!newValue.matches("\\d*")) {
-					tf.setText(newValue.replaceAll("[^\\d]", ""));
-				}
-			}
-		});
-
-	}
+	
 }

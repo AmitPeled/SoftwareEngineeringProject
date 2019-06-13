@@ -1,19 +1,21 @@
 package register;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.stage.Window;
 import mainApp.SceneNames;
 import users.User;
+import utility.TextFieldUtility;
 
-public class RegisterSceneController {
+public class RegisterSceneController implements Initializable {
 
+	private final int Max_length_phone = 10;
 	private RegisterModel RegisterModel;
 
 	@FXML
@@ -32,41 +34,39 @@ public class RegisterSceneController {
 
 	@FXML
 	public void register(ActionEvent event) throws IOException {
-		System.out.println("Register!!!");
+		System.out.println("Trying to register");
 
 		if (!(RegisterModel.validName(nametxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!", "name need to be between 3 to 10 letters");
+			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
+					"name need to be between 3 to 10 letters");
 			nametxt.clear();
 			// RegisterModel.clear(nametxt);
 
 		} else if (!(RegisterModel.validlastName(lastnametxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
+			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
 					"lastname need to be between 3 to 10 letters");
-			// RegisterModel.clear(lastnametxt);
 			lastnametxt.clear();
 
 		} else if (!(RegisterModel.Validusername(usernametxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
+			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
 					"username length need to be between 4 to 10 characters");
+
 			usernametxt.clear();
 
 		} else if (!(RegisterModel.validpassword(passwordtxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
+			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
 					"password length need to be between 6 to 10 characters");
+
 			passwordtxt.clear();
 
 		} else if (!(RegisterModel.validConfirmPassword(passwordtxt.getText(), confirmpasswordtxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
+			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
 					"password and confirm password dont match");
 			confirmpasswordtxt.clear();
 
-		} else if (!(RegisterModel.validPhoneNumber(phonetxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
-					"invalid phone number, need to contain 10 digits");
-			phonetxt.clear();
-
 		} else if (!(RegisterModel.validEmail(emailtxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!", "invalid email address");
+			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
+					"invalid email address");
 			emailtxt.clear();
 
 		} else {
@@ -77,23 +77,9 @@ public class RegisterSceneController {
 				System.out.println("someting is up");
 			}
 			clearFields();
+			System.out.println("Register!!!");
 			RegisterModel.switchScene(SceneNames.LOGIN);
 		}
-	}
-
-	public Window getStageWindow(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Window theStage = source.getScene().getWindow();
-		return theStage;
-	}
-
-	public void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
-		Alert alert = new Alert(alertType);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(message);
-		alert.initOwner(owner);
-		alert.show();
 	}
 
 	public void clearFields() {
@@ -105,6 +91,13 @@ public class RegisterSceneController {
 		passwordtxt.clear();
 		confirmpasswordtxt.clear();
 		phonetxt.clear();
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		TextFieldUtility.numericTextOnly(phonetxt);
+		TextFieldUtility.addTextLimiter(phonetxt, Max_length_phone);
+
 	}
 
 }
