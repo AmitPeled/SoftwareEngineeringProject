@@ -29,4 +29,11 @@ class CoordinatesTest {
 		Coordinates otherCoordinates = new Coordinates(DEFAULT_X , DEFAULT_Y);
 		assertTrue(defaultCoordinates.equals(otherCoordinates));
 	}
+	
+	@Test
+	void copyConstructor() {
+		Coordinates copiedCoordinates = new Coordinates(defaultCoordinates);
+		assertFalse(defaultCoordinates == copiedCoordinates);
+		assertTrue(defaultCoordinates.x == copiedCoordinates.x && defaultCoordinates.y == copiedCoordinates.y);
+	}
 }
