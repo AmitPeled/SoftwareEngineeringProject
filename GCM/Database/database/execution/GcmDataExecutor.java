@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,26 +104,6 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		queryExecutor.insertToTable("citiesMaps", cityRow);
 		return mapId;
 	}
-//	private int fullyAddMapToCity(int cityId, Map mapDescription, File mapFile)
-//			throws SQLException {
-//		int mapId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
-//				objectParser.getMapMetaFieldsList(mapDescription));
-//		List<Object> mapFileRow = new ArrayList<Object>() {
-//			{
-//				add(mapId);
-//				add(getBytes(mapFile));
-//			}
-//		};
-//		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsFiles), mapFileRow);
-//		List<Object> cityRow = new ArrayList<Object>() {
-//			{
-//				add(cityId);
-//				add(mapId);
-//			}
-//		};
-//		queryExecutor.insertToTable("citiesMaps", cityRow);
-//		return mapId;
-//	}
 
 	@Override
 	public Map getMapDetails(int mapId) throws SQLException {

@@ -22,7 +22,7 @@ public class Data
 	
 	
     public Data(){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mapItem.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/mapItem.fxml"));
         fxmlLoader.setController(this);
         try
         {

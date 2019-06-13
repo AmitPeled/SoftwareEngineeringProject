@@ -1,5 +1,6 @@
 package utility;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javafx.beans.value.ChangeListener;
@@ -66,24 +67,34 @@ public class TextFieldUtility {
 		});
 
 	}
-
-	/**
-	 * poo up of alert box
-	 * 
-	 * @param alertType
-	 * @param owner
-	 * @param title
-	 * @param message
-	 *            when called pop to the screen alertbox
-	 */
-	public static void ShowAlert(Alert.AlertType alertType, Window owner, String title, String message) {
-		Alert alert = new Alert(alertType);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(message);
-		alert.initOwner(owner);
-		alert.show();
-
+	public boolean checkFilledFields(List<String> list) {
+		for (String item : list) {
+			if(item == null || item.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	public String areAllFieldsNumeric(List<String> list) {
+		for (String item : list) {
+			if(!isNumeric(item)) {
+				return item;
+			}
+		}
+		return "yes";
+	}
+	public boolean isNumeric(String str) { 
+		  try {  
+		    Float.parseFloat(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+		}
+	
+	public void setErrors(String error, TextField errors) {
+		errors.setVisible(true);
+		errors.setText(error);
 	}
 
 	/**
