@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
 import mainApp.SceneNames;
+import users.User;
 
 public class RegisterSceneController {
 
@@ -25,6 +26,7 @@ public class RegisterSceneController {
 	@FXML
 	public void back(ActionEvent event) throws IOException {
 		System.out.println("well, im going back");
+		clearFields();
 		RegisterModel.back();
 	}
 
@@ -33,8 +35,7 @@ public class RegisterSceneController {
 		System.out.println("Register!!!");
 
 		if (!(RegisterModel.validName(nametxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
-					"name need to be between 3 to 10 letters");
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!", "name need to be between 3 to 10 letters");
 			nametxt.clear();
 			// RegisterModel.clear(nametxt);
 
@@ -60,12 +61,17 @@ public class RegisterSceneController {
 			confirmpasswordtxt.clear();
 
 		} else if (!(RegisterModel.validPhoneNumber(phonetxt.getText()))) {
-			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!",
-					"phone length need to be 10");
-			passwordtxt.clear();
+			showAlert(AlertType.ERROR, getStageWindow(event), "Form Error!", "phone length need to be 10");
+			phonetxt.clear();
 
 		} else {
 			// register.register(username, password, user);
+			User user = new User(nametxt.getText(), lastnametxt.getText(), emailtxt.getText(), phonetxt.getText());
+
+			if (!RegisterModel.register(usernametxt.getText(), passwordtxt.getText(), user)) {
+					System.out.println("someting is up");
+			}
+			clearFields();
 			RegisterModel.switchScene(SceneNames.LOGIN);
 		}
 	}
@@ -75,13 +81,25 @@ public class RegisterSceneController {
 		Window theStage = source.getScene().getWindow();
 		return theStage;
 	}
-	
+
 	public void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.initOwner(owner);
-        alert.show();
-    }
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.initOwner(owner);
+		alert.show();
+	}
+	
+	public void clearFields() {
+	
+		nametxt.clear();
+		lastnametxt.clear();
+		emailtxt.clear();
+		usernametxt.clear();
+		passwordtxt.clear();
+		confirmpasswordtxt.clear();
+		phonetxt.clear();
+	}
+	
 }

@@ -1,5 +1,6 @@
 package mainApp;
 
+import dataAccess.customer.CustomerDAO;
 import dataAccess.users.UserDAO;
 import gcmDataAccess.GcmDAO;
 import init.*;
@@ -11,8 +12,10 @@ import userInfo.UserInfoImpl;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-		UserDAO userDAO = new GcmDAO();
-		UserInfo userInfo = new UserInfoImpl(userDAO);
+		GcmDAO gcmDAO = new GcmDAO();
+		UserDAO userDAO = gcmDAO;
+		CustomerDAO customerDAO = gcmDAO;
+		UserInfo userInfo = new UserInfoImpl(userDAO,customerDAO);
 		GcmClient gcm = new GcmClientImpl(primaryStage,userInfo);
 		ScenesInitializer initializer = new ScenesInitializerImpl(gcm);
 		SceneManager manager = new SceneManagerImpl(initializer.getScenes());

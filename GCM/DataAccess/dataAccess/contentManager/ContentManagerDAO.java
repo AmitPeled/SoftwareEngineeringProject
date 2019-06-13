@@ -24,11 +24,11 @@ public interface ContentManagerDAO {
 	 * in order to get the map file (to compare with the origin file, if exists) use EditorDAO.getMapFile (as 
 	 * the ContentManager privilege bigger than editor's).
 	 */
-	List<Map> getMapsEditions();
+	List<Map> getMapsEditings();
 	
-	List<Site> getSitesEditions();
+	List<Site> getSitesEditings();
 	
-	List<Map> getCitiesEditions();
+	List<Map> getCitiesEditings();
 
 
 	void changeMapPrice(int mapId, double newPrice);

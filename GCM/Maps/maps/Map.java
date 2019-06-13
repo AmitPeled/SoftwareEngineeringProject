@@ -25,22 +25,22 @@ public final class Map implements Serializable {
 	/**
 	 * Creates a new Map instance with no offset, description, sites, tour and price
 	 * 
-	 * @param id     The ID number associated with this map. Used for identification
-	 *               in the database and helps to find the map image files
 	 * @param width  The width size of the map in real-world meters
 	 * @param height The height size of the map in real-world meters
-	 * @throws IllegalArgumentException Thrown when id, width or height are not
-	 *                                  positive numbers
 	 */
-	public Map(float width, float height) throws IllegalArgumentException {
-		// By default the description null, offset (0,0)
+	public Map(float width, float height) {
+		// By default the name and description are null, offset (0,0)
 		this(null, null, width, height, new Coordinates());
 	}
 
-	public Map(String name, String description, float width, float height, Coordinates offset)
-			throws IllegalArgumentException {
-		// By default the offset (0,0)
-		this(1, name, description, width, height, offset, -1, null, null);
+	public Map(String name, String description, float width, float height, Coordinates offset) {
+		// default id -1
+		this.id = -1;
+		this.name = name;
+		this.descriptionString = description;
+		this.width = width;
+		this.height = height;
+		this.offset = offset;
 	}
 
 	/**
@@ -68,7 +68,7 @@ public final class Map implements Serializable {
 
 		this.id = id;
 		this.name = name;
-		this.descriptionString=description;
+		this.descriptionString = description;
 		this.width = width;
 		this.height = height;
 		this.offset = offset;

@@ -26,7 +26,8 @@ public class DatabaseMetaData {
 
 	public static enum Tables {
 		customerUsers, editorUsers, contentManagerUsers, generalManagerUsers, mapsMetaDetails, mapsFiles, mapsSites,
-		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites
+		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapTours,
+		cityTours
 	}
 
 	public static String getHostName() {
