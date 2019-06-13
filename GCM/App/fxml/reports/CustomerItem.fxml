@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane prefHeight="377.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="66.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer name" wrappingWidth="97.13671875" />
+      <Text layoutX="9.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="104.13671875" />
+      <Text layoutX="9.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone:" wrappingWidth="118.13671875" />
+      <Text layoutX="13.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" wrappingWidth="66.13671875" />
+      <Text layoutX="14.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase history:" wrappingWidth="143.13671875" />
+      <TextField fx:id="name" editable="false" layoutX="51.0" layoutY="39.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="phone" editable="false" layoutX="51.0" layoutY="72.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="email" editable="false" layoutX="51.0" layoutY="105.0" prefHeight="25.0" prefWidth="125.0" />
+      <ListView fx:id="purchaseHistory" layoutX="13.0" layoutY="163.0" prefHeight="200.0" prefWidth="200.0" />
+   </children>
 </AnchorPane>
-

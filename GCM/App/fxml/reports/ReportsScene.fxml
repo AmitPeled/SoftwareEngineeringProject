@@ -8,47 +8,52 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="785.0" prefWidth="526.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="847.0" prefWidth="526.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Group fx:id="SearchArea" layoutX="-14.0">
-         <children>
-            <RadioButton fx:id="rCityname" layoutX="189.0" layoutY="141.0" mnemonicParsing="false" selected="true" text="City name">
-               <toggleGroup>
-                  <ToggleGroup fx:id="searchOptions" />
-               </toggleGroup></RadioButton>
-            <TextField fx:id="searchBar" layoutX="180.0" layoutY="75.0" onAction="#searchListener" prefHeight="25.0" prefWidth="157.0" promptText="Search" />
-            <Text fx:id="subtitle" layoutX="189.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by:" underline="true">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
-            <RadioButton fx:id="rCustomerWorker" layoutX="189.0" layoutY="167.0" mnemonicParsing="false" text="Customer/Worker">
-               <toggleGroup>
-                  <ToggleGroup fx:id="options" />
-               </toggleGroup></RadioButton>
-            <Text fx:id="title" layoutX="196.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports" wrappingWidth="134.0">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Text>
-         </children>
-      </Group>
-      <Group />
-      <Button fx:id="addNewMapBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" visible="false" />
-      <Button fx:id="buySubscriptionBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" visible="false" />
-   	<ListView fx:id="listView" layoutX="53.0" layoutY="337.0" prefHeight="434.0" prefWidth="435.0" />
-      <Button fx:id="searchBtn" layoutX="170.0" layoutY="296.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0" text="Search" />
-      <DatePicker fx:id="dateFrom" layoutX="172.0" layoutY="215.0" prefHeight="25.0" prefWidth="149.0" />
-      <DatePicker fx:id="dateUntil" layoutX="172.0" layoutY="264.0" prefHeight="25.0" prefWidth="149.0" />
-      <Text fx:id="subtitle1" layoutX="173.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:" underline="true">
+      <TextField fx:id="searchBar" layoutX="181.0" layoutY="69.0" onAction="#searchListener" prefHeight="25.0" prefWidth="157.0" promptText="Search" />
+      <Text fx:id="subtitle" layoutX="190.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by:" underline="true">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="subtitle11" layoutX="173.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Until" underline="true">
+      <RadioButton fx:id="rCustomer" layoutX="190.0" layoutY="161.0" mnemonicParsing="false" text="Customer">
+         <toggleGroup>
+            <ToggleGroup fx:id="options" />
+         </toggleGroup>
+      </RadioButton>
+      <Text fx:id="title" layoutX="197.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports" wrappingWidth="134.0">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Text>
+      <RadioButton fx:id="rCity" layoutX="190.0" layoutY="135.0" mnemonicParsing="false" selected="true" text="City name">
+         <toggleGroup>
+            <ToggleGroup fx:id="searchOptions" />
+         </toggleGroup>
+      </RadioButton>
+      <Button fx:id="addNewMapBtn" layoutX="138.0" layoutY="345.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" visible="false" />
+      <Button fx:id="buySubscriptionBtn" layoutX="138.0" layoutY="345.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" visible="false" />
+   	<ListView fx:id="customerResults" layoutX="53.0" layoutY="396.0" prefHeight="434.0" prefWidth="435.0" />
+      <Button fx:id="search" layoutX="170.0" layoutY="353.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0" text="Search" />
+      <DatePicker fx:id="dateFrom" layoutX="172.0" layoutY="236.0" prefHeight="25.0" prefWidth="149.0" />
+      <DatePicker fx:id="dateUntil" layoutX="172.0" layoutY="285.0" prefHeight="25.0" prefWidth="149.0" />
+      <Text fx:id="subtitle1" layoutX="173.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:" underline="true">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
+      <Text fx:id="subtitle11" layoutX="173.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Until" underline="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <ListView fx:id="workerResults" layoutX="53.0" layoutY="396.0" prefHeight="434.0" prefWidth="435.0" />
+      <ListView fx:id="cityResults" layoutX="53.0" layoutY="396.0" prefHeight="434.0" prefWidth="435.0" />
+      <RadioButton fx:id="rWorker" layoutX="190.0" layoutY="188.0" mnemonicParsing="false" text="Worker">
+         <toggleGroup>
+            <ToggleGroup fx:id="options1" />
+         </toggleGroup>
+      </RadioButton>
+      <TextField fx:id="errors" disable="true" editable="false" layoutX="170.0" layoutY="320.0" />
    </children>
 </AnchorPane>
