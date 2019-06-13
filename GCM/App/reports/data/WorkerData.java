@@ -1,12 +1,12 @@
-package Reports.data;
+package reports.data;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import java.io.IOException;
+import reports.resultItems.WorkerItem;
 
-import Reports.resultItems.WorkerItem;
+import java.io.IOException;
 
 public class WorkerData
 {

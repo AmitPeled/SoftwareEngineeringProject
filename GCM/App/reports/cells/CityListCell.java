@@ -1,8 +1,8 @@
-package Reports.cells;
+package reports.cells;
 
-import Reports.data.CityData;
-import Reports.resultItems.CityItem;
 import javafx.scene.control.ListCell;
+import reports.data.CityData;
+import reports.resultItems.CityItem;
 
 public class CityListCell extends ListCell<CityItem> {
 

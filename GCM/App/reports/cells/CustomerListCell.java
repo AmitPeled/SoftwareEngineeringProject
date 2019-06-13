@@ -1,8 +1,8 @@
-package Reports.cells;
+package reports.cells;
 
-import Reports.data.CustomerData;
-import Reports.resultItems.CustomerItem;
 import javafx.scene.control.ListCell;
+import reports.data.CustomerData;
+import reports.resultItems.CustomerItem;
 
 public class CustomerListCell extends ListCell<CustomerItem> {
 

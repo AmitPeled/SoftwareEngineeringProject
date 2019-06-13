@@ -1,4 +1,4 @@
-package Reports.data;
+package reports.data;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,9 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import java.io.IOException;
+import reports.resultItems.CustomerItem;
 
-import Reports.resultItems.CustomerItem;
+import java.io.IOException;
 
 public class CustomerData
 {

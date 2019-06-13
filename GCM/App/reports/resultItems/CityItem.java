@@ -1,4 +1,4 @@
-package Reports.resultItems;
+package reports.resultItems;
 
 import javafx.fxml.FXML;
 

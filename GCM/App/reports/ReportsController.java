@@ -1,4 +1,4 @@
-package Reports;
+package reports;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -7,12 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import Reports.cells.CityListCell;
-import Reports.cells.CustomerListCell;
-import Reports.cells.WorkerListCell;
-import Reports.resultItems.CityItem;
-import Reports.resultItems.CustomerItem;
-import Reports.resultItems.WorkerItem;
 import gcmDataAccess.GcmDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +23,12 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import maps.Map;
+import reports.cells.CityListCell;
+import reports.cells.CustomerListCell;
+import reports.cells.WorkerListCell;
+import reports.resultItems.CityItem;
+import reports.resultItems.CustomerItem;
+import reports.resultItems.WorkerItem;
 import search.CustomListCell;
 import search.MapItem;
 

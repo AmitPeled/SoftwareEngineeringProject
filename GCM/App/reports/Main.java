@@ -1,16 +1,14 @@
-package Reports;
+package reports;
 
 import java.io.IOException;
 
-import dataAccess.contentManager.ContentManagerDAO;
-import editor.addCity.AddCityController;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+ 
 public class Main extends Application {
 	
 	@Override

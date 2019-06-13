@@ -1,8 +1,8 @@
-package Reports.cells;
+package reports.cells;
 
-import Reports.data.WorkerData;
-import Reports.resultItems.WorkerItem;
 import javafx.scene.control.ListCell;
+import reports.data.WorkerData;
+import reports.resultItems.WorkerItem;
 
 public class WorkerListCell extends ListCell<WorkerItem> {
 
