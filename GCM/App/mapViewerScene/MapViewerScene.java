@@ -1,7 +1,7 @@
 /**
  * 
  */
-package mapViewerClientExample;
+package mapViewerScene;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +16,7 @@ import mapViewer.MapViewerListener;
  * holding the map.
  *
  */
-public class MapViewerClientExample {
+public class MapViewerScene {
 	static final double LEFT_PANEL_WIDTH = 320.0;
 	static final double BOTTOM_PANEL_HEIGHT = 80.0;
 	static final int mapViewerGridIndex = 1;
@@ -25,7 +25,7 @@ public class MapViewerClientExample {
 	private Scene scene;
 	private MapViewerListener listener;
 	
-	public MapViewerClientExample(MapViewer mapViewer) {
+	public MapViewerScene(MapViewer mapViewer) {
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);

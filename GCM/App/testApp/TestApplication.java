@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
-import mapViewerClientExample.MapViewerClientExample;
+import mapViewerScene.MapViewerScene;
 
 public final class TestApplication extends Application{
 
@@ -19,11 +19,11 @@ public final class TestApplication extends Application{
 	
 	private Stage primaryStage;
 	private MapViewer mapViewerComponent;
-	private MapViewerClientExample clientExample;
+	private MapViewerScene clientExample;
 	
 	public TestApplication() {
 		mapViewerComponent = MapViewerFactory.getMapViewer(0);
-		clientExample = new MapViewerClientExample(mapViewerComponent);
+		clientExample = new MapViewerScene(mapViewerComponent);
 	}
 	
 	public static void main(String[] args) {
