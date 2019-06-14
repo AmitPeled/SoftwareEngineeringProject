@@ -1,4 +1,4 @@
-package mapViewerClientExample;
+package mapViewerScene;
 
 import mapViewer.MapViewer;
 import mapViewer.MapViewerListener;

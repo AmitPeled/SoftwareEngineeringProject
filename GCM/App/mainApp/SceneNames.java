@@ -7,5 +7,6 @@ public enum SceneNames {
 	FORGOT_USERNAME,
 	REGISTER, 
 	MENU,
-	PURCHASE
+	PURCHASE, 
+	ADD_CITY
 }

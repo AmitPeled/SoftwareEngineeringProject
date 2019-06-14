@@ -1,6 +1,8 @@
 package mainApp;
 
 import java.util.Stack;
+
+import gcmDataAccess.GcmDAO;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,6 +19,7 @@ class GcmClientImpl implements GcmClient {
 	
 	private static final String gcmAppTitle = "GCM";
 	private final UserInfo userInfo;
+	private final GcmDAO dataAccess;
 	private SceneManager manager;
 	
 	/**
@@ -26,10 +29,11 @@ class GcmClientImpl implements GcmClient {
 	
 	private Stack<Scene> scenesStack;
 	
-	public GcmClientImpl(Stage primaryStage, UserInfo userInfo) {
+	public GcmClientImpl(Stage primaryStage, UserInfo userInfo,GcmDAO dataAccess) {
 		this.primaryStage = primaryStage;
 		this.scenesStack = new Stack<Scene>();
 		this.userInfo = userInfo;
+		this.dataAccess = dataAccess;
 	}
 	
 	@Override
@@ -53,6 +57,11 @@ class GcmClientImpl implements GcmClient {
 		}
 	}
 	
+	@Override
+	public void loadMapDisplay(int mapId) {
+		
+	}
+	
 	/**
 	 * Goes back to the previous scene
 	 */
@@ -73,4 +82,7 @@ class GcmClientImpl implements GcmClient {
 		//TODO - logout related stuff goes here
 		switchScene(SceneNames.INTRO);
 	}
+	
+	@Override
+	public GcmDAO getDataAccessObject() { return dataAccess; } 
 }

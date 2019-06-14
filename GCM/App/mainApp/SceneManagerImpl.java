@@ -18,4 +18,11 @@ final class SceneManagerImpl implements SceneManager {
 	 */
 	@Override
 	public Scene getScene(SceneNames name) { return scenes.get(name); }
+	
+	@Override
+	public Scene getMapViewerScene(int mapId) {
+		
+		
+		return null;
+	}
 }
