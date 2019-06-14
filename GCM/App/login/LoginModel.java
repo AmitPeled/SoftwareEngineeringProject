@@ -12,7 +12,7 @@ public class LoginModel {
 			throw new IllegalArgumentException("GCM client is null");
 		this.gcmClient = gcmClient;
 	}
-
+ 
 	public boolean login(String username, String password) {
 		return gcmClient.getUserInfo().login(username, password);
 	}
@@ -25,3 +25,4 @@ public class LoginModel {
 		gcmClient.back();
 	}
 }
+ 

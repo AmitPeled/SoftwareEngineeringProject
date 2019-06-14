@@ -60,6 +60,7 @@ public interface EditorDAO {
 
 	public int deleteSiteFromTour(int mapId, int siteId);
 
+	public int tourManager(int cityId, Tour tour);
 //	public int DeleteTourFromMap(int mapId, int siteId);
 
 //	/**
