@@ -394,4 +394,40 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void discardMapChange(int changeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void approveMapChange(int changeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Map> getMapsEditings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesEditings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getCitiesEditings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void changeMapPrice(int mapId, double newPrice) {
+		// TODO Auto-generated method stub
+		
+	}
 }

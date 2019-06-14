@@ -4,8 +4,6 @@ DROP TABLE IF EXISTS customerUsers;
 DROP TABLE IF EXISTS editorUsers;
 DROP TABLE IF EXISTS contentManagerUsers;
 DROP TABLE IF EXISTS generalManagerUsers;
-
-
 DROP TABLE IF EXISTS mapsMetaDetails;
 DROP TABLE IF EXISTS mapsFiles;
 DROP TABLE IF EXISTS mapsSites;
@@ -19,7 +17,6 @@ DROP TABLE IF EXISTS toursMetaDetails;
 DROP TABLE IF EXISTS toursSites;
 DROP TABLE IF EXISTS mapsTours;
 DROP TABLE IF EXISTS citiesTours;
-
 
 
 CREATE TABLE customerUsers(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text, numPurchases int, membershipExpireDate Text, purchasedMembershipPeriod int, numTimesRepurchasedMembership int);
@@ -41,7 +38,6 @@ CREATE TABLE citiesSites(cityId int, siteId int);
 INSERT INTO editorUsers values ("editor","editor","","","","",0,"",0,0);
 INSERT INTO contentManagerUsers values ("c-manager","c-manager","","","","",0,"",0,0);
 INSERT INTO generalManagerUsers values ("manager","manager","","","","",0,"",0,0);
-
 INSERT INTO citiesMetaDetails values(1,"cityName","cityDescription");
 INSERT INTO mapsMetaDetails values (1,"mapName","mapDescription",12.7,15,0,0,12.2);
 INSERT INTO toursMetaDetails values (1,"tourDescription");
