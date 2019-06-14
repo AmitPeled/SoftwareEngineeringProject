@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="369.0" prefWidth="237.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -15,8 +14,8 @@
       <TextField fx:id="mapDescription" layoutX="50.0" layoutY="96.0" prefHeight="25.0" prefWidth="138.0" promptText="Description" />
       <TextField fx:id="height" layoutX="50.0" layoutY="127.0" prefHeight="25.0" prefWidth="138.0" promptText="Height" />
       <TextField fx:id="width" layoutX="50.0" layoutY="159.0" prefHeight="25.0" prefWidth="138.0" promptText="Width" />
-      <TextField layoutX="50.0" layoutY="190.0" prefHeight="25.0" prefWidth="138.0" promptText="X Coordinate" fx:id="xCor" />
-      <TextField fx:id="yCor" layoutX="50.0" layoutY="221.0" prefHeight="25.0" prefWidth="138.0" promptText="Y Coordinate" />
+      <TextField layoutX="50.0" layoutY="190.0" prefHeight="25.0" prefWidth="138.0" promptText="X Offset" fx:id="xCor" />
+      <TextField fx:id="yCor" layoutX="50.0" layoutY="221.0" prefHeight="25.0" prefWidth="138.0" promptText="Y Offset" />
       <TextField fx:id="errors" disable="true" editable="false" layoutX="18.0" layoutY="297.0" prefHeight="25.0" prefWidth="204.0" />
    </children>
 </AnchorPane>
