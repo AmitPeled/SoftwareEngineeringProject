@@ -15,6 +15,7 @@ public class MapItem {
     private String tours;
 	@FXML // fx:id="price"  
     private double price;
+	private ListViewController listViewController;
 	 
 	public String getId() {
         return id;  
@@ -34,8 +35,9 @@ public class MapItem {
     public double getPrice() {
         return price;
     }
-    public MapItem(String id, String name, String description, String pointOfInterest, String tours, double price) {
+    public MapItem(ListViewController listViewController, String id, String name, String description, String pointOfInterest, String tours, double price) {
         super();
+		this.listViewController = listViewController;
         this.id = id;
         this.name = name;
         this.description = description;
@@ -43,4 +45,8 @@ public class MapItem {
         this.tours = tours;
         this.price = price;
     }
+    
+	public ListViewController getListViewController() {
+		return listViewController;
+	}
 }
