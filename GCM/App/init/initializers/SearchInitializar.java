@@ -8,7 +8,7 @@ public final class SearchInitializar implements Initializer {
 	ListViewController searchController;
 	
 	public SearchInitializar(GcmClient gcmClient) {
-		searchController = new ListViewController(gcmClient.getDataAccessObject());
+		searchController = new ListViewController(gcmClient,gcmClient.getDataAccessObject());
 	}
 	
 	@Override
