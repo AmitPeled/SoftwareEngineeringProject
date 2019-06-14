@@ -2,7 +2,6 @@ package editor.addMap;
 
 import java.io.IOException;
 
-import editor.addCity.AddCityController;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

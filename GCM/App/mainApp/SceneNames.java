@@ -8,5 +8,6 @@ public enum SceneNames {
 	REGISTER, 
 	MENU,
 	PURCHASE, 
-	ADD_CITY
+	ADD_CITY, 
+	SEARCH
 }
