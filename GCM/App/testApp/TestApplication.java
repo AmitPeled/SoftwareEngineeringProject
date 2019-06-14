@@ -18,12 +18,10 @@ public final class TestApplication extends Application{
 	static final int SCREEN_HEIGHT = 400;
 	
 	private Stage primaryStage;
-	private MapViewer mapViewerComponent;
-	private MapViewerScene clientExample;
+	private Scene clientExample;
 	
 	public TestApplication() {
-		mapViewerComponent = MapViewerFactory.getMapViewer(0);
-		clientExample = new MapViewerScene(mapViewerComponent);
+		clientExample = MapViewerScene.getMapViewerScene(0);
 	}
 	
 	public static void main(String[] args) {
@@ -55,7 +53,7 @@ public final class TestApplication extends Application{
 	}
 	
 	private void switchToMapViewer(){
-		primaryStage.setScene(clientExample.getScene());
+		primaryStage.setScene(clientExample);
 	}
 	
 }

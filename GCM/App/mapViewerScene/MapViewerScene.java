@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import mapViewer.MapViewer;
+import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
 
 /**
@@ -20,12 +21,11 @@ public class MapViewerScene {
 	static final double LEFT_PANEL_WIDTH = 320.0;
 	static final double BOTTOM_PANEL_HEIGHT = 80.0;
 	static final int mapViewerGridIndex = 1;
-	//static final String FxmlPath = "/fxml/mapViewerClient/MapViewerClientExampleGridPane.fxml";
 	static final String FxmlPath = "/fxml/mapViewerClient/MapDisplayScene.fxml";
 	private Scene scene;
 	private MapViewerListener listener;
 	
-	public MapViewerScene(MapViewer mapViewer) {
+	private MapViewerScene(MapViewer mapViewer) {
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -48,4 +48,10 @@ public class MapViewerScene {
 	}
 	
 	public Scene getScene() { return scene; }
+	
+	public static Scene getMapViewerScene(int mapId) {
+		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(mapId);
+		MapViewerScene mapViewerScene = new MapViewerScene(mapViewerComponent);
+		return mapViewerScene.getScene();
+	}
 }
