@@ -43,7 +43,8 @@ public class EditPriceController implements Initializable
 	            		if(utilities.isNumeric(newPriceStr)) {
 	            			errors.setVisible(false);
 	            			double newPrice = Double.parseDouble(newPriceStr);
-			            	contentManagerDAO.changeMapPrice(mapId, newPrice);
+	            			//UPDATE price is per city -> contentManagerDAO.editCityPrice(cityId, newPrice);
+//			            	contentManagerDAO.changeMapPrice(mapId, newPrice);
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);
 	            		}
