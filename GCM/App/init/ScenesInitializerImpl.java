@@ -27,16 +27,17 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 	}
 
 	private void populateInitializersMap() {
-		initializers.put(SceneNames.LOGIN, new LoginInitializer(gcmClient));
 		initializers.put(SceneNames.INTRO, new IntroInitializer(gcmClient));
 		initializers.put(SceneNames.MENU, new MenuInitializer(gcmClient));
+		initializers.put(SceneNames.LOGIN, new LoginInitializer(gcmClient));
 		initializers.put(SceneNames.REGISTER, new RegisterInitializer(gcmClient));
 		initializers.put(SceneNames.FORGOT_PASSWORD, new ForgotPasswordInitializer(gcmClient));
 		initializers.put(SceneNames.FORGOT_USERNAME, new ForgotUsernameInitializer(gcmClient));
 		initializers.put(SceneNames.PURCHASE, new PurchaseInitializer(gcmClient));
-		initializers.put(SceneNames.ADD_CITY, new AddCityInitializer(gcmClient));
 		initializers.put(SceneNames.SEARCH, new SearchInitializar(gcmClient));
 		initializers.put(SceneNames.REPORTS, new ReportsInitializer(gcmClient));
+		initializers.put(SceneNames.ADD_CITY, new AddCityInitializer(gcmClient));
+		initializers.put(SceneNames.ADD_SITE, new ReportsInitializer(gcmClient));
 	}
 	
 	@Override

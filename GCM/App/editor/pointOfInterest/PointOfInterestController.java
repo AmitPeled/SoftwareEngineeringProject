@@ -40,11 +40,11 @@ public class PointOfInterestController implements Initializable{
 	TextField errors;
 	TextFieldUtility utilities;
 	
-	String selectedRadioBtn;
-	RadioButton selectRadio;
-	Coordinates coordinates;
-	int cityId;
-	boolean disable;
+	private String selectedRadioBtn;
+	private RadioButton selectRadio;
+	private Coordinates coordinates;
+	private int cityId;
+	private boolean disable;
 	
 	public PointOfInterestController(GcmDAO gcmDAO, int cityId, Coordinates coordinates, TextFieldUtility utilities) {
 		this.gcmDAO = gcmDAO;
