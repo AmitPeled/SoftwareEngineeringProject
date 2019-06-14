@@ -17,14 +17,23 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 	private final GcmClient gcmClient;
 	private final EnumMap<SceneNames, Initializer> initializers;
 	private final EnumMap<SceneNames, Scene> scenes;
+	private EnumMap<SceneNames, Object> controllers;
 
 	public ScenesInitializerImpl(GcmClient gcmClient) {
 		this.gcmClient = gcmClient;
 		initializers = new EnumMap<SceneNames,Initializer>(SceneNames.class);
 		scenes = new EnumMap<SceneNames, Scene>(SceneNames.class);
-
+		controllers = new EnumMap<SceneNames,Object>(SceneNames.class);
+		
 		populateInitializersMap();
 		populateScenesMap();
+		populateControllersMap();
+	}
+
+	private void populateControllersMap() {
+		for (SceneNames scene : SceneNames.values()) {
+			controllers.put(scene,initializers.get(scene).getController());
+		}
 	}
 
 	private void populateInitializersMap() {
@@ -43,6 +52,9 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 	
 	@Override
 	public EnumMap<SceneNames, Scene> getScenes() { return scenes; }
+	
+	@Override
+	public EnumMap<SceneNames, Object> getControllers() {return controllers; }
 	
 	private void populateScenesMap() {
 		for (SceneNames scene : SceneNames.values()) {

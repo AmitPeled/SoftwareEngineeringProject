@@ -18,4 +18,10 @@ public interface ScenesInitializer {
 	 * @return an EnumMap (a dictionary where the key is an enum) with mapping between SceneNames and Scene objects
 	 */
 	EnumMap<SceneNames, Scene> getScenes();
+	
+	/**
+	 * Gets all the Controller objects for all the Scenes in the program
+	 * @return an EnumMap (a dictionary where the key is an enum) with mapping between SceneNames and Controller objects
+	 */
+	EnumMap<SceneNames, Object> getControllers();
 }

@@ -2,6 +2,7 @@ package mainApp;
 
 import java.util.Stack;
 
+import editor.pointOfInterest.PointOfInterestController;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -88,5 +89,18 @@ class GcmClientImpl implements GcmClient {
 	}
 	
 	@Override
-	public GcmDAO getDataAccessObject() { return dataAccess; } 
+	public GcmDAO getDataAccessObject() { return dataAccess; }
+
+	@Override
+	public void switchSceneToAddSite(int mapId,double widthLocation, double heightLocation) {
+		Scene scene = manager.getScene(SceneNames.ADD_SITE);
+		try {
+			PointOfInterestController controller = (PointOfInterestController)manager.getController(SceneNames.ADD_SITE);
+			controller.initalizeControl(mapId,widthLocation,heightLocation);
+			primaryStage.setScene(scene);
+			scenesStack.push(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} 
 }

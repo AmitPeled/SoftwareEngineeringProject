@@ -95,5 +95,10 @@ public class PointOfInterestController implements Initializable{
 		errors.setVisible(false);
 		pointOfInterestListener();		
 	}
+	
+	public void initalizeControl(int cityId, double widthLocation, double heightLocation) {
+		this.cityId = cityId;
+		this.coordinates = new Coordinates(widthLocation,heightLocation);
+	}
 
 }
