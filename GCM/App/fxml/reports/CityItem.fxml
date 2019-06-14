@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="218.0" prefWidth="288.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="111.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City name" wrappingWidth="66.13671875" />
+      <Text layoutX="9.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of maps:" wrappingWidth="104.13671875" />
+      <Text layoutX="8.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="One time subscribers:" wrappingWidth="118.13671875" />
+      <Text layoutX="8.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscribers:" wrappingWidth="66.13671875" />
+      <Text layoutX="8.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Renewable subscriptions:" wrappingWidth="143.13671875" />
+      <Text layoutX="8.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Downloads:" wrappingWidth="66.13671875" />
+      <TextField fx:id="numberOfMaps" editable="false" layoutX="151.0" layoutY="45.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="oneTimeSubscribers" editable="false" layoutX="151.0" layoutY="77.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="subscribers" editable="false" layoutX="151.0" layoutY="109.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="renewableSubscriptions" editable="false" layoutX="151.0" layoutY="142.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="downloads" editable="false" layoutX="151.0" layoutY="176.0" prefHeight="25.0" prefWidth="125.0" />
+   </children>
+</AnchorPane>

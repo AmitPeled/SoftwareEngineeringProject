@@ -10,7 +10,9 @@ public class UserInfoImpl implements UserInfo {
 	private UserDAO userDao;
 	private CustomerDAO customerDAO;
 	private User user;
-
+	private RequestState state;
+	
+	
 	public UserInfoImpl(UserDAO userDao, CustomerDAO customerDAO) {
 		this.userDao = userDao;
 		this.customerDAO = customerDAO;
@@ -18,10 +20,11 @@ public class UserInfoImpl implements UserInfo {
 
 	@Override
 	public boolean login(String username, String password) {
-		if (userDao.login(username, password) == RequestState.wrongDetails) {
+		this.state = userDao.login(username, password);
+		if (state == RequestState.wrongDetails) {
 			return false;
 		}
-
+ 
 		return true;
 	}
 
@@ -43,6 +46,10 @@ public class UserInfoImpl implements UserInfo {
 			System.out.println(customerDAO.getUserDetails().getUsername());
 		}
 		return user;
+	}
+	public RequestState getState() {
+		return this.state;
+		
 	}
 
 }

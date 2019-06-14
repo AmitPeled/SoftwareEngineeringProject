@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="208.0" prefWidth="255.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="85.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Worker name" wrappingWidth="85.13671875" />
+      <Text layoutX="17.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name:" wrappingWidth="70.13671875" />
+      <Text layoutX="17.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last name:" wrappingWidth="70.13671875" />
+      <Text layoutX="17.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID:" wrappingWidth="78.13671875" />
+      <Text layoutX="17.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" wrappingWidth="42.13671875" />
+      <TextField fx:id="firstName" editable="false" layoutX="107.0" layoutY="33.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="lastName" editable="false" layoutX="107.0" layoutY="67.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="employeeId" editable="false" layoutX="108.0" layoutY="101.0" prefHeight="25.0" prefWidth="125.0" />
+      <Text layoutX="17.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Job description:" wrappingWidth="97.13671875" />
+      <TextField fx:id="email" editable="false" layoutX="109.0" layoutY="133.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="jobDescription" editable="false" layoutX="110.0" layoutY="166.0" prefHeight="25.0" prefWidth="125.0" />
+   </children>
+</AnchorPane>

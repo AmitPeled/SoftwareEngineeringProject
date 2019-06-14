@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataAccess.contentManager.ContentManagerDAO;
 import dataAccess.customer.CustomerDAO;
 import dataAccess.editor.EditorDAO;
 import dataAccess.search.SearchDAO;
@@ -29,7 +30,7 @@ import users.User;
 //import javax.net.ssl.SSLSocketFactory;
 
 @SuppressWarnings("serial")
-public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Serializable {
+public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, SearchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
 	String password = null;
