@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="166.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="166.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="86.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit price" />
       <TextField fx:id="price" layoutX="15.0" layoutY="67.0" prefHeight="25.0" prefWidth="192.0" promptText="New price" />
