@@ -23,7 +23,7 @@ public class SearchTest {
 	static SearchDAO searchDAO;
 	static EditorDAO editorDAO;
 	static GcmDAO gcmDAO;
-	static String cityName = "cityName", cityDescription = "nice city", siteName = "siteName",
+	static String cityName = "a", cityDescription = "adf", siteName = "a",
 			siteDescription = "bad site";
 	static int mapId;
 	static int siteId;
@@ -39,8 +39,12 @@ public class SearchTest {
 		cityId = editorDAO.addCity(new City(1, cityName, cityDescription));
 		siteId = editorDAO.addNewSiteToCity(cityId,
 				new Site(1, siteName, siteDescription, "museum", false, new Coordinates()));
+		
+		mapId = editorDAO.addMapToCity(cityId, new Map("a","a",12f, 8.4f, new Coordinates()), new File("import\\resources\\Gta3_map.gif"));
+
 
 	}
+
 
 	@BeforeEach
 	void deleteInsertions() {

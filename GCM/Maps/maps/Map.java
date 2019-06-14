@@ -18,6 +18,9 @@ public final class Map implements Serializable {
 	private float width;
 	private float height;
 	private Coordinates offset;
+	/**
+	 * map doesn't contain price. only city does 
+	 */
 	private double price;
 	private List<Site> mapSites;
 	private List<Tour> mapTours;
@@ -57,6 +60,8 @@ public final class Map implements Serializable {
 	 * @throws IllegalArgumentException Thrown when id, width or height are not
 	 *                                  positive numbers
 	 */
+	
+	
 	public Map(int id, String name, String description, float width, float height, Coordinates offset, double price,
 			List<Site> sites, List<Tour> tours) throws IllegalArgumentException {
 		if (id <= 0)

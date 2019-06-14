@@ -1,6 +1,5 @@
 package database.objectParse;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,7 +68,7 @@ public class DatabaseParser implements IParseObjects {
 				add(map.getHeight());
 				add(map.getOffset().x);
 				add(map.getOffset().y);
-				add(map.getPrice());
+				add(-1);
 			}
 		};
 	}
@@ -85,6 +84,7 @@ public class DatabaseParser implements IParseObjects {
 				add(site.isAccessibleForDisabled());
 				add(site.getCoordinates().x);
 				add(site.getCoordinates().y);
+
 			}
 		};
 	}
@@ -96,6 +96,18 @@ public class DatabaseParser implements IParseObjects {
 				add(city.getId());
 				add(city.getName());
 				add(city.getDescription());
+
+			}
+		};
+	}
+
+	@Override
+	public List<Object> getTourMetaFieldsList(Tour tour) {
+		return new ArrayList<Object>() {
+			{
+				add(tour.getId());
+				add(tour.getDescription());
+
 			}
 		};
 	}
@@ -119,16 +131,6 @@ public class DatabaseParser implements IParseObjects {
 	@Override
 	public Tour getTour(List<Object> objectList, List<Site> tourSites, List<Integer> sitesDurances) {
 		return new Tour((int) objectList.get(0), (String) objectList.get(1), tourSites, sitesDurances);
-	}
-
-	@Override
-	public List<Object> getTourMetaFieldsList(Tour tour) {
-		return new ArrayList<Object>() {
-			{
-				add(tour.getId());
-				add(tour.getDescription());
-			}
-		};
 	}
 
 	@Override
