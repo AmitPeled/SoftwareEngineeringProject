@@ -44,6 +44,13 @@ public interface GcmClient {
 	 * @return a UserInfo object reference
 	 */
 	UserInfo getUserInfo();
+
+	/**
+	 * Switches scene to the map display scene
+	 * @param mapId the ID of the map in the database
+	 */
+	void loadMapDisplay(int mapId);
+
 	/**
 	 * Returns the GcmDAO object used for all server communications actions
 	 * @return a GcmDAO object reference
