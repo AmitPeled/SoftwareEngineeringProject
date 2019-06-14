@@ -46,6 +46,9 @@ public class Tour implements Serializable {
 		return sitesTimeToVisit;
 	}
 
+	public void setSites(List<Site> sites) {
+		this.sites = sites;
+	}
 	public void setSitesTimeToVisit(List<Integer> sitesTimeToVisit) {
 		this.sitesTimeToVisit = sitesTimeToVisit;
 	}

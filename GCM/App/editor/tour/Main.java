@@ -22,7 +22,7 @@ public class Main extends Application {
 		 // constructing our scene
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editor/tour.fxml"));
 		 GcmDAO gcmDAO = new GcmDAO();
-		 //gcmDAO.login("editor", "editor");
+		 gcmDAO.login("editor", "editor");
 		 
 		 
 		 int id = 1;
@@ -38,10 +38,10 @@ public class Main extends Application {
 		 sitesTimeToVisit.add(1);
 		 sitesTimeToVisit.add(2);
 		 sitesTimeToVisit.add(3);
-		 //Tour tour = new Tour("");
-		 Tour tour = new Tour(id , description, tourSites, sitesTimeToVisit);
+		 Tour tour = new Tour("");
+		 //Tour tour = new Tour(id , description, tourSites, sitesTimeToVisit);
 		 TextFieldUtility utilities = new TextFieldUtility();
-		 fxmlLoader.setController(new TourController(gcmDAO, 1,18, tour, utilities));
+		 fxmlLoader.setController(new TourController(gcmDAO, 1,1, tour, utilities));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
 

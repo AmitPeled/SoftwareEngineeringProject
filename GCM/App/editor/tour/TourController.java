@@ -98,6 +98,7 @@ public class TourController  implements Initializable {
 			})
 		);
 	}
+	
 	public void addTourListener() {	
 		addEditTour.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
@@ -107,8 +108,11 @@ public class TourController  implements Initializable {
 	            	if(tourDescription != null && !tourDescription.isEmpty()) {
 	            		errors.setVisible(false);
 	            		
-	            		Tour newTour = new Tour(tourId, tourDescription, tourSites, sitesTimeToVisit);
+	            		Tour newTour = new Tour(tourDescription);
+	            		newTour.setSites(tourSites);
+	            		newTour.setSitesTimeToVisit(sitesTimeToVisit);
 	            		newTour.setNumberOfLastAddedPlaces(counterOfAddedPlaces);
+	            		
 	            		gcmDAO.tourManager(cityId, newTour);
 	            			            		
 	            	}else{
@@ -143,10 +147,11 @@ public class TourController  implements Initializable {
 		sitesPicker.setButtonCell(cellFactory.call(null));
 		sitesPicker.setCellFactory(cellFactory);
 		
-		Site site1 = new Site(100, "beach", "a good beach", "fun", true, new Coordinates(1,2));
-		Site site2 = new Site(200, "pasta basta", "a good pasta", "food", true, new Coordinates(1,2));
-		List<Site> exisitingSites = Arrays.asList(site1, site2);
-		//List<Site> exisitingSites = gcmDAO.getCitySites(cityId);
+//		Site site1 = new Site(100, "beach", "a good beach", "fun", true, new Coordinates(1,2));
+//		Site site2 = new Site(200, "pasta basta", "a good pasta", "food", true, new Coordinates(1,2));
+//		List<Site> exisitingSites = Arrays.asList(site1, site2);
+
+		List<Site> exisitingSites = gcmDAO.getCitySites(cityId);
 		sitesPicker.setItems(FXCollections.observableArrayList(exisitingSites));
 		
 		if(tour.getId() != -1) {
