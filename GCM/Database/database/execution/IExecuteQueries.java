@@ -30,4 +30,13 @@ public interface IExecuteQueries {
 
 	List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames, List<Object> objectsValues,
 			String columnsToSelect) throws SQLException;
+	
+	List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object, String columnsToSelect, Status status)
+			throws SQLException;
+
+	List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
+			String columnsToSelect, Status status) throws SQLException;
+
+	List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames, List<Object> objectsValues,
+			String columnsToSelect, Status status) throws SQLException;
 }

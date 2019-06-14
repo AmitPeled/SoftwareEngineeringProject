@@ -192,23 +192,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException {
-		switch (status) {
-		case published:
-			objects.add(0);
-			break;
-		case toAdd:
-			objects.add(1);
-			System.out.println("add, " + objects.size());
-			break;
-		case toUpdate:
-			objects.add(2);
-			break;
-		case toDelete:
-			objects.add(3);
-			break;
-		default:
-			break;
-		}
+		objects.add(getStatus(status));
 		insertToTable(tableName, objects);
 	}
 
@@ -219,5 +203,63 @@ public class DatabaseExecutor implements IExecuteQueries {
 		objects.set(0, id);
 		insertToTable(tableName, objects, status);
 		return id;
+	}
+
+	private int getStatus(Status status) {
+		switch (status) {
+		case published:
+			return 0;
+		case toAdd:
+			return 1;
+		case toUpdate:
+			return 2;
+		case toDelete:
+			return 3;
+		default:
+			System.err.println("bad status value");
+			return -1;
+		}
+	}
+
+	@SuppressWarnings("serial")
+	@Override
+	public List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object,
+			String columnsToSelect, Status status) throws SQLException {
+		List<Object> objectsValues = new ArrayList<Object>() {
+			{
+				add(object);
+				add(getStatus(status));
+			}
+
+		};
+		List<String> objectNames = new ArrayList<String>() {
+			{
+				add(objectName);
+				add("status");
+			}
+		};
+		return selectColumnsByValues(tableName, objectNames, objectsValues, columnsToSelect);
+	}
+
+	@Override
+	public List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
+			String columnsToSelect, Status status) throws SQLException {
+		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE " + objectName
+				+ " like ? AND status = " + getStatus(status) + ";";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		preparedStatement.setString(1, "%" + (String) object + "%");
+		List<List<Object>> fields = new ArrayList<>();
+		synchronized (dbAccess) {
+			fields = toList(preparedStatement.executeQuery());
+		}
+		return fields;
+	}
+
+	@Override
+	public List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames,
+			List<Object> objectsValues, String columnsToSelect, Status status) throws SQLException {
+		objectNames.add("status");
+		objectsValues.add(getStatus(status));
+		return selectColumnsByValues(tableName, objectNames, objectsValues, columnsToSelect);
 	}
 }

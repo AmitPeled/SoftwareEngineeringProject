@@ -6,37 +6,36 @@ Software engineering course final project.
 ### Editions and approvals (Amit)
 - [x] Add "Status" columns to every modifyable table
 - [ ] Implement the status column on the server side
-- [ ] Create queries to get all unpublished rows
+- [x] Create queries to get all unpublished rows
 - [ ] Create datatypes for the queries
 ### Subscription (Eli)
-- [ ] Store in the database subscription information 
-- [ ] Implement relevant queries on server side
-- [ ] Implement DAO methods
+- [ ] Database tables 
+- [ ] Server-side queries
+- [ ] CustomerDAO methods
 ### Purchase And Downloads (Eli)
-- [ ] Store purchase history in the database
-- [ ] Store maps download history 
+- [x] Database tables (purchases)
+- [ ] Database tables (downloads)
 - [ ] Build queries for purchase history
 - [ ] Build queries for download statistics (support date ranges!)
+- [ ] CustomerDAO
 
 ## Server
-### Approvals (Amit)
-- [ ] Support price changes (Content manager proposes, general manager approves)
 ### Sites 
 - [ ] Support editing sites
-- [ ] Support adding sites
-- [ ] Support removing sites
+- [x] Support adding sites
+- [x] Support removing sites
 ### Cities 
 - [ ] Support editing cities
-- [ ] Support adding cities
-- [ ] Support removing cities
+- [x] Support adding cities
+- [x] Support removing cities
 ### Tours
 - [ ] Support editing tours
-- [ ] Support adding tours
-- [ ] Support removing tours
+- [x] Support adding tours
+- [x] Support removing tours
 ### Maps
 - [ ] Support editing maps
-- [ ] Support adding maps
-- [ ] Support removing maps
+- [x] Support adding maps
+- [x] Support removing maps
 
 # Checklist
 ## Search 
@@ -48,7 +47,7 @@ Software engineering course final project.
 ### Adding a city
 - [x] UI controls
 - [x] Database communication
-- [ ] Including in map display scene
+- [x] Including in map display scene
 ### Adding a map
 - [x] UI controls
 - [x] Database communication
@@ -98,6 +97,14 @@ Software engineering course final project.
 ### Manager sees customer information
 - [x] GUI
 - [ ] Server side implementation
+### Content manager changes approval
+#### Cities
+- [x] GUI
+- [ ] Server side implementation (Content manager proposes, general manager approves)
+#### Sites
+- [ ] GUI
+- [ ] Server side implementation (Content manager proposes, general manager approves)
+
 
 # Intro
 This document will be used by us to keep us all on the same page as to what we're doing and what this project is about.
