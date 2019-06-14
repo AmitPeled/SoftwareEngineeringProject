@@ -266,8 +266,8 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails) {
-		return (File) send(new RequestObject(GcmQuery.purchaseMap, new ArrayList<Object>() {
+	public boolean purchaseCityOneTime(int mapId, PurchaseDetails purchaseDetails) {
+		return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new ArrayList<Object>() {
 			{
 				add(mapId);
 				add(purchaseDetails);

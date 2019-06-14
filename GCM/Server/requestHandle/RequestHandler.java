@@ -78,10 +78,10 @@ public class RequestHandler implements IHandleRequest {
 				case addCity:
 					listToSend.add(gcmDataExecutor.addCity((City) listObjectReceived.get(0)));
 					break;
-				case addCityWithInitialMap:
-					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
-							(Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
-					break;
+//				case addCityWithInitialMap:
+//					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
+//							(Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
+//					break;
 				case getMapsByCityName:
 					listToSend = (List<Object>) (Object) gcmDataExecutor
 							.getMapsByCityName((String) listObjectReceived.get(0));
@@ -103,7 +103,7 @@ public class RequestHandler implements IHandleRequest {
 				case getPurchasedMaps:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				case purchaseMap:
+				case purchaseCity:
 					listToSend.add(gcmDataExecutor.purchaseMap(username));
 					break;
 				case addExistingSiteToTour:
@@ -180,7 +180,7 @@ public class RequestHandler implements IHandleRequest {
 			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case getPurchasedMaps:
 			return userType == RequestState.customer;
-		case purchaseMap:
+		case purchaseCity:
 			return userType == RequestState.customer;
 		case updateContent:
 			return userType == RequestState.editor || userType == RequestState.contentManager;

@@ -35,7 +35,7 @@ class GcmDatabaseExecutorTest {
 		gcmDataExecutor = new GcmDataExecutor(new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		cityId = gcmDataExecutor.addCity(new City(11, "eli", "desc"));
-		mapId = gcmDataExecutor.addMapToCity(cityId, new Map(13.1f, 11.1f), mapFile);
+		mapId = gcmDataExecutor.addMapToCity(cityId, new Map(112.1f, 11.1f), mapFile);
 		siteId = gcmDataExecutor.addNewSiteToCity(cityId,
 				new Site("name", "desc", "type", false, new Coordinates(7, 9)));
 		gcmDataExecutor.addExistingSiteToMap(mapId, siteId);
@@ -54,7 +54,9 @@ class GcmDatabaseExecutorTest {
 	@Test
 	void getMapDetailsTest() throws SQLException {
 		Map map = gcmDataExecutor.getMapDetails(mapId);
-		assertEquals(13.1f, map.getWidth());
+		
+		System.out.println(map + " " + mapId);
+		assertEquals(112.1f, map.getWidth());
 		assertEquals(11.1f, map.getHeight());
 		assertEquals(0f, map.getOffset().x);
 		Site site = map.getSites().get(0);
