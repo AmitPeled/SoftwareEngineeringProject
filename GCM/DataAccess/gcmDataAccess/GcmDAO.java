@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataAccess.contentManager.ContentManagerDAO;
 import dataAccess.customer.CustomerDAO;
 import dataAccess.editor.EditorDAO;
 import dataAccess.search.SearchDAO;
@@ -29,7 +30,7 @@ import users.User;
 //import javax.net.ssl.SSLSocketFactory;
 
 @SuppressWarnings("serial")
-public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Serializable {
+public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, SearchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
 	String password = null;
@@ -123,14 +124,14 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 			System.exit(1);
 		}
 
-		System.out.println("Sending data to server..");
+//		System.out.println("Sending data to server..");
 		try {
 			out.writeObject(req);
 		} catch (IOException e1) {
 			System.err.println("error in sending data to server");
 			System.err.println(e1.getMessage());
 		}
-		System.out.println("data sent. receiving data:");
+//		System.out.println("data sent. receiving data:");
 		Object res = null;
 		try {
 			res = in.readObject();
@@ -139,7 +140,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 			System.err.println(e1.getMessage());
 		}
 		if (!(res instanceof ResponseObject)) {
-			System.err.println("Error! unknown response from server.");
+			System.err.println("Error! unknown response from server." /*+ res.toString()*/);
 			return null;
 		}
 		ResponseObject resObject = (ResponseObject) res;
@@ -307,12 +308,13 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 
 	@Override
 	public int addExistingTourToMap(int mapId, int tourId) {
-		return (int) send(new RequestObject(GcmQuery.addExistingTourToMap, new ArrayList<Object>() {
+		send(new RequestObject(GcmQuery.addExistingTourToMap, new ArrayList<Object>() {
 			{
 				add(mapId);
 				add(tourId);
 			}
-		}, username, password)).getResponse().get(0);
+		}, username, password));
+		return 0;
 	}
 
 	@Override
@@ -385,5 +387,41 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 //			}
 //		}, username, password)).getResponse().get(0);
 		return null; // TODO
+	}
+
+	@Override
+	public void discardMapChange(int changeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void approveMapChange(int changeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Map> getMapsEditings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesEditings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getCitiesEditings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void changeMapPrice(int mapId, double newPrice) {
+		// TODO Auto-generated method stub
+		
 	}
 }

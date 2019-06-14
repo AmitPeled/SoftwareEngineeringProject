@@ -2,6 +2,7 @@ package database.execution;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import maps.City;
@@ -71,6 +72,8 @@ public interface IGcmDataExecute {
 	void addExistingSiteToTour(int tourId, int siteId, int durnace)throws SQLException;
 
 	int addNewTourToCity(int cityId, Tour tour) throws SQLException;
+
+	void addExistingTourToMap(int mapId, int tourId) throws SQLException;
 
 	// publish map/site/city
 	// purchaseMap

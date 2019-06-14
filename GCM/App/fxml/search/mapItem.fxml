@@ -7,8 +7,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.event.ActionEvent?>
 
-<AnchorPane prefHeight="149.0" prefWidth="272.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane fx:id="mapItem" prefHeight="189.0" prefWidth="272.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
 		<Text layoutX="27.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Map name:" underline="true" />
 		<Text layoutX="26.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" underline="true" />
@@ -58,5 +59,18 @@
             </Lighting>
          </effect></TextField>
 		<Text layoutX="42.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tours" underline="true" />
+      <Text layoutX="42.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" underline="true" />
+      <TextField fx:id="price" editable="false" layoutX="105.0" layoutY="152.0">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </TextField>
    </children>
 </AnchorPane>
