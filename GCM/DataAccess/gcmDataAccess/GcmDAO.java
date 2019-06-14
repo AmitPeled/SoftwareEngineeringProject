@@ -472,4 +472,30 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public int tourManager(int cityId, Tour tour) {
+		int tourId = tour.getId();
+		// check if tour existing if so add new tour
+		if(tour.getId() == -1) {
+			tourId = addNewTourToCity(cityId, tour);
+		}
+		
+		// add places to tour
+		List<Site> sitesList = tour.getSites();
+		List<Integer> sitesTimeEstimationList = tour.getSitesTimeToVisit();
+		int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
+		int startingIndex = 0;
+		if(numberOfLastAddedPlaces != 0) {
+			startingIndex = sitesList.size() - numberOfLastAddedPlaces -1;
+		}
+		
+		for (int i = startingIndex; i < sitesList.size(); i++) {
+			addExistingSiteToTour(tourId, sitesList.get(i).getId(), sitesTimeEstimationList.get(i));
+		}
+
+		
+		
+		return 0;
+	}
 }
