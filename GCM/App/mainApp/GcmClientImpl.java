@@ -6,6 +6,7 @@ import gcmDataAccess.GcmDAO;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import mapViewerScene.MapViewerSceneController;
 import userInfo.UserInfo;
 
 /**
@@ -60,6 +61,10 @@ class GcmClientImpl implements GcmClient {
 	@Override
 	public void loadMapDisplay(int mapId) {
 		System.out.println("Switching scene to map viewer with map id: " + mapId);
+		Scene scene = MapViewerSceneController.getMapViewerScene(this, mapId);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		scenesStack.push(scene);
 	}
 	
 	/**
