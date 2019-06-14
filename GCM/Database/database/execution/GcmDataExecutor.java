@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
 import database.objectParse.IParseObjects;
@@ -24,7 +25,8 @@ import users.User;
  *
  */
 @SuppressWarnings("serial")
-public class GcmDataExecutor implements IGcmDataExecute {
+public class GcmDataExecutor
+		implements IGcmDataExecute, IGcmCustomerExecutor, IGcmEditorExecutor, IGcmContentManagerExecutor {
 	IExecuteQueries queryExecutor;
 	IParseObjects objectParser;
 
@@ -183,7 +185,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	}
 
 	@Override
-	public File getMapFile(/* String pathToFilesFolder, */int mapId) throws SQLException {
+	public File getMapFile(int mapId) throws SQLException {
 		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsFiles),
 				"mapId", mapId, "mapFile");
 		if (rows.isEmpty())
@@ -342,7 +344,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	}
 
 	@Override
-	public void DeleteSiteFromMap(int mapId, int siteId) throws SQLException {
+	public void deleteSiteFromMap(int mapId, int siteId) throws SQLException {
 		queryExecutor.deleteValuesFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), new ArrayList<String>() {
 			{
 				add("mapId");
@@ -357,7 +359,7 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	}
 
 	@Override
-	public void DeleteSite(int siteId) throws SQLException {
+	public void deleteSite(int siteId) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "siteId", siteId);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesSitesIds), "siteId", siteId);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", siteId);
@@ -438,7 +440,6 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	public List<Map> getMapsByDescription(String description) throws SQLException {
 		List<Map> mapsByDescription = getMapsByCityField("cityDescription", description, true);
 		mapsByDescription.addAll(getMapsBySiteField("siteDescription", description, true));
-		System.out.println("----" + mapsByDescription.size());
 		return mapsByDescription;
 	}
 
@@ -472,10 +473,9 @@ public class GcmDataExecutor implements IGcmDataExecute {
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites), siteRow);
 	}
 
-	private void deleteSite(int siteId) throws SQLException {
-		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", siteId);
-
-	}
+//	private void deleteSite(int siteId) throws SQLException {
+//		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", siteId);
+//	}
 
 	@Override
 	public City getCityByMapId(int mapId) throws SQLException {
@@ -506,7 +506,6 @@ public class GcmDataExecutor implements IGcmDataExecute {
 
 	@Override
 	public int addNewTourToCity(int cityId, Tour tour) throws SQLException {
-		System.out.println("in addNewTourToCity");
 		int tourId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
 				objectParser.getTourMetaFieldsList(tour));
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.cityTours), new ArrayList<Object>() {
@@ -551,12 +550,6 @@ public class GcmDataExecutor implements IGcmDataExecute {
 	}
 
 	@Override
-	public int updateContent(int contentId, Object content) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void addExistingTourToMap(int mapId, int tourId) throws SQLException {
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapTours), new ArrayList<Object>() {
 			{
@@ -565,4 +558,78 @@ public class GcmDataExecutor implements IGcmDataExecute {
 			}
 		});
 	}
+
+	@Override
+	public void editMapPrice(int mapId, double newPrice) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public double getMembershipPrice(int cityId, int timeInterval) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getSavedCreditCard() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
+			String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean repurchaseMembership(PurchaseDetails purchaseDetails, String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean repurchaseMembershipBySavedDetails(String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails, String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void notifyMapView(int mapId, String username) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void approveSiteEdit(Site site) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void approveCityEdit(City city) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void approveMapEdit(Map map) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void approveTourEdit(Tour tour) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

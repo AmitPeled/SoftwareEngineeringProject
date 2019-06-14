@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
+import dataAccess.users.PurchaseDetails;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -42,11 +43,9 @@ public interface IGcmDataExecute {
 
 	void addExistingSiteToMap(int mapId, int siteId) throws SQLException;
 
-	void DeleteSiteFromMap(int mapId, int siteId) throws SQLException;
+	void deleteSiteFromMap(int mapId, int siteId) throws SQLException;
 
 	void UpdateSite(int siteId, Site newSite) throws SQLException;
-
-	void DeleteSite(int siteId) throws SQLException;
 
 	List<Map> getMapsByCityName(String cityName) throws SQLException;
 
@@ -56,24 +55,36 @@ public interface IGcmDataExecute {
 
 	User getUserDetails(String username) throws SQLException;
 
-	File downloadMap(int mapId, String username);
-
 	City getCityByMapId(int mapId) throws SQLException;
-
-	List<Map> getPurchasedMaps(String username) throws SQLException;
 
 	File purchaseMap(String username) throws SQLException;
 
-	int updateContent(int contentId, Object content) throws SQLException;
-
 	List<Site> getCitySites(int cityId) throws SQLException;
 
-	void addExistingSiteToTour(int tourId, int siteId, int durnace)throws SQLException;
+	void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException;
 
 	int addNewTourToCity(int cityId, Tour tour) throws SQLException;
 
 	void addExistingTourToMap(int mapId, int tourId) throws SQLException;
 
+	double getMembershipPrice(int cityId, int timeInterval) throws SQLException;
+
+	boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
+			throws SQLException;
+
+	String getSavedCreditCard() throws SQLException;
+
+	boolean repurchaseMembership(PurchaseDetails purchaseDetails, String username) throws SQLException;
+
+	boolean repurchaseMembershipBySavedDetails(String username) throws SQLException;
+
+	File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails, String username) throws SQLException;
+
+	void notifyMapView(int mapId, String username) throws SQLException;
+
+	File downloadMap(int mapId, String username) throws SQLException;
+
+	List<Map> getPurchasedMaps(String username) throws SQLException;
 	// publish map/site/city
 	// purchaseMap
 }

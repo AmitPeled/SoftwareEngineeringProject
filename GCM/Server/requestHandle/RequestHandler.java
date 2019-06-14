@@ -122,10 +122,6 @@ public class RequestHandler implements IHandleRequest {
 					break;
 				case deleteCity:
 					break;
-				case updateContent:
-					listToSend.add(
-							gcmDataExecutor.updateContent((int) listObjectReceived.get(0), listObjectReceived.get(1)));
-					break;
 				default:
 					break;
 				}
@@ -138,11 +134,10 @@ public class RequestHandler implements IHandleRequest {
 		} catch (SQLException e) {
 			requestState = RequestState.somethingWrongHappend;
 			System.err.println("db exception");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.err.println("server exception");
 		}
-		
+
 		return new ResponseObject(requestState, listToSend);
 	}
 

@@ -1,9 +1,10 @@
 CREATE DATABASE IF NOT EXISTS X6SgPM1fb2;
 USE X6SgPM1fb2;
-DROP TABLE IF EXISTS customersUsers;
+DROP TABLE IF EXISTS customerUsers;
 DROP TABLE IF EXISTS editorUsers;
 DROP TABLE IF EXISTS contentManagerUsers;
 DROP TABLE IF EXISTS generalManagerUsers;
+
 
 DROP TABLE IF EXISTS mapsMetaDetails;
 DROP TABLE IF EXISTS mapsFiles;
@@ -21,12 +22,10 @@ DROP TABLE IF EXISTS citiesTours;
 
 
 
-
-CREATE TABLE customersUsers(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text, numPurchases int, membershipExpireDate Text, purchasedMembershipPeriod int, numTimesRepurchasedMembership int);
+CREATE TABLE customerUsers(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text, numPurchases int, membershipExpireDate Text, purchasedMembershipPeriod int, numTimesRepurchasedMembership int);
 CREATE TABLE editorUsers(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text, numPurchases int, membershipExpireDate Text, purchasedMembershipPeriod int, numTimesRepurchasedMembership int);
 CREATE TABLE contentManagerUsers(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text, numPurchases int, membershipExpireDate Text, purchasedMembershipPeriod int, numTimesRepurchasedMembership int);
 CREATE TABLE generalManagerUsers(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text, numPurchases int, membershipExpireDate Text, purchasedMembershipPeriod int, numTimesRepurchasedMembership int);
-
 CREATE TABLE sites(siteId int,siteName Text, siteDescription Text,  siteType Text, siteAccessiblity boolean,site_x_coordinate float, site_y_coordinate float);
 CREATE TABLE toursMetaDetails(tourId int, tourDescription Text);
 CREATE TABLE mapsMetaDetails(mapId int,mapName Text, mapDescription Text,mapWidth float, mapHeight float, map_x_offset float, map_y_offset float, mapPrice double);
@@ -38,3 +37,22 @@ CREATE TABLE toursSites(tourId int, siteId int, siteDurance int);
 CREATE TABLE citiesMetaDetails(cityId int, cityName Text, cityDescription Text);
 CREATE TABLE citiesMaps(cityId int, mapId int);
 CREATE TABLE citiesSites(cityId int, siteId int);
+
+INSERT INTO editorUsers values ("editor","editor","","","","",0,"",0,0);
+INSERT INTO contentManagerUsers values ("c-manager","c-manager","","","","",0,"",0,0);
+INSERT INTO generalManagerUsers values ("manager","manager","","","","",0,"",0,0);
+
+INSERT INTO citiesMetaDetails values(1,"cityName","cityDescription");
+INSERT INTO mapsMetaDetails values (1,"mapName","mapDescription",12.7,15,0,0,12.2);
+INSERT INTO toursMetaDetails values (1,"tourDescription");
+INSERT INTO sites values(1,"siteName","siteDescription","siteType",0,1,4);
+INSERT INTO mapsSites values (1,1);
+INSERT INTO mapsTours values (1,1);
+INSERT INTO toursSites values (1,1,3);
+INSERT INTO citiesMaps values (1,1);
+INSERT INTO citiesSites values (1,1);
+INSERT INTO citiesTours values (1,1);
+
+
+
+

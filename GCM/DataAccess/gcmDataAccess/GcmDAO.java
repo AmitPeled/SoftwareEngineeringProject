@@ -139,7 +139,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 			System.err.println(e1.getMessage());
 		}
 		if (!(res instanceof ResponseObject)) {
-			System.err.println("Error! unknown response from server." /*+ res.toString()*/);
+			System.err.println("Error! unknown response from server." /* + res.toString() */);
 			return null;
 		}
 		ResponseObject resObject = (ResponseObject) res;
@@ -265,7 +265,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 	}
 
 	@Override
-	public File purchaseMap(int mapId, PurchaseDetails purchaseDetails) {
+	public File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails) {
 		return (File) send(new RequestObject(GcmQuery.purchaseMap, new ArrayList<Object>() {
 			{
 				add(mapId);
@@ -355,12 +355,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 	}
 
 	@Override
-	public boolean purchaseMembership(int timeInterval, PurchaseDetails purchaseDetails, boolean saveDetailsForNext) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
 		// TODO Auto-generated method stub
 		return false;
@@ -373,12 +367,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 	}
 
 	@Override
-	public File viewMap(int mapId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public File downloadMap(int mapId) {
 //		return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
 //			{
@@ -386,5 +374,23 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, SearchDAO, Seria
 //			}
 //		}, username, password)).getResponse().get(0);
 		return null; // TODO
+	}
+
+	@Override
+	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void notifyMapView(int mapId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getSavedCreditCard() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
