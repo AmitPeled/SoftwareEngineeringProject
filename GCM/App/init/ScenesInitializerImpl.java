@@ -36,6 +36,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		initializers.put(SceneNames.PURCHASE, new PurchaseInitializer(gcmClient));
 		initializers.put(SceneNames.ADD_CITY, new AddCityInitializer(gcmClient));
 		initializers.put(SceneNames.SEARCH, new SearchInitializar(gcmClient));
+		initializers.put(SceneNames.REPORTS, new ReportsInitializer(gcmClient));
 	}
 	
 	@Override
