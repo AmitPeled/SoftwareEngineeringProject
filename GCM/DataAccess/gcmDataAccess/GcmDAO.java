@@ -342,7 +342,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Site> getCitySites(int cityId) {
-		return (List<Site>) (Object) send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
+		return (List<Site>) (Object) send(new RequestObject(GcmQuery.getCitySites, new ArrayList<Object>() {
 			{
 				add(cityId);
 			}
