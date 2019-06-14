@@ -396,7 +396,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public void changeMapPrice(int mapId, double newPrice) {
+	public void editCityPrice(int cityId, double newPrice) {
 		// TODO Auto-generated method stub
 
 	}

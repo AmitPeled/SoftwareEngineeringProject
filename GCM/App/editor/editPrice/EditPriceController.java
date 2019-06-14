@@ -44,7 +44,7 @@ public class EditPriceController implements Initializable
 	            			errors.setVisible(false);
 	            			double newPrice = Double.parseDouble(newPriceStr);
 			            	System.out.println(newPrice);
-			            	contentManagerDAO.changeMapPrice(mapId, newPrice);
+			            	contentManagerDAO.editCityPrice(mapId, newPrice);
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);
 	            		}
