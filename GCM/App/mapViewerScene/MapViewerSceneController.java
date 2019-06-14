@@ -4,9 +4,13 @@
 package mapViewerScene;
 
 import java.io.IOException;
+
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import mainApp.GcmClient;
+import mainApp.SceneNames;
 import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
@@ -28,8 +32,10 @@ public class MapViewerSceneController {
 	
 	private Scene scene;
 	private MapViewerListener listener;
+	private GcmClient gcmClient;
 	
-	private MapViewerSceneController(MapViewer mapViewer) {
+	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer) {
+		this.gcmClient = gcmClient;
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -58,9 +64,12 @@ public class MapViewerSceneController {
 	 * @param mapId the mapId as it is in the database
 	 * @return JavaFX Scene object
 	 */
-	public static Scene getMapViewerScene(int mapId) {
+	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId) {
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(mapId);
-		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(mapViewerComponent);
+		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent);
 		return mapViewerSceneController.getScene();
 	}
+	
+	@FXML
+	public void onAddCity() { gcmClient.switchScene(SceneNames.ADD_CITY); }
 }
