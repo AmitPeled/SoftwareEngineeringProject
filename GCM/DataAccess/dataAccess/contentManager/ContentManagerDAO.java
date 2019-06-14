@@ -46,6 +46,6 @@ public interface ContentManagerDAO {
 	List<City> getCitiesUpdateEdits();
 	List<City> getCitiesDeleteEdits();
 
-	void changeMapPrice(int mapId, double newPrice);
+	void changeMapPrice(int cityId, double newPrice);
 
 }
