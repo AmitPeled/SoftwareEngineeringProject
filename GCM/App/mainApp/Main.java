@@ -16,7 +16,7 @@ public class Main extends Application {
 		UserDAO userDAO = gcmDAO;
 		CustomerDAO customerDAO = gcmDAO;
 		UserInfo userInfo = new UserInfoImpl(userDAO,customerDAO);
-		GcmClient gcm = new GcmClientImpl(primaryStage,userInfo);
+		GcmClient gcm = new GcmClientImpl(primaryStage,userInfo,gcmDAO);
 		ScenesInitializer initializer = new ScenesInitializerImpl(gcm);
 		SceneManager manager = new SceneManagerImpl(initializer.getScenes());
 		gcm.setSceneManager(manager);
