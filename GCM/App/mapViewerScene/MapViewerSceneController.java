@@ -44,6 +44,7 @@ public class MapViewerSceneController {
 			// Loading the FXML view
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(FxmlPath));
+			loader.setController(this);
 			GridPane gridPane = loader.load();
 			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
 			

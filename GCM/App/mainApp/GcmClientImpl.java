@@ -63,7 +63,6 @@ class GcmClientImpl implements GcmClient {
 		System.out.println("Switching scene to map viewer with map id: " + mapId);
 		Scene scene = MapViewerSceneController.getMapViewerScene(this, mapId);
 		primaryStage.setScene(scene);
-		primaryStage.show();
 		scenesStack.push(scene);
 	}
 	
