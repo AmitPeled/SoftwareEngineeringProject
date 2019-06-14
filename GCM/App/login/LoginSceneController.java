@@ -42,16 +42,12 @@ public class LoginSceneController {
 
 	@FXML
 	public void forgotPassword(ActionEvent event) throws IOException {
-		// open scene with email to send a new password -> new password password confirm
-		System.out.println("guess what, you are an idiot");
 		clearFields();
 		loginModel.switchScene(SceneNames.FORGOT_PASSWORD);
 	}
 
 	@FXML
 	public void forgotUsername(ActionEvent event) throws IOException {
-		// open scene with email to send a new password -> new password password confirm
-		System.out.println("guess what, you are an idiot");
 		clearFields();
 		loginModel.switchScene(SceneNames.FORGOT_USERNAME);
 	}
@@ -60,7 +56,6 @@ public class LoginSceneController {
 	public void register(ActionEvent event) throws IOException {
 		loginModel.switchScene(SceneNames.REGISTER);
 		clearFields();
-		System.out.println("going to register");
 	}
 
 	@FXML

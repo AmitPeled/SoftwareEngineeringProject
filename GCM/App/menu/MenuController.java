@@ -2,6 +2,7 @@ package menu;
 
 import javafx.fxml.FXML;
 import mainApp.GcmClient;
+import mainApp.SceneNames;
 
 public final class MenuController {
 	
@@ -13,7 +14,7 @@ public final class MenuController {
 	}
 	
 	@FXML
-	public void onSearchButton() { return; }
+	public void onSearchButton() { gcmClient.switchScene(SceneNames.SEARCH); }
 	
 	@FXML
 	public void onReportsButton() { return; }

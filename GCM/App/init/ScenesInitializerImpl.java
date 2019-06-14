@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.EnumMap;
 
 import init.initializers.*;
+import init.initializers.editor.AddCityInitializer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,6 +34,8 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		initializers.put(SceneNames.FORGOT_PASSWORD, new ForgotPasswordInitializer(gcmClient));
 		initializers.put(SceneNames.FORGOT_USERNAME, new ForgotUsernameInitializer(gcmClient));
 		initializers.put(SceneNames.PURCHASE, new PurchaseInitializer(gcmClient));
+		initializers.put(SceneNames.ADD_CITY, new AddCityInitializer(gcmClient));
+		initializers.put(SceneNames.SEARCH, new SearchInitializar(gcmClient));
 	}
 	
 	@Override

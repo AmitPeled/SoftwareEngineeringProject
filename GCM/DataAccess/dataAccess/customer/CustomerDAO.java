@@ -27,8 +27,20 @@ public interface CustomerDAO {
 	 *         are not valid. by the boolean field saveDetailsForNext (which will
 	 *         appear by a checkbox in the client side gui) the system will save the
 	 *         user's purchase details for future purchases
+	 * 
+	 *         time interval in months
 	 */
-	boolean purchaseMembership(int timeInterval, PurchaseDetails purchaseDetails, boolean saveDetailsForNext);
+	boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails);
+
+	/**
+	 * @return true if purchase succeeded
+	 */
+	boolean purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails);
+
+	/**
+	 * @return 4 last digits of saved credit card.
+	 */
+	String getSavedCreditCard();
 
 	/**
 	 * repurchase membership for the same time interval as purchased before. by this
@@ -44,17 +56,12 @@ public interface CustomerDAO {
 	boolean repurchaseMembershipBySavedDetails();
 
 	/**
-	 * @return one time purchase map
-	 */
-	File purchaseMap(int mapId, PurchaseDetails purchaseDetails);
-
-	/**
 	 * both view and download map functionalities are available for period
 	 * memberships only, and returns the same thing - the map's file. the download
 	 * and view itself operates in the client side. the reason to do it apart is to
 	 * maintain viewing and downloading statistics in the database.
 	 */
-	File viewMap(int mapId);
+	void notifyMapView(int mapId);
 
 	File downloadMap(int mapId);
 

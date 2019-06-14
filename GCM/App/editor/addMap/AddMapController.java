@@ -43,10 +43,10 @@ public class AddMapController implements Initializable
 	@FXML
 	TextField width;
 	@FXML
-	TextField xCor;
+	TextField xOffset;
 	@FXML
-	TextField yCor;
-	@FXML 
+	TextField yOffset;
+	@FXML
 	TextField errors;
 	@FXML
 	Button uploadMap;
@@ -75,8 +75,8 @@ public class AddMapController implements Initializable
 	            	String description = mapDescription.getText();
 	            	String mapHeight = height.getText();
 	            	String mapWidth = width.getText();
-	            	String xCoordinates = xCor.getText();
-	            	String yCoordinates = yCor.getText();
+	            	String xCoordinates = xOffset.getText();
+	            	String yCoordinates = yOffset.getText();
 	            	
 	            	List<String> list = Arrays.asList(name, description, mapHeight, mapWidth, xCoordinates, yCoordinates);;
 	            	if(utilities.checkFilledFields(list)) {

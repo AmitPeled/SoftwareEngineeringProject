@@ -54,7 +54,8 @@ public class BuySubscriptionController implements Initializable
 	            	if(!monthPickerValue.isEmpty()) {
 	            		// add the correct pruchase details
 	            		PurchaseDetails purchaseDetails = new PurchaseDetails("1","2","3","4");
-	            		gcmDAO.purchaseMembership(Integer.parseInt(monthPickerValue), purchaseDetails, true);
+	            		// need to insert cityId to buy membership to
+//	            		gcmDAO.purchaseMembership(Integer.parseInt(monthPickerValue), purchaseDetails);
 	            	}
 	            }
 			})

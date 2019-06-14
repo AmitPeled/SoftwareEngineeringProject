@@ -78,10 +78,10 @@ public class RequestHandler implements IHandleRequest {
 				case addCity:
 					listToSend.add(gcmDataExecutor.addCity((City) listObjectReceived.get(0)));
 					break;
-				case addCityWithInitialMap:
-					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
-							(Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
-					break;
+//				case addCityWithInitialMap:
+//					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
+//							(Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
+//					break;
 				case getMapsByCityName:
 					listToSend = (List<Object>) (Object) gcmDataExecutor
 							.getMapsByCityName((String) listObjectReceived.get(0));
@@ -103,7 +103,7 @@ public class RequestHandler implements IHandleRequest {
 				case getPurchasedMaps:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				case purchaseMap:
+				case purchaseCity:
 					listToSend.add(gcmDataExecutor.purchaseMap(username));
 					break;
 				case addExistingSiteToTour:
@@ -122,10 +122,6 @@ public class RequestHandler implements IHandleRequest {
 					break;
 				case deleteCity:
 					break;
-				case updateContent:
-					listToSend.add(
-							gcmDataExecutor.updateContent((int) listObjectReceived.get(0), listObjectReceived.get(1)));
-					break;
 				default:
 					break;
 				}
@@ -138,11 +134,10 @@ public class RequestHandler implements IHandleRequest {
 		} catch (SQLException e) {
 			requestState = RequestState.somethingWrongHappend;
 			System.err.println("db exception");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.err.println("server exception");
 		}
-		
+
 		return new ResponseObject(requestState, listToSend);
 	}
 
@@ -185,7 +180,7 @@ public class RequestHandler implements IHandleRequest {
 			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case getPurchasedMaps:
 			return userType == RequestState.customer;
-		case purchaseMap:
+		case purchaseCity:
 			return userType == RequestState.customer;
 		case updateContent:
 			return userType == RequestState.editor || userType == RequestState.contentManager;

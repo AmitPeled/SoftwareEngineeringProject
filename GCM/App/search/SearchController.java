@@ -59,8 +59,10 @@ public class SearchController implements Initializable
 	
 	String selectedRadioBtn;
 	RadioButton selectRadio;
+	private GcmClient gcmClient;
 	
-	public SearchController(GcmDAO gcmDAO) {
+	public ListViewController(GcmClient gcmClient,GcmDAO gcmDAO) {
+		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
 	}
 
@@ -179,7 +181,8 @@ public class SearchController implements Initializable
                 return new CustomListCell();
             }
         });
-
-           
     }
+    
+    @FXML
+    public void onBack() {gcmClient.back();}
 }
