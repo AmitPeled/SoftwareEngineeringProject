@@ -17,7 +17,7 @@ import mapViewer.MapViewerListener;
  * holding the map.
  *
  */
-public class MapViewerScene {
+public class MapViewerSceneController {
 	static final double LEFT_PANEL_WIDTH = 320.0;
 	static final double BOTTOM_PANEL_HEIGHT = 80.0;
 	static final int mapViewerGridIndex = 1;
@@ -25,7 +25,7 @@ public class MapViewerScene {
 	private Scene scene;
 	private MapViewerListener listener;
 	
-	private MapViewerScene(MapViewer mapViewer) {
+	private MapViewerSceneController(MapViewer mapViewer) {
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -49,9 +49,14 @@ public class MapViewerScene {
 	
 	public Scene getScene() { return scene; }
 	
+	/**
+	 * Factory method to return the MapViewerScene
+	 * @param mapId the mapId as it is in the database
+	 * @return JavaFX Scene object
+	 */
 	public static Scene getMapViewerScene(int mapId) {
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(mapId);
-		MapViewerScene mapViewerScene = new MapViewerScene(mapViewerComponent);
-		return mapViewerScene.getScene();
+		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(mapViewerComponent);
+		return mapViewerSceneController.getScene();
 	}
 }
