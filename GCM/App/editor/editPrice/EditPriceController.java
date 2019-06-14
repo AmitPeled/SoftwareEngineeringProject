@@ -26,7 +26,7 @@ public class EditPriceController implements Initializable
 	int mapId;
 	@FXML
 	TextField errors;
-	TextFieldUtility utilities;
+	TextFieldUtility utilities; 
 	
 	public EditPriceController(ContentManagerDAO contentManagerDAO, int mapId, TextFieldUtility utilities) {
 		this.contentManagerDAO = contentManagerDAO;
@@ -43,7 +43,6 @@ public class EditPriceController implements Initializable
 	            		if(utilities.isNumeric(newPriceStr)) {
 	            			errors.setVisible(false);
 	            			double newPrice = Double.parseDouble(newPriceStr);
-			            	System.out.println(newPrice);
 			            	contentManagerDAO.editCityPrice(mapId, newPrice);
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);

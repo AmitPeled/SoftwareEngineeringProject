@@ -21,9 +21,9 @@ public class LoginSceneController {
 	private Label wornglbl;
 
 	public LoginSceneController(LoginModel model) {
-		loginModel = model;
+		loginModel = model; 
 	}
-
+ 
 	@FXML
 	public void LogIn(ActionEvent event) throws IOException {
 		// send to data base to confirm that he is in the system
