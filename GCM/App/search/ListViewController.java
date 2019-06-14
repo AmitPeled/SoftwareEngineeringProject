@@ -28,7 +28,7 @@ import search.CustomListCell;
 import search.MapItem;
 import userInfo.UserInfoImpl;
 
-public class SearchController implements Initializable
+public class ListViewController implements Initializable
 {
 	private GcmDAO gcmDAO;
 	private int permission;

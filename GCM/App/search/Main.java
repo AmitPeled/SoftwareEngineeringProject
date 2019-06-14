@@ -16,7 +16,7 @@ public class Main extends Application {
 		 // constructing our scene
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/SearchScene.fxml"));
 		 GcmDAO gcmDAO = new GcmDAO(); 
-		 fxmlLoader.setController(new SearchController(gcmDAO));
+		 fxmlLoader.setController(new ListViewController(gcmDAO));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
   
