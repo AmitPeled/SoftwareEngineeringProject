@@ -1,10 +1,10 @@
 # GCM - Global City Map
 Software engineering course final project.
 
-#Tasks
+# Tasks
 ## Database
 ### Editions and approvals (Amit)
-- [ ] Add "Status" columns to every modifyable table
+- [x] Add "Status" columns to every modifyable table
 - [ ] Implement the status column on the server side
 - [ ] Create queries to get all unpublished rows
 - [ ] Create datatypes for the queries
@@ -45,13 +45,26 @@ Software engineering course final project.
 - [ ] Searching maps by both (Gavri)
 
 ## Editing map (asaf)
-- [ ] Creating new city 
-- [ ] Adding new maps to an existing city 
-- [ ] Adding sites 
-- [ ] Editing a site 
-- [ ] Adding a tour 
-- [ ] Adding an existing site to an existing tour 
-- [ ] Sending a notification to users when a map change has been approved 
+### Adding a city
+- [x] UI controls
+- [x] Database communication
+- [ ] Including in map display scene
+### Adding a map
+- [x] UI controls
+- [x] Database communication
+- [ ] Including in map display scene
+### Adding a site
+- [x] UI controls
+- [x] Database communication
+- [ ] Including in map display scene 
+### Editing a site
+- [x] UI controls
+- [x] Database communication
+- [ ] Including in map display scene 
+### Adding a tour
+- [x] UI controls
+- [ ] Database communication
+- [ ] Including in map display scene 
 
 ## Registration (Done)
 - [x] Registring a new user
@@ -64,16 +77,27 @@ Software engineering course final project.
 
 ## Notification (Asaf will take)
 - [ ] System sends a notification to users when subscription runs out (Asaf)
+- [ ] Sending a notification to users when a map change has been approved 
 
 ## Prices
 - [ ] Changing map prices (Gavri to push)
 
 ## Reports (Scenes ready, need server communication)
-- [ ] Choosing time frame for report (Scenes ready, need server communication)
-- [ ] Report on specific city (Scenes ready, need server communication)
-- [ ] Report on all cities (Scenes ready, need server communication)
-- [ ] A customer can view personal information (Scenes ready, need server communication)
-- [ ] Managers can view customers information (Scenes ready, need server communication)
+### Selecting a time frame
+- [x] GUI
+- [ ] Server side implementation
+### City report
+- [x] GUI
+- [ ] Server side implementation
+### All cities report
+- [x] GUI
+- [ ] Server side implementation
+### Customer personal information
+- [x] GUI
+- [ ] Server side implementation
+### Manager sees customer information
+- [x] GUI
+- [ ] Server side implementation
 
 # Intro
 This document will be used by us to keep us all on the same page as to what we're doing and what this project is about.
