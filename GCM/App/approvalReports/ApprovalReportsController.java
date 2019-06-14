@@ -7,6 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import approvalReports.cityApprovalReports.CitySubmission;
+import approvalReports.cityApprovalReports.CityTableCell;
+import approvalReports.sitesApprovalReports.SiteSubmission;
+import approvalReports.sitesApprovalReports.SiteTableCell;
 import gcmDataAccess.GcmDAO;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -36,82 +40,104 @@ import utility.TextFieldUtility;
 public class ApprovalReportsController  implements Initializable {
 	private GcmDAO gcmDAO;
 	@FXML
-	TableView<City> cityTable;
+	TableView<SiteSubmission> siteTable;
 	@FXML
-	TableColumn<City, String> cityName;
+	TableColumn<SiteSubmission, String> siteName;
 	@FXML
-	TableColumn<City, String> cityDescription;
+	TableColumn<SiteSubmission, String> siteDescription;
 	@FXML
-	TableColumn<City, String> actionTaken;
+	TableColumn<SiteSubmission, String> siteType;
 	@FXML
-	TableColumn<City, Button> approvalDisapproval;
+	TableColumn<SiteSubmission, String> siteActionTaken;
+	@FXML
+	TableColumn<SiteSubmission, Button> siteApprovalDisapproval;
 	
-	public ApprovalReportsController(GcmDAO gcmDAO) {
+	@FXML
+	TableView<CitySubmission> cityTable;
+	@FXML
+	TableColumn<CitySubmission, String> cityName;
+	@FXML
+	TableColumn<CitySubmission, String> cityDescription;
+	@FXML
+	TableColumn<CitySubmission, String> cityActionTaken;
+	@FXML
+	TableColumn<CitySubmission, Button> cityApprovalDisapproval;
+	
+	@FXML
+	Button cityReports;
+	@FXML
+	Button siteReports;
+	
+	private List<CitySubmission> citySubmissions;
+	private List<SiteSubmission> siteSubmissions;
+	
+	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, List<SiteSubmission> siteSubmissions) {
 		this.gcmDAO = gcmDAO;
+		this.citySubmissions = citySubmissions;
+		this.siteSubmissions = siteSubmissions;
 	}
 	
-	public void setColumns() {
-		
-	        List<City> cityLists = new ArrayList<City>();
-	        cityLists.add(new City(1, "haifa", "this city sucks"));
-	        cityLists.add(new City(2, "tel aviv", "well this city doesn't suck"));
-//	        List<String> cityName = new ArrayList<String>();
-//	        for (City city : cityLists) {
-//		        cityName.add(city.getName());
-//			}
-	        cityName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getName()));
-	        cityDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getDescription()));
-	        //actionTaken.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getDescription()));
+	public void initSiteTableView() {
+	        siteName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getName()));
+	        siteDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getDescription()));
+	        siteType.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getSiteType()));
+	        siteActionTaken.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
+	        
+	        siteApprovalDisapproval.setCellFactory(new Callback<TableColumn<SiteSubmission, Button>, TableCell<SiteSubmission, Button>>() {
+	            @Override
+	            public TableCell<SiteSubmission, Button> call(TableColumn<SiteSubmission, Button> param) {
+	                return new SiteTableCell();
+	            }
+	        });
 	        
 	        
-	        Callback<TableColumn<City, Button>, TableCell<City, Button>> cellFactory 
-	        = new Callback<TableColumn<City, Button>, TableCell<City, Button>>() {
-	        	@Override
-		        public TableCell call(final TableColumn<City, Button> param) {
-		            final TableCell<City, Button> cell = new TableCell<City, Button>() {
-		
-		                Button approve = new Button("Approve!");
-		                Button disapprove = new Button("Disapprove!");
-		                
-		                @Override
-		                public void updateItem(Button item, boolean empty) {
-		                    super.updateItem(item, empty);
-		                    if (empty) {
-		                        setGraphic(null);
-		                        setText(null);
-		                    } else {
-		                    	approve.setOnAction(event -> {
-		                        	City city = getTableView().getItems().get(getIndex());
-		                        	System.out.println(city.getId());
-		                        });
-		                    	disapprove.setOnAction(event -> {
-		                        	City city = getTableView().getItems().get(getIndex());
-		                        	System.out.println(city.getId());
-		                        });
-		                    	HBox pane = new HBox(approve, disapprove);
-
-		                        setGraphic(pane);
-		                        setText(null);
-		                    }
-		                }
-		            };
-		            return cell;
-		        }
-	        };
-	    	approvalDisapproval.setCellFactory(cellFactory);
-	        
-	        
-	        ObservableList<City> details = FXCollections.observableArrayList(cityLists);
-	        cityTable.setItems(details);
+	        ObservableList<SiteSubmission> details = FXCollections.observableArrayList(siteSubmissions);
+	        siteTable.setItems(details);
 	}
-	public void initTableView() {
-		//cityName.setCellFactory(TextFieldTableCell.forTableColumn()) 
+	public void initCityTableView() {
+        cityName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getCity().getName()));
+        cityDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getCity().getDescription()));
+        cityActionTaken.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
+        
+        cityApprovalDisapproval.setCellFactory(new Callback<TableColumn<CitySubmission, Button>, TableCell<CitySubmission, Button>>() {
+            @Override
+            public TableCell<CitySubmission, Button> call(TableColumn<CitySubmission, Button> param) {
+                return new CityTableCell();
+            }
+        });
+        
+        
+        ObservableList<CitySubmission> details = FXCollections.observableArrayList(citySubmissions);
+        cityTable.setItems(details);
+}
+	public void cityBtnListener() {
+		cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
+			@Override
+			public void handle(MouseEvent arg0) {
+				cityTable.setVisible(true);
+				siteTable.setVisible(false);
+			}
+			
+		}));
+	}
+	public void siteBtnListener() {
+		siteReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent arg0) {
+				siteTable.setVisible(true);
+				cityTable.setVisible(false);
+			}
+			
+		}));
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		initTableView();
-		setColumns();
+		initCityTableView();
+		initSiteTableView();
+		siteBtnListener();
+		cityBtnListener();
 	}
 
 }

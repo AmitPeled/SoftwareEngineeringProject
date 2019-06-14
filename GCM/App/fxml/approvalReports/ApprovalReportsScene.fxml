@@ -9,12 +9,23 @@
 <AnchorPane prefHeight="441.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="205.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approval reports" />
+      <Button fx:id="cityReports" layoutX="73.0" layoutY="76.0" mnemonicParsing="false" text="City reports" />
+      <Button fx:id="siteReports" layoutX="169.0" layoutY="76.0" mnemonicParsing="false" text="Site reports" />
+      <TableView fx:id="siteTable" layoutX="18.0" layoutY="131.0" prefHeight="277.0" prefWidth="700.0">
+         <columns>
+            <TableColumn fx:id="siteName" prefWidth="75.0" text="Site name" />
+            <TableColumn fx:id="siteDescription" prefWidth="152.0" text="Description" />
+            <TableColumn fx:id="siteType" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="siteActionTaken" prefWidth="120.0" text="Action taken" />
+            <TableColumn fx:id="siteApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
+         </columns>
+      </TableView>
       <TableView fx:id="cityTable" layoutX="17.0" layoutY="130.0" prefHeight="277.0" prefWidth="700.0">
         <columns>
           <TableColumn fx:id="cityName" prefWidth="75.0" text="City name" />
           <TableColumn fx:id="cityDescription" prefWidth="152.0" text="Description" />
-            <TableColumn fx:id="actionTaken" prefWidth="120.0" text="Action taken" />
-            <TableColumn fx:id="approvalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
+            <TableColumn fx:id="cityActionTaken" prefWidth="120.0" text="Action taken" />
+            <TableColumn fx:id="cityApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
         </columns>
       </TableView>
    </children>

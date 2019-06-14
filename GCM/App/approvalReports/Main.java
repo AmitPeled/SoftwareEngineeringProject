@@ -1,11 +1,18 @@
 package approvalReports;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import approvalReports.cityApprovalReports.CitySubmission;
+import approvalReports.sitesApprovalReports.SiteSubmission;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import maps.City;
+import maps.Coordinates;
+import maps.Site;
 import utility.TextFieldUtility;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +26,14 @@ public class Main extends Application {
 		 GcmDAO gcmDAO = new GcmDAO();
 		 gcmDAO.login("editor", "editor"); 
 		 TextFieldUtility utilities = new TextFieldUtility();
-		 fxmlLoader.setController(new ApprovalReportsController(gcmDAO));
+		 List<CitySubmission> cityLists = new ArrayList<CitySubmission>();
+	     cityLists.add(new CitySubmission(new City(1, "haifa", "this city sucks"), ActionTaken.ADD));
+	     cityLists.add(new CitySubmission(new City(2, "tel aviv", "well this city doesn't suck"), ActionTaken.DELETE));
+	     List<SiteSubmission> siteLists = new ArrayList<SiteSubmission>();
+	     siteLists.add(new SiteSubmission(new Site(1, "hamburder", "tasty", "food", true, new Coordinates(1,1)), ActionTaken.ADD));
+	     siteLists.add(new SiteSubmission(new Site(2, "cinema", "nice movie", "fun", true, new Coordinates(1,1)), ActionTaken.DELETE));
+
+	     fxmlLoader.setController(new ApprovalReportsController(gcmDAO, cityLists, siteLists));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root ); 
  
