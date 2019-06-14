@@ -59,7 +59,7 @@ class GcmClientImpl implements GcmClient {
 	
 	@Override
 	public void loadMapDisplay(int mapId) {
-		
+		System.out.println("Switching scene to map viewer with map id: " + mapId);
 	}
 	
 	/**
