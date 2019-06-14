@@ -18,10 +18,14 @@ import mapViewer.MapViewerListener;
  *
  */
 public class MapViewerSceneController {
+	// Constants
 	static final double LEFT_PANEL_WIDTH = 320.0;
 	static final double BOTTOM_PANEL_HEIGHT = 80.0;
-	static final int mapViewerGridIndex = 1;
-	static final String FxmlPath = "/fxml/mapViewerClient/MapDisplayScene.fxml";
+	static final int EDITOR_GRID_ROW_INDEX = 0;
+	static final int MAP_VIEWER_GRID_COL_INDEX = 1;
+	static final int MAP_VIEWER_GRID_ROW_INDEX = 0;
+	static final String FxmlPath = "/fxml/mapViewerClient/MapDisplayScene.fxml";	
+	
 	private Scene scene;
 	private MapViewerListener listener;
 	
@@ -35,7 +39,7 @@ public class MapViewerSceneController {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(FxmlPath));
 			GridPane gridPane = loader.load();
-			gridPane.add(mapViewer.getScene().getRoot(), mapViewerGridIndex , 0);
+			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
 			
 			// Creating the Scene object that is returned
 			double width = mapViewer.getImageWidth() + LEFT_PANEL_WIDTH;
