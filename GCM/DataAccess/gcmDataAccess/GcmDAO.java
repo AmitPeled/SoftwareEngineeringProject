@@ -386,25 +386,13 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	@Override
 	public void notifyMapView(int mapId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public String getSavedCreditCard() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void discardMapChange(int changeId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void approveMapChange(int changeId) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -428,7 +416,61 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	@Override
 	public void changeMapPrice(int mapId, double newPrice) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void actionMapAddEdit(Map map, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionMapUpdateEdit(Map map, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionMapDeleteEdit(Map map, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityAddEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityUpdateEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityDeleteEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteAddEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteUpdateEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteDeleteEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public final class MenuController {
 	public void onSearchButton() { gcmClient.switchScene(SceneNames.SEARCH); }
 	
 	@FXML
-	public void onReportsButton() { return; }
+	public void onReportsButton() { gcmClient.switchScene(SceneNames.REPORTS); }
 	
 	@FXML
 	public void onAddNewCityButton() { return; }
