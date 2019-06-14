@@ -134,8 +134,11 @@ public class RequestHandler implements IHandleRequest {
 		} catch (SQLException e) {
 			requestState = RequestState.somethingWrongHappend;
 			System.err.println("db exception");
+			System.err.println(e.getMessage());
+
 		} catch (Exception e) {
 			System.err.println("server exception");
+			System.err.println(e.getMessage());
 		}
 
 		return new ResponseObject(requestState, listToSend);
