@@ -23,15 +23,16 @@ import javafx.util.Callback;
 import login.LoginModel;
 import mainApp.GcmClient;
 import maps.Map;
+import queries.RequestState;
 import search.CustomListCell;
 import search.MapItem;
+import userInfo.UserInfoImpl;
 
 public class ListViewController implements Initializable
 {
 	private GcmDAO gcmDAO;
 	private int permission;
-	
-	
+	 
 	@FXML 
     private ListView<MapItem> listView;
 	@FXML
@@ -53,6 +54,8 @@ public class ListViewController implements Initializable
 	private RadioButton rPointofinterest;
 	@FXML
 	private RadioButton rDescription;
+	@FXML
+	private Button goTo;
 	
 	String selectedRadioBtn;
 	RadioButton selectRadio;
@@ -75,6 +78,7 @@ public class ListViewController implements Initializable
 		// Radio 3: description.
 		rDescription.setToggleGroup(searchOptions);
 	}
+
 	
 	public void searchListener() {	
 		searchBtn.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -126,7 +130,7 @@ public class ListViewController implements Initializable
 
 		for (Map item : resultSet) 
     	{ 
-			int id = item.getId();
+			String id = Integer.toString(item.getId());
 			String mapName = item.getName();
 			String description = item.getDescription();
 			String pointOfInterest;
@@ -150,28 +154,16 @@ public class ListViewController implements Initializable
 		return resultList;
 	}
 
-	public int checkForPermissions() {
-		return 1;
-	}
 	
 	public void permissions() {
-		permission = checkForPermissions();
+		//RequestState userState = new UserInfoImpl().getState();
 		if(permission == 0) {
 			buySubscriptionBtn.setVisible(true);
 		}else {
 			addNewMapBtn.setVisible(true);
 		}
 	}
-//	@FXML
-//	public void mapItemListener() {
-//		mapItem.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-//		    @Override
-//		    public void handle(MouseEvent mouseEvent) {
-//		        System.out.println("mouse click detected! " + mouseEvent.getSource());
-//		    }
-//		});
-//	}
-	
+
     /**
 	* @param url
 	* @param rb
@@ -180,7 +172,7 @@ public class ListViewController implements Initializable
 	public void initialize(URL url, ResourceBundle rb) {
     	initRadioButtons();
     	searchListener();
-//    	mapItemListener();
+    	
         assert mapItem != null : "fx:id=\"anchr\" was not injected: check your FXML file 'AxisFxml.fxml'.";
 
         listView.setCellFactory(new Callback<ListView<MapItem>, ListCell<MapItem>>() {

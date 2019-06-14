@@ -49,6 +49,8 @@ public class ReportsController implements Initializable{
 	@FXML
 	Button search;
 	@FXML
+	Button getReportsForAll;
+	@FXML
 	ListView<CityItem> cityResults;
 	@FXML
 	ListView<WorkerItem> workerResults;
@@ -76,7 +78,28 @@ public class ReportsController implements Initializable{
 		// Radio 3: rCustomer.
 		rCustomer.setToggleGroup(searchOptions);
 	}
-	
+	public void getReportsForAllListener() {
+		getReportsForAll.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				cityResults.setVisible(true);
+    			customerResults.setVisible(false);
+    			workerResults.setVisible(false);
+        		//List<Map> resultSet;
+        		//resultSet = gcmDAO.getMapsByCityName(searchText);
+        		CityItem city1 = new CityItem(1, "1", "2", "3", "4", "5");
+    			List<CityItem> result = Arrays.asList(city1);
+        		ObservableList<CityItem> data = FXCollections.observableArrayList();
+            	for (CityItem item : result) 
+            	{ 
+            		 data.add(item);
+            	}
+            	cityResults.setItems(data);
+			}
+		
+		}));
+	}
 	public void searchListener() {	
 		search.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
@@ -95,54 +118,11 @@ public class ReportsController implements Initializable{
 	            		customerResults.setItems(null);
 	            		workerResults.setItems(null);
 	            		if(selectedRadioValue.equals("City name")) {
-	            			cityResults.setVisible(true);
-	            			customerResults.setVisible(false);
-	            			workerResults.setVisible(false);
-		            		//List<Map> resultSet;
-		            		//resultSet = gcmDAO.getMapsByCityName(searchText);
-		            		CityItem city1 = new CityItem(1, "1", "2", "3", "4", "5");
-		            	    CityItem city2 = new CityItem(1, "5", "6", "7", "8", "9");
-		            	    CityItem city3 = new CityItem(1, "10", "11", "12", "13", "14");
-	            			List<CityItem> result = Arrays.asList(city1, city2, city3);
-		            		ObservableList<CityItem> data = FXCollections.observableArrayList();
-			            	for (CityItem item : result) 
-			            	{ 
-			            		 data.add(item);
-			            	}
-			            	cityResults.setItems(data);
+	            			reportByCityName();
 		            	}else if(selectedRadioValue.equals("Customer")){
-		            		cityResults.setVisible(false);
-	            			customerResults.setVisible(true);
-	            			workerResults.setVisible(false);
-		            		//List<Map> resultSet;
-		            		//resultSet = gcmDAO.getMapsByDescription(searchText);
-		            		List<String> purchaseHistory = Arrays.asList("haifa", "tel aviv");
-		            		CustomerItem city1 = new CustomerItem(1, "1", "2", "3", purchaseHistory);
-		            		CustomerItem city2 = new CustomerItem(1, "5", "6", "7", purchaseHistory);
-		            		CustomerItem city3 = new CustomerItem(1, "10", "11", "12", purchaseHistory);
-	            			List<CustomerItem> result = Arrays.asList(city1, city2, city3);
-		            		ObservableList<CustomerItem> data = FXCollections.observableArrayList();
-			            	for (CustomerItem item : result) 
-			            	{ 
-			            		 data.add(item);
-			            	}
-			            	customerResults.setItems(data);
+		            		reportsByCustomer();
 		            	}else {
-		            		cityResults.setVisible(false);
-	            			customerResults.setVisible(false);
-	            			workerResults.setVisible(true);
-		            		//List<Map> resultSet;
-		            		//resultSet = gcmDAO.getMapsByDescription(searchText);
-		            		WorkerItem city1 = new WorkerItem(1, "1", "2", "3", "4", "5");
-		            		WorkerItem city2 = new WorkerItem(1, "5", "6", "7", "8", "9");
-		            		WorkerItem city3 = new WorkerItem(1, "10", "11", "12", "13", "14");
-	            			List<WorkerItem> result = Arrays.asList(city1, city2, city3);
-		            		ObservableList<WorkerItem> data = FXCollections.observableArrayList();
-			            	for (WorkerItem item : result) 
-			            	{ 
-			            		 data.add(item);
-			            	}
-			            	workerResults.setItems(data);
+		            		reportsByWorker();
 		            	}
 	            	}else {
 	            		setErrors("Please fill all fields!");
@@ -187,8 +167,65 @@ public class ReportsController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		errors.setVisible(false);
+		getReportsForAllListener();
 		initRadioButtons();
 		searchListener();
 		initCellFactories();
+	}
+	
+	private void reportByCityName() {
+		cityResults.setVisible(true);
+		customerResults.setVisible(false);
+		workerResults.setVisible(false);
+		//List<Map> resultSet;
+		//resultSet = gcmDAO.getMapsByCityName(searchText);
+		CityItem city1 = new CityItem(1, "1", "2", "3", "4", "5");
+		CityItem city2 = new CityItem(1, "5", "6", "7", "8", "9");
+		CityItem city3 = new CityItem(1, "10", "11", "12", "13", "14");
+		List<CityItem> result = Arrays.asList(city1, city2, city3);
+		ObservableList<CityItem> data = FXCollections.observableArrayList();
+		for (CityItem item : result) 
+		{ 
+			 data.add(item);
+		}
+		cityResults.setItems(data);
+	}
+	
+
+	private void reportsByWorker() {
+		cityResults.setVisible(false);
+		customerResults.setVisible(false);
+		workerResults.setVisible(true);
+		//List<Map> resultSet;
+		//resultSet = gcmDAO.getMapsByDescription(searchText);
+		WorkerItem city1 = new WorkerItem(1, "1", "2", "3", "4", "5");
+		WorkerItem city2 = new WorkerItem(1, "5", "6", "7", "8", "9");
+		WorkerItem city3 = new WorkerItem(1, "10", "11", "12", "13", "14");
+		List<WorkerItem> result = Arrays.asList(city1, city2, city3);
+		ObservableList<WorkerItem> data = FXCollections.observableArrayList();
+		for (WorkerItem item : result) 
+		{ 
+			 data.add(item);
+		}
+		workerResults.setItems(data);
+	}
+
+	private void reportsByCustomer() {
+		cityResults.setVisible(false);
+		customerResults.setVisible(true);
+		workerResults.setVisible(false);
+		//List<Map> resultSet;
+		//resultSet = gcmDAO.getMapsByDescription(searchText);
+		List<String> purchaseHistory = Arrays.asList("haifa", "tel aviv");
+		CustomerItem city1 = new CustomerItem(1, "1", "2", "3", purchaseHistory);
+		CustomerItem city2 = new CustomerItem(1, "5", "6", "7", purchaseHistory);
+		CustomerItem city3 = new CustomerItem(1, "10", "11", "12", purchaseHistory);
+		List<CustomerItem> result = Arrays.asList(city1, city2, city3);
+		ObservableList<CustomerItem> data = FXCollections.observableArrayList();
+		for (CustomerItem item : result) 
+		{ 
+			 data.add(item);
+		}
+		customerResults.setItems(data);
 	}
 }

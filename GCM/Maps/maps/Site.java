@@ -23,7 +23,7 @@ public class Site implements Serializable {
 		this.setAccessibleForDisabled(isAccessibleForDisabled);
 		this.locationCoordinates = locationCoordinates;
 	}
-
+ 
 	/**
 	 * default no description string, type and false handicappedAccess
 	 */

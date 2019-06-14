@@ -15,5 +15,5 @@ public class CustomListCell extends ListCell<MapItem> {
         } else {
             setGraphic(null);
         }
-    }
+    } 
 }

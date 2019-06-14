@@ -31,10 +31,10 @@ public class AddCityController implements Initializable
 	@FXML
 	TextField errors;
 	@FXML
-	Button addCity;
+	Button addCity; 
 	
 	File file;
-	Image image;
+	Image image; 
 	TextFieldUtility utilities;
 	
 	public AddCityController(GcmDAO gcmDAO, TextFieldUtility utilities) {
