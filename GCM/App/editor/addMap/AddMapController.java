@@ -46,7 +46,7 @@ public class AddMapController implements Initializable
 	TextField xCor;
 	@FXML
 	TextField yCor;
-	@FXML
+	@FXML 
 	TextField errors;
 	@FXML
 	Button uploadMap;

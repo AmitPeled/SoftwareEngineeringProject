@@ -25,7 +25,7 @@ public class Data
 	@FXML
 	private Button goTo;
 	
-	 
+	 // pass search controller to constractor or GCM client
     public Data(){ 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/mapItem.fxml"));
         fxmlLoader.setController(this);
@@ -49,7 +49,7 @@ public class Data
         goToMapListener();
     }
 	
-	public void goToMapListener() {
+	public void goToMapListener() { 
 		goTo.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
 			@Override

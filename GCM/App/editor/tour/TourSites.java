@@ -7,7 +7,7 @@ import java.util.List;
 public class TourSites {
 	List<String> sitesList;
 	List<String> timeEstimationsList;
-	
+	 
 	public TourSites() {
 		sitesList = new ArrayList<String>();
 		timeEstimationsList = new ArrayList<String>();

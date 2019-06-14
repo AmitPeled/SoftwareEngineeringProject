@@ -42,21 +42,22 @@ public class PointOfInterestController implements Initializable{
 	
 	String selectedRadioBtn;
 	RadioButton selectRadio;
-	
+	Coordinates coordinates;
 	int cityId;
 	boolean disable;
 	
-	public PointOfInterestController(GcmDAO gcmDAO, int cityId, TextFieldUtility utilities) {
+	public PointOfInterestController(GcmDAO gcmDAO, int cityId, Coordinates coordinates, TextFieldUtility utilities) {
 		this.gcmDAO = gcmDAO;
 		this.cityId = cityId;
 		this.utilities = utilities;
+		this.coordinates = coordinates;
 	}
 	public void initRadioButtons() {
 		// Radio 1: disableYes.
 		disableYes.setToggleGroup(disableOptions);
 		
 		
-		// Radio 2: disableNo.
+		// Radio 2: disableNo. 
 		disableNo.setToggleGroup(disableOptions);
 		disableNo.setSelected(true);
 	}
@@ -66,6 +67,7 @@ public class PointOfInterestController implements Initializable{
 	            public void handle(MouseEvent event) {
 	            	String poiName = name.getText();
 	            	String poiType = type.getText();
+	            	
 	            	String poiDescription = description.getText();
 	            	selectRadio = (RadioButton) disableOptions.getSelectedToggle();
 	            	selectedRadioBtn = selectRadio.getText();
@@ -78,7 +80,7 @@ public class PointOfInterestController implements Initializable{
 		            	}else {
 		            		disable = false;
 		            	}
-	            		Site site = new Site(poiName, poiDescription, poiType, disable, new Coordinates());
+	            		Site site = new Site(poiName, poiDescription, poiType, disable, coordinates);
 	            		gcmDAO.addNewSiteToCity(cityId, site);
 	            	}else {
 	            		utilities.setErrors("Please fill all fields!", errors);
