@@ -2,6 +2,8 @@ package database.metadata;
 
 import java.util.HashMap;
 
+import database.objectParse.Status;
+
 public class DatabaseMetaData {
 	private static final String host = "remotemysql.com";
 	private static final String DBName = "X6SgPM1fb2";
@@ -48,5 +50,21 @@ public class DatabaseMetaData {
 
 	public static String getTableName(Tables table) {
 		return tablesNames.get(table);
+	}
+
+	public static int getStatus(Status status) {
+		switch (status) {
+		case published:
+			return 0;
+		case toAdd:
+			return 1;
+		case toUpdate:
+			return 2;
+		case toDelete:
+			return 3;
+		default:
+			System.err.println("bad status value");
+			return -1;
+		}
 	}
 }

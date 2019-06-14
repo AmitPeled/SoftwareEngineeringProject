@@ -391,8 +391,6 @@ public class GcmDataExecutor
 		return maps;
 	}
 
-	
-
 	private List<Map> getMapsBySiteField(String fieldName, Object fieldVal, boolean withPartialField)
 			throws SQLException {
 		List<Integer> sitesIds;
@@ -567,12 +565,6 @@ public class GcmDataExecutor
 	}
 
 	@Override
-	public void editMapPrice(int mapId, double newPrice) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public double getMembershipPrice(int cityId, int timeInterval) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
@@ -616,25 +608,161 @@ public class GcmDataExecutor
 	}
 
 	@Override
-	public void approveSiteEdit(Site site) {
+	public void actionMapAddEdit(Map map, boolean action) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void approveCityEdit(City city) {
+	public void actionMapUpdateEdit(Map map, boolean action) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void approveMapEdit(Map map) {
+	public void actionMapDeleteEdit(Map map, boolean action) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void approveTourEdit(Tour tour) {
+	public void actionCityAddEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityUpdateEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityDeleteEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteAddEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteUpdateEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteDeleteEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	List<Map> getMapsByStatus(Status status) throws SQLException {
+		List<Integer> mapIds = toIdList(
+				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "status",
+						DatabaseMetaData.getStatus(status), "*"));
+		List<Map> mapsObjects = new ArrayList<>();
+		mapIds.forEach((mapId) -> {
+			try {
+				mapsObjects.add(getMapDetails(mapId));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		return mapsObjects;
+	}
+
+	List<City> getCitiesByStatus(Status status) throws SQLException {
+		List<Integer> cityIds = toIdList(
+				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "status",
+						DatabaseMetaData.getStatus(status), "*"));
+		List<City> cityObjects = new ArrayList<>();
+		cityIds.forEach((cityId) -> {
+			try {
+				cityObjects.add(getCityById(cityId));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		return cityObjects;
+	}
+
+	List<Site> getSitesByStatus(Status status) throws SQLException {
+		List<Integer> siteIds = toIdList(
+				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "status",
+						DatabaseMetaData.getStatus(status), "*"));
+		List<Site> sites = new ArrayList<>();
+		siteIds.forEach((siteId) -> {
+			try {
+				sites.add(getSite(siteId));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		return sites;
+	}
+
+	@Override
+	public List<Map> getMapsAddEdits() throws SQLException {
+		// sites, tour
+
+		// TODO Auto-generated method stub
+		return null;
+
+	}
+
+	@Override
+	public List<Map> getMapsUpdateEdits() throws SQLException {
+		return getMapsByStatus(Status.toUpdate);
+
+	}
+
+	@Override
+	public List<Map> getMapsDeleteEdits()  throws SQLException{
+		return getMapsByStatus(Status.toDelete);
+	}
+
+	@Override
+	public List<Site> getSitesAddEdits()  throws SQLException{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesUpdateEdits() throws SQLException {
+		return getSitesByStatus(Status.toUpdate);
+
+	}
+
+	@Override
+	public List<Site> getSitesDeleteEdits() throws SQLException {
+		return getSitesByStatus(Status.toDelete);
+	}
+
+	@Override
+	public List<City> getCitiesAddEdits()  throws SQLException{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesUpdateEdits() throws SQLException {
+		return getCitiesByStatus(Status.toUpdate);
+
+	}
+
+	@Override
+	public List<City> getCitiesDeleteEdits()  throws SQLException{
+		return getCitiesByStatus(Status.toDelete);
+
+	}
+
+	@Override
+	public void editCityPrice(int cityId, double newPrice)  throws SQLException{
 		// TODO Auto-generated method stub
 
 	}
