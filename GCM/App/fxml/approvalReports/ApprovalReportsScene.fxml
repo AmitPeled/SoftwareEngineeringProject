@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="441.0" prefWidth="364.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Text layoutX="138.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approval reports" />
+      <TableView layoutX="47.0" layoutY="129.0" prefHeight="277.0" prefWidth="298.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="City name" />
+          <TableColumn prefWidth="75.0" text="Description" />
+            <TableColumn prefWidth="89.0" text="Action taken" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

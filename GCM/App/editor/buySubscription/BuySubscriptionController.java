@@ -43,7 +43,7 @@ public class BuySubscriptionController implements Initializable
 		this.gcmDAO = gcmDAO;
 		this.mapId = mapId;
 	}
-	
+	 
 
 	public void buyListener() {	
 		buy.setOnMouseClicked((new EventHandler<MouseEvent>() {

@@ -49,6 +49,8 @@ public class ReportsController implements Initializable{
 	@FXML
 	Button search;
 	@FXML
+	Button getReportsForAll;
+	@FXML
 	ListView<CityItem> cityResults;
 	@FXML
 	ListView<WorkerItem> workerResults;
@@ -76,7 +78,28 @@ public class ReportsController implements Initializable{
 		// Radio 3: rCustomer.
 		rCustomer.setToggleGroup(searchOptions);
 	}
-	
+	public void getReportsForAllListener() {
+		getReportsForAll.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				cityResults.setVisible(true);
+    			customerResults.setVisible(false);
+    			workerResults.setVisible(false);
+        		//List<Map> resultSet;
+        		//resultSet = gcmDAO.getMapsByCityName(searchText);
+        		CityItem city1 = new CityItem(1, "1", "2", "3", "4", "5");
+    			List<CityItem> result = Arrays.asList(city1);
+        		ObservableList<CityItem> data = FXCollections.observableArrayList();
+            	for (CityItem item : result) 
+            	{ 
+            		 data.add(item);
+            	}
+            	cityResults.setItems(data);
+			}
+		
+		}));
+	}
 	public void searchListener() {	
 		search.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
@@ -144,6 +167,7 @@ public class ReportsController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		errors.setVisible(false);
+		getReportsForAllListener();
 		initRadioButtons();
 		searchListener();
 		initCellFactories();
