@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import database.objectParse.Status;
+
 import java.sql.Statement;
 
 /**
@@ -81,11 +83,9 @@ public class DatabaseExecutor implements IExecuteQueries {
 				rset.afterLast();
 				rset.previous();
 				id = rset.getInt(1);
-			} else
-				id = 1;
+			}
 		}
-
-		return id + 1;
+		return id > 0 ? id + 1 : 1;
 	}
 
 	@Override
@@ -188,5 +188,36 @@ public class DatabaseExecutor implements IExecuteQueries {
 			fields = toList(preparedStatement.executeQuery());
 		}
 		return fields;
+	}
+
+	@Override
+	public void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException {
+		switch (status) {
+		case published:
+			objects.add(0);
+			break;
+		case toAdd:
+			objects.add(1);
+			System.out.println("add, " + objects.size());
+			break;
+		case toUpdate:
+			objects.add(2);
+			break;
+		case toDelete:
+			objects.add(3);
+			break;
+		default:
+			break;
+		}
+		insertToTable(tableName, objects);
+	}
+
+	@Override
+	public int insertAndGenerateId(String tableName, List<Object> objects, Status status) throws SQLException {
+		int id = generateId(tableName);
+		System.out.println("id received from server: " + id);
+		objects.set(0, id);
+		insertToTable(tableName, objects, status);
+		return id;
 	}
 }

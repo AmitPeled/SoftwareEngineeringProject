@@ -20,7 +20,7 @@ public class Main extends Application {
 		ScenesInitializer initializer = new ScenesInitializerImpl(gcm);
 		SceneManager manager = new SceneManagerImpl(initializer.getScenes());
 		gcm.setSceneManager(manager);
-		gcm.switchScene(SceneNames.INTRO);
+		gcm.switchScene(SceneNames.PURCHASE);
 	}
 
 	public static void main(String[] args) {
