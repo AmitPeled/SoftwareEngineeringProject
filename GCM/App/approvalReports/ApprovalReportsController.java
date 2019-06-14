@@ -1,10 +1,3 @@
-//package approvalReports;
-//
-//public class ApprovalReportsController {
-//
-//}
-//
-//
 //public class JustDoIt extends Application {
 //
 //    private final TableView<Person> table = new TableView<>();
