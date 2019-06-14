@@ -72,5 +72,7 @@ public class MapViewerSceneController {
 	}
 	
 	@FXML
-	public void onAddCity() { gcmClient.switchScene(SceneNames.ADD_CITY); }
+	public void onAddSite() { 
+		gcmClient.switchScene(SceneNames.ADD_SITE); 
+	}
 }
