@@ -9,5 +9,6 @@ public enum SceneNames {
 	MENU,
 	PURCHASE, 
 	ADD_CITY, 
-	SEARCH
+	SEARCH, 
+	REPORTS
 }
