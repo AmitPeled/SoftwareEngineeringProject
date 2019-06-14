@@ -395,23 +395,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		return null;
 	}
 
-	@Override
-	public List<Map> getMapsEditings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Site> getSitesEditings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getCitiesEditings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void changeMapPrice(int mapId, double newPrice) {
@@ -497,5 +480,59 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		
 		
 		return 0;
+	}
+
+	@Override
+	public List<Map> getMapsAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getMapsUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getMapsDeleteEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesDeleteEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesDeleteEdits() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import database.metadata.DatabaseMetaData;
 import database.objectParse.Status;
 
 import java.sql.Statement;
@@ -192,7 +193,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException {
-		objects.add(getStatus(status));
+		objects.add(DatabaseMetaData.getStatus(status));
 		insertToTable(tableName, objects);
 	}
 
@@ -205,22 +206,6 @@ public class DatabaseExecutor implements IExecuteQueries {
 		return id;
 	}
 
-	private int getStatus(Status status) {
-		switch (status) {
-		case published:
-			return 0;
-		case toAdd:
-			return 1;
-		case toUpdate:
-			return 2;
-		case toDelete:
-			return 3;
-		default:
-			System.err.println("bad status value");
-			return -1;
-		}
-	}
-
 	@SuppressWarnings("serial")
 	@Override
 	public List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object,
@@ -228,7 +213,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 		List<Object> objectsValues = new ArrayList<Object>() {
 			{
 				add(object);
-				add(getStatus(status));
+				add(DatabaseMetaData.getStatus(status));
 			}
 
 		};
@@ -245,7 +230,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 	public List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
 			String columnsToSelect, Status status) throws SQLException {
 		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE " + objectName
-				+ " like ? AND status = " + getStatus(status) + ";";
+				+ " like ? AND status = " + DatabaseMetaData.getStatus(status) + ";";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setString(1, "%" + (String) object + "%");
 		List<List<Object>> fields = new ArrayList<>();
@@ -259,7 +244,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 	public List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames,
 			List<Object> objectsValues, String columnsToSelect, Status status) throws SQLException {
 		objectNames.add("status");
-		objectsValues.add(getStatus(status));
+		objectsValues.add(DatabaseMetaData.getStatus(status));
 		return selectColumnsByValues(tableName, objectNames, objectsValues, columnsToSelect);
 	}
 }

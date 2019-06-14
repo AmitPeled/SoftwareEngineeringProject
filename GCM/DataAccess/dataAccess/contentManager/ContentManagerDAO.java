@@ -13,21 +13,15 @@ public interface ContentManagerDAO {
 	 *               discard.
 	 */	
 	void actionMapAddEdit(Map map, boolean action);
-
 	void actionMapUpdateEdit(Map map, boolean action);
-
 	void actionMapDeleteEdit(Map map, boolean action);
-
+	
 	void actionCityAddEdit(City city, boolean action);
-
 	void actionCityUpdateEdit(City city, boolean action);
-
 	void actionCityDeleteEdit(City city, boolean action);
 
 	void actionSiteAddEdit(Site site, boolean action);
-
 	void actionSiteUpdateEdit(Site site, boolean action);
-
 	void actionSiteDeleteEdit(Site site, boolean action);
 
 	/**
@@ -40,11 +34,17 @@ public interface ContentManagerDAO {
 	 * (to compare with the origin file, if exists) use EditorDAO.getMapFile (as the
 	 * ContentManager privilege bigger than editor's).
 	 */
-	List<Map> getMapsEditings();
+	List<Map> getMapsAddEdits();
+	List<Map> getMapsUpdateEdits();
+	List<Map> getMapsDeleteEdits();
 
-	List<Site> getSitesEditings();
+	List<Site> getSitesAddEdits();
+	List<Site> getSitesUpdateEdits();
+	List<Site> getSitesDeleteEdits();
 
-	List<Map> getCitiesEditings();
+	List<City> getCitiesAddEdits();
+	List<City> getCitiesUpdateEdits();
+	List<City> getCitiesDeleteEdits();
 
 	void changeMapPrice(int mapId, double newPrice);
 
