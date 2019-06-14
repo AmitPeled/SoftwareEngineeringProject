@@ -1,5 +1,6 @@
 package mainApp;
 
+import gcmDataAccess.GcmDAO;
 import userInfo.UserInfo;
 
 /**
@@ -43,4 +44,9 @@ public interface GcmClient {
 	 * @return a UserInfo object reference
 	 */
 	UserInfo getUserInfo();
+	/**
+	 * Returns the GcmDAO object used for all server communications actions
+	 * @return a GcmDAO object reference
+	 */
+	GcmDAO getDataAccessObject();
 }
