@@ -10,7 +10,7 @@ public final class AddCityInitializer implements Initializer {
 	private final AddCityController controller;
 	public AddCityInitializer(GcmClient gcmClient) {
 		// There should never be an instance of "TextFieldUtility" and all the methods should be static (pure functions)
-		controller = new AddCityController(gcmClient.getDataAccessObject(), new TextFieldUtility());
+		controller = new AddCityController(gcmClient,gcmClient.getDataAccessObject(), new TextFieldUtility());
 	}
 
 	@Override
