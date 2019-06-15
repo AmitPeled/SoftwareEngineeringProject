@@ -1,5 +1,6 @@
 package database.tests;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,6 +9,8 @@ import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.users.PurchaseDetails;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
@@ -199,4 +202,63 @@ public class CostumerDataExecutorTest {
 
 	}
 
+	@Test
+	void getPurchaseHistory() throws SQLException {
+
+		String username = "420Booty";
+		List<List<Object>> history = dbExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username", username,
+				"*");
+		System.out.println(history.get(0));
+		System.out.println(history.get(1));
+		System.out.println(history.size());
+		System.out.println(history.get(0).get(2));
+
+		List<PurchaseHistory> purchaseHistories = new ArrayList<>();
+
+		for (int i = 0; i < history.size(); i++) {
+			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
+					(Date) history.get(i).get(5),(int) history.get(i).get(1));
+			purchaseHistories.add(purchaseHistory);
+		}
+		for(int i =0; i<purchaseHistories.size();i++) {
+			purchaseHistories.get(i).print();
+		}
+
+	}
+
+	@Test
+	void updateTableColumn() throws SQLException {
+		int cityId = 1;
+		String tableToUpdate = "oneTimePurchase";
+		updateMangerReports(cityId, tableToUpdate);
+
+		tableToUpdate = "subscribes";
+		updateMangerReports(cityId, tableToUpdate);
+
+		tableToUpdate = "resubscribers";
+		updateMangerReports(cityId, tableToUpdate);
+
+		tableToUpdate = "viewsNum";
+		updateMangerReports(cityId, tableToUpdate);
+
+		tableToUpdate = "downloads";
+		updateMangerReports(cityId, tableToUpdate);
+
+	}
+
+	private void updateMangerReports(int cityId, String tableToUpdate) throws SQLException {
+
+		int plusOne;
+
+		List<List<Object>> updateListCulomn = dbExecutor.selectColumnsByValue("mangerReports", "cityId", cityId,
+				"oneTimePurchase");
+		if (updateListCulomn.isEmpty()) {
+			System.out.println("wtf is not supposed to be empty");
+		} else {
+			plusOne = (int) updateListCulomn.get(0).get(0) + 1;
+
+			dbExecutor.updateTableColumn("mangerReports", tableToUpdate, plusOne, "cityId", cityId);
+		}
+
+	}
 }

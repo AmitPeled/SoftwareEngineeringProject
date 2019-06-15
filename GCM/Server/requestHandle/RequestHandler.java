@@ -103,9 +103,9 @@ public class RequestHandler implements IHandleRequest {
 				case getPurchasedMaps:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				case purchaseMap:
-					listToSend.add(gcmDataExecutor.purchaseMap(username));
-					break;
+				//case purchaseMap:
+				//	listToSend.add(gcmDataExecutor.purchaseMap(username));
+				//	break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (int) listObjectReceived.get(2));

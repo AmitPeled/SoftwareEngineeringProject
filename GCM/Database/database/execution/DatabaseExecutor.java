@@ -193,14 +193,13 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@Override
 	public void updateTableColumn(String tableName, String columnToUpdate, Object valueToUpdate, String columnCondition,
 			Object conditonValue) throws SQLException {
-		// TODO Auto-generated method stub
 
-		String sqlquery = "UPDATE " + tableName + " SET " + columnToUpdate + " = ? WHERE " + columnCondition + " = ? ;";
+		String sqlquery = "update " + tableName + " set " + columnToUpdate + " = ? WHERE " + columnCondition + " = ? ;";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setInt(1, (int) valueToUpdate);
 		preparedStatement.setInt(2, (int) conditonValue);
 		synchronized (dbAccess) {
-			preparedStatement.executeQuery();
+			preparedStatement.executeUpdate();
 		}
 	
 	}

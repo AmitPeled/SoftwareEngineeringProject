@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
@@ -542,12 +543,7 @@ public class GcmDataExecutor
 
 	}
 
-	@Override
-	public double getMembershipPrice(int cityId, int timeInterval) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 
 
 	@Override
@@ -558,23 +554,7 @@ public class GcmDataExecutor
 	}
 
 
-	@Override
-	public boolean repurchaseMembershipBySavedDetails(String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails, String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void notifyMapView(int mapId, String username) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public void approveSiteEdit(Site site) {
@@ -602,6 +582,44 @@ public class GcmDataExecutor
 
 	@Override
 	public String getSavedCreditCard(String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getMembershipPrice(int cityId, int timeInterval, String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getOneTimePurchasePrice(int cityId) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<File> purchaseMapOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void notifyMapView(int cityId) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

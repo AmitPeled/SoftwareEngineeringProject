@@ -6,11 +6,13 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
@@ -514,9 +516,10 @@ public class CostumerDataExecutor
 	}
 
 	@Override
-	public File downloadMap(int mapId, String username) {
+	public File downloadMap(int mapId, String username) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+
+		return getMapFile(mapId);
 	}
 
 	@Override
@@ -526,12 +529,15 @@ public class CostumerDataExecutor
 				"cityId");
 		List<Integer> cityId = toIdList(cityIdList);
 
+		String tableToUpdate = "downloads";
 		// getting all the maps id
 		List<Map> maps = new ArrayList<>();
 		List<List<Object>> mapsIdList = null;
 
 		for (int i : cityId) {
 			mapsIdList.addAll(queryExecutor.selectColumnsByValue("citiesMaps", "cityId", i, "mapId"));
+			updateMangerReports(i, tableToUpdate);
+
 		}
 		List<Integer> mapsId = toIdList(mapsIdList);
 		for (int i : mapsId) {
@@ -632,33 +638,43 @@ public class CostumerDataExecutor
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 					add(username);
 					add(cityId);
-					add(date);
+					add(StartDate);
 					add(false);
 					add(timeInterval);
+					add(endDate);
 				}
 			};
 			try {
+				String tableToUpdate = "downloads";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+				updateMangerReports(cityId, tableToUpdate);
+
 			} catch (SQLException e) {
 				return false;
 			}
 		} else {
+			// oneTimePurchase
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 					add(username);
 					add(cityId);
-					add(date);
+					add(StartDate);
 					add(true);
 					add(timeInterval);
+					add(endDate);
 				}
 			};
 			try {
+				String tableToUpdate = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+				updateMangerReports(cityId, tableToUpdate);
 			} catch (SQLException e) {
 				return false;
 			}
@@ -673,37 +689,50 @@ public class CostumerDataExecutor
 			throws SQLException {
 
 		// need to check if patment is good -> nevr happen
+
+		// subsciption
 		if (timeInterval > 0) {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 					add(username);
 					add(cityId);
-					add(date);
+					add(StartDate);
 					add(false);
 					add(timeInterval);
+					add(endDate);
 				}
 			};
 			try {
+				String tableToUpdate = "subscribes";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
+				updateMangerReports(cityId, tableToUpdate);
+
 			} catch (SQLException e) {
 				return false;
 			}
 		} else {
+			// oneTimePurchase
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 					add(username);
 					add(cityId);
-					add(date);
+					add(StartDate);
 					add(true);
 					add(timeInterval);
+					add(endDate);
 				}
 			};
 			try {
+				String tableToUpdate = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+				updateMangerReports(cityId, tableToUpdate);
 			} catch (SQLException e) {
 				return false;
 			}
@@ -751,31 +780,56 @@ public class CostumerDataExecutor
 			files.add(getMapFile(i));
 		}
 
-		//update purchase history
+		// update purchase history
 		List<Object> pDetails = new ArrayList<Object>() {
 			{
 
-				java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+				java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+				java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 				add(username);
 				add(cityId);
-				add(date);
+				add(StartDate);
 				add(true);
 				add(0);
+				add(endDate);
 			}
 		};
 		try {
+			String tableToUpdate = "oneTimePurchase";
 			queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+			updateMangerReports(cityId, tableToUpdate);
 		} catch (SQLException e) {
 			return null;
 		}
-		
+
 		return files;
 	}
 
 	@Override
 	public void notifyMapView(int cityId) throws SQLException {
-		// TODO Auto-generated method stub
 
+		String tableToUpdate = "viewsNum";
+		updateMangerReports(cityId, tableToUpdate);
+
+	}
+
+	@Override
+	public List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException {
+		
+		//getting username purchase history
+		List<List<Object>> history = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username", username,
+				"*");
+		
+		List<PurchaseHistory> purchaseHistories = new ArrayList<>();
+
+		//converting it to PurchaseHistory objects that contains - city id, start date , end date
+		for (int i = 0; i < history.size(); i++) {
+			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
+					(Date) history.get(i).get(5),(int) history.get(i).get(1));
+			purchaseHistories.add(purchaseHistory);
+		}
+		
+		return purchaseHistories;
 	}
 
 	@Override
@@ -799,6 +853,22 @@ public class CostumerDataExecutor
 	@Override
 	public void approveTourEdit(Tour tour) {
 		// TODO Auto-generated method stub
+
+	}
+
+	private void updateMangerReports(int cityId, String tableToUpdate) throws SQLException {
+
+		int plusOne;
+
+		List<List<Object>> updateListCulomn = queryExecutor.selectColumnsByValue("mangerReports", "cityId", cityId,
+				"oneTimePurchase");
+		if (updateListCulomn.isEmpty()) {
+			System.out.println("wtf is not supposed to be empty");
+		} else {
+			plusOne = (int) updateListCulomn.get(0).get(0) + 1;
+
+			queryExecutor.updateTableColumn("mangerReports", tableToUpdate, plusOne, "cityId", cityId);
+		}
 
 	}
 
