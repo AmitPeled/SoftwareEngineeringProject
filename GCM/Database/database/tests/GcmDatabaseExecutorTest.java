@@ -7,6 +7,9 @@ import java.sql.SQLException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import com.sun.xml.internal.bind.v2.runtime.MarshallerImpl;
+
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
@@ -40,7 +43,8 @@ class GcmDatabaseExecutorTest {
 		gcmDataExecutor = new GcmDataExecutor(new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		cityId = gcmDataExecutor.addCity(new City(11, "eli", "desc"));
-		mapId = gcmDataExecutor.addMapToCity(cityId, new Map(12, name, description, width, height, new Coordinates(), 0, null, null), mapFile);
+		mapId = gcmDataExecutor.addMapToCity(cityId,
+				new Map(12, name, description, width, height, new Coordinates(), 0, null, null), mapFile);
 		map = new Map(mapId, name, description, width, height, new Coordinates(), 0, null, null);
 		siteId = gcmDataExecutor.addNewSiteToCity(cityId,
 				new Site("name", "desc", "type", false, new Coordinates(7, 9)));
@@ -60,8 +64,11 @@ class GcmDatabaseExecutorTest {
 
 	@Test
 	void getMapDetailsTest() throws SQLException {
-		gcmDataExecutor.actionMapAddEdit(map, true);
-		Map map = gcmDataExecutor.getMapDetails(mapId);
+		Map map1 = gcmDataExecutor.getMapDetails(mapId);
+		System.err.println(map.getId());
+		assertNull(map);
+		gcmDataExecutor.actionMapAddEdit(map1, true);
+		map = gcmDataExecutor.getMapDetails(mapId);
 
 		System.out.println(map + " " + mapId);
 		assertEquals(112.1f, map.getWidth());

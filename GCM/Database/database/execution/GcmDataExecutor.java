@@ -167,8 +167,12 @@ public class GcmDataExecutor
 	}
 
 	public Site getSite(int siteId) throws SQLException {
+		return getSite(siteId, Status.published);
+	}
+
+	public Site getSite(int siteId, Status status) throws SQLException {
 		List<List<Object>> siteRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
-				"siteId", siteId, "*", Status.published);
+				"siteId", siteId, "*", status);
 		if (siteRows.isEmpty())
 			return null;
 		else
@@ -236,7 +240,7 @@ public class GcmDataExecutor
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMapsIds), "mapId", mapId, status);
 	}
 
-	public void deleteMap(int mapId, Status status) throws SQLException {
+	public void deleteMap(int mapId) throws SQLException {
 		deleteMapByStatus(mapId, Status.published);
 		deleteMapByStatus(mapId, Status.toAdd);
 		deleteMapByStatus(mapId, Status.toDelete);
@@ -388,15 +392,18 @@ public class GcmDataExecutor
 
 	@Override
 	public void addExistingSiteToMap(int mapId, int siteId) throws SQLException {
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
-				objectParser.getSiteFieldsList(getSite(siteId)), Status.toAdd);
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsSites), new ArrayList<Object>() {
-			{
-				add(mapId);
-				add(siteId);
+		Site site = getSite(siteId);
+		if (site != null) {
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
+					objectParser.getSiteFieldsList(site), Status.toAdd);
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsSites), new ArrayList<Object>() {
+				{
+					add(mapId);
+					add(siteId);
 
-			}
-		}, Status.toAdd);
+				}
+			}, Status.toAdd);
+		}
 	}
 
 	@Override
@@ -605,14 +612,15 @@ public class GcmDataExecutor
 
 	@Override
 	public void actionMapAddEdit(Map map, boolean action) throws SQLException {
-		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", map.getId(),
-				Status.toAdd);
-		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", map.getId(),
-				Status.toAdd);
-		if (action)
-			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
-					objectParser.getMapMetaFieldsList(map), Status.published);
-
+		if (map != null) {
+			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId",
+					map.getId(), Status.toAdd);
+			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", map.getId(),
+					Status.toAdd);
+			if (action)
+				queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
+						objectParser.getMapMetaFieldsList(map), Status.published);
+		}
 	}
 
 	@Override
@@ -634,7 +642,7 @@ public class GcmDataExecutor
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", map.getId(),
 				Status.toDelete);
 		if (action) {
-			deleteMapByStatus(map.getId(), Status.published);
+			deleteMap(map.getId());
 		}
 
 	}
@@ -680,7 +688,7 @@ public class GcmDataExecutor
 		List<Site> sites = new ArrayList<>();
 		siteIds.forEach((siteId) -> {
 			try {
-				sites.add(getSite(siteId));
+				sites.add(getSite(siteId, status));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

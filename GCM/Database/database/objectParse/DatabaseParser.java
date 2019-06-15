@@ -58,6 +58,8 @@ public class DatabaseParser implements IParseObjects {
 
 	@Override
 	public List<Object> getMapMetaFieldsList(Map map) {
+		if (map == null)
+			return new ArrayList<>();
 		return new ArrayList<Object>() {
 			{
 				add(map.getId());
@@ -90,6 +92,8 @@ public class DatabaseParser implements IParseObjects {
 
 	@Override
 	public List<Object> getSiteFieldsList(Site site) {
+		if (site == null)
+			return new ArrayList<>();
 		return new ArrayList<Object>() {
 			{
 				add(site.getId());
@@ -106,6 +110,8 @@ public class DatabaseParser implements IParseObjects {
 
 	@Override
 	public List<Object> getCityMetaFieldsList(City city) { // meta fields are all the fields that aren't arrays.
+		if (city == null)
+			return new ArrayList<>();
 		return new ArrayList<Object>() {
 			{
 				add(city.getId());
@@ -118,6 +124,8 @@ public class DatabaseParser implements IParseObjects {
 
 	@Override
 	public List<Object> getTourMetaFieldsList(Tour tour) {
+		if (tour == null)
+			return new ArrayList<>();
 		return new ArrayList<Object>() {
 			{
 				add(tour.getId());
