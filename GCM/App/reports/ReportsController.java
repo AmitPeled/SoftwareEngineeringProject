@@ -2,7 +2,6 @@ package reports;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -22,15 +21,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-import maps.Map;
 import reports.cells.CityListCell;
 import reports.cells.CustomerListCell;
 import reports.cells.WorkerListCell;
 import reports.resultItems.CityItem;
 import reports.resultItems.CustomerItem;
 import reports.resultItems.WorkerItem;
-import search.CustomListCell;
-import search.MapItem;
 
 public class ReportsController implements Initializable{
 	private GcmDAO gcmDAO;

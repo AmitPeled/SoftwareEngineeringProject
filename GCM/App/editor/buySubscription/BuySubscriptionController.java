@@ -1,28 +1,21 @@
 package editor.buySubscription;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import dataAccess.users.PurchaseDetails;
 import gcmDataAccess.GcmDAO;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import maps.Coordinates;
-import maps.Map;
 import utility.TextFieldUtility;
-
-import static java.lang.Math.toIntExact;
 
 
 public class BuySubscriptionController implements Initializable

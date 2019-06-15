@@ -2,9 +2,7 @@ package approvalReports.tourApprovalReports;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
 import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 
 public class TourTableCell extends TableCell<TourSubmission, Button> {
             Button approve = new Button("Approve!");

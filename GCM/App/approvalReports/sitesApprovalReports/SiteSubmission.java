@@ -1,7 +1,6 @@
 package approvalReports.sitesApprovalReports;
 
 import approvalReports.ActionTaken;
-import maps.City;
 import maps.Site;
 
 public class SiteSubmission {

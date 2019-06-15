@@ -2,8 +2,6 @@ package editor.tour;
 
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -20,11 +18,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-import maps.Coordinates;
 import maps.Site;
 import maps.Tour;
-import search.CustomListCell;
-import search.MapItem;
 import utility.TextFieldUtility;
 
 public class TourController  implements Initializable {

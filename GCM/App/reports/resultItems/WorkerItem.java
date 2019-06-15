@@ -1,7 +1,5 @@
 package reports.resultItems;
 
-import java.util.List;
-
 import javafx.fxml.FXML;
 
 public class WorkerItem{

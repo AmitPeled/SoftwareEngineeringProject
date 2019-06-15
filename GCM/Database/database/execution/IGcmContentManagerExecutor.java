@@ -6,7 +6,6 @@ import java.util.List;
 import maps.City;
 import maps.Map;
 import maps.Site;
-import maps.Tour;
 
 public interface IGcmContentManagerExecutor {
 

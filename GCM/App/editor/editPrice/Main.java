@@ -3,7 +3,6 @@ package editor.editPrice;
 import java.io.IOException;
 
 import dataAccess.contentManager.ContentManagerDAO;
-import editor.addCity.AddCityController;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
