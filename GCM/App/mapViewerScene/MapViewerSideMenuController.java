@@ -3,6 +3,7 @@ package mapViewerScene;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,6 +32,8 @@ public class MapViewerSideMenuController implements Initializable {
 	public MapViewerSideMenuController(List<Site> sites,List<Tour> tours) {
 		sitesStrings = new ArrayList<String>();
 		tourStrings = new ArrayList<String>();
+		toursDictionary = new Hashtable<String, Tour>();
+		sitesDictionary = new Hashtable<String, Site>();
 		
 		for (Tour tour : tours) {
 			toursDictionary.put(tour.getDescription(), tour);
