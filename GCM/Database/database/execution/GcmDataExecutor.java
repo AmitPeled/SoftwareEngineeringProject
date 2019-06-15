@@ -736,17 +736,6 @@ public class GcmDataExecutor
 
 	}
 
-	@Override
-	public void actionCityAddEdit(City city, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionCityUpdateEdit(City city, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void actionCityDeleteEdit(City city, boolean action) throws SQLException {
@@ -759,23 +748,7 @@ public class GcmDataExecutor
 
 	}
 
-	@Override
-	public void actionSiteAddEdit(Site site, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionSiteUpdateEdit(Site site, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionSiteDeleteEdit(Site site, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	List<Map> getMapsByStatus(Status status) throws SQLException {
 		List<Integer> mapIds = toIdList(
@@ -941,4 +914,68 @@ public class GcmDataExecutor
 
 	}
 
+	@Override
+	public List<Map> getMapsObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void actionCityAddEdit(City city, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityUpdateEdit(City city, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+	@Override
+	public void actionSiteAddEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteUpdateEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteDeleteEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionTourAddEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionTourUpdateEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionTourDeleteEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 }

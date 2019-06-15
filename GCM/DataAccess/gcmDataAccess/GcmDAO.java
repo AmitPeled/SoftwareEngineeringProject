@@ -527,19 +527,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		return null;
 	}
 
-
-	@Override
-	public List<Site> getToursUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Site> getToursDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public List<Site> getSitesAddEdits() {
 		// TODO Auto-generated method stub
@@ -547,25 +534,37 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public List<City> getToursAddEdits() {
+	public List<Map> getMapsObjectAddedTo(int contentId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Map> getMapsObjectAddedTo(Object object) {
+	public List<City> getCitiesObjectAddedTo(int contentId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<City> getCitiesObjectAddedTo(Object object) {
+	public List<Tour> getToursObjectAddedTo(int contentId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Tour> getToursObjectAddedTo(Object object) {
+	public List<Tour> getToursAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursDeleteEdits() {
 		// TODO Auto-generated method stub
 		return null;
 	}

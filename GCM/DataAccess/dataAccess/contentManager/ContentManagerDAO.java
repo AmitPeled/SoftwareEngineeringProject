@@ -43,17 +43,17 @@ public interface ContentManagerDAO {
 	List<Site> getSitesUpdateEdits();
 	List<Site> getSitesDeleteEdits();
 
-	List<City> getToursAddEdits();
-	List<Site> getToursUpdateEdits();
-	List<Site> getToursDeleteEdits();
+	List<Tour> getToursAddEdits();
+	List<Tour> getToursUpdateEdits();
+	List<Tour> getToursDeleteEdits();
 	
 	List<City> getCitiesAddEdits();
 	List<City> getCitiesUpdateEdits();
 	List<City> getCitiesDeleteEdits();
 
-	List<Map> getMapsObjectAddedTo(Object object); // gets list of the maps that the object is added to
-	List<City> getCitiesObjectAddedTo(Object object);// gets list of the cities that the object is added to
-	List<Tour> getToursObjectAddedTo(Object object);// gets list of the tours that the object is added to
+	List<Map> getMapsObjectAddedTo(int contentId); // gets list of the maps that the object is added to
+	List<City> getCitiesObjectAddedTo(int contentId);// gets list of the cities that the object is added to
+	List<Tour> getToursObjectAddedTo(int contentId);// gets list of the tours that the object is added to
 	
 	void changeMapPrice(int mapId, double newPrice);
 
