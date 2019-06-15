@@ -873,8 +873,13 @@ public class CostumerDataExecutor
 	
 	@Override
 	public Report getOneCityReport(String cityName) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<List<Object>> report = queryExecutor.selectColumnsByValue("mangerReports", "cityName", cityName,
+				"*");
+		
+		Report cityReport = new Report((int) report.get(0).get(0), (String) report.get(0).get(1),
+				(int) report.get(0).get(2), (int) report.get(0).get(3), (int) report.get(0).get(4),
+				(int) report.get(0).get(5), (int) report.get(0).get(6));
+		return cityReport;
 	}
 	
 	// when you want to update column in mangerReports you call this
