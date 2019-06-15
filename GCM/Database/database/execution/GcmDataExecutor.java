@@ -95,8 +95,9 @@ public class GcmDataExecutor
 	@Override
 	public int addMapToCity(int cityId, Map mapDescription, File mapFile/* , String pathToFilesFolder */)
 			throws SQLException {
+		return addMapToCityByStatus(cityId, mapDescription, mapFile, Status.toAdd);
 //		int mapId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
-//				objectParser.getMapMetaFieldsList(mapDescription), Status.toAdd);
+//				objectParser.getMapMetaFieldsList(mapDescription), Status.addToCity);
 //		List<Object> mapFileRow = new ArrayList<Object>() {
 //			{
 //				add(mapId);
@@ -112,7 +113,7 @@ public class GcmDataExecutor
 //		};
 //		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMapsIds), cityRow, Status.toAdd);
 //		return mapId;
-		return addMapToCityByStatus(cityId, mapDescription, mapFile, Status.toAdd);
+
 	}
 
 	public int addMapToCityByStatus(int cityId, Map mapDescription, File mapFile, Status status) throws SQLException {
@@ -362,8 +363,22 @@ public class GcmDataExecutor
 		return siteId;
 	}
 
+	public int addNewSiteToCityByStatus(int cityId, Site site, Status status) throws SQLException {
+		int siteId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.sites),
+				objectParser.getSiteFieldsList(site), status);
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesSitesIds), new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(siteId);
+			}
+		}, status);
+		return siteId;
+	}
+
 	@Override
 	public void addExistingSiteToMap(int mapId, int siteId) throws SQLException {
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
+				objectParser.getSiteFieldsList(getSite(siteId)), Status.toAdd);
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsSites), new ArrayList<Object>() {
 			{
 				add(mapId);
@@ -531,6 +546,8 @@ public class GcmDataExecutor
 
 	@Override
 	public void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException {
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
+				objectParser.getSiteFieldsList(getSite(siteId)), Status.toAdd);
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance),
 				new ArrayList<Object>() {
 					{
@@ -550,8 +567,6 @@ public class GcmDataExecutor
 			{
 				add(cityId);
 				add(tourId);
-				;// status
-
 			}
 		}, Status.toAdd);
 		return tourId;
@@ -591,6 +606,8 @@ public class GcmDataExecutor
 
 	@Override
 	public void addExistingTourToMap(int mapId, int tourId) throws SQLException {
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
+				objectParser.getTourMetaFieldsList(getTour(tourId)), Status.toAdd);
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsTours), new ArrayList<Object>() {
 			{
 				add(mapId);
@@ -654,6 +671,45 @@ public class GcmDataExecutor
 
 	}
 
+	List<Map> getMapsObjectAddedTo(Object object) {
+		// mapsSites, mapsTours
+		if (object instanceof Site) {
+			return null;
+
+		} else if (object instanceof Tour) {
+			return null;
+
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+	List<City> getCitiesObjectAddedTo(Object object) {
+		// sites, tours, maps
+		if (object instanceof Site) {
+			return null;
+
+		} else if (object instanceof Tour) {
+			return null;
+
+		} else if (object instanceof Map) {
+			return null;
+
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+	List<Tour> getToursObjectAddedTo(Object object) {
+		// sites
+		if (object instanceof Site) {
+			return null;
+		} else {
+			return new ArrayList<>();
+
+		}
+	}
+
 	@Override
 	public void actionMapUpdateEdit(Map map, boolean action) throws SQLException {
 		List<String> objectNames = objectParser.getMapMetaFieldsNames();
@@ -694,8 +750,8 @@ public class GcmDataExecutor
 
 	@Override
 	public void actionCityDeleteEdit(City city, boolean action) throws SQLException {
-		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId", city.getId(),
-				Status.toDelete);
+		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId",
+				city.getId(), Status.toDelete);
 		if (action) {
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId",
 					city.getId(), Status.published);
@@ -765,6 +821,7 @@ public class GcmDataExecutor
 		});
 		return sites;
 	}
+
 	private List<Tour> getToursByStatus(Status status) throws SQLException {
 		List<Integer> tourIds = toIdList(
 				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.toursMetaDetails), "status",
@@ -779,6 +836,7 @@ public class GcmDataExecutor
 		});
 		return tours;
 	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsAddEdits() throws SQLException {
@@ -824,6 +882,7 @@ public class GcmDataExecutor
 		return getToursByStatus(Status.toAdd);
 
 	}
+
 	@Override
 	public List<Tour> getToursUpdateEdits() throws SQLException {
 		return getToursByStatus(Status.toUpdate);
@@ -835,10 +894,8 @@ public class GcmDataExecutor
 		return getToursByStatus(Status.toDelete);
 	}
 
-	
-
 	@Override
-	public List<Site> getSitesAddEdits()  throws SQLException{
+	public List<Site> getSitesAddEdits() throws SQLException {
 		return getSitesByStatus(Status.toAdd);
 	}
 
