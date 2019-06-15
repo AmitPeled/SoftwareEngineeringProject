@@ -48,7 +48,7 @@ public class TourController  implements Initializable {
 	Tour tour;
 	int mapId;
 	TextFieldUtility utilities;
-	
+	 
 	public TourController(GcmDAO gcmDAO, int cityId, int mapId, Tour tour, TextFieldUtility utilities) {
 		this.gcmDAO = gcmDAO;
 		this.mapId = mapId;
