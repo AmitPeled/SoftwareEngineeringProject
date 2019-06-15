@@ -2,7 +2,6 @@ package approvalReports;
 
 
 import java.net.URL;
-<<<<<<< .merge_file_a12072
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,14 +15,6 @@ import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.sitesApprovalReports.SiteTableCell;
 import approvalReports.tourApprovalReports.TourSitesTableCell;
 
-=======
-import java.util.List;
-import java.util.ResourceBundle;
-import approvalReports.cityApprovalReports.CitySubmission;
-import approvalReports.cityApprovalReports.CityTableCell;
-import approvalReports.sitesApprovalReports.SiteSubmission;
-import approvalReports.sitesApprovalReports.SiteTableCell;
->>>>>>> .merge_file_a12280
 import approvalReports.tourApprovalReports.TourSubmission;
 import approvalReports.tourApprovalReports.TourTableCell;
 import gcmDataAccess.GcmDAO;
@@ -34,7 +25,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-<<<<<<< .merge_file_a12072
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -55,13 +45,6 @@ import search.CustomListCell;
 import search.MapItem;
 import utility.TextFieldUtility;
 
-=======
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
->>>>>>> .merge_file_a12280
 
 public class ApprovalReportsController  implements Initializable {
 	private GcmDAO gcmDAO;
@@ -99,7 +82,6 @@ public class ApprovalReportsController  implements Initializable {
 	TableColumn<TourSubmission, Button> tourApprovalDisapproval;
 	
 	@FXML
-<<<<<<< .merge_file_a12072
 	TableView<MapSubmission> mapTable;
 	@FXML
 	TableColumn<MapSubmission, String> mapName;
@@ -114,42 +96,29 @@ public class ApprovalReportsController  implements Initializable {
 	
 	
 	@FXML
-=======
->>>>>>> .merge_file_a12280
 	Button cityReports;
 	@FXML
 	Button siteReports;
 	@FXML
 	Button tourReports;
-<<<<<<< .merge_file_a12072
 	@FXML
 	Button mapReports;
 
-=======
->>>>>>> .merge_file_a12280
 	
 	private List<CitySubmission> citySubmissions;
 	private List<SiteSubmission> siteSubmissions;
 	private List<TourSubmission> tourSubmission;
-<<<<<<< .merge_file_a12072
 	private List<MapSubmission>  mapSubmission;
 
 	public ApprovalReportsController(List<CitySubmission> citySubmissions, 
 			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission, List<MapSubmission>  mapSubmission) {
-=======
 
-	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, 
-			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission) {
->>>>>>> .merge_file_a12280
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions;
 		this.siteSubmissions = siteSubmissions;
 		this.tourSubmission = tourSubmission;
-<<<<<<< .merge_file_a12072
 		this.mapSubmission = mapSubmission;
 
-=======
->>>>>>> .merge_file_a12280
 	}
 	
 	public void initSiteTableView() {
@@ -200,7 +169,6 @@ public class ApprovalReportsController  implements Initializable {
         ObservableList<TourSubmission> details = FXCollections.observableArrayList(tourSubmission);
         tourTable.setItems(details);
 	}
-<<<<<<< .merge_file_a12072
 
 	public void initMapTableView() {
         mapName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getMap().getName()));
@@ -220,9 +188,6 @@ public class ApprovalReportsController  implements Initializable {
         mapTable.setItems(details);
 	}
 
-=======
-	
->>>>>>> .merge_file_a12280
 	
 	public void cityBtnListener() {
 		cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -232,11 +197,8 @@ public class ApprovalReportsController  implements Initializable {
 				cityTable.setVisible(true);
 				siteTable.setVisible(false);
 				tourTable.setVisible(false);
-<<<<<<< .merge_file_a12072
 				mapTable.setVisible(false);
 
-=======
->>>>>>> .merge_file_a12280
 			}
 			
 		}));
@@ -249,11 +211,8 @@ public class ApprovalReportsController  implements Initializable {
 				siteTable.setVisible(true);
 				cityTable.setVisible(false);
 				tourTable.setVisible(false);
-<<<<<<< .merge_file_a12072
 				mapTable.setVisible(false);
 
-=======
->>>>>>> .merge_file_a12280
 			}
 			
 		}));
@@ -266,7 +225,6 @@ public class ApprovalReportsController  implements Initializable {
 				siteTable.setVisible(false);
 				cityTable.setVisible(false);
 				tourTable.setVisible(true);
-<<<<<<< .merge_file_a12072
 				mapTable.setVisible(false);
 
 			}
@@ -287,18 +245,11 @@ public class ApprovalReportsController  implements Initializable {
 		}));
 	}	
 
-=======
-			}
-			
-		}));
-	}
 	
->>>>>>> .merge_file_a12280
 	public void initTables() {
 		cityTable.setVisible(false);
 		siteTable.setVisible(false);
 		tourTable.setVisible(false);
-<<<<<<< .merge_file_a12072
 		mapTable.setVisible(false);
 		
 		initCityTableView();
@@ -306,20 +257,17 @@ public class ApprovalReportsController  implements Initializable {
 		initTourTableView();
 		initMapTableView();
 
-=======
->>>>>>> .merge_file_a12280
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initTables();
-<<<<<<< .merge_file_a12072
+
 		
 		siteBtnListener();
 		cityBtnListener();
 		tourBtnListener();
 		mapBtnListener();
-=======
->>>>>>> .merge_file_a12280
+
 		initCityTableView();
 		initSiteTableView();
 		initTourTableView();
@@ -328,8 +276,5 @@ public class ApprovalReportsController  implements Initializable {
 		tourBtnListener();
 	}
 
-<<<<<<< .merge_file_a12072
 }
-=======
-}
->>>>>>> .merge_file_a12280
+
