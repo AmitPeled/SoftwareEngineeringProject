@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import dataAccess.customer.PurchaseHistory;
+import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
@@ -27,7 +28,7 @@ import users.User;
 
 @SuppressWarnings("serial")
 public class CostumerDataExecutor
-		implements IGcmDataExecute, IGcmCustomerExecutor, IGcmEditorExecutor, IGcmContentManagerExecutor {
+		implements IGcmDataExecute, IGcmCustomerExecutor, IGcmEditorExecutor, IGcmContentManagerExecutor,IGcmGenetalManager {
 	IExecuteQueries queryExecutor;
 	IParseObjects objectParser;
 	private UserInfoImpl userInfoImpl;
@@ -534,7 +535,7 @@ public class CostumerDataExecutor
 		String tableToUpdate = "downloads";
 		// getting all the maps id
 		List<Map> maps = new ArrayList<>();
-		List<List<Object>> mapsIdList = null;
+		List<List<Object>> mapsIdList = new ArrayList<List<Object>>();
 
 		for (int i : cityId) {
 			mapsIdList.addAll(queryExecutor.selectColumnsByValue("citiesMaps", "cityId", i, "mapId"));
@@ -651,7 +652,9 @@ public class CostumerDataExecutor
 					add(endDate);
 				}
 			};
-			try {
+			try
+
+			{
 				String tableToUpdate = "downloads";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 				updateMangerReports(cityId, tableToUpdate);
@@ -678,8 +681,11 @@ public class CostumerDataExecutor
 			try {
 				String tableToUpdate = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
 				updateMangerReports(cityId, tableToUpdate);
-			} catch (SQLException e) {
+			} catch (
+
+			SQLException e) {
 				return false;
 			}
 
@@ -735,7 +741,9 @@ public class CostumerDataExecutor
 					add(endDate);
 				}
 			};
-			try {
+			try
+
+			{
 				String tableToUpdate = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 				updateMangerReports(cityId, tableToUpdate);
@@ -803,10 +811,14 @@ public class CostumerDataExecutor
 			}
 		};
 		try {
+
 			String tableToUpdate = "oneTimePurchase";
 			queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
 			updateMangerReports(cityId, tableToUpdate);
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e) {
 			return null;
 		}
 
@@ -841,8 +853,32 @@ public class CostumerDataExecutor
 		return purchaseHistories;
 	}
 
+	
+	@Override
+	public List<Report> getAllcitiesReport() throws SQLException {
+		
+		List<List<Object>> reports = queryExecutor.selectAllColumns("mangerReports", "*");
+		
+		List<Report> allCitiesreports = new ArrayList<>();
 
-
+		for (int i = 0; i < reports.size(); i++) {
+			Report cityReport = new Report((int) reports.get(i).get(0), (String) reports.get(i).get(1),
+					(int) reports.get(i).get(2), (int) reports.get(i).get(3), (int) reports.get(i).get(4),
+					(int) reports.get(i).get(5), (int) reports.get(i).get(6));
+			allCitiesreports.add(cityReport);
+		}
+		
+		return allCitiesreports;
+	}
+	
+	@Override
+	public Report getOneCityReport(String cityName) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	// when you want to update column in mangerReports you call this
+	// for example when adding new map
 	private void updateMangerReports(int cityId, String tableToUpdate) throws SQLException {
 
 		int plusOne;
@@ -859,6 +895,32 @@ public class CostumerDataExecutor
 
 	}
 
+	// When adding new city to data base mangerReports need to be update
+	private void addCityManagerReport(int cityId, String cityName) throws SQLException {
+
+		List<Object> objects = new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(cityName);
+				add(0);
+				add(0);
+				add(0);
+				add(0);
+				add(0);
+
+			}
+		};
+
+		queryExecutor.insertToTable("mangerReports", objects);
+
+	}
+
+	//this delete column drom mangerReports
+	private void deleteCityManagerReport(int cityId) throws SQLException {
+
+
+	}
+
 	private Date addDays(Date date, int days) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -869,19 +931,19 @@ public class CostumerDataExecutor
 	@Override
 	public void actionTourAddEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionTourUpdateEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionTourDeleteEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -911,55 +973,55 @@ public class CostumerDataExecutor
 	@Override
 	public void actionMapAddEdit(Map map, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionMapUpdateEdit(Map map, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionMapDeleteEdit(Map map, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionCityAddEdit(City city, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionCityUpdateEdit(City city, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionCityDeleteEdit(City city, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionSiteAddEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionSiteUpdateEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionSiteDeleteEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -1033,5 +1095,39 @@ public class CostumerDataExecutor
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Map> getPriceEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void discardMapPriceEdit(Map map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void approveMapPriceEdit(Map map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Report getCityReport(Date startDate, Date endDate, int cityId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Report getSystemReport(Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+
 
 }

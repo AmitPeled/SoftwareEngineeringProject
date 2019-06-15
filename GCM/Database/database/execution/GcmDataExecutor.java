@@ -5,11 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import dataAccess.customer.PurchaseHistory;
+import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
@@ -28,7 +30,7 @@ import users.User;
  */
 @SuppressWarnings("serial")
 public class GcmDataExecutor
-		implements IGcmDataExecute, IGcmCustomerExecutor, IGcmEditorExecutor, IGcmContentManagerExecutor {
+		implements IGcmDataExecute, IGcmCustomerExecutor, IGcmEditorExecutor, IGcmContentManagerExecutor, IGcmGenetalManager {
 	IExecuteQueries queryExecutor;
 	IParseObjects objectParser;
 
@@ -1003,6 +1005,48 @@ public class GcmDataExecutor
 	public void editCityPrice(int cityId, double newPrice) throws SQLException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Report> getAllcitiesReport() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Report getOneCityReport(String CityName) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getPriceEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void discardMapPriceEdit(Map map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void approveMapPriceEdit(Map map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Report getCityReport(Date startDate, Date endDate, int cityId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Report getSystemReport(Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

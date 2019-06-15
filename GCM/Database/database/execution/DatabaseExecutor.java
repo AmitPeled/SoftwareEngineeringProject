@@ -289,4 +289,17 @@ public class DatabaseExecutor implements IExecuteQueries {
 		objects.add(DatabaseMetaData.getStatus(status));
 		deleteValuesFromTable(tableName, objectNames, objects);
 	}
+
+	@Override
+	public List<List<Object>> selectAllColumns(String tableName, String columnsToSelect) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		String sqlquery = "Select " + columnsToSelect + " from " + tableName +";";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		List<List<Object>> fields = new ArrayList<>();
+		synchronized (dbAccess) {
+			fields = toList(preparedStatement.executeQuery());
+		}
+		return fields;
+	}
 }
