@@ -15,6 +15,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import mainApp.GcmClient;
 import maps.Coordinates;
 import maps.Site;
 import utility.TextFieldUtility;
@@ -45,8 +46,11 @@ public class PointOfInterestController implements Initializable{
 	private Coordinates coordinates;
 	private int cityId;
 	private boolean disable;
+
+	private GcmClient gcmClient;
 	
-	public PointOfInterestController(GcmDAO gcmDAO, int cityId, Coordinates coordinates, TextFieldUtility utilities) {
+	public PointOfInterestController(GcmClient gcmClient, GcmDAO gcmDAO, int cityId, Coordinates coordinates, TextFieldUtility utilities) {
+		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
 		this.cityId = cityId;
 		this.utilities = utilities;
@@ -83,6 +87,7 @@ public class PointOfInterestController implements Initializable{
 	            		Site site = new Site(poiName, poiDescription, poiType, disable, coordinates);
 	            		gcmDAO.addNewSiteToCity(cityId, site);
 	            		System.out.println("Adding site["+coordinates.x+","+coordinates.y+"]: cityId: "+cityId+", name: "+poiName+", type: "+poiType+", description: "+poiDescription);
+	            		gcmClient.back();
 	            	}else {
 	            		utilities.setErrors("Please fill all fields!", errors);
 	            	}
