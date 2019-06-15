@@ -11,6 +11,6 @@ interface SceneManager {
 	 */
 	Scene getScene(SceneNames name);
 
-	Scene getMapViewerScene(int mapId);
+	Object getController(SceneNames name);
 
 }

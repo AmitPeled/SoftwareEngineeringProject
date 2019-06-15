@@ -40,11 +40,11 @@ public class PointOfInterestController implements Initializable{
 	TextField errors;
 	TextFieldUtility utilities;
 	
-	String selectedRadioBtn;
-	RadioButton selectRadio;
-	Coordinates coordinates;
-	int cityId;
-	boolean disable;
+	private String selectedRadioBtn;
+	private RadioButton selectRadio;
+	private Coordinates coordinates;
+	private int cityId;
+	private boolean disable;
 	
 	public PointOfInterestController(GcmDAO gcmDAO, int cityId, Coordinates coordinates, TextFieldUtility utilities) {
 		this.gcmDAO = gcmDAO;
@@ -82,6 +82,7 @@ public class PointOfInterestController implements Initializable{
 		            	}
 	            		Site site = new Site(poiName, poiDescription, poiType, disable, coordinates);
 	            		gcmDAO.addNewSiteToCity(cityId, site);
+	            		System.out.println("Adding site["+coordinates.x+","+coordinates.y+"]: cityId: "+cityId+", name: "+poiName+", type: "+poiType+", description: "+poiDescription);
 	            	}else {
 	            		utilities.setErrors("Please fill all fields!", errors);
 	            	}
@@ -94,6 +95,11 @@ public class PointOfInterestController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		errors.setVisible(false);
 		pointOfInterestListener();		
+	}
+	
+	public void initalizeControl(int cityId, double widthLocation, double heightLocation) {
+		this.cityId = cityId;
+		this.coordinates = new Coordinates(widthLocation,heightLocation);
 	}
 
 }

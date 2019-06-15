@@ -2,10 +2,12 @@ package mainApp;
 
 import java.util.Stack;
 
+import editor.pointOfInterest.PointOfInterestController;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import mapViewerScene.MapViewerSceneController;
 import userInfo.UserInfo;
 
 /**
@@ -59,7 +61,11 @@ class GcmClientImpl implements GcmClient {
 	
 	@Override
 	public void loadMapDisplay(int mapId) {
-		
+		System.out.println("Switching scene to map viewer with map id: " + mapId);
+		int cityId = dataAccess.getCityByMapId(mapId).getId();
+		Scene scene = MapViewerSceneController.getMapViewerScene(this, mapId, cityId);
+		primaryStage.setScene(scene);
+		scenesStack.push(scene);
 	}
 	
 	/**
@@ -84,5 +90,18 @@ class GcmClientImpl implements GcmClient {
 	}
 	
 	@Override
-	public GcmDAO getDataAccessObject() { return dataAccess; } 
+	public GcmDAO getDataAccessObject() { return dataAccess; }
+
+	@Override
+	public void switchSceneToAddSite(int mapId,double widthLocation, double heightLocation) {
+		Scene scene = manager.getScene(SceneNames.ADD_SITE);
+		try {
+			PointOfInterestController controller = (PointOfInterestController)manager.getController(SceneNames.ADD_SITE);
+			controller.initalizeControl(mapId,widthLocation,heightLocation);
+			primaryStage.setScene(scene);
+			scenesStack.push(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} 
 }

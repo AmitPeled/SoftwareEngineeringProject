@@ -32,19 +32,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import maps.City;
-import maps.Coordinates;
-import maps.Site;
-import maps.Tour;
-import search.CustomListCell;
-import search.MapItem;
-import utility.TextFieldUtility;
-
+import mainApp.GcmClient;
 
 public class ApprovalReportsController  implements Initializable {
 	private GcmDAO gcmDAO;
@@ -108,17 +98,18 @@ public class ApprovalReportsController  implements Initializable {
 	private List<CitySubmission> citySubmissions;
 	private List<SiteSubmission> siteSubmissions;
 	private List<TourSubmission> tourSubmission;
-	private List<MapSubmission>  mapSubmission;
+	private GcmClient gcmClient;
 
-	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, 
-		List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission, List<MapSubmission>  mapSubmission) {
-
+	public ApprovalReportsController(GcmClient gcmClient,
+			GcmDAO gcmDAO, 
+			List<CitySubmission> citySubmissions, 
+			List<SiteSubmission> siteSubmissions, 
+			List<TourSubmission> tourSubmissions) {
+		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
-		this.citySubmissions = citySubmissions;
-		this.siteSubmissions = siteSubmissions;
-		this.tourSubmission = tourSubmission;
-		this.mapSubmission = mapSubmission;
-
+		this.citySubmissions = citySubmissions == null ? new ArrayList<CitySubmission>() : citySubmissions;
+		this.siteSubmissions = siteSubmissions == null ? new ArrayList<SiteSubmission>() : siteSubmissions;
+		this.tourSubmission = tourSubmissions  == null ? new ArrayList<TourSubmission>() : tourSubmissions;
 	}
 	
 	public void initSiteTableView() {
@@ -135,7 +126,7 @@ public class ApprovalReportsController  implements Initializable {
 	        });
 	        
 	        
-	        ObservableList<SiteSubmission> details = FXCollections.observableArrayList(siteSubmissions);
+	        ObservableList<SiteSubmission> details = siteSubmissions.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(siteSubmissions);
 	        siteTable.setItems(details);
 	}
 	public void initCityTableView() {
@@ -151,7 +142,7 @@ public class ApprovalReportsController  implements Initializable {
         });
         
         
-        ObservableList<CitySubmission> details = FXCollections.observableArrayList(citySubmissions);
+        ObservableList<CitySubmission> details = citySubmissions.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(citySubmissions);
         cityTable.setItems(details);
 	}
 	public void initTourTableView() {
@@ -166,7 +157,7 @@ public class ApprovalReportsController  implements Initializable {
             }
         });
 
-        ObservableList<TourSubmission> details = FXCollections.observableArrayList(tourSubmission);
+        ObservableList<TourSubmission> details = tourSubmission.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(tourSubmission);
         tourTable.setItems(details);
 	}
 
@@ -275,6 +266,9 @@ public class ApprovalReportsController  implements Initializable {
 		cityBtnListener();
 		tourBtnListener();
 	}
+	
+	@FXML
+	public void onBackButton() { gcmClient.back(); }
 
 }
 
