@@ -110,8 +110,8 @@ public class ApprovalReportsController  implements Initializable {
 	private List<TourSubmission> tourSubmission;
 	private List<MapSubmission>  mapSubmission;
 
-	public ApprovalReportsController(List<CitySubmission> citySubmissions, 
-			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission, List<MapSubmission>  mapSubmission) {
+	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, 
+		List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission, List<MapSubmission>  mapSubmission) {
 
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions;
@@ -130,7 +130,7 @@ public class ApprovalReportsController  implements Initializable {
 	        siteApprovalDisapproval.setCellFactory(new Callback<TableColumn<SiteSubmission, Button>, TableCell<SiteSubmission, Button>>() {
 	            @Override
 	            public TableCell<SiteSubmission, Button> call(TableColumn<SiteSubmission, Button> param) {
-	                return new SiteTableCell();
+	            	return new SiteTableCell(gcmDAO);
 	            }
 	        });
 	        
@@ -146,7 +146,7 @@ public class ApprovalReportsController  implements Initializable {
         cityApprovalDisapproval.setCellFactory(new Callback<TableColumn<CitySubmission, Button>, TableCell<CitySubmission, Button>>() {
             @Override
             public TableCell<CitySubmission, Button> call(TableColumn<CitySubmission, Button> param) {
-                return new CityTableCell();
+                return new CityTableCell(gcmDAO);
             }
         });
         
@@ -179,7 +179,7 @@ public class ApprovalReportsController  implements Initializable {
         mapApprovalDisapproval.setCellFactory(new Callback<TableColumn<MapSubmission, Button>, TableCell<MapSubmission, Button>>() {
             @Override
             public TableCell<MapSubmission, Button> call(TableColumn<MapSubmission, Button> param) {
-                return new MapTableCell();
+                return new MapTableCell(gcmDAO);
             }
         });
         
