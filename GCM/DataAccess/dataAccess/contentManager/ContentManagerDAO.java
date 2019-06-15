@@ -5,6 +5,7 @@ import java.util.List;
 import maps.City;
 import maps.Map;
 import maps.Site;
+import maps.Tour;
 
 public interface ContentManagerDAO {
 
@@ -42,10 +43,18 @@ public interface ContentManagerDAO {
 	List<Site> getSitesUpdateEdits();
 	List<Site> getSitesDeleteEdits();
 
+	List<Tour> getToursAddEdits();
+	List<Tour> getToursUpdateEdits();
+	List<Tour> getToursDeleteEdits();
+	
 	List<City> getCitiesAddEdits();
 	List<City> getCitiesUpdateEdits();
 	List<City> getCitiesDeleteEdits();
 
+	List<Map> getMapsObjectAddedTo(int contentId); // gets list of the maps that the object is added to
+	List<City> getCitiesObjectAddedTo(int contentId);// gets list of the cities that the object is added to
+	List<Tour> getToursObjectAddedTo(int contentId);// gets list of the tours that the object is added to
+	
 	void changeMapPrice(int mapId, double newPrice);
 
 }

@@ -14,36 +14,47 @@ public interface IGcmContentManagerExecutor {
 	 * @param action the action to take on the edit. action true is approve, false
 	 *               discard.
 	 */	
-	void actionMapAddEdit(Map map, boolean action)throws SQLException;
-	void actionMapUpdateEdit(Map map, boolean action)throws SQLException;
-	void actionMapDeleteEdit(Map map, boolean action)throws SQLException;
+	void actionMapAddEdit(Map map, boolean action) throws SQLException;
+	void actionMapUpdateEdit(Map map, boolean action) throws SQLException;
+	void actionMapDeleteEdit(Map map, boolean action) throws SQLException;
 	
-	void actionCityAddEdit(City city, boolean action)throws SQLException;
-	void actionCityUpdateEdit(City city, boolean action)throws SQLException;
-	void actionCityDeleteEdit(City city, boolean action)throws SQLException;
+	void actionCityAddEdit(City city, boolean action) throws SQLException;
+	void actionCityUpdateEdit(City city, boolean action) throws SQLException;
+	void actionCityDeleteEdit(City city, boolean action) throws SQLException;
 
-	void actionSiteAddEdit(Site site, boolean action)throws SQLException;
-	void actionSiteUpdateEdit(Site site, boolean action)throws SQLException;
-	void actionSiteDeleteEdit(Site site, boolean action)throws SQLException;
+	void actionSiteAddEdit(Site site, boolean action) throws SQLException;
+	void actionSiteUpdateEdit(Site site, boolean action) throws SQLException;
+	void actionSiteDeleteEdit(Site site, boolean action) throws SQLException;
+	
+	void actionTourAddEdit(Site site, boolean action) throws SQLException;
+	void actionTourUpdateEdit(Site site, boolean action) throws SQLException;
+	void actionTourDeleteEdit(Site site, boolean action) throws SQLException;
 
 	/**
 	 * editors content editons. you can take with EditorDAO the original object before the edition. 
 	 */
 	List<Map> getMapsAddEdits() throws SQLException;
-	List<Map> getMapsUpdateEdits()throws SQLException;
-	List<Map> getMapsDeleteEdits()throws SQLException;
+	List<Map> getMapsUpdateEdits() throws SQLException;
+	List<Map> getMapsDeleteEdits() throws SQLException;
 
-	List<Site> getSitesAddEdits()throws SQLException;
-	List<Site> getSitesUpdateEdits()throws SQLException;
-	List<Site> getSitesDeleteEdits()throws SQLException;
+	List<Site> getSitesAddEdits() throws SQLException;
+	List<Site> getSitesUpdateEdits() throws SQLException;
+	List<Site> getSitesDeleteEdits() throws SQLException;
 
-	List<City> getCitiesAddEdits()throws SQLException;
-	List<City> getCitiesUpdateEdits()throws SQLException;
-	List<City> getCitiesDeleteEdits()throws SQLException;
+	List<Tour> getToursAddEdits()throws SQLException;
+	List<Tour> getToursUpdateEdits()throws SQLException;
+	List<Tour> getToursDeleteEdits()throws SQLException;
+	
+	List<City> getCitiesAddEdits() throws SQLException;
+	List<City> getCitiesUpdateEdits() throws SQLException;
+	List<City> getCitiesDeleteEdits() throws SQLException;
+
+	List<Map> getMapsObjectAddedTo(int contentId)throws SQLException; // gets list of the maps that the object is added to
+	List<City> getCitiesObjectAddedTo(int contentId)throws SQLException;// gets list of the cities that the object is added to
+	List<Tour> getToursObjectAddedTo(int contentId) throws SQLException;// gets list of the tours that the object is added to
+	
 
 
-	void editCityPrice(int cityId, double newPrice)throws SQLException;
-	List<Tour> getToursDeleteEdits() throws SQLException;
-	List<Tour> getToursUpdateEdits() throws SQLException;
-	List<Tour> getToursAddEdits() throws SQLException;
+	void editCityPrice(int cityId, double newPrice) throws SQLException;
+
 }

@@ -350,8 +350,31 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
+	public int tourManager(int cityId, Tour tour) {
+		int tourId = tour.getId();
+		// check if tour existing if so add new tour
+		if (tour.getId() == -1) {
+			tourId = addNewTourToCity(cityId, tour);
+		}
+
+		// add places to tour
+		List<Site> sitesList = tour.getSites();
+		List<Integer> sitesTimeEstimationList = tour.getSitesTimeToVisit();
+		int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
+		int startingIndex = 0;
+		if (numberOfLastAddedPlaces != 0) {
+			startingIndex = sitesList.size() - numberOfLastAddedPlaces - 1;
+		}
+
+		for (int i = startingIndex; i < sitesList.size(); i++) {
+			addExistingSiteToTour(tourId, sitesList.get(i).getId(), sitesTimeEstimationList.get(i));
+		}
+
+		return 0;
+	}
+
+	@Override
 	public double getMembershipPrice(int cityId, int timeInterval) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -394,7 +417,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public void changeMapPrice(int mapId, double newPrice) {
@@ -457,32 +479,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public int tourManager(int cityId, Tour tour) {
-		int tourId = tour.getId();
-		// check if tour existing if so add new tour
-		if(tour.getId() == -1) {
-			tourId = addNewTourToCity(cityId, tour);
-		}
-		
-		// add places to tour
-		List<Site> sitesList = tour.getSites();
-		List<Integer> sitesTimeEstimationList = tour.getSitesTimeToVisit();
-		int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
-		int startingIndex = 0;
-		if(numberOfLastAddedPlaces != 0) {
-			startingIndex = sitesList.size() - numberOfLastAddedPlaces -1;
-		}
-		
-		for (int i = startingIndex; i < sitesList.size(); i++) {
-			addExistingSiteToTour(tourId, sitesList.get(i).getId(), sitesTimeEstimationList.get(i));
-		}
-
-		
-		
-		return 0;
-	}
-
-	@Override
 	public List<Map> getMapsAddEdits() {
 		// TODO Auto-generated method stub
 		return null;
@@ -500,11 +496,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		return null;
 	}
 
-	@Override
-	public List<Site> getSitesAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Site> getSitesUpdateEdits() {
@@ -532,6 +523,48 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 
 	@Override
 	public List<City> getCitiesDeleteEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getMapsObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursDeleteEdits() {
 		// TODO Auto-generated method stub
 		return null;
 	}
