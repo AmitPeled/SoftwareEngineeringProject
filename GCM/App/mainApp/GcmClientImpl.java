@@ -18,8 +18,6 @@ import userInfo.UserInfo;
  *
  */
 class GcmClientImpl implements GcmClient {
-	// temp city ID
-	private static final int DEFAULT_CITY_ID = 1;
 	
 	private static final String gcmAppTitle = "GCM";
 	private final UserInfo userInfo;
@@ -64,7 +62,8 @@ class GcmClientImpl implements GcmClient {
 	@Override
 	public void loadMapDisplay(int mapId) {
 		System.out.println("Switching scene to map viewer with map id: " + mapId);
-		Scene scene = MapViewerSceneController.getMapViewerScene(this, mapId, DEFAULT_CITY_ID);
+		int cityId = dataAccess.getCityByMapId(mapId).getId();
+		Scene scene = MapViewerSceneController.getMapViewerScene(this, mapId, cityId);
 		primaryStage.setScene(scene);
 		scenesStack.push(scene);
 	}
