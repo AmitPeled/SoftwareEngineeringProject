@@ -1,12 +1,9 @@
 package editor.editPrice;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 import dataAccess.contentManager.ContentManagerDAO;
-
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
