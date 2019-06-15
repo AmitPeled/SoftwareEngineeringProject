@@ -18,7 +18,7 @@ public class Main extends Application {
 		UserInfo userInfo = new UserInfoImpl(userDAO,customerDAO);
 		GcmClient gcm = new GcmClientImpl(primaryStage,userInfo,gcmDAO);
 		ScenesInitializer initializer = new ScenesInitializerImpl(gcm);
-		SceneManager manager = new SceneManagerImpl(initializer.getScenes());
+		SceneManager manager = new SceneManagerImpl(initializer.getScenes(),initializer.getControllers());
 		gcm.setSceneManager(manager);
 		gcm.switchScene(SceneNames.INTRO);
 	}

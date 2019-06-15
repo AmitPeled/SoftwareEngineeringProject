@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import mainApp.GcmClient;
 import maps.City;
 import utility.TextFieldUtility;
 
@@ -36,8 +37,11 @@ public class AddCityController implements Initializable
 	File file;
 	Image image; 
 	TextFieldUtility utilities;
+
+	private GcmClient gcmClient;
 	
-	public AddCityController(GcmDAO gcmDAO, TextFieldUtility utilities) {
+	public AddCityController(GcmClient gcmClient, GcmDAO gcmDAO, TextFieldUtility utilities) {
+		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
 		this.utilities = utilities;
 	}
@@ -47,6 +51,7 @@ public class AddCityController implements Initializable
 		addCity.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) { 
+	            	System.out.println("\"Add city\" clicked");
 	            	errors.setVisible(false);
 	            	String name = cityName.getText();
 	            	String description = cityDescription.getText();
@@ -54,10 +59,10 @@ public class AddCityController implements Initializable
 	            	if(utilities.checkFilledFields(list)){
 	            		City newCity = new City(name, description);
 		            	int cityId = gcmDAO.addCity(newCity);
+			            gcmClient.back();
 					}else {
 						utilities.setErrors("Please fill all fields!", errors);
-					}
-		            	
+					}	
 	            }
 			})
 		);

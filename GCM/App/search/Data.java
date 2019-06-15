@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import mainApp.GcmClient;
+
 import java.io.IOException;
 
 public class Data
@@ -24,10 +26,11 @@ public class Data
     private TextField tours;
 	@FXML
 	private Button goTo;
+	private ListViewController listViewController;
 	
-	 // pass search controller to constractor or GCM client
-    public Data(){ 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/mapItem.fxml"));
+    public Data(ListViewController listViewController){ 
+        this.listViewController = listViewController;
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/mapItem.fxml"));
         fxmlLoader.setController(this);
         try
         {
@@ -54,8 +57,11 @@ public class Data
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				//switchScene();
-				System.out.println(id);
+				try {
+					listViewController.goToMap(Integer.parseInt(id));
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			
 		}));

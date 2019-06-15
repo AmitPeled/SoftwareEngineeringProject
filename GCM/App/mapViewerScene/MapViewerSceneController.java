@@ -14,6 +14,7 @@ import mainApp.SceneNames;
 import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
+import maps.Coordinates;
 
 /**
 * This class is an example class that demonstrates how to implement the MapViewerComponent class.
@@ -33,9 +34,13 @@ public class MapViewerSceneController {
 	private Scene scene;
 	private MapViewerListener listener;
 	private GcmClient gcmClient;
+	private MapViewer mapViewer;
+	private int cityId;
 	
-	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer) {
+	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId) {
 		this.gcmClient = gcmClient;
+		this.mapViewer = mapViewer;
+		this.cityId = cityId;
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -44,6 +49,7 @@ public class MapViewerSceneController {
 			// Loading the FXML view
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(FxmlPath));
+			loader.setController(this);
 			GridPane gridPane = loader.load();
 			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
 			
@@ -64,12 +70,16 @@ public class MapViewerSceneController {
 	 * @param mapId the mapId as it is in the database
 	 * @return JavaFX Scene object
 	 */
-	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId) {
+	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId, int cityId) {
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(mapId);
-		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent);
+		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId);
 		return mapViewerSceneController.getScene();
 	}
 	
 	@FXML
-	public void onAddCity() { gcmClient.switchScene(SceneNames.ADD_CITY); }
+	public void onAddSite() { 
+		gcmClient.switchSceneToAddSite(cityId,
+				mapViewer.getMapClickCoordinates().x * mapViewer.getImageWorldWidth(),
+				mapViewer.getMapClickCoordinates().y* mapViewer.getImageWorldHeight()); 
+	}
 }

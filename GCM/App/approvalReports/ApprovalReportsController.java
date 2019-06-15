@@ -1,108 +1,194 @@
-//package approvalReports;
-//
-//public class ApprovalReportsController {
-//
-//}
-//
-//
-//public class JustDoIt extends Application {
-//
-//    private final TableView<Person> table = new TableView<>();
-//    private final ObservableList<Person> data
-//            = FXCollections.observableArrayList(
-//                    new Person("Jacob", "Smith"),
-//                    new Person("Isabella", "Johnson"),
-//                    new Person("Ethan", "Williams"),
-//                    new Person("Emma", "Jones"),
-//                    new Person("Michael", "Brown")
-//            );
-//
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
-//
-//    @Override
-//    public void start(Stage stage) {
-//        stage.setWidth(450);
-//        stage.setHeight(500);
-//
-//        TableColumn firstNameCol = new TableColumn("First Name");
-//        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-//
-//        TableColumn lastNameCol = new TableColumn("Last Name");
-//        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-//
-//        TableColumn actionCol = new TableColumn("Action");
-//        actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-//
-//        Callback<TableColumn<Person, String>, TableCell<Person, String>> cellFactory
-//                = //
-//                new Callback<TableColumn<Person, String>, TableCell<Person, String>>() {
-//            @Override
-//            public TableCell call(final TableColumn<Person, String> param) {
-//                final TableCell<Person, String> cell = new TableCell<Person, String>() {
-//
-//                    final Button btn = new Button("Just Do It");
-//
-//                    @Override
-//                    public void updateItem(String item, boolean empty) {
-//                        super.updateItem(item, empty);
-//                        if (empty) {
-//                            setGraphic(null);
-//                            setText(null);
-//                        } else {
-//                            btn.setOnAction(event -> {
-//                                Person person = getTableView().getItems().get(getIndex());
-//                                System.out.println(person.getFirstName()
-//                                        + "   " + person.getLastName());
-//                            });
-//                            setGraphic(btn);
-//                            setText(null);
-//                        }
-//                    }
-//                };
-//                return cell;
-//            }
-//        };
-//
-//        actionCol.setCellFactory(cellFactory);
-//
-//        table.setItems(data);
-//        table.getColumns().addAll(firstNameCol, lastNameCol, actionCol);
-//
-//        Scene scene = new Scene(new Group());
-//
-//        ((Group) scene.getRoot()).getChildren().addAll(table);
-//
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//
-//    public static class Person {
-//
-//        private final SimpleStringProperty firstName;
-//        private final SimpleStringProperty lastName;
-//
-//        private Person(String fName, String lName) {
-//            this.firstName = new SimpleStringProperty(fName);
-//            this.lastName = new SimpleStringProperty(lName);
-//        }
-//
-//        public String getFirstName() {
-//            return firstName.get();
-//        }
-//
-//        public void setFirstName(String fName) {
-//            firstName.set(fName);
-//        }
-//
-//        public String getLastName() {
-//            return lastName.get();
-//        }
-//
-//        public void setLastName(String fName) {
-//            lastName.set(fName);
-//        }
-//
-//    }
-//}
+package approvalReports;
+
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import approvalReports.cityApprovalReports.CitySubmission;
+import approvalReports.cityApprovalReports.CityTableCell;
+import approvalReports.sitesApprovalReports.SiteSubmission;
+import approvalReports.sitesApprovalReports.SiteTableCell;
+import approvalReports.tourApprovalReports.TourSubmission;
+import approvalReports.tourApprovalReports.TourTableCell;
+import gcmDataAccess.GcmDAO;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
+import mainApp.GcmClient;
+
+public class ApprovalReportsController  implements Initializable {
+	private GcmDAO gcmDAO;
+	@FXML
+	TableView<SiteSubmission> siteTable;
+	@FXML
+	TableColumn<SiteSubmission, String> siteName;
+	@FXML
+	TableColumn<SiteSubmission, String> siteDescription;
+	@FXML
+	TableColumn<SiteSubmission, String> siteType;
+	@FXML
+	TableColumn<SiteSubmission, String> siteActionTaken;
+	@FXML
+	TableColumn<SiteSubmission, Button> siteApprovalDisapproval;
+	
+	@FXML
+	TableView<CitySubmission> cityTable;
+	@FXML
+	TableColumn<CitySubmission, String> cityName;
+	@FXML
+	TableColumn<CitySubmission, String> cityDescription;
+	@FXML
+	TableColumn<CitySubmission, String> cityActionTaken;
+	@FXML
+	TableColumn<CitySubmission, Button> cityApprovalDisapproval;
+	
+	@FXML
+	TableView<TourSubmission> tourTable;
+	@FXML
+	TableColumn<TourSubmission, String> tourDescription;
+	@FXML
+	TableColumn<TourSubmission, String> tourActionTaken;
+	@FXML
+	TableColumn<TourSubmission, Button> tourApprovalDisapproval;
+	
+	@FXML
+	Button cityReports;
+	@FXML
+	Button siteReports;
+	@FXML
+	Button tourReports;
+	
+	private List<CitySubmission> citySubmissions;
+	private List<SiteSubmission> siteSubmissions;
+	private List<TourSubmission> tourSubmission;
+	private GcmClient gcmClient;
+
+	public ApprovalReportsController(GcmClient gcmClient,
+			GcmDAO gcmDAO, 
+			List<CitySubmission> citySubmissions, 
+			List<SiteSubmission> siteSubmissions, 
+			List<TourSubmission> tourSubmissions) {
+		this.gcmClient = gcmClient;
+		this.gcmDAO = gcmDAO;
+		this.citySubmissions = citySubmissions == null ? new ArrayList<CitySubmission>() : citySubmissions;
+		this.siteSubmissions = siteSubmissions == null ? new ArrayList<SiteSubmission>() : siteSubmissions;
+		this.tourSubmission = tourSubmissions  == null ? new ArrayList<TourSubmission>() : tourSubmissions;
+	}
+	
+	public void initSiteTableView() {
+	        siteName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getName()));
+	        siteDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getDescription()));
+	        siteType.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getSiteType()));
+	        siteActionTaken.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
+	        
+	        siteApprovalDisapproval.setCellFactory(new Callback<TableColumn<SiteSubmission, Button>, TableCell<SiteSubmission, Button>>() {
+	            @Override
+	            public TableCell<SiteSubmission, Button> call(TableColumn<SiteSubmission, Button> param) {
+	                return new SiteTableCell();
+	            }
+	        });
+	        
+	        
+	        ObservableList<SiteSubmission> details = siteSubmissions.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(siteSubmissions);
+	        siteTable.setItems(details);
+	}
+	public void initCityTableView() {
+        cityName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getCity().getName()));
+        cityDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getCity().getDescription()));
+        cityActionTaken.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
+        
+        cityApprovalDisapproval.setCellFactory(new Callback<TableColumn<CitySubmission, Button>, TableCell<CitySubmission, Button>>() {
+            @Override
+            public TableCell<CitySubmission, Button> call(TableColumn<CitySubmission, Button> param) {
+                return new CityTableCell();
+            }
+        });
+        
+        
+        ObservableList<CitySubmission> details = citySubmissions.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(citySubmissions);
+        cityTable.setItems(details);
+	}
+	public void initTourTableView() {
+        
+		tourDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getTour().getDescription()));
+        tourActionTaken.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
+
+        tourApprovalDisapproval.setCellFactory(new Callback<TableColumn<TourSubmission, Button>, TableCell<TourSubmission, Button>>() {
+            @Override
+            public TableCell<TourSubmission, Button> call(TableColumn<TourSubmission, Button> param) {
+                return new TourTableCell();
+            }
+        });
+
+        ObservableList<TourSubmission> details = tourSubmission.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(tourSubmission);
+        tourTable.setItems(details);
+	}
+	
+	
+	public void cityBtnListener() {
+		cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				cityTable.setVisible(true);
+				siteTable.setVisible(false);
+				tourTable.setVisible(false);
+			}
+			
+		}));
+	}
+	public void siteBtnListener() {
+		siteReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent arg0) {
+				siteTable.setVisible(true);
+				cityTable.setVisible(false);
+				tourTable.setVisible(false);
+			}
+			
+		}));
+	}
+	public void tourBtnListener() {
+		tourReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent arg0) {
+				siteTable.setVisible(false);
+				cityTable.setVisible(false);
+				tourTable.setVisible(true);
+			}
+			
+		}));
+	}
+	
+	public void initTables() {
+		cityTable.setVisible(false);
+		siteTable.setVisible(false);
+		tourTable.setVisible(false);
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		initTables();
+		initCityTableView();
+		initSiteTableView();
+		initTourTableView();
+		siteBtnListener();
+		cityBtnListener();
+		tourBtnListener();
+	}
+	
+	@FXML
+	public void onBackButton() { gcmClient.back(); }
+
+}
