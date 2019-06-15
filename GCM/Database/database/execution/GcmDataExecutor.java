@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import dataAccess.customer.PurchaseHistory;
@@ -997,63 +998,6 @@ public class GcmDataExecutor
 	}
 
 	@Override
-	public double getMembershipPrice(int cityId, int timeInterval, String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getOneTimePurchasePrice(int cityId) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
-			String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getSavedCreditCard(String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void notifyMapView(int cityId) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public File downloadMap(int cityId, String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getPurchasedMaps(String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void actionCityAddEdit(City city, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
 		
@@ -1082,5 +1026,404 @@ public class GcmDataExecutor
 	public void editCityPrice(int cityId, double newPrice) throws SQLException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public double getMembershipPrice(int cityId, int timeInterval, String username) throws SQLException {
+		// need to check if he buy that map befor -> 10% disscount
+
+		List<List<Object>> checkForDisscount = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username",
+				username, "purchaseDate");
+		List<List<Object>> list = queryExecutor.selectColumnsByValue("citysesPrices", "cityId", cityId,
+				"Month" + timeInterval);
+		if (list.isEmpty()) {
+			return -1;
+		}
+
+		if (checkForDisscount.isEmpty()) {
+			return (double) list.get(0).get(0);
+		} else {
+			return (double) list.get(0).get(0) * 0.9;
+		}
+	}
+	
+
+	@Override
+	public boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username)
+			throws SQLException {
+
+		// need to check if patment is good -> nevr happen
+
+		// subsciption
+		if (timeInterval > 0) {
+			List<Object> pDetails = new ArrayList<Object>() {
+				{
+
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
+					add(username);
+					add(cityId);
+					add(startDate);
+					add(false);
+					add(timeInterval);
+					add(endDate);
+				}
+			};
+			try {
+				String tableToUpdate = "subscribes";
+				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
+				updateMangerReports(cityId, tableToUpdate);
+
+			} catch (SQLException e) {
+				return false;
+			}
+		} else {
+			// oneTimePurchase
+			List<Object> pDetails = new ArrayList<Object>() {
+				{
+
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
+					add(username);
+					add(cityId);
+					add(startDate);
+					add(true);
+					add(timeInterval);
+					add(endDate);
+				}
+			};
+			try
+
+			{
+				String tableToUpdate = "oneTimePurchase";
+				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+				updateMangerReports(cityId, tableToUpdate);
+			} catch (SQLException e) {
+				return false;
+			}
+
+		}
+
+		// if seccuss
+		return true;
+	}
+	@Override
+	public File downloadMap(int mapId, String username) throws SQLException {
+		// TODO Auto-generated method stub
+
+		return getMapFile(mapId);
+	}
+
+	@Override
+	public List<Map> getPurchasedMaps(String username) throws SQLException {
+		// having list of all the purchase cityId that the user bought
+		List<List<Object>> cityIdList = queryExecutor.selectColumnsByValue("purchaseDeatails", "cityId", username,
+				"cityId");
+		List<Integer> cityId = toIdList(cityIdList);
+
+		String tableToUpdate = "downloads";
+		// getting all the maps id
+		List<Map> maps = new ArrayList<>();
+		List<List<Object>> mapsIdList = new ArrayList<List<Object>>();
+
+		for (int i : cityId) {
+			mapsIdList.addAll(queryExecutor.selectColumnsByValue("citiesMaps", "cityId", i, "mapId"));
+			updateMangerReports(i, tableToUpdate);
+
+		}
+		List<Integer> mapsId = toIdList(mapsIdList);
+		for (int i : mapsId) {
+			maps.add(getMapDetails(i));
+		}
+
+		return maps;
+	}
+
+	@Override
+	public double getOneTimePurchasePrice(int cityId) throws SQLException {
+
+		List<List<Object>> list = queryExecutor.selectColumnsByValue("citysesPrices", "cityId", cityId,
+				"oneTimePurchase");
+		if (list.isEmpty()) {
+			return -1;
+		}
+
+		return (double) list.get(0).get(0);
+	}
+
+	@Override
+	public String getSavedCreditCard(String username) throws SQLException {
+		List<List<Object>> list = queryExecutor.selectColumnsByValue("costumerPurchaseDeatils", "username", username,
+				"creditCard");
+		if (list.isEmpty()) {
+			return "";
+		}
+		String res = (String) list.get(0).get(0);
+		res = "XXXX-XXXX-XXXX-" + res.substring(res.length() - 4);
+		return res;
+	}
+
+	@Override
+	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
+			String username) throws SQLException {
+		// if seccess -> validate payment (not really can happen)
+
+		// update user purchaseDetails in his table , update report table
+		List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
+				"username", username, "purchaseDate");
+		if (checkIfAlreadyExistUser.isEmpty()) {
+			List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
+				{
+					add(username);
+					add(purchaseDetails.getFirstname());
+					add(purchaseDetails.getLastname());
+					add(purchaseDetails.getCreditCard());
+					add(purchaseDetails.getCvv());
+					add(purchaseDetails.getCardExpireDate());
+				}
+			};
+			try {
+				queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
+			} catch (SQLException e) {
+				// else give null
+				return false;
+			}
+		}
+
+		// update purchaseDeatailsHistory so can know all purchase history
+		if (timeInterval > 0) {
+			List<Object> pDetails = new ArrayList<Object>() {
+				{
+
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
+					add(username);
+					add(cityId);
+					add(startDate);
+					add(false);
+					add(timeInterval);
+					add(endDate);
+				}
+			};
+			try
+
+			{
+				String tableToUpdate = "downloads";
+				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+				updateMangerReports(cityId, tableToUpdate);
+
+			} catch (SQLException e) {
+				return false;
+			}
+		} else {
+			// oneTimePurchase
+			List<Object> pDetails = new ArrayList<Object>() {
+				{
+
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
+					add(username);
+					add(cityId);
+					add(startDate);
+					add(true);
+					add(timeInterval);
+					add(endDate);
+				}
+			};
+			try {
+				String tableToUpdate = "oneTimePurchase";
+				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
+				updateMangerReports(cityId, tableToUpdate);
+			} catch (
+
+			SQLException e) {
+				return false;
+			}
+
+		}
+		// if seccuss
+		return true;
+	}
+	@Override
+	public List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
+			throws SQLException {
+
+		int timeInterval = 0;
+
+		// validate details and insert to costumerpurchasedtails table
+		List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
+				"username", username, "purchaseDate");
+		if (checkIfAlreadyExistUser.isEmpty()) {
+			List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
+				{
+					add(username);
+					add(purchaseDetails.getFirstname());
+					add(purchaseDetails.getLastname());
+					add(purchaseDetails.getCreditCard());
+					add(purchaseDetails.getCvv());
+					add(purchaseDetails.getCardExpireDate());
+				}
+			};
+			try {
+				queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
+			} catch (SQLException e) {
+				// else give null
+				return null;
+			}
+		}
+		// need to update purchaseDeatails table and mangerReports
+
+		// give list of mapsId that belong to that cityId
+		List<List<Object>> mapsIdList = queryExecutor.selectColumnsByValue("citiesMaps", "cityId", cityId, "mapId");
+		List<Integer> mapsid = toIdList(mapsIdList);
+
+		List<File> files = new ArrayList<>();
+
+		for (int i : mapsid) {
+			files.add(getMapFile(i));
+		}
+
+		// update purchase history
+		List<Object> pDetails = new ArrayList<Object>() {
+			{
+				int days = 30 * timeInterval;
+				java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+				java.sql.Date endDate = addDays(startDate, days);
+				add(username);
+				add(cityId);
+				add(startDate);
+				add(true);
+				add(0);
+				add(endDate);
+			}
+		};
+		try {
+
+			String tableToUpdate = "oneTimePurchase";
+			queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
+			updateMangerReports(cityId, tableToUpdate);
+		} catch (
+
+		SQLException e) {
+			return null;
+		}
+
+		return files;
+	}
+
+	@Override
+	public void notifyMapView(int cityId) throws SQLException {
+
+		String tableToUpdate = "viewsNum";
+		updateMangerReports(cityId, tableToUpdate);
+
+	}
+
+	@Override
+	public List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException {
+
+		// getting username purchase history
+		List<List<Object>> history = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username", username,
+				"*");
+
+		List<PurchaseHistory> purchaseHistories = new ArrayList<>();
+
+		// converting it to PurchaseHistory objects that contains - city id, start date
+		// , end date
+		for (int i = 0; i < history.size(); i++) {
+			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
+					(Date) history.get(i).get(5), (int) history.get(i).get(1));
+			purchaseHistories.add(purchaseHistory);
+		}
+
+		return purchaseHistories;
+	}
+
+	
+	@Override
+	public List<Report> getAllcitiesReport() throws SQLException {
+		
+		List<List<Object>> reports = queryExecutor.selectAllColumns("mangerReports", "*");
+		
+		List<Report> allCitiesreports = new ArrayList<>();
+
+		for (int i = 0; i < reports.size(); i++) {
+			Report cityReport = new Report((int) reports.get(i).get(0), (String) reports.get(i).get(1),
+					(int) reports.get(i).get(2), (int) reports.get(i).get(3), (int) reports.get(i).get(4),
+					(int) reports.get(i).get(5), (int) reports.get(i).get(6));
+			allCitiesreports.add(cityReport);
+		}
+		
+		return allCitiesreports;
+	}
+	
+	@Override
+	public Report getOneCityReport(String cityName) throws SQLException {
+		List<List<Object>> report = queryExecutor.selectColumnsByValue("mangerReports", "cityName", cityName,
+				"*");
+		
+		Report cityReport = new Report((int) report.get(0).get(0), (String) report.get(0).get(1),
+				(int) report.get(0).get(2), (int) report.get(0).get(3), (int) report.get(0).get(4),
+				(int) report.get(0).get(5), (int) report.get(0).get(6));
+		return cityReport;
+	}
+	
+	// when you want to update column in mangerReports you call this
+	// for example when adding new map
+	private void updateMangerReports(int cityId, String tableToUpdate) throws SQLException {
+
+		int plusOne;
+
+		List<List<Object>> updateListCulomn = queryExecutor.selectColumnsByValue("mangerReports", "cityId", cityId,
+				"oneTimePurchase");
+		if (updateListCulomn.isEmpty()) {
+			System.out.println("wtf is not supposed to be empty");
+		} else {
+			plusOne = (int) updateListCulomn.get(0).get(0) + 1;
+
+			queryExecutor.updateTableColumn("mangerReports", tableToUpdate, plusOne, "cityId", cityId);
+		}
+
+	}
+
+	// When adding new city to data base mangerReports need to be update
+	private void addCityManagerReport(int cityId, String cityName) throws SQLException {
+
+		List<Object> objects = new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(cityName);
+				add(0);
+				add(0);
+				add(0);
+				add(0);
+				add(0);
+
+			}
+		};
+
+		queryExecutor.insertToTable("mangerReports", objects);
+
+	}
+
+	//this delete column drom mangerReports
+	private void deleteCityManagerReport(int cityId) throws SQLException {
+
+		queryExecutor.deleteValueFromTable("mangerReports", "cityId", cityId);
+
+	}
+
+	private Date addDays(Date date, int days) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.DATE, days);
+		return new Date(c.getTimeInMillis());
 	}
 }

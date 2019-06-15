@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
+import dataAccess.customer.PurchaseHistory;
+import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import maps.City;
 import maps.Map;
@@ -145,4 +147,10 @@ public interface IGcmDataExecute {
 	
 	// publish map/site/city
 	// purchaseMap
+	
+	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
+
+	Report getOneCityReport(String cityName) throws SQLException;
+
+	List<Report> getAllcitiesReport() throws SQLException; 
 }

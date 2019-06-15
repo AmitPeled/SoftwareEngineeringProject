@@ -29,7 +29,7 @@ import users.User;
 //import javax.net.ssl.SSLSocket;
 //import javax.net.ssl.SSLSocketFactory;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unchecked" })
 public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, SearchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
@@ -182,7 +182,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		this.password = password;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsByCityName(String cityName) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByCityName, new ArrayList<Object>() {
@@ -192,7 +191,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		}, username, password)).getResponse();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsBySiteName(String siteName) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
@@ -202,7 +200,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		}, username, password)).getResponse();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsByDescription(String description) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByDescription, new ArrayList<Object>() {
@@ -255,17 +252,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public int updateContent(int contentId, Object newContent) {
-		send(new RequestObject(GcmQuery.updateContent, new ArrayList<Object>() {
-			{
-				add(contentId);
-				add(newContent);
-			}
-		}, username, password));
-		return 0;
-	}
-
-	@Override
 	public boolean purchaseCityOneTime(int mapId, PurchaseDetails purchaseDetails) {
 		return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new ArrayList<Object>() {
 			{
@@ -275,7 +261,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		}, username, password)).getResponse().get(0);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getPurchasedMaps() {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getPurchasedMaps, null, username, password))
@@ -339,7 +324,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		return 0;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Site> getCitySites(int cityId) {
 		return (List<Site>) (Object) send(new RequestObject(GcmQuery.getCitySites, new ArrayList<Object>() {
@@ -371,23 +355,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		}
 
 		return 0;
-	}
-
-	@Override
-	public double getMembershipPrice(int cityId, int timeInterval) {
-		return 0;
-	}
-
-	@Override
-	public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean repurchaseMembershipBySavedDetails() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -640,18 +607,41 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 
 	@Override
 	public List<Tour> getToursAddEdits() {
-		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursAddEdits, new ArrayList<Object>() , username, password)).getResponse();
+		return (List<Tour>) (Object) send(
+				new RequestObject(GcmQuery.getToursAddEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
 	}
 
 	@Override
 	public List<Tour> getToursUpdateEdits() {
-		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursUpdateEdits, new ArrayList<Object>() , username, password)).getResponse();
+		return (List<Tour>) (Object) send(
+				new RequestObject(GcmQuery.getToursUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
 
 	}
 
 	@Override
 	public List<Tour> getToursDeleteEdits() {
-		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursDeleteEdits, new ArrayList<Object>() , username, password)).getResponse();
+		return (List<Tour>) (Object) send(
+				new RequestObject(GcmQuery.getToursDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
 
+	}
+
+	@Override
+	public double getMembershipPrice(int cityId, int timeInterval) {
+		return 0;
+	}
+
+	@Override
+	public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean repurchaseMembershipBySavedDetails() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
