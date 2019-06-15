@@ -11,6 +11,9 @@ import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.cityApprovalReports.CityTableCell;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.sitesApprovalReports.SiteTableCell;
+import approvalReports.tourApprovalReports.TourSitesTableCell;
+import approvalReports.tourApprovalReports.TourSubmission;
+import approvalReports.tourApprovalReports.TourTableCell;
 import gcmDataAccess.GcmDAO;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -26,6 +29,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
@@ -64,17 +68,31 @@ public class ApprovalReportsController  implements Initializable {
 	TableColumn<CitySubmission, Button> cityApprovalDisapproval;
 	
 	@FXML
+	TableView<TourSubmission> tourTable;
+	@FXML
+	TableColumn<TourSubmission, String> tourDescription;
+	@FXML
+	TableColumn<TourSubmission, String> tourActionTaken;
+	@FXML
+	TableColumn<TourSubmission, Button> tourApprovalDisapproval;
+	
+	@FXML
 	Button cityReports;
 	@FXML
 	Button siteReports;
+	@FXML
+	Button tourReports;
 	
 	private List<CitySubmission> citySubmissions;
 	private List<SiteSubmission> siteSubmissions;
-	
-	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, List<SiteSubmission> siteSubmissions) {
+	private List<TourSubmission> tourSubmission;
+
+	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, 
+			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission) {
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions;
 		this.siteSubmissions = siteSubmissions;
+		this.tourSubmission = tourSubmission;
 	}
 	
 	public void initSiteTableView() {
@@ -109,7 +127,24 @@ public class ApprovalReportsController  implements Initializable {
         
         ObservableList<CitySubmission> details = FXCollections.observableArrayList(citySubmissions);
         cityTable.setItems(details);
-}
+	}
+	public void initTourTableView() {
+        
+		tourDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getTour().getDescription()));
+        tourActionTaken.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
+
+        tourApprovalDisapproval.setCellFactory(new Callback<TableColumn<TourSubmission, Button>, TableCell<TourSubmission, Button>>() {
+            @Override
+            public TableCell<TourSubmission, Button> call(TableColumn<TourSubmission, Button> param) {
+                return new TourTableCell();
+            }
+        });
+
+        ObservableList<TourSubmission> details = FXCollections.observableArrayList(tourSubmission);
+        tourTable.setItems(details);
+	}
+	
+	
 	public void cityBtnListener() {
 		cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
@@ -117,6 +152,7 @@ public class ApprovalReportsController  implements Initializable {
 			public void handle(MouseEvent arg0) {
 				cityTable.setVisible(true);
 				siteTable.setVisible(false);
+				tourTable.setVisible(false);
 			}
 			
 		}));
@@ -128,16 +164,38 @@ public class ApprovalReportsController  implements Initializable {
 			public void handle(MouseEvent arg0) {
 				siteTable.setVisible(true);
 				cityTable.setVisible(false);
+				tourTable.setVisible(false);
 			}
 			
 		}));
 	}
+	public void tourBtnListener() {
+		tourReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent arg0) {
+				siteTable.setVisible(false);
+				cityTable.setVisible(false);
+				tourTable.setVisible(true);
+			}
+			
+		}));
+	}
+	
+	public void initTables() {
+		cityTable.setVisible(false);
+		siteTable.setVisible(false);
+		tourTable.setVisible(false);
+	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		initTables();
 		initCityTableView();
 		initSiteTableView();
+		initTourTableView();
 		siteBtnListener();
 		cityBtnListener();
+		tourBtnListener();
 	}
 
 }

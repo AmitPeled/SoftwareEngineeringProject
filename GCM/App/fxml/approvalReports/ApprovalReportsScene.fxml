@@ -11,6 +11,7 @@
       <Text layoutX="205.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approval reports" />
       <Button fx:id="cityReports" layoutX="73.0" layoutY="76.0" mnemonicParsing="false" text="City reports" />
       <Button fx:id="siteReports" layoutX="169.0" layoutY="76.0" mnemonicParsing="false" text="Site reports" />
+      <Button fx:id="tourReports" layoutX="269.0" layoutY="76.0" mnemonicParsing="false" text="Tour reports" />
       <TableView fx:id="siteTable" layoutX="18.0" layoutY="131.0" prefHeight="277.0" prefWidth="700.0">
          <columns>
             <TableColumn fx:id="siteName" prefWidth="75.0" text="Site name" />
@@ -27,6 +28,13 @@
             <TableColumn fx:id="cityActionTaken" prefWidth="120.0" text="Action taken" />
             <TableColumn fx:id="cityApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
         </columns>
+      </TableView>
+      <TableView fx:id="tourTable" layoutX="17.0" layoutY="130.0" prefHeight="277.0" prefWidth="700.0">
+         <columns>
+            <TableColumn fx:id="tourDescription" prefWidth="75.0" text="Description" />
+            <TableColumn fx:id="tourActionTaken" prefWidth="120.0" text="Action taken" />
+            <TableColumn fx:id="tourApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
+         </columns>
       </TableView>
    </children>
 </AnchorPane>
