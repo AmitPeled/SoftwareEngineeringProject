@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import dataAccess.users.PurchaseDetails;
@@ -598,6 +599,7 @@ import users.User;
 		public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
 				String username) throws SQLException {
 			// if seccess -> validate payment (not really can happen)
+			
 			// update user purchaseDetails in his table , update report table
 			List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
 				{
@@ -616,6 +618,27 @@ import users.User;
 				return false;
 			}
 
+			
+			//update purchaseDeatailsHistory so can know all purchase history
+			List<Object> pDetails = new ArrayList<Object>() {
+				{
+					
+					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					add(username);
+					add(1);
+					add(date);
+					add(false);
+					add(timeInterval);
+				}
+			};
+			try {
+				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+			}catch (SQLException e) {
+				return false;
+			}
+			
+			
+			
 			// if seccuss
 			return true;
 		}
