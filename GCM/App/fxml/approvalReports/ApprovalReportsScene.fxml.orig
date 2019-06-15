@@ -6,12 +6,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="441.0" prefWidth="364.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<<<<<<< HEAD
+<AnchorPane prefHeight="441.0" prefWidth="748.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="205.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approval reports" />
       <Button fx:id="cityReports" layoutX="18.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="City reports" />
       <Button fx:id="siteReports" layoutX="194.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Site reports" />
       <Button fx:id="tourReports" layoutX="374.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Tour reports" />
+=======
+<AnchorPane prefHeight="441.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="205.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approval reports" />
+      <Button fx:id="cityReports" layoutX="73.0" layoutY="76.0" mnemonicParsing="false" text="City reports" />
+      <Button fx:id="siteReports" layoutX="169.0" layoutY="76.0" mnemonicParsing="false" text="Site reports" />
+      <Button fx:id="tourReports" layoutX="269.0" layoutY="76.0" mnemonicParsing="false" text="Tour reports" />
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
       <TableView fx:id="siteTable" layoutX="18.0" layoutY="131.0" prefHeight="277.0" prefWidth="700.0">
          <columns>
             <TableColumn fx:id="siteName" prefWidth="75.0" text="Site name" />
@@ -36,6 +45,7 @@
             <TableColumn fx:id="tourApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
          </columns>
       </TableView>
+<<<<<<< HEAD
       <Button fx:id="mapReports" layoutX="553.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Map Reports" />
       <TableView fx:id="mapTable" layoutX="17.0" layoutY="130.0" prefHeight="277.0" prefWidth="700.0">
          <columns>
@@ -46,5 +56,7 @@
             <TableColumn fx:id="mapApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
          </columns>
       </TableView>
+=======
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
    </children>
 </AnchorPane>

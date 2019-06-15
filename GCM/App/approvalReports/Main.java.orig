@@ -2,11 +2,17 @@ package approvalReports;
 
 import java.io.IOException;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Arrays;
 import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
+=======
+import java.util.List;
+
+import approvalReports.cityApprovalReports.CitySubmission;
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import gcmDataAccess.GcmDAO;
@@ -15,7 +21,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import maps.City;
 import maps.Coordinates;
+<<<<<<< HEAD
 import maps.Map;
+=======
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 import maps.Site;
 import maps.Tour;
 import utility.TextFieldUtility;
@@ -28,7 +37,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		 // constructing our scene
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/approvalReports/ApprovalReportsScene.fxml"));
+<<<<<<< HEAD
+		 //GcmDAO gcmDAO = new GcmDAO();
+=======
 		 GcmDAO gcmDAO = new GcmDAO();
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 		 //gcmDAO.login("editor", "editor"); 
 		 TextFieldUtility utilities = new TextFieldUtility();
 		 List<CitySubmission> cityLists = new ArrayList<CitySubmission>();
@@ -39,6 +52,7 @@ public class Main extends Application {
 	     siteLists.add(new SiteSubmission(new Site(2, "cinema", "nice movie", "fun", true, new Coordinates(1,1)), ActionTaken.DELETE));
 	     List<TourSubmission> tourLists = new ArrayList<TourSubmission>();
 	     List<Site> tourSitesLists = new ArrayList<Site>();
+<<<<<<< HEAD
 	     Site site1 = new Site(1, "hamburder", "tasty", "food", true, new Coordinates(1,1));
 	     tourSitesLists.add(site1);
 	     List<Integer> tourSitesTimeLists = new ArrayList<Integer>();
@@ -52,6 +66,15 @@ public class Main extends Application {
 	     mapLists.add(new MapSubmission(new Map(1, "israel", "nice place", 123, 864, new Coordinates(1,1), 22, sites, tours), ActionTaken.ADD));
 	     mapLists.add(new MapSubmission(new Map(2, "tel aviv", "nice city", 456, 567, new Coordinates(1,1), 30, sites, tours), ActionTaken.DELETE));
 	     fxmlLoader.setController(new ApprovalReportsController(cityLists, siteLists, tourLists, mapLists));
+=======
+	     tourSitesLists.add(new Site(1, "hamburder", "tasty", "food", true, new Coordinates(1,1)));
+	     List<Integer> tourSitesTimeLists = new ArrayList<Integer>();
+	     tourSitesTimeLists.add(50);
+	     tourLists.add(new TourSubmission(new Tour(1, "israel tour", tourSitesLists, tourSitesTimeLists), ActionTaken.ADD));
+	     tourLists.add(new TourSubmission(new Tour(2, "paris tour", tourSitesLists, tourSitesTimeLists), ActionTaken.DELETE));
+
+	     fxmlLoader.setController(new ApprovalReportsController(gcmDAO, cityLists, siteLists, tourLists));
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root ); 
  

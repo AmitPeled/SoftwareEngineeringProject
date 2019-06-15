@@ -2,7 +2,7 @@ package approvalReports;
 
 
 import java.net.URL;
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +23,7 @@ import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.cityApprovalReports.CityTableCell;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.sitesApprovalReports.SiteTableCell;
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 import approvalReports.tourApprovalReports.TourSubmission;
 import approvalReports.tourApprovalReports.TourTableCell;
 import gcmDataAccess.GcmDAO;
@@ -34,7 +34,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -61,7 +61,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 
 public class ApprovalReportsController  implements Initializable {
 	private GcmDAO gcmDAO;
@@ -99,7 +99,7 @@ public class ApprovalReportsController  implements Initializable {
 	TableColumn<TourSubmission, Button> tourApprovalDisapproval;
 	
 	@FXML
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 	TableView<MapSubmission> mapTable;
 	@FXML
 	TableColumn<MapSubmission, String> mapName;
@@ -115,23 +115,23 @@ public class ApprovalReportsController  implements Initializable {
 	
 	@FXML
 =======
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 	Button cityReports;
 	@FXML
 	Button siteReports;
 	@FXML
 	Button tourReports;
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 	@FXML
 	Button mapReports;
 
 =======
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 	
 	private List<CitySubmission> citySubmissions;
 	private List<SiteSubmission> siteSubmissions;
 	private List<TourSubmission> tourSubmission;
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 	private List<MapSubmission>  mapSubmission;
 
 	public ApprovalReportsController(List<CitySubmission> citySubmissions, 
@@ -140,16 +140,16 @@ public class ApprovalReportsController  implements Initializable {
 
 	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, 
 			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission) {
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions;
 		this.siteSubmissions = siteSubmissions;
 		this.tourSubmission = tourSubmission;
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 		this.mapSubmission = mapSubmission;
 
 =======
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 	}
 	
 	public void initSiteTableView() {
@@ -200,7 +200,7 @@ public class ApprovalReportsController  implements Initializable {
         ObservableList<TourSubmission> details = FXCollections.observableArrayList(tourSubmission);
         tourTable.setItems(details);
 	}
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 
 	public void initMapTableView() {
         mapName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getMap().getName()));
@@ -222,7 +222,7 @@ public class ApprovalReportsController  implements Initializable {
 
 =======
 	
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 	
 	public void cityBtnListener() {
 		cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -232,11 +232,11 @@ public class ApprovalReportsController  implements Initializable {
 				cityTable.setVisible(true);
 				siteTable.setVisible(false);
 				tourTable.setVisible(false);
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 				mapTable.setVisible(false);
 
 =======
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 			}
 			
 		}));
@@ -249,11 +249,11 @@ public class ApprovalReportsController  implements Initializable {
 				siteTable.setVisible(true);
 				cityTable.setVisible(false);
 				tourTable.setVisible(false);
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 				mapTable.setVisible(false);
 
 =======
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 			}
 			
 		}));
@@ -266,13 +266,16 @@ public class ApprovalReportsController  implements Initializable {
 				siteTable.setVisible(false);
 				cityTable.setVisible(false);
 				tourTable.setVisible(true);
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 				mapTable.setVisible(false);
 
+=======
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 			}
 			
 		}));
 	}
+<<<<<<< HEAD
 	public void mapBtnListener() {
 		mapReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
 			
@@ -288,17 +291,13 @@ public class ApprovalReportsController  implements Initializable {
 	}	
 
 =======
-			}
-			
-		}));
-	}
 	
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 	public void initTables() {
 		cityTable.setVisible(false);
 		siteTable.setVisible(false);
 		tourTable.setVisible(false);
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 		mapTable.setVisible(false);
 		
 		initCityTableView();
@@ -307,19 +306,19 @@ public class ApprovalReportsController  implements Initializable {
 		initMapTableView();
 
 =======
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initTables();
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 		
 		siteBtnListener();
 		cityBtnListener();
 		tourBtnListener();
 		mapBtnListener();
 =======
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
 		initCityTableView();
 		initSiteTableView();
 		initTourTableView();
@@ -328,8 +327,8 @@ public class ApprovalReportsController  implements Initializable {
 		tourBtnListener();
 	}
 
-<<<<<<< .merge_file_a12072
+<<<<<<< HEAD
 }
 =======
 }
->>>>>>> .merge_file_a12280
+>>>>>>> 7f1b2e221f0a21290fcf976ef2e3b6826e380146
