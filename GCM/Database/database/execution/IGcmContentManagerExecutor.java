@@ -42,4 +42,7 @@ public interface IGcmContentManagerExecutor {
 
 
 	void editCityPrice(int cityId, double newPrice)throws SQLException;
+	List<Tour> getToursDeleteEdits() throws SQLException;
+	List<Tour> getToursUpdateEdits() throws SQLException;
+	List<Tour> getToursAddEdits() throws SQLException;
 }
