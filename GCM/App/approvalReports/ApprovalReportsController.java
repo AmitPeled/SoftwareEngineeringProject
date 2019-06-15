@@ -2,12 +2,19 @@ package approvalReports;
 
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.cityApprovalReports.CityTableCell;
+import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.mapApprovalReports.MapTableCell;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.sitesApprovalReports.SiteTableCell;
+import approvalReports.tourApprovalReports.TourSitesTableCell;
+
 import approvalReports.tourApprovalReports.TourSubmission;
 import approvalReports.tourApprovalReports.TourTableCell;
 import gcmDataAccess.GcmDAO;
@@ -18,11 +25,26 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import maps.City;
+import maps.Coordinates;
+import maps.Site;
+import maps.Tour;
+import search.CustomListCell;
+import search.MapItem;
+import utility.TextFieldUtility;
+
 
 public class ApprovalReportsController  implements Initializable {
 	private GcmDAO gcmDAO;
@@ -60,22 +82,42 @@ public class ApprovalReportsController  implements Initializable {
 	TableColumn<TourSubmission, Button> tourApprovalDisapproval;
 	
 	@FXML
+	TableView<MapSubmission> mapTable;
+	@FXML
+	TableColumn<MapSubmission, String> mapName;
+	@FXML
+	TableColumn<MapSubmission, String> mapDescription;
+	@FXML
+	TableColumn<MapSubmission, String> mapPrice;
+	@FXML
+	TableColumn<MapSubmission, String> mapActionTaken;
+	@FXML
+	TableColumn<MapSubmission, Button> mapApprovalDisapproval;
+	
+	
+	@FXML
 	Button cityReports;
 	@FXML
 	Button siteReports;
 	@FXML
 	Button tourReports;
+	@FXML
+	Button mapReports;
+
 	
 	private List<CitySubmission> citySubmissions;
 	private List<SiteSubmission> siteSubmissions;
 	private List<TourSubmission> tourSubmission;
+	private List<MapSubmission>  mapSubmission;
 
-	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, 
-			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission) {
+	public ApprovalReportsController(List<CitySubmission> citySubmissions, 
+			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission, List<MapSubmission>  mapSubmission) {
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions;
 		this.siteSubmissions = siteSubmissions;
 		this.tourSubmission = tourSubmission;
+		this.mapSubmission = mapSubmission;
+
 	}
 	
 	public void initSiteTableView() {
@@ -126,7 +168,25 @@ public class ApprovalReportsController  implements Initializable {
         ObservableList<TourSubmission> details = FXCollections.observableArrayList(tourSubmission);
         tourTable.setItems(details);
 	}
-	
+
+	public void initMapTableView() {
+        mapName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getMap().getName()));
+        mapDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getMap().getDescription()));
+        mapPrice.setCellValueFactory(data ->  new ReadOnlyStringWrapper(Double.toString(data.getValue().getMap().getPrice())));
+        mapActionTaken.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
+        
+        mapApprovalDisapproval.setCellFactory(new Callback<TableColumn<MapSubmission, Button>, TableCell<MapSubmission, Button>>() {
+            @Override
+            public TableCell<MapSubmission, Button> call(TableColumn<MapSubmission, Button> param) {
+                return new MapTableCell();
+            }
+        });
+        
+        
+        ObservableList<MapSubmission> details = FXCollections.observableArrayList(mapSubmission);
+        mapTable.setItems(details);
+	}
+
 	
 	public void cityBtnListener() {
 		cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -136,6 +196,8 @@ public class ApprovalReportsController  implements Initializable {
 				cityTable.setVisible(true);
 				siteTable.setVisible(false);
 				tourTable.setVisible(false);
+				mapTable.setVisible(false);
+
 			}
 			
 		}));
@@ -148,6 +210,8 @@ public class ApprovalReportsController  implements Initializable {
 				siteTable.setVisible(true);
 				cityTable.setVisible(false);
 				tourTable.setVisible(false);
+				mapTable.setVisible(false);
+
 			}
 			
 		}));
@@ -160,19 +224,46 @@ public class ApprovalReportsController  implements Initializable {
 				siteTable.setVisible(false);
 				cityTable.setVisible(false);
 				tourTable.setVisible(true);
+				mapTable.setVisible(false);
+
 			}
 			
 		}));
 	}
-	
+	public void mapBtnListener() {
+		mapReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent arg0) {
+				siteTable.setVisible(false);
+				cityTable.setVisible(false);
+				tourTable.setVisible(false);
+				mapTable.setVisible(true);
+			}
+			
+		}));
+	}	
+
 	public void initTables() {
 		cityTable.setVisible(false);
 		siteTable.setVisible(false);
 		tourTable.setVisible(false);
+		mapTable.setVisible(false);
+		
+		initCityTableView();
+		initSiteTableView();
+		initTourTableView();
+		initMapTableView();
+
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initTables();
+		
+		siteBtnListener();
+		cityBtnListener();
+		tourBtnListener();
+		mapBtnListener();
 		initCityTableView();
 		initSiteTableView();
 		initTourTableView();

@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="441.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="441.0" prefWidth="748.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="205.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approval reports" />
-      <Button fx:id="cityReports" layoutX="73.0" layoutY="76.0" mnemonicParsing="false" text="City reports" />
-      <Button fx:id="siteReports" layoutX="169.0" layoutY="76.0" mnemonicParsing="false" text="Site reports" />
-      <Button fx:id="tourReports" layoutX="269.0" layoutY="76.0" mnemonicParsing="false" text="Tour reports" />
+      <Button fx:id="cityReports" layoutX="18.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="City reports" />
+      <Button fx:id="siteReports" layoutX="194.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Site reports" />
+      <Button fx:id="tourReports" layoutX="374.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Tour reports" />
       <TableView fx:id="siteTable" layoutX="18.0" layoutY="131.0" prefHeight="277.0" prefWidth="700.0">
          <columns>
             <TableColumn fx:id="siteName" prefWidth="75.0" text="Site name" />
@@ -34,6 +34,16 @@
             <TableColumn fx:id="tourDescription" prefWidth="75.0" text="Description" />
             <TableColumn fx:id="tourActionTaken" prefWidth="120.0" text="Action taken" />
             <TableColumn fx:id="tourApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
+         </columns>
+      </TableView>
+      <Button fx:id="mapReports" layoutX="553.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Map Reports" />
+      <TableView fx:id="mapTable" layoutX="17.0" layoutY="130.0" prefHeight="277.0" prefWidth="700.0">
+         <columns>
+            <TableColumn fx:id="mapName" prefWidth="75.0" text="Map name" />
+            <TableColumn fx:id="mapDescription" prefWidth="75.0" text="Description" />
+            <TableColumn fx:id="mapPrice" prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="mapActionTaken" prefWidth="120.0" text="Action taken" />
+            <TableColumn fx:id="mapApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
          </columns>
       </TableView>
    </children>
