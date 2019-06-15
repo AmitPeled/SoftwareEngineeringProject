@@ -33,6 +33,8 @@ public interface IGcmDataExecute {
 
 	int addCity(City city) throws SQLException;
 
+	public void deleteSite(int siteId) throws SQLException;
+
 //	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
 
 	void updateCity(int cityId, City city) throws SQLException;
@@ -133,6 +135,16 @@ public interface IGcmDataExecute {
 	List<Tour> getToursUpdateEdits() throws SQLException;
 
 	List<Tour> getToursAddEdits() throws SQLException;
+	
+	void actionTourAddEdit(Site site, boolean action) throws SQLException;
+	void actionTourUpdateEdit(Site site, boolean action) throws SQLException;
+	void actionTourDeleteEdit(Site site, boolean action) throws SQLException;
+
+
+	List<Map> getMapsObjectAddedTo(int contentId)throws SQLException; // gets list of the maps that the object is added to
+	List<City> getCitiesObjectAddedTo(int contentId)throws SQLException;// gets list of the cities that the object is added to
+	List<Tour> getToursObjectAddedTo(int contentId) throws SQLException;// gets list of the tours that the object is added to
+	
 	// publish map/site/city
 	// purchaseMap
 }

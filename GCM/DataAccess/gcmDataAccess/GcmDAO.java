@@ -392,180 +392,266 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 
 	@Override
 	public File downloadMap(int mapId) {
-//		return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
-//			{
-//				add(mapId);
-//			}
-//		}, username, password)).getResponse().get(0);
-		return null; // TODO
+		try {
+			return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
+				{
+					add(mapId);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return new File("import\\resources\\Gta3_map.gif");
+		}
 	}
 
 	@Override
 	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			return (boolean) send(new RequestObject(GcmQuery.purchaseMembershipToCity, new ArrayList<Object>() {
+				{
+					add(cityId);
+					add(timeInterval);
+					add(purchaseDetails);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
 	public void notifyMapView(int mapId) {
-		// TODO Auto-generated method stub
+		send(new RequestObject(GcmQuery.notifyMapView, new ArrayList<Object>() {
+			{
+				add(mapId);
+			}
+		}, username, password));
 
 	}
 
 	@Override
 	public String getSavedCreditCard() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return (String) send(
+					new RequestObject(GcmQuery.getSavedCreditCard, new ArrayList<Object>(), username, password))
+							.getResponse().get(0);
+		} catch (Exception e) {
+			return "No credit card saved.";
+		}
 	}
 
 	@Override
 	public void changeMapPrice(int mapId, double newPrice) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.changeMapPrice, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(newPrice);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionMapAddEdit(Map map, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionMapAddEdit, new ArrayList<Object>() {
+			{
+				add(map);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionMapUpdateEdit(Map map, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionMapUpdateEdit, new ArrayList<Object>() {
+			{
+				add(map);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionMapDeleteEdit(Map map, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionMapDeleteEdit, new ArrayList<Object>() {
+			{
+				add(map);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionCityAddEdit(City city, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionCityAddEdit, new ArrayList<Object>() {
+			{
+				add(city);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionCityUpdateEdit(City city, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionCityUpdateEdit, new ArrayList<Object>() {
+			{
+				add(city);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionCityDeleteEdit(City city, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionCityDeleteEdit, new ArrayList<Object>() {
+			{
+				add(city);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionSiteAddEdit(Site site, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionSiteAddEdit, new ArrayList<Object>() {
+			{
+				add(site);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionSiteUpdateEdit(Site site, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionSiteUpdateEdit, new ArrayList<Object>() {
+			{
+				add(site);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public void actionSiteDeleteEdit(Site site, boolean action) {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.actionSiteDeleteEdit, new ArrayList<Object>() {
+			{
+				add(site);
+				add(action);
+			}
+		}, username, password));
 	}
 
 	@Override
 	public List<Map> getMapsAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Map>) (Object) send(
+				new RequestObject(GcmQuery.getMapsAddEdits, new ArrayList<Object>(), username, password)).getResponse();
 	}
 
 	@Override
 	public List<Map> getMapsUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Map>) (Object) send(
+				new RequestObject(GcmQuery.getMapsUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
 	}
 
 	@Override
 	public List<Map> getMapsDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return (List<Map>) (Object) send(
+				new RequestObject(GcmQuery.getMapsDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
 
+	}
 
 	@Override
 	public List<Site> getSitesUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Site>) (Object) send(
+				new RequestObject(GcmQuery.getSitesUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
 	}
 
 	@Override
 	public List<Site> getSitesDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Site>) (Object) send(
+				new RequestObject(GcmQuery.getSitesDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
 	}
 
 	@Override
 	public List<City> getCitiesAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<City>) (Object) send(
+				new RequestObject(GcmQuery.getCitiesAddEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
 	}
 
 	@Override
 	public List<City> getCitiesUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<City>) (Object) send(
+				new RequestObject(GcmQuery.getCitiesUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
 	}
 
 	@Override
 	public List<City> getCitiesDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<City>) (Object) send(
+				new RequestObject(GcmQuery.getCitiesDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
 	}
 
 	@Override
 	public List<Site> getSitesAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Site>) (Object) send(
+				new RequestObject(GcmQuery.getSitesAddEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
 	}
 
 	@Override
 	public List<Map> getMapsObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsObjectAddedTo, new ArrayList<Object>() {
+			{
+				add(contentId);
+			}
+		}, username, password)).getResponse();
+
 	}
 
 	@Override
 	public List<City> getCitiesObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<City>) (Object) send(new RequestObject(GcmQuery.getCitiesObjectAddedTo, new ArrayList<Object>() {
+			{
+				add(contentId);
+			}
+		}, username, password)).getResponse();
+
 	}
 
 	@Override
 	public List<Tour> getToursObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursObjectAddedTo, new ArrayList<Object>() {
+			{
+				add(contentId);
+			}
+		}, username, password)).getResponse();
+
 	}
 
 	@Override
 	public List<Tour> getToursAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursAddEdits, new ArrayList<Object>() , username, password)).getResponse();
 	}
 
 	@Override
 	public List<Tour> getToursUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursUpdateEdits, new ArrayList<Object>() , username, password)).getResponse();
+
 	}
 
 	@Override
 	public List<Tour> getToursDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursDeleteEdits, new ArrayList<Object>() , username, password)).getResponse();
+
 	}
 }

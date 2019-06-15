@@ -122,9 +122,68 @@ public class RequestHandler implements IHandleRequest {
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitySites((int) listObjectReceived.get(0));
 					break;
 				case deleteSiteFromMap:
-					break;
+					break;// TODO
 				case deleteCity:
-					break;
+					break;// TODO
+				case actionCityAddEdit:
+					break;// TODO
+				case actionCityDeleteEdit:
+					break;// TODO
+				case actionCityUpdateEdit:
+					break;// TODO
+				case actionMapAddEdit:
+					break;// TODO
+				case actionMapDeleteEdit:
+					break;// TODO
+				case actionMapUpdateEdit:
+					break;// TODO
+				case actionSiteAddEdit:
+					break;// TODO
+				case actionSiteDeleteEdit:
+					break;// TODO
+				case actionSiteUpdateEdit:
+					break;// TODO
+				case addCityWithInitialMap:
+					break;// TODO
+				case changeMapPrice:
+					break;// TODO
+				case getCitiesAddEdits:
+					break;// TODO
+				case getCitiesDeleteEdits:
+					break;// TODO
+				case getCitiesObjectAddedTo:
+					break;// TODO
+				case getCitiesUpdateEdits:
+					break;// TODO
+				case getMapsAddEdits:
+					break;// TODO
+				case getMapsDeleteEdits:
+					break;// TODO
+				case getMapsObjectAddedTo:
+					break;// TODO
+				case getMapsUpdateEdits:
+					break;// TODO
+				case getSavedCreditCard:
+					break;// TODO
+				case getSitesAddEdits:
+					break;// TODO
+				case getSitesDeleteEdits:
+					break;// TODO
+				case getSitesUpdateEdits:
+					break;// TODO
+				case getToursAddEdits:
+					break;// TODO
+				case getToursDeleteEdits:
+					break;// TODO
+				case getToursObjectAddedTo:
+					break;// TODO
+				case getToursUpdateEdits:
+					break;// TODO
+				case notifyMapView:
+					break;// TODO
+				case purchaseMembershipToCity:
+					break;// TODO
+
 				default:
 					break;
 				}

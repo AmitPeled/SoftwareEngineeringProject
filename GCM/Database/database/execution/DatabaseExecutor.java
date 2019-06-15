@@ -140,7 +140,6 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 			baseString = baseString.concat(objectNames.get(objectNames.size() - 1) + " = ?;");
 		}
-		System.out.println("in concatConditionalsSymbols, " + baseString);
 		return baseString;
 	}
 
@@ -218,6 +217,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 
 		};
+		System.out.println("selecting status column " + status +", status_val="+DatabaseMetaData.getStatus(status));
+
 		List<String> objectNames = new ArrayList<String>() {
 			{
 				add(objectName);

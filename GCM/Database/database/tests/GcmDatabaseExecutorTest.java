@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.sun.xml.internal.bind.v2.runtime.MarshallerImpl;
-
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
@@ -32,19 +30,23 @@ class GcmDatabaseExecutorTest {
 	static int mapId;
 	static int siteId;
 	static Map map;
+	static Site site;
+	static City city;
 	static File mapFile;
 	static float width = 112.1f;
 	static float height = 11.1f;
-	static String description = "";
-	static String name = "";
+	static String description = ".";
+	static String name = ".1";
 
 	@BeforeAll
 	static void setAll() throws IllegalArgumentException, SQLException {
 		gcmDataExecutor = new GcmDataExecutor(new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
-		cityId = gcmDataExecutor.addCity(new City(11, "eli", "desc"));
+		city = new City(11, "test name", "test desc");
+		cityId = gcmDataExecutor.addCity(city);
 		mapId = gcmDataExecutor.addMapToCity(cityId,
 				new Map(12, name, description, width, height, new Coordinates(), 0, null, null), mapFile);
+
 		map = new Map(mapId, name, description, width, height, new Coordinates(), 0, null, null);
 		siteId = gcmDataExecutor.addNewSiteToCity(cityId,
 				new Site("name", "desc", "type", false, new Coordinates(7, 9)));
@@ -64,16 +66,20 @@ class GcmDatabaseExecutorTest {
 
 	@Test
 	void getMapDetailsTest() throws SQLException {
-		Map map1 = gcmDataExecutor.getMapDetails(mapId);
-		System.err.println(map.getId());
-		assertNull(map);
-		gcmDataExecutor.actionMapAddEdit(map1, true);
-		map = gcmDataExecutor.getMapDetails(mapId);
+		Map mapReceived = gcmDataExecutor.getMapDetails(mapId);
+		assertNull(mapReceived);
+		gcmDataExecutor.actionMapAddEdit(map, true);
+		mapReceived = gcmDataExecutor.getMapDetails(mapId);
 
-		System.out.println(map + " " + mapId);
-		assertEquals(112.1f, map.getWidth());
-//		assertEquals(11.1f, map.getHeight());
-//		assertEquals(0f, map.getOffset().x);
+		assertEquals(width, mapReceived.getWidth());
+		assertEquals(height, mapReceived.getHeight());
+		assertTrue(mapReceived.getSites().isEmpty());
+
+		gcmDataExecutor.actionSiteAddEdit(site, true);
+		Map newMapReceived = gcmDataExecutor.getMapDetails(mapId);
+		assertFalse(newMapReceived.getSites().isEmpty());
+
+		
 //		Site site = map.getSites().get(0);
 //		assertEquals(siteId, site.getId());
 //		assertEquals("name", site.getName());
@@ -89,13 +95,13 @@ class GcmDatabaseExecutorTest {
 		assertEquals(mapFile, mapFile2);
 	}
 
-	@Test
-	void deleteMapTest() throws SQLException {
-		gcmDataExecutor.deleteMapEdit(mapId);
-		gcmDataExecutor.actionMapDeleteEdit(map, true);
-		assertNull(gcmDataExecutor.getMapDetails(mapId));
-		assertNull(gcmDataExecutor.getMapFile(mapId));
-	}
+//	@Test
+//	void deleteMapTest() throws SQLException {
+//		gcmDataExecutor.deleteMapEdit(mapId);
+//		gcmDataExecutor.actionMapDeleteEdit(map, true);
+//		assertNull(gcmDataExecutor.getMapDetails(mapId));
+//		assertNull(gcmDataExecutor.getMapFile(mapId));
+//	}
 
 	@Test
 	void getUserTest() throws SQLException {
