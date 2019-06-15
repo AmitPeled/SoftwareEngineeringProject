@@ -102,4 +102,24 @@ public class MapViewerSceneController {
 				widthLocation,
 				heightLocation); 
 	}
+	
+	@FXML
+	public void onEditSite() {
+		
+	}
+
+	@FXML
+	public void onDeleteSite() {
+		
+	}
+	
+	@FXML
+	public void onAddTour() {
+		
+	}
+	
+	@FXML
+	public void onEditPrice() {
+		gcmClient.switchSceneToEditPrice(cityId);
+	}
 }

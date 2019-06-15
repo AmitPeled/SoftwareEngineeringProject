@@ -2,6 +2,7 @@ package mainApp;
 
 import java.util.Stack;
 
+import editor.editPrice.EditPriceController;
 import editor.pointOfInterest.PointOfInterestController;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Platform;
@@ -104,4 +105,18 @@ class GcmClientImpl implements GcmClient {
 			e.printStackTrace();
 		}
 	} 
+	@Override
+	public void switchSceneToEditPrice(int cityId) {
+		Scene scene = manager.getScene(SceneNames.EDIT_PRICE);
+		try {
+			EditPriceController controller = (EditPriceController)manager.getController(SceneNames.EDIT_PRICE);
+			controller.initalizeControl(cityId);
+			primaryStage.setScene(scene);
+			scenesStack.push(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} 
+
 }
+
