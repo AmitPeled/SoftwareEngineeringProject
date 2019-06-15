@@ -16,5 +16,6 @@ public enum SceneNames {
 	
 	// Editor controls
 	ADD_CITY, 
-	ADD_SITE
+	ADD_SITE, 
+	APPROVAL_REPORTS
 }

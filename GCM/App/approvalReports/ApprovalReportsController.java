@@ -2,6 +2,7 @@ package approvalReports;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -76,12 +77,12 @@ public class ApprovalReportsController  implements Initializable {
 			GcmDAO gcmDAO, 
 			List<CitySubmission> citySubmissions, 
 			List<SiteSubmission> siteSubmissions, 
-			List<TourSubmission> tourSubmission) {
+			List<TourSubmission> tourSubmissions) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
-		this.citySubmissions = citySubmissions;
-		this.siteSubmissions = siteSubmissions;
-		this.tourSubmission = tourSubmission;
+		this.citySubmissions = citySubmissions == null ? new ArrayList<CitySubmission>() : citySubmissions;
+		this.siteSubmissions = siteSubmissions == null ? new ArrayList<SiteSubmission>() : siteSubmissions;
+		this.tourSubmission = tourSubmissions  == null ? new ArrayList<TourSubmission>() : tourSubmissions;
 	}
 	
 	public void initSiteTableView() {
@@ -98,7 +99,7 @@ public class ApprovalReportsController  implements Initializable {
 	        });
 	        
 	        
-	        ObservableList<SiteSubmission> details = FXCollections.observableArrayList(siteSubmissions);
+	        ObservableList<SiteSubmission> details = siteSubmissions.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(siteSubmissions);
 	        siteTable.setItems(details);
 	}
 	public void initCityTableView() {
@@ -114,7 +115,7 @@ public class ApprovalReportsController  implements Initializable {
         });
         
         
-        ObservableList<CitySubmission> details = FXCollections.observableArrayList(citySubmissions);
+        ObservableList<CitySubmission> details = citySubmissions.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(citySubmissions);
         cityTable.setItems(details);
 	}
 	public void initTourTableView() {
@@ -129,7 +130,7 @@ public class ApprovalReportsController  implements Initializable {
             }
         });
 
-        ObservableList<TourSubmission> details = FXCollections.observableArrayList(tourSubmission);
+        ObservableList<TourSubmission> details = tourSubmission.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(tourSubmission);
         tourTable.setItems(details);
 	}
 	
