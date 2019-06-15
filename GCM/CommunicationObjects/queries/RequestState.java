@@ -1,7 +1,5 @@
 package queries;
 
-import dataAccess.generalManager.GeneralManagerDAO;
-
 public enum RequestState {
 	/**
 	 * when a log-in executes properly, it returns the user's account type.

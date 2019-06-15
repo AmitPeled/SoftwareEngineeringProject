@@ -74,6 +74,22 @@ public class DatabaseParser implements IParseObjects {
 	}
 
 	@Override
+	public List<String> getMapMetaFieldsNames() {
+		return new ArrayList<String>() {
+			{
+				add("mapId");
+				add("mapDescription");
+				add("mapHeight");
+				add("mapWidth");
+				add("mapHeight");
+				add("map_x_offset");
+				add("map_y_offset");
+				add("mapPrice");
+			}
+		};
+	}
+
+	@Override
 	public List<Object> getSiteFieldsList(Site site) {
 		return new ArrayList<Object>() {
 			{
@@ -136,5 +152,42 @@ public class DatabaseParser implements IParseObjects {
 	@Override
 	public City getCityByMetaFields(List<Object> objectList) {
 		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2));
+	}
+
+	@Override
+	public List<String> getCityMetaFieldsNames() {
+		return new ArrayList<String>() {
+			{
+				add("cityId");
+				add("cityName");
+				add("cityDescription");
+			}
+		};
+
+	}
+
+	@Override
+	public List<String> getSiteFieldsNames() {
+		return new ArrayList<String>() {
+			{
+				add("siteId");
+				add("siteName");
+				add("siteDescription");
+				add("siteType");
+				add("siteAccessiblity");
+				add("site_x_coordinate");
+				add("site_y_coordinate");
+			}
+		};
+	}
+
+	@Override
+	public List<String> getTourMetaFieldsNames() {
+		return new ArrayList<String>() {
+			{
+				add("tourId");
+				add("tourDescription");
+			}
+		};
 	}
 }

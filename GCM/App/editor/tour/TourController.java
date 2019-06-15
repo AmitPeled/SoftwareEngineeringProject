@@ -20,11 +20,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-import maps.Coordinates;
 import maps.Site;
 import maps.Tour;
-import search.CustomListCell;
-import search.MapItem;
 import utility.TextFieldUtility;
 
 public class TourController  implements Initializable {

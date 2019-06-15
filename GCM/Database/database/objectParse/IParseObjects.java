@@ -57,4 +57,9 @@ public interface IParseObjects {
 
 	List<Object> getTourMetaFieldsList(Tour list);
 
+	List<String> getMapMetaFieldsNames();
+	List<String> getCityMetaFieldsNames();
+	List<String> getSiteFieldsNames();
+	List<String> getTourMetaFieldsNames();
+
 }
