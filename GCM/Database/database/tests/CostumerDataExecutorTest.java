@@ -119,12 +119,15 @@ public class CostumerDataExecutorTest {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					int days = 30*timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
 					add(cityid);
-					add(date);
+					add(startDate);
 					add(false);
 					add(timeInterval);
+					add(endDate);
 				}
 			};
 			try {
@@ -136,12 +139,15 @@ public class CostumerDataExecutorTest {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					int days = 30*timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
 					add(cityid);
-					add(date);
+					add(startDate);
 					add(true);
 					add(timeInterval);
+					add(endDate);
 				}
 			};
 			try {
@@ -164,12 +170,15 @@ public class CostumerDataExecutorTest {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					int days = 30*timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
 					add(cityId);
-					add(date);
+					add(startDate);
 					add(false);
 					add(timeInterval);
+					add(endDate);
 				}
 			};
 			try {
@@ -181,12 +190,15 @@ public class CostumerDataExecutorTest {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					int days = 30*timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
 					add(cityId);
-					add(date);
+					add(startDate);
 					add(true);
 					add(timeInterval);
+					add(endDate);
 				}
 			};
 			try {
@@ -261,4 +273,12 @@ public class CostumerDataExecutorTest {
 		}
 
 	}
+	
+	public static Date addDays(Date date, int days) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.DATE, days);
+		return new Date(c.getTimeInMillis());
+	}
+	
 }

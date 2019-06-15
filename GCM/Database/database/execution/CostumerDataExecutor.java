@@ -638,11 +638,12 @@ public class CostumerDataExecutor
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-					java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
 					add(cityId);
-					add(StartDate);
+					add(startDate);
 					add(false);
 					add(timeInterval);
 					add(endDate);
@@ -661,11 +662,12 @@ public class CostumerDataExecutor
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-					java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
 					add(cityId);
-					add(StartDate);
+					add(startDate);
 					add(true);
 					add(timeInterval);
 					add(endDate);
@@ -695,11 +697,12 @@ public class CostumerDataExecutor
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-					java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
 					add(cityId);
-					add(StartDate);
+					add(startDate);
 					add(false);
 					add(timeInterval);
 					add(endDate);
@@ -719,11 +722,12 @@ public class CostumerDataExecutor
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-					java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
 					add(cityId);
-					add(StartDate);
+					add(startDate);
 					add(true);
 					add(timeInterval);
 					add(endDate);
@@ -747,6 +751,8 @@ public class CostumerDataExecutor
 	public List<File> purchaseMapOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
 			throws SQLException {
 
+		int timeInterval = 0;
+		
 		// validate details and insert to costumerpurchasedtails table
 		List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
 				"username", username, "purchaseDate");
@@ -783,12 +789,12 @@ public class CostumerDataExecutor
 		// update purchase history
 		List<Object> pDetails = new ArrayList<Object>() {
 			{
-
-				java.sql.Date StartDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-				java.sql.Date endDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+				int days = 30 * timeInterval;
+				java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+				java.sql.Date endDate = addDays(startDate, days);
 				add(username);
 				add(cityId);
-				add(StartDate);
+				add(startDate);
 				add(true);
 				add(0);
 				add(endDate);
@@ -815,20 +821,21 @@ public class CostumerDataExecutor
 
 	@Override
 	public List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException {
-		
-		//getting username purchase history
+
+		// getting username purchase history
 		List<List<Object>> history = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username", username,
 				"*");
-		
+
 		List<PurchaseHistory> purchaseHistories = new ArrayList<>();
 
-		//converting it to PurchaseHistory objects that contains - city id, start date , end date
+		// converting it to PurchaseHistory objects that contains - city id, start date
+		// , end date
 		for (int i = 0; i < history.size(); i++) {
 			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
-					(Date) history.get(i).get(5),(int) history.get(i).get(1));
+					(Date) history.get(i).get(5), (int) history.get(i).get(1));
 			purchaseHistories.add(purchaseHistory);
 		}
-		
+
 		return purchaseHistories;
 	}
 
@@ -870,6 +877,13 @@ public class CostumerDataExecutor
 			queryExecutor.updateTableColumn("mangerReports", tableToUpdate, plusOne, "cityId", cityId);
 		}
 
+	}
+
+	private Date addDays(Date date, int days) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.DATE, days);
+		return new Date(c.getTimeInMillis());
 	}
 
 }
