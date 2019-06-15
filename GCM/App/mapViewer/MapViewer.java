@@ -1,6 +1,7 @@
 package mapViewer;
 
 import javafx.scene.Scene;
+import maps.Coordinates;
 
 /**
  * Contains a component that presents a map and listens to mouse clicks on the map.
@@ -34,4 +35,5 @@ public interface MapViewer {
 	 */
 	void clearStatusText();
 
+	Coordinates getMapClickCoordinates();
 }

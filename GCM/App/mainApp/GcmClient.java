@@ -57,6 +57,6 @@ public interface GcmClient {
 	 */
 	GcmDAO getDataAccessObject();
 	
-	void switchSceneToAddSite(int mapId, double widthLocation, double heightLocation);
+	void switchSceneToAddSite(int cityId, double widthLocation, double heightLocation);
 
 }

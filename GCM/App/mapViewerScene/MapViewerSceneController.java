@@ -33,9 +33,11 @@ public class MapViewerSceneController {
 	private Scene scene;
 	private MapViewerListener listener;
 	private GcmClient gcmClient;
+	private MapViewer mapViewer;
 	
 	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer) {
 		this.gcmClient = gcmClient;
+		this.mapViewer = mapViewer;
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -73,6 +75,6 @@ public class MapViewerSceneController {
 	
 	@FXML
 	public void onAddSite() { 
-		gcmClient.switchScene(SceneNames.ADD_SITE); 
+		// gcmClient.switchSceneToAddSite(0, mapViewer, heightLocation);; 
 	}
 }

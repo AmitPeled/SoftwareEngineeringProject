@@ -1,11 +1,7 @@
 package mapViewer;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.sun.prism.paint.Color;
-
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -17,7 +13,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import maps.Coordinates;
-import maps.Map;
 import maps.Site;
 
 /**
@@ -213,5 +208,10 @@ final class MapViewerComponent implements MapViewer {
 					Math.round(heightLocation + SITE_TEXT_VERTICAL_OFFSET)
 				);
 		}
+	}
+
+	@Override
+	public Coordinates getMapClickCoordinates() {
+		return selectedLocationPosition;
 	}
 }
