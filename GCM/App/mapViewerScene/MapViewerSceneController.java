@@ -4,6 +4,8 @@
 package mapViewerScene;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,8 @@ import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
 import maps.Coordinates;
+import maps.Site;
+import maps.Tour;
 
 /**
 * This class is an example class that demonstrates how to implement the MapViewerComponent class.
@@ -55,10 +59,15 @@ public class MapViewerSceneController {
 			loader.setController(this);
 			GridPane gridPane = loader.load();
 			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
+			
+			List<Tour> toursList = new ArrayList<Tour>();
+			List<Site> sitesList = new ArrayList<Site>();
+			// Load side menu
+			MapViewerSideMenuController sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
 			loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(SIDE_MENU_FXML));
-			loader.setController(new MapViewerSideMenuController(this));
-			gridPane.add(mapViewer.getScene().getRoot(), SIDE_MENU_GRID_COL_INDEX , SIDE_MENU_GRID_ROW_INDEX);
+			loader.setController(sideMenuController);
+			gridPane.add(loader.load(), SIDE_MENU_GRID_COL_INDEX , SIDE_MENU_GRID_ROW_INDEX);
 			// Creating the Scene object that is returned
 			double width = mapViewer.getImageWidth() + LEFT_PANEL_WIDTH;
 			double height = mapViewer.getImageHeight() + BOTTOM_PANEL_HEIGHT;
