@@ -1,6 +1,5 @@
 package mapViewer;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import javafx.geometry.VPos;
@@ -30,6 +29,7 @@ final class MapViewerComponent implements MapViewer {
 	private static final double STATUS_TEXT_WIDTH_POSITION = 0.5;
 	private static final double STATUS_TEXT_HEIGHT_POSITION = 0.05;
 	private static final float MOUSE_CLICK_OFFSET = 7.5f;
+	private static final double SITE_TEXT_VERTICAL_OFFSET = 10;
 	
 	// JavaFX
 	private Image image;
@@ -49,19 +49,23 @@ final class MapViewerComponent implements MapViewer {
 	private Set<MapViewerListener> listeners;
 	private boolean locationIsSelected;
 	private Coordinates selectedLocationPosition;
+
+	// Map information
+	private double realWorldWidth;
+	private double realWorldHeight;
 	
 	/**
 	 * Constructs a MapViewerComponent object with no listeners.
 	 * @param mapPath
 	 */
-	MapViewerComponent(String mapPath) { this(mapPath,(Set<MapViewerListener>)null,null); }
+	// MapViewerComponent(String mapPath) { this(mapPath,(Set<MapViewerListener>)null,null); }
 	
 	/**
 	 * Constructs a MapViewerComponent object with a single listener
 	 * @param mapPath the path of the map file prefixed by "file:" and using relative path
 	 * @param listener A listener object that will be invoked when a mouse click occurs on the map
 	 */
-	MapViewerComponent(String mapPath, MapViewerListener listener) { this(mapPath,new HashSet<MapViewerListener>(Arrays.asList(listener)),null); }
+	// MapViewerComponent(String mapPath, MapViewerListener listener) { this(mapPath,new HashSet<MapViewerListener>(Arrays.asList(listener)),null); }
 
 	/**
 	 * Constructs a MapViewerComponent object with a several listeners
@@ -71,7 +75,11 @@ final class MapViewerComponent implements MapViewer {
 	 */
 	MapViewerComponent(String mapPath, 
 			Set<MapViewerListener> listeners, 
-			Set<Site> sites) {
+			Set<Site> sites,
+			double worldWidth,
+			double worldHeight) {
+		realWorldWidth = worldWidth;
+		realWorldHeight = worldHeight;
 		if(listeners == null) {
 			listeners = new HashSet<MapViewerListener>();
 		} else {
@@ -176,11 +184,40 @@ final class MapViewerComponent implements MapViewer {
 		if(!locationIsSelected) return;
 		
 		graphicsContext.setFill(javafx.scene.paint.Color.RED);
-		graphicsContext.fillOval(selectedLocationPosition.x - MOUSE_CLICK_OFFSET, selectedLocationPosition.y- MOUSE_CLICK_OFFSET, CIRCLE_SIZE, CIRCLE_SIZE);
+		graphicsContext.fillOval(selectedLocationPosition.x - MOUSE_CLICK_OFFSET, 
+				selectedLocationPosition.y- MOUSE_CLICK_OFFSET, 
+				CIRCLE_SIZE, 
+				CIRCLE_SIZE);
 	}
 
 	private void drawAllSites() {
-		// TODO Auto-generated method stub
-		
+		for (Site site : sites) {
+			if(site.getCoordinates().x > realWorldWidth || site.getCoordinates().y > realWorldHeight) {
+				System.out.println("site \"" + site.getName() + "\" is out of bounds");
+				continue;
+			}
+			graphicsContext.setFill(javafx.scene.paint.Color.YELLOW);
+			double widthLocation = site.getCoordinates().x * width / realWorldWidth;
+			double heightLocation = site.getCoordinates().y * height /realWorldHeight;
+			graphicsContext.fillOval(widthLocation, heightLocation, CIRCLE_SIZE, CIRCLE_SIZE);
+			System.out.println("drawing site in [" + widthLocation + "," + heightLocation + "]");
+			
+			graphicsContext.fillText(
+					site.getName(), 
+					Math.round(widthLocation), 
+					Math.round(heightLocation + SITE_TEXT_VERTICAL_OFFSET)
+				);
+		}
 	}
+
+	@Override
+	public Coordinates getMapClickCoordinates() {
+		return selectedLocationPosition;
+	}
+
+	@Override
+	public double getImageWorldWidth() { return realWorldWidth; }
+
+	@Override
+	public double getImageWorldHeight() { return realWorldHeight; }
 }

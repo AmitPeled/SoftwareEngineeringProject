@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import gcmDataAccess.GcmDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -143,7 +142,7 @@ public class ListViewController implements Initializable
 			}
 			double price = item.getPrice();
 			
-			MapItem currentMapItem = new MapItem(id, mapName, description, pointOfInterest, tours, price);
+			MapItem currentMapItem = new MapItem(this,id, mapName, description, pointOfInterest, tours, price);
 			resultList.add(currentMapItem);
     	}
 		return resultList;
@@ -180,4 +179,10 @@ public class ListViewController implements Initializable
     
     @FXML
     public void onBack() {gcmClient.back();}
+
+
+	public void goToMap(int mapId) {
+		System.out.println("Going to map: " + mapId);
+		gcmClient.loadMapDisplay(mapId);
+	}
 }

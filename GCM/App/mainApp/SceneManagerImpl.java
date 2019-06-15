@@ -6,9 +6,11 @@ import javafx.scene.Scene;
 
 final class SceneManagerImpl implements SceneManager {
 	private EnumMap<SceneNames, Scene> scenes;
+	private EnumMap<SceneNames, Object> controllers;
 	
-	public SceneManagerImpl(EnumMap<SceneNames, Scene> scenes) {
+	public SceneManagerImpl(EnumMap<SceneNames, Scene> scenes, EnumMap<SceneNames, Object> controllers) {
 		this.scenes = scenes;
+		this.controllers = controllers;
 	}
 	
 	/**
@@ -20,9 +22,5 @@ final class SceneManagerImpl implements SceneManager {
 	public Scene getScene(SceneNames name) { return scenes.get(name); }
 	
 	@Override
-	public Scene getMapViewerScene(int mapId) {
-		
-		
-		return null;
-	}
+	public Object getController(SceneNames name) { return controllers.get(name); }
 }
