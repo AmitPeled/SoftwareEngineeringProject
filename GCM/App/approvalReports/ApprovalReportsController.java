@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import mainApp.GcmClient;
 
 public class ApprovalReportsController  implements Initializable {
 	private GcmDAO gcmDAO;
@@ -70,8 +71,11 @@ public class ApprovalReportsController  implements Initializable {
 	private List<SiteSubmission> siteSubmissions;
 	private List<TourSubmission> tourSubmission;
 
-	public ApprovalReportsController(GcmDAO gcmDAO, List<CitySubmission> citySubmissions, 
-			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmission) {
+	public ApprovalReportsController(GcmClient gcmClient,
+			GcmDAO gcmDAO, 
+			List<CitySubmission> citySubmissions, 
+			List<SiteSubmission> siteSubmissions, 
+			List<TourSubmission> tourSubmission) {
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions;
 		this.siteSubmissions = siteSubmissions;
