@@ -57,8 +57,6 @@ public interface IGcmDataExecute {
 
 	City getCityByMapId(int mapId) throws SQLException;
 
-	File purchaseMap(String username) throws SQLException;
-
 	List<Site> getCitySites(int cityId) throws SQLException;
 
 	void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException;
@@ -67,22 +65,22 @@ public interface IGcmDataExecute {
 
 	void addExistingTourToMap(int mapId, int tourId) throws SQLException;
 
-	double getMembershipPrice(int cityId, int timeInterval) throws SQLException;
+	double getMembershipPrice(int cityId, int timeInterval,String username) throws SQLException;
+	
+	double getOneTimePurchasePrice(int cityId)throws SQLException;
 
 	boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
 			throws SQLException;
 
-	String getSavedCreditCard() throws SQLException;
+	String getSavedCreditCard(String username) throws SQLException;
 
-	boolean repurchaseMembership(PurchaseDetails purchaseDetails, String username) throws SQLException;
+	boolean repurchaseMembershipBySavedDetails(int cityId,int timeInterval,String username) throws SQLException;
 
-	boolean repurchaseMembershipBySavedDetails(String username) throws SQLException;
+	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
 
-	File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails, String username) throws SQLException;
+	void notifyMapView(int cityId) throws SQLException;
 
-	void notifyMapView(int mapId, String username) throws SQLException;
-
-	File downloadMap(int mapId, String username) throws SQLException;
+	File downloadMap(int cityId, String username) throws SQLException;
 
 	List<Map> getPurchasedMaps(String username) throws SQLException;
 

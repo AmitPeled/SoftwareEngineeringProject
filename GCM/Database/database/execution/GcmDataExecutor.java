@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
@@ -876,87 +877,51 @@ public class GcmDataExecutor
 	}
 
 	@Override
-	public void actionCityAddEdit(City city, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionCityUpdateEdit(City city, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionSiteAddEdit(Site site, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionSiteUpdateEdit(Site site, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionSiteDeleteEdit(Site site, boolean action) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void actionTourAddEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void actionTourUpdateEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void actionTourDeleteEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void deleteCity(int cityId) throws SQLException {
-	}
-
-	// -------------------------
-
-	@Override
-	public File downloadMap(int mapId, String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getPurchasedMaps(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public File purchaseMap(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double getMembershipPrice(int cityId, int timeInterval) throws SQLException {
+	public int addCity(int cityId) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public String getSavedCreditCard() throws SQLException {
+	public List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void deleteCity(int cityId) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getMembershipPrice(int cityId, int timeInterval, String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getOneTimePurchasePrice(int cityId) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -967,38 +932,79 @@ public class GcmDataExecutor
 	}
 
 	@Override
-	public boolean repurchaseMembership(PurchaseDetails purchaseDetails, String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean repurchaseMembershipBySavedDetails(String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails, String username) throws SQLException {
+	public String getSavedCreditCard(String username) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void notifyMapView(int mapId, String username) throws SQLException {
+	public boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username)
+			throws SQLException {
 		// TODO Auto-generated method stub
+		return false;
+	}
 
+	@Override
+	public List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void notifyMapView(int cityId) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public File downloadMap(int cityId, String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getPurchasedMaps(String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void actionCityAddEdit(City city, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionCityUpdateEdit(City city, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionSiteAddEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionSiteUpdateEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionSiteDeleteEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void editCityPrice(int cityId, double newPrice) throws SQLException {
 		// TODO Auto-generated method stub
+		
 	}
 
-	@Override
-	public int addCity(int cityId) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 }
