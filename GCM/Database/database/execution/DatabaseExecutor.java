@@ -139,6 +139,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 			baseString = baseString.concat(objectNames.get(objectNames.size() - 1) + " = ?;");
 		}
+		System.out.println("in concatConditionalsSymbols, "+baseString);
 		return baseString;
 	}
 
@@ -169,8 +170,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects)
 			throws SQLException {
 		String sqlquery = "DELETE from " + tableName + " WHERE ";
+		sqlquery = concatConditionalsSymbols(sqlquery, objectNames);
 		System.out.println(sqlquery);
-		concatConditionalsSymbols(sqlquery, objectNames);
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		putValuesInSymbols(preparedStatement, objects);
 		synchronized (dbAccess) {
@@ -246,5 +247,33 @@ public class DatabaseExecutor implements IExecuteQueries {
 		objectNames.add("status");
 		objectsValues.add(DatabaseMetaData.getStatus(status));
 		return selectColumnsByValues(tableName, objectNames, objectsValues, columnsToSelect);
+	}
+
+	@SuppressWarnings("serial")
+	@Override
+	public void deleteValueFromTable(String tableName, String objectName, Object object, Status status)
+			throws SQLException {
+		List<Object> objects = new ArrayList<Object>() {
+			{
+				add(object);
+				add(DatabaseMetaData.getStatus(status));
+			}
+
+		};
+		List<String> objectNames = new ArrayList<String>() {
+			{
+				add(objectName);
+				add("status");
+			}
+		};
+		deleteValuesFromTable(tableName, objectNames, objects);
+	}
+
+	@Override
+	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects, Status status)
+			throws SQLException {
+		objectNames.add("status");
+		objects.add(DatabaseMetaData.getStatus(status));
+		deleteValuesFromTable(tableName, objectNames, objects);
 	}
 }
