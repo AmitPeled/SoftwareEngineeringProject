@@ -1,41 +1,118 @@
 package dataAccess.MapDownloader;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import gcmDataAccess.GcmDAO;
 
 public class MapDownloader {
-	String FOLDER_DIR = "C:\\Users\\gabriel\\Documents\\mapDownloads\\";
+	String mapFile;
 	
 	public MapDownloader(GcmDAO gcmDAO, int cityId, int mapId) throws IOException {
 		// GET MAP
 		//File mapFile = gcmDAO.downloadMap(mapId);
-		File mapFile = new File("C:\\Users\\gabriel\\Documents\\IMG_5747.jpg");
-		byte[] fileContent = Files.readAllBytes(mapFile.toPath());
-
-        // make folder
+		File file = new File("C:\\Users\\gabriel\\Documents\\IMG_5747.jpg");
+		byte[] fileContent = Files.readAllBytes(file.toPath());
+		
+		// make folder
+		String FOLDER_DIR = System.getProperty("user.home") + "\\Documents\\mapDownloads\\";
         File folder = new File(FOLDER_DIR);
 		Boolean bool = folder.mkdir();
 		
 		// UPDATE DIRECTORY ADDRESS
 		String extension = "";
-		String name = mapFile.getName();
+		String name = file.getName();
         extension = name.substring(name.lastIndexOf("."));
-		String updatedFolderDir = FOLDER_DIR + "city" + Integer.toString(cityId) + "_map" + Integer.toString(mapId) + extension;
+		String UPLOAD_FOLDER = FOLDER_DIR + "city" + Integer.toString(cityId) + "_map" + Integer.toString(mapId) + extension;
 
 		// DOWNLOAD TO FOLDER
-         FileInputStream fis = null;
-         int i = 0;
-         char c;
-         FileOutputStream fos = new FileOutputStream(new File(updatedFolderDir)); //FILE Save Location goes here
-         fos.write(fileContent);  // write out the file we want to save.
-         fos.flush();
-         fos.close(); // close the output stream write
+		FileInputStream fileInputStream = null;
+
+        try {
+
+            byte[] bFile = new byte[(int) file.length()];
+
+            //read file into bytes[]
+            fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bFile);
+
+            //save bytes[] into a file
+            writeBytesToFile(bFile, UPLOAD_FOLDER );
+            writeBytesToFileClassic(bFile, UPLOAD_FOLDER);
+            writeBytesToFileNio(bFile, UPLOAD_FOLDER);
+
+            System.out.println("Done");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
 	}
+	
+    //Classic, < JDK7
+    private static void writeBytesToFileClassic(byte[] bFile, String fileDest) {
+
+        FileOutputStream fileOuputStream = null;
+
+        try {
+            fileOuputStream = new FileOutputStream(fileDest);
+            fileOuputStream.write(bFile);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileOuputStream != null) {
+                try {
+                    fileOuputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    //Since JDK 7 - try resources
+    private static void writeBytesToFile(byte[] bFile, String fileDest) {
+
+        try (FileOutputStream fileOuputStream = new FileOutputStream(fileDest)) {
+            fileOuputStream.write(bFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //Since JDK 7, NIO
+    private static void writeBytesToFileNio(byte[] bFile, String fileDest) {
+
+        try {
+            Path path = Paths.get(fileDest);
+            Files.write(path, bFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
