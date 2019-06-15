@@ -26,13 +26,13 @@ public class DatabaseMetaData {
 			put(Tables.tourSitesIdsAndDurance, "toursSites");
 			put(Tables.cityTours, "citiesTours");
 			put(Tables.toursMetaDetails, "toursMetaDetails");
-			put(Tables.mapTours, "mapsTours");
+			put(Tables.mapsTours, "mapsTours");
 		}
 	};
 
 	public static enum Tables {
 		customerUsers, editorUsers, contentManagerUsers, generalManagerUsers, mapsMetaDetails, mapsFiles, mapsSites,
-		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapTours,
+		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapsTours,
 		cityTours
 	}
 

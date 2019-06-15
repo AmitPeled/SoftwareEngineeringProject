@@ -38,7 +38,7 @@ public interface ContentManagerDAO {
 	List<Map> getMapsUpdateEdits();
 	List<Map> getMapsDeleteEdits();
 
-	List<Site> getSitesAddEdits();
+//	List<Site> getSitesAddEdits();
 	List<Site> getSitesUpdateEdits();
 	List<Site> getSitesDeleteEdits();
 

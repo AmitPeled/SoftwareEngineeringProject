@@ -85,6 +85,54 @@ public interface IGcmDataExecute {
 	File downloadMap(int mapId, String username) throws SQLException;
 
 	List<Map> getPurchasedMaps(String username) throws SQLException;
+
+	void actionMapAddEdit(Map map, boolean action) throws SQLException;
+
+	void actionMapUpdateEdit(Map map, boolean action) throws SQLException;
+
+	void actionMapDeleteEdit(Map map, boolean action) throws SQLException;
+
+	void actionCityAddEdit(City city, boolean action) throws SQLException;
+
+	void actionCityUpdateEdit(City city, boolean action) throws SQLException;
+
+	void actionCityDeleteEdit(City city, boolean action) throws SQLException;
+
+	void actionSiteAddEdit(Site site, boolean action) throws SQLException;
+
+	void actionSiteUpdateEdit(Site site, boolean action) throws SQLException;
+
+	void actionSiteDeleteEdit(Site site, boolean action) throws SQLException;
+
+	/**
+	 * editors content editons. you can take with EditorDAO the original object
+	 * before the edition.
+	 */
+	List<Map> getMapsAddEdits() throws SQLException;
+
+	List<Map> getMapsUpdateEdits() throws SQLException;
+
+	List<Map> getMapsDeleteEdits() throws SQLException;
+
+	List<Site> getSitesAddEdits() throws SQLException;
+
+	List<Site> getSitesUpdateEdits() throws SQLException;
+
+	List<Site> getSitesDeleteEdits() throws SQLException;
+
+	List<City> getCitiesAddEdits() throws SQLException;
+
+	List<City> getCitiesUpdateEdits() throws SQLException;
+
+	List<City> getCitiesDeleteEdits() throws SQLException;
+
+	void editCityPrice(int cityId, double newPrice) throws SQLException;
+
+	List<Tour> getToursDeleteEdits() throws SQLException;
+
+	List<Tour> getToursUpdateEdits() throws SQLException;
+
+	List<Tour> getToursAddEdits() throws SQLException;
 	// publish map/site/city
 	// purchaseMap
 }

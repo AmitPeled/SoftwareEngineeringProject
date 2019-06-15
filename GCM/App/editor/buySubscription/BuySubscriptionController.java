@@ -15,14 +15,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import maps.Coordinates;
-import maps.Map;
+
 import utility.TextFieldUtility;
 
-import static java.lang.Math.toIntExact;
 
 
 public class BuySubscriptionController implements Initializable

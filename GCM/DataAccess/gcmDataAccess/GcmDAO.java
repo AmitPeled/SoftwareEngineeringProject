@@ -500,11 +500,11 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		return null;
 	}
 
-	@Override
-	public List<Site> getSitesAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public List<Site> getSitesAddEdits() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public List<Site> getSitesUpdateEdits() {
