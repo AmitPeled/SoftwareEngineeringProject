@@ -24,22 +24,22 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Edit Site">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditSite" text="Edit Site">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Delete Site">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onDeleteSite" text="Delete Site">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Add Tour">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"  onAction="#onAddTour" text="Add Tour">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Edit Price">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditPrice" text="Edit Price">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
