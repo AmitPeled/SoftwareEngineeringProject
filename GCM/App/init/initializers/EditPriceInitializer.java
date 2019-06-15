@@ -9,7 +9,10 @@ public class EditPriceInitializer implements Initializer {
 	EditPriceController controller;
 	
 	public EditPriceInitializer(GcmClient gcmClient) {
-		controller = new EditPriceController(gcmClient.getDataAccessObject(), 0, new TextFieldUtility());
+		controller = new EditPriceController(gcmClient,
+				gcmClient.getDataAccessObject(), 
+				0, 
+				new TextFieldUtility());
 	}
 	
 	@Override

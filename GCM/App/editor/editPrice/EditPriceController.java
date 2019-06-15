@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import mainApp.GcmClient;
 import utility.TextFieldUtility;
 
 public class EditPriceController implements Initializable
@@ -23,11 +24,15 @@ public class EditPriceController implements Initializable
 	int cityId;
 	@FXML
 	TextField errors;
-	TextFieldUtility utilities; 
+	TextFieldUtility utilities;
+
+	private GcmClient gcmClient; 
 	
-	public EditPriceController(ContentManagerDAO contentManagerDAO, 
+	public EditPriceController(GcmClient gcmClient,
+			ContentManagerDAO contentManagerDAO, 
 			int cityId, 
 			TextFieldUtility utilities) {
+		this.gcmClient = gcmClient;
 		this.contentManagerDAO = contentManagerDAO;
 		this.cityId = cityId;
 		this.utilities = utilities;
@@ -43,6 +48,7 @@ public class EditPriceController implements Initializable
 	            			errors.setVisible(false);
 	            			double newPrice = Double.parseDouble(newPriceStr);
 			            	contentManagerDAO.changeMapPrice(cityId, newPrice);
+			            	gcmClient.back();
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);
 	            		}
