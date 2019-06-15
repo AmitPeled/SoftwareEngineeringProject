@@ -524,11 +524,7 @@ public class GcmDataExecutor
 		return null;
 	}
 
-	@Override
-	public File purchaseMap(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public void addExistingTourToMap(int mapId, int tourId) throws SQLException {
@@ -552,11 +548,7 @@ public class GcmDataExecutor
 		return 0;
 	}
 
-	@Override
-	public String getSavedCreditCard() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
@@ -565,11 +557,6 @@ public class GcmDataExecutor
 		return false;
 	}
 
-	@Override
-	public boolean repurchaseMembership(PurchaseDetails purchaseDetails, String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean repurchaseMembershipBySavedDetails(String username) throws SQLException {
@@ -611,6 +598,12 @@ public class GcmDataExecutor
 	public void approveTourEdit(Tour tour) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getSavedCreditCard(String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

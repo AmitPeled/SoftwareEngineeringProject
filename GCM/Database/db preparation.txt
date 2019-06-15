@@ -17,6 +17,10 @@ DROP TABLE IF EXISTS toursMetaDetails;
 DROP TABLE IF EXISTS toursSites;
 DROP TABLE IF EXISTS mapsTours;
 DROP TABLE IF EXISTS citiesTours;
+DROP TABLE IF EXISTS mangerReports;
+DROP TABLE IF EXISTS citysesPrices;
+DROP TABLE IF EXISTS costumerPurchaseDetails;
+DROP TABLE IF EXISTS purchaseDeatails;
 
 
 CREATE TABLE customerUsers(username varchar(20), password varchar(40), firstName Text, lastName Text, email Text, phoneNumber Text, numPurchases int, membershipExpireDate Text, purchasedMembershipPeriod int, numTimesRepurchasedMembership int);
@@ -34,6 +38,11 @@ CREATE TABLE toursSites(tourId int, siteId int, siteDurance int,status int);
 CREATE TABLE citiesMetaDetails(cityId int, cityName Text, cityDescription Text,status int);
 CREATE TABLE citiesMaps(cityId int, mapId int,status int);
 CREATE TABLE citiesSites(cityId int, siteId int,status int);
+CREATE TABLE mangerReports(cityId int, numOfCityMaps int, oneTimePurchase int, subscribes int, resubscribers int, viewsNum int, downloads int, username varchar(20));
+CREATE TABLE citysesPrices(cityId int, oneTimePurchase double, Month1 double, Month2 double, Month3 double, Month4 double, Month5 double, Month6 double);
+CREATE TABLE costumerPurchaseDetails(username varchar(20),name varchar(20),lastname varchar(20), creditCard varchar(16), cvv varchar(3),expireDate varchar(5));
+CREATE TABLE purchaseDeatails(username varchar(20),cityId int,purchaseDate Date);
+
 
 INSERT INTO editorUsers values ("editor","editor","","","","",0,"",0,0);
 INSERT INTO contentManagerUsers values ("c-manager","c-manager","","","","",0,"",0,0);
