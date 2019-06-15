@@ -26,9 +26,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 	 */
 	static private ReentrantLock dbAccess = new ReentrantLock();
 
-	public DatabaseExecutor(Connection connection/* , String dbName */) {
+	public DatabaseExecutor(Connection connection) {
 		dbConnection = connection;
-		// this.dbName = dbName;
 	}
 
 	@Override
@@ -75,7 +74,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 		}
 	}
 
-	private int generateId(String tableName) throws SQLException {
+	public int generateId(String tableName) throws SQLException {
 		Statement s2 = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		int id = -1;
 		synchronized (dbAccess) {
@@ -83,7 +82,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 			if (rset.next()) {
 				id = rset.getInt(1);
-				s2.executeQuery("UPDATE idTable set id = id + 1;");
+				s2.executeUpdate("UPDATE idTable set id = id + 1;");
 //					rset.afterLast();
 //					rset.previous();
 			}
