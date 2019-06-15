@@ -923,6 +923,7 @@ public class CostumerDataExecutor
 	//this delete column drom mangerReports
 	private void deleteCityManagerReport(int cityId) throws SQLException {
 
+		queryExecutor.deleteValueFromTable("mangerReports", "cityId", cityId);
 
 	}
 
