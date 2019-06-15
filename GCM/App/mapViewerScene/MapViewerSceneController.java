@@ -4,6 +4,8 @@
 package mapViewerScene;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,8 @@ import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
 import maps.Coordinates;
+import maps.Site;
+import maps.Tour;
 
 /**
 * This class is an example class that demonstrates how to implement the MapViewerComponent class.
@@ -29,7 +33,10 @@ public class MapViewerSceneController {
 	static final int EDITOR_GRID_ROW_INDEX = 0;
 	static final int MAP_VIEWER_GRID_COL_INDEX = 1;
 	static final int MAP_VIEWER_GRID_ROW_INDEX = 0;
-	static final String FxmlPath = "/fxml/mapViewerClient/MapDisplayScene.fxml";	
+	private static final int SIDE_MENU_GRID_COL_INDEX = 0;
+	private static final int SIDE_MENU_GRID_ROW_INDEX = 0;	
+	static final String MAP_DISPLAY_SCENE_FXML = "/fxml/mapViewerClient/MapDisplayScene.fxml";	
+	static final String SIDE_MENU_FXML = "/fxml/mapViewerClient/MapViewerSideMenu.fxml";
 	
 	private Scene scene;
 	private MapViewerListener listener;
@@ -48,11 +55,21 @@ public class MapViewerSceneController {
 			
 			// Loading the FXML view
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource(FxmlPath));
+			loader.setLocation(getClass().getResource(MAP_DISPLAY_SCENE_FXML));
 			loader.setController(this);
 			GridPane gridPane = loader.load();
 			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
 			
+			List<Tour> toursList = new ArrayList<Tour>();
+			toursList.add(new Tour("SomeDemoTour"));
+			List<Site> sitesList = new ArrayList<Site>();
+			sitesList.add(new Site(cityId, "Demo site", new Coordinates(0,0)));
+			// Load side menu
+			MapViewerSideMenuController sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
+			loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource(SIDE_MENU_FXML));
+			loader.setController(sideMenuController);
+			gridPane.add(loader.load(), SIDE_MENU_GRID_COL_INDEX , SIDE_MENU_GRID_ROW_INDEX);
 			// Creating the Scene object that is returned
 			double width = mapViewer.getImageWidth() + LEFT_PANEL_WIDTH;
 			double height = mapViewer.getImageHeight() + BOTTOM_PANEL_HEIGHT;
@@ -78,8 +95,11 @@ public class MapViewerSceneController {
 	
 	@FXML
 	public void onAddSite() { 
+		double widthLocation = mapViewer.getMapClickCoordinates().x * mapViewer.getImageWorldWidth();
+		double heightLocation = mapViewer.getMapClickCoordinates().y* mapViewer.getImageWorldHeight();
+		System.out.println("Adding site to "+ widthLocation + ","+heightLocation);
 		gcmClient.switchSceneToAddSite(cityId,
-				mapViewer.getMapClickCoordinates().x * mapViewer.getImageWorldWidth(),
-				mapViewer.getMapClickCoordinates().y* mapViewer.getImageWorldHeight()); 
+				widthLocation,
+				heightLocation); 
 	}
 }
