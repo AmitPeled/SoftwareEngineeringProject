@@ -35,10 +35,12 @@ public class MapViewerSceneController {
 	private MapViewerListener listener;
 	private GcmClient gcmClient;
 	private MapViewer mapViewer;
+	private int cityId;
 	
-	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer) {
+	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId) {
 		this.gcmClient = gcmClient;
 		this.mapViewer = mapViewer;
+		this.cityId = cityId;
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -68,16 +70,16 @@ public class MapViewerSceneController {
 	 * @param mapId the mapId as it is in the database
 	 * @return JavaFX Scene object
 	 */
-	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId) {
+	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId, int cityId) {
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(mapId);
-		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent);
+		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId);
 		return mapViewerSceneController.getScene();
 	}
 	
 	@FXML
 	public void onAddSite() { 
-		gcmClient.switchSceneToAddSite(1,
-				mapViewer.getMapClickCoordinates().x,
-				mapViewer.getMapClickCoordinates().y);; 
+		gcmClient.switchSceneToAddSite(cityId,
+				mapViewer.getMapClickCoordinates().x * mapViewer.getImageWorldWidth(),
+				mapViewer.getMapClickCoordinates().y* mapViewer.getImageWorldHeight()); 
 	}
 }

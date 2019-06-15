@@ -82,6 +82,7 @@ public class PointOfInterestController implements Initializable{
 		            	}
 	            		Site site = new Site(poiName, poiDescription, poiType, disable, coordinates);
 	            		gcmDAO.addNewSiteToCity(cityId, site);
+	            		System.out.println("Adding site["+coordinates.x+","+coordinates.y+"]: cityId: "+cityId+", name: "+poiName+", type: "+poiType+", description: "+poiDescription);
 	            	}else {
 	            		utilities.setErrors("Please fill all fields!", errors);
 	            	}
