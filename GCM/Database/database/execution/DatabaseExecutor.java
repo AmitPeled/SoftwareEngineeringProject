@@ -193,6 +193,19 @@ public class DatabaseExecutor implements IExecuteQueries {
 	}
 
 	@Override
+	public void updateTableColumn(String tableName, String columnToUpdate, Object valueToUpdate, String columnCondition,
+			Object conditonValue) throws SQLException {
+
+		String sqlquery = "update " + tableName + " set " + columnToUpdate + " = ? WHERE " + columnCondition + " = ? ;";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		preparedStatement.setInt(1, (int) valueToUpdate);
+		preparedStatement.setInt(2, (int) conditonValue);
+		synchronized (dbAccess) {
+			preparedStatement.executeUpdate();
+		}
+	
+	}
+
 	public void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException {
 		objects.add(DatabaseMetaData.getStatus(status));
 		insertToTable(tableName, objects);
@@ -276,5 +289,18 @@ public class DatabaseExecutor implements IExecuteQueries {
 		objectNames.add("status");
 		objects.add(DatabaseMetaData.getStatus(status));
 		deleteValuesFromTable(tableName, objectNames, objects);
+	}
+
+	@Override
+	public List<List<Object>> selectAllColumns(String tableName, String columnsToSelect) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		String sqlquery = "Select " + columnsToSelect + " from " + tableName +";";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		List<List<Object>> fields = new ArrayList<>();
+		synchronized (dbAccess) {
+			fields = toList(preparedStatement.executeQuery());
+		}
+		return fields;
 	}
 }

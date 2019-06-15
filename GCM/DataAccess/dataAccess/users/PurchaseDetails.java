@@ -2,16 +2,37 @@ package dataAccess.users;
 
 public class PurchaseDetails {
 	String creditCard;
-	String cardExpireDate;
+	String cardExpireDate;//-> MM/YY
 	String cvv;
 	String cardOwnerIdString;
+	String firstname;
+	String lastname;
 
-	public PurchaseDetails(String creditCard, String cardExpireDate, String cvv, String cardOwnerIdString) {
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public PurchaseDetails(String creditCard, String cardExpireDate, String cvv, String cardOwnerIdString,
+			String firstname, String lastname) {
+		super();
 		this.creditCard = creditCard;
 		this.cardExpireDate = cardExpireDate;
 		this.cvv = cvv;
 		this.cardOwnerIdString = cardOwnerIdString;
-
+		this.firstname = firstname;
+		this.lastname = lastname;
 	}
 
 	public String getCreditCard() {
