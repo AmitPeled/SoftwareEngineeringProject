@@ -12,22 +12,17 @@ import javax.imageio.ImageIO;
 
 import editor.FileChooserInit;
 import gcmDataAccess.GcmDAO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import maps.City;
 import maps.Coordinates;
 import maps.Map;
-import search.MapItem;
 import utility.TextFieldUtility;
 
 public class AddMapController implements Initializable
@@ -43,9 +38,9 @@ public class AddMapController implements Initializable
 	@FXML
 	TextField width;
 	@FXML
-	TextField xCor;
+	TextField xOffset;
 	@FXML
-	TextField yCor;
+	TextField yOffset;
 	@FXML
 	TextField errors;
 	@FXML
@@ -75,8 +70,8 @@ public class AddMapController implements Initializable
 	            	String description = mapDescription.getText();
 	            	String mapHeight = height.getText();
 	            	String mapWidth = width.getText();
-	            	String xCoordinates = xCor.getText();
-	            	String yCoordinates = yCor.getText();
+	            	String xCoordinates = xOffset.getText();
+	            	String yCoordinates = yOffset.getText();
 	            	
 	            	List<String> list = Arrays.asList(name, description, mapHeight, mapWidth, xCoordinates, yCoordinates);;
 	            	if(utilities.checkFilledFields(list)) {

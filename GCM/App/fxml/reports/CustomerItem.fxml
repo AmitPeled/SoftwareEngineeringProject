@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="377.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="377.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="66.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer name" wrappingWidth="97.13671875" />
       <Text layoutX="9.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="104.13671875" />

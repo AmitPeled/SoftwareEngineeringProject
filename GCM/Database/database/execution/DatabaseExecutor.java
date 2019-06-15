@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import database.metadata.DatabaseMetaData;
+import database.objectParse.Status;
+
 import java.sql.Statement;
 
 /**
@@ -23,9 +26,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 	 */
 	static private ReentrantLock dbAccess = new ReentrantLock();
 
-	public DatabaseExecutor(Connection connection/* , String dbName */) {
+	public DatabaseExecutor(Connection connection) {
 		dbConnection = connection;
-		// this.dbName = dbName;
 	}
 
 	@Override
@@ -72,20 +74,20 @@ public class DatabaseExecutor implements IExecuteQueries {
 		}
 	}
 
-	private int generateId(String tableName) throws SQLException {
+	public int generateId(String tableName) throws SQLException {
 		Statement s2 = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		int id = -1;
 		synchronized (dbAccess) {
-			ResultSet rset = s2.executeQuery("select * from " + tableName);
-			if (rset.next()) {
-				rset.afterLast();
-				rset.previous();
-				id = rset.getInt(1);
-			} else
-				id = 1;
-		}
+			ResultSet rset = s2.executeQuery("select id from idTable;");
 
-		return id + 1;
+			if (rset.next()) {
+				id = rset.getInt(1);
+				s2.executeUpdate("UPDATE idTable set id = id + 1;");
+//					rset.afterLast();
+//					rset.previous();
+			}
+		}
+		return id > 0 ? id + 1 : 1;
 	}
 
 	@Override
@@ -138,6 +140,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 			baseString = baseString.concat(objectNames.get(objectNames.size() - 1) + " = ?;");
 		}
+		System.out.println("in concatConditionalsSymbols, " + baseString);
 		return baseString;
 	}
 
@@ -168,8 +171,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects)
 			throws SQLException {
 		String sqlquery = "DELETE from " + tableName + " WHERE ";
+		sqlquery = concatConditionalsSymbols(sqlquery, objectNames);
 		System.out.println(sqlquery);
-		concatConditionalsSymbols(sqlquery, objectNames);
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		putValuesInSymbols(preparedStatement, objects);
 		synchronized (dbAccess) {
@@ -204,4 +207,86 @@ public class DatabaseExecutor implements IExecuteQueries {
 	
 	}
 
+	public void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException {
+		objects.add(DatabaseMetaData.getStatus(status));
+		insertToTable(tableName, objects);
+	}
+
+	@Override
+	public int insertAndGenerateId(String tableName, List<Object> objects, Status status) throws SQLException {
+		int id = generateId(tableName);
+		objects.set(0, id);
+		insertToTable(tableName, objects, status);
+		return id;
+	}
+
+	@SuppressWarnings("serial")
+	@Override
+	public List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object,
+			String columnsToSelect, Status status) throws SQLException {
+		List<Object> objectsValues = new ArrayList<Object>() {
+			{
+				add(object);
+				add(DatabaseMetaData.getStatus(status));
+			}
+
+		};
+		List<String> objectNames = new ArrayList<String>() {
+			{
+				add(objectName);
+				add("status");
+			}
+		};
+		return selectColumnsByValues(tableName, objectNames, objectsValues, columnsToSelect);
+	}
+
+	@Override
+	public List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
+			String columnsToSelect, Status status) throws SQLException {
+		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE " + objectName
+				+ " like ? AND status = " + DatabaseMetaData.getStatus(status) + ";";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		preparedStatement.setString(1, "%" + (String) object + "%");
+		List<List<Object>> fields = new ArrayList<>();
+		synchronized (dbAccess) {
+			fields = toList(preparedStatement.executeQuery());
+		}
+		return fields;
+	}
+
+	@Override
+	public List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames,
+			List<Object> objectsValues, String columnsToSelect, Status status) throws SQLException {
+		objectNames.add("status");
+		objectsValues.add(DatabaseMetaData.getStatus(status));
+		return selectColumnsByValues(tableName, objectNames, objectsValues, columnsToSelect);
+	}
+
+	@SuppressWarnings("serial")
+	@Override
+	public void deleteValueFromTable(String tableName, String objectName, Object object, Status status)
+			throws SQLException {
+		List<Object> objects = new ArrayList<Object>() {
+			{
+				add(object);
+				add(DatabaseMetaData.getStatus(status));
+			}
+
+		};
+		List<String> objectNames = new ArrayList<String>() {
+			{
+				add(objectName);
+				add("status");
+			}
+		};
+		deleteValuesFromTable(tableName, objectNames, objects);
+	}
+
+	@Override
+	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects, Status status)
+			throws SQLException {
+		objectNames.add("status");
+		objects.add(DatabaseMetaData.getStatus(status));
+		deleteValuesFromTable(tableName, objectNames, objects);
+	}
 }

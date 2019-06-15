@@ -1,9 +1,6 @@
 package editor.buySubscription;
 
 import java.io.IOException;
-
-import dataAccess.contentManager.ContentManagerDAO;
-import editor.addCity.AddCityController;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +16,8 @@ public class Main extends Application {
 		 // constructing our scene
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editor/buySubscription.fxml"));
 		 GcmDAO gcmDAO = new GcmDAO();
+		 gcmDAO.login("editor", "editor"); 
+
 		 TextFieldUtility utilities = new TextFieldUtility();
 		 fxmlLoader.setController(new BuySubscriptionController(gcmDAO, 1));
 		 Parent root = fxmlLoader.load();

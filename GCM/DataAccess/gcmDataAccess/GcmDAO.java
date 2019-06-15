@@ -266,8 +266,8 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails) {
-		return (File) send(new RequestObject(GcmQuery.purchaseMap, new ArrayList<Object>() {
+	public boolean purchaseCityOneTime(int mapId, PurchaseDetails purchaseDetails) {
+		return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new ArrayList<Object>() {
 			{
 				add(mapId);
 				add(purchaseDetails);
@@ -342,7 +342,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Site> getCitySites(int cityId) {
-		return (List<Site>) (Object) send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
+		return (List<Site>) (Object) send(new RequestObject(GcmQuery.getCitySites, new ArrayList<Object>() {
 			{
 				add(cityId);
 			}
@@ -350,8 +350,31 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
+	public int tourManager(int cityId, Tour tour) {
+		int tourId = tour.getId();
+		// check if tour existing if so add new tour
+		if (tour.getId() == -1) {
+			tourId = addNewTourToCity(cityId, tour);
+		}
+
+		// add places to tour
+		List<Site> sitesList = tour.getSites();
+		List<Integer> sitesTimeEstimationList = tour.getSitesTimeToVisit();
+		int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
+		int startingIndex = 0;
+		if (numberOfLastAddedPlaces != 0) {
+			startingIndex = sitesList.size() - numberOfLastAddedPlaces - 1;
+		}
+
+		for (int i = startingIndex; i < sitesList.size(); i++) {
+			addExistingSiteToTour(tourId, sitesList.get(i).getId(), sitesTimeEstimationList.get(i));
+		}
+
+		return 0;
+	}
+
+	@Override
 	public double getMembershipPrice(int cityId, int timeInterval) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -386,7 +409,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	@Override
 	public void notifyMapView(int mapId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -396,38 +419,153 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public void discardMapChange(int changeId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void approveMapChange(int changeId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Map> getMapsEditings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Site> getSitesEditings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getCitiesEditings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void changeMapPrice(int mapId, double newPrice) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void actionMapAddEdit(Map map, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionMapUpdateEdit(Map map, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionMapDeleteEdit(Map map, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityAddEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityUpdateEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionCityDeleteEdit(City city, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteAddEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteUpdateEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionSiteDeleteEdit(Site site, boolean action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<Map> getMapsAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getMapsUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getMapsDeleteEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Site> getSitesUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesDeleteEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesDeleteEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getMapsObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursObjectAddedTo(int contentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursAddEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursUpdateEdits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursDeleteEdits() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

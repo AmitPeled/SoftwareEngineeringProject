@@ -121,14 +121,14 @@ public class CostumerDataExecutor
 			for (int siteId : mapSitesIds) {
 				mapSites.add(getSite(siteId));
 			}
-			List<Integer> mapToursIds = toIdList(queryExecutor
-					.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapTours), "mapId", mapId, "tourId"));
-			List<Tour> mapTours = new ArrayList<>();
-			for (int tourId : mapToursIds) {
-				mapTours.add(getTour(tourId));
+			List<Integer> mapsToursIds = toIdList(queryExecutor
+					.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsTours), "mapId", mapId, "tourId"));
+			List<Tour> mapsTours = new ArrayList<>();
+			for (int tourId : mapsToursIds) {
+				mapsTours.add(getTour(tourId));
 			}
-			return objectParser.getMap(metaDetailsRows.get(0), mapSites, mapTours); // only one row correspond to this
-																					// id
+			return objectParser.getMap(metaDetailsRows.get(0), mapSites, mapsTours); // only one row correspond to this
+																						// id
 		}
 	}
 
@@ -177,7 +177,7 @@ public class CostumerDataExecutor
 	}
 
 	@Override
-	public void deleteMap(int mapId) throws SQLException {
+	public void deleteMapEdit(int mapId) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", mapId);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId);
@@ -208,31 +208,33 @@ public class CostumerDataExecutor
 		return id;
 	}
 
-	@Override
-	public int addCityWithInitialMap(City city, Map mapDescription, File mapFile) throws SQLException {
-		int cityId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
-				objectParser.getCityMetaFieldsList(city));
-		int mapId = addMapToCity(cityId, mapDescription, mapFile);
-		// for (Map map : city.getMaps()) {
-		// queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
-		// new ArrayList<Object>() {
-		// {
-		// add(id);
-		// add(map.getId());
-		// }
-		// });
-		// }
-		// for (Site site : city.getSites()) {
-		// queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
-		// new ArrayList<Object>() {
-		// {
-		// add(id);
-		// add(site.getId());
-		// }
-		// });
-		return mapId;
-	}
-
+	// @Override
+	// public int addCityWithInitialMap(City city, Map mapDescription, File mapFile)
+	// throws SQLException {
+	// int cityId =
+	// queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+	// objectParser.getCityMetaFieldsList(city));
+	// int mapId = addMapToCity(cityId, mapDescription, mapFile);
+	// for (Map map : city.getMaps()) {
+	// queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
+	// new ArrayList<Object>() {
+	// {
+	// add(id);
+	// add(map.getId());
+	// }
+	// });
+	// }
+	// for (Site site : city.getSites()) {
+	// queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+	// new ArrayList<Object>() {
+	// {
+	// add(id);
+	// add(site.getId());
+	// }
+	// });
+	// return mapId;
+	// }
+	//
 	private static byte[] getBytes(Object object) {
 		byte[] objectBytes = null;
 		try {
@@ -492,7 +494,7 @@ public class CostumerDataExecutor
 	public int addNewTourToCity(int cityId, Tour tour) throws SQLException {
 		int tourId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
 				objectParser.getTourMetaFieldsList(tour));
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.cityTours), new ArrayList<Object>() {
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesTours), new ArrayList<Object>() {
 			{
 				add(cityId);
 				add(tourId);
@@ -510,7 +512,7 @@ public class CostumerDataExecutor
 	}
 
 	@Override
-	public void deleteCity(City city) throws SQLException {
+	public void deleteCity(int cityId) throws SQLException {
 		// Auto-generated method stub
 
 	}
@@ -549,7 +551,7 @@ public class CostumerDataExecutor
 
 	@Override
 	public void addExistingTourToMap(int mapId, int tourId) throws SQLException {
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapTours), new ArrayList<Object>() {
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsTours), new ArrayList<Object>() {
 			{
 				add(mapId);
 				add(tourId);
@@ -558,7 +560,7 @@ public class CostumerDataExecutor
 	}
 
 	@Override
-	public void editMapPrice(int mapId, double newPrice) {
+	public void editCityPrice(int mapId, double newPrice) {
 		// TODO Auto-generated method stub
 
 	}
@@ -748,11 +750,11 @@ public class CostumerDataExecutor
 	}
 
 	@Override
-	public List<File> purchaseMapOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
+	public List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
 			throws SQLException {
 
 		int timeInterval = 0;
-		
+
 		// validate details and insert to costumerpurchasedtails table
 		List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
 				"username", username, "purchaseDate");
@@ -839,29 +841,7 @@ public class CostumerDataExecutor
 		return purchaseHistories;
 	}
 
-	@Override
-	public void approveSiteEdit(Site site) {
-		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void approveCityEdit(City city) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void approveMapEdit(Map map) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void approveTourEdit(Tour tour) {
-		// TODO Auto-generated method stub
-
-	}
 
 	private void updateMangerReports(int cityId, String tableToUpdate) throws SQLException {
 
@@ -884,6 +864,174 @@ public class CostumerDataExecutor
 		c.setTime(date);
 		c.add(Calendar.DATE, days);
 		return new Date(c.getTimeInMillis());
+	}
+
+	@Override
+	public void actionTourAddEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionTourUpdateEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionTourDeleteEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Map> getMapsObjectAddedTo(int contentId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesObjectAddedTo(int contentId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursObjectAddedTo(int contentId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int addCity(int cityId) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void actionMapAddEdit(Map map, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMapUpdateEdit(Map map, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMapDeleteEdit(Map map, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionCityAddEdit(City city, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionCityUpdateEdit(City city, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionCityDeleteEdit(City city, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionSiteAddEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionSiteUpdateEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionSiteDeleteEdit(Site site, boolean action) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Map> getMapsAddEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getMapsUpdateEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getMapsDeleteEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesAddEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesUpdateEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Site> getSitesDeleteEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesAddEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesUpdateEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<City> getCitiesDeleteEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursDeleteEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursUpdateEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tour> getToursAddEdits() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

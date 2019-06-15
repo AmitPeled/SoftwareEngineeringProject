@@ -1,6 +1,5 @@
 package database.objectParse;
 
-import java.text.ParseException;
 import java.util.List;
 
 import maps.City;
@@ -56,5 +55,10 @@ public interface IParseObjects {
 	User getUser(List<Object> objectList);
 
 	List<Object> getTourMetaFieldsList(Tour list);
+
+	List<String> getMapMetaFieldsNames();
+	List<String> getCityMetaFieldsNames();
+	List<String> getSiteFieldsNames();
+	List<String> getTourMetaFieldsNames();
 
 }

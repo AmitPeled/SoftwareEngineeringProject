@@ -22,7 +22,7 @@ public interface IGcmCustomerExecutor {
 	//done
 	boolean repurchaseMembershipBySavedDetails(int cityId,int timeInterval,String username) throws SQLException;
 	//done
-	List<File> purchaseMapOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
+	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
 	//done
 	void notifyMapView(int cityId) throws SQLException;
 	//done

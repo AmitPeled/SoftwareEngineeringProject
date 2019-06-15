@@ -30,7 +30,7 @@ public class RegisterSceneController implements Initializable {
 		System.out.println("well, im going back");
 		clearFields();
 		RegisterModel.back();
-	}
+	} 
 
 	@FXML
 	public void register(ActionEvent event) throws IOException {

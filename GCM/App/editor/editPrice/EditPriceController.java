@@ -1,12 +1,9 @@
 package editor.editPrice;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 import dataAccess.contentManager.ContentManagerDAO;
-
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,7 +23,7 @@ public class EditPriceController implements Initializable
 	int mapId;
 	@FXML
 	TextField errors;
-	TextFieldUtility utilities;
+	TextFieldUtility utilities; 
 	
 	public EditPriceController(ContentManagerDAO contentManagerDAO, int mapId, TextFieldUtility utilities) {
 		this.contentManagerDAO = contentManagerDAO;
@@ -43,7 +40,6 @@ public class EditPriceController implements Initializable
 	            		if(utilities.isNumeric(newPriceStr)) {
 	            			errors.setVisible(false);
 	            			double newPrice = Double.parseDouble(newPriceStr);
-			            	System.out.println(newPrice);
 			            	contentManagerDAO.changeMapPrice(mapId, newPrice);
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);

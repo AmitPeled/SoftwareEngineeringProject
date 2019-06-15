@@ -3,7 +3,6 @@ package editor.editPrice;
 import java.io.IOException;
 
 import dataAccess.contentManager.ContentManagerDAO;
-import editor.addCity.AddCityController;
 import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,8 +17,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		 // constructing our scene
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editor/editPrice.fxml"));
-		 ContentManagerDAO contentManagerDAO = new GcmDAO();
+		 GcmDAO gcmDAO = new GcmDAO();
+		 gcmDAO.login("editor", "editor");
+		 ContentManagerDAO contentManagerDAO = gcmDAO;
 		 TextFieldUtility utilities = new TextFieldUtility();
+		 
 
 		 fxmlLoader.setController(new EditPriceController(contentManagerDAO, 1, utilities));
 		 Parent root = fxmlLoader.load();

@@ -1,6 +1,5 @@
 package database.objectParse;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,8 +48,7 @@ public class DatabaseParser implements IParseObjects {
 		System.out.println((String) objectList.get(1));
 		System.out.println((String) objectList.get(2));
 		return new User((String) objectList.get(0), (String) objectList.get(2), (String) objectList.get(3),
-				(String) objectList.get(4), (String) objectList.get(5), (int) objectList.get(6), expireDate,
-				(int) objectList.get(8), (int) objectList.get(9));
+				(String) objectList.get(4), (String) objectList.get(5));
 	}
 
 //	@Override
@@ -69,7 +67,23 @@ public class DatabaseParser implements IParseObjects {
 				add(map.getHeight());
 				add(map.getOffset().x);
 				add(map.getOffset().y);
-				add(map.getPrice());
+				add(-1);
+			}
+		};
+	}
+
+	@Override
+	public List<String> getMapMetaFieldsNames() {
+		return new ArrayList<String>() {
+			{
+				add("mapId");
+				add("mapDescription");
+				add("mapHeight");
+				add("mapWidth");
+				add("mapHeight");
+				add("map_x_offset");
+				add("map_y_offset");
+				add("mapPrice");
 			}
 		};
 	}
@@ -85,6 +99,7 @@ public class DatabaseParser implements IParseObjects {
 				add(site.isAccessibleForDisabled());
 				add(site.getCoordinates().x);
 				add(site.getCoordinates().y);
+
 			}
 		};
 	}
@@ -96,6 +111,18 @@ public class DatabaseParser implements IParseObjects {
 				add(city.getId());
 				add(city.getName());
 				add(city.getDescription());
+
+			}
+		};
+	}
+
+	@Override
+	public List<Object> getTourMetaFieldsList(Tour tour) {
+		return new ArrayList<Object>() {
+			{
+				add(tour.getId());
+				add(tour.getDescription());
+
 			}
 		};
 	}
@@ -108,10 +135,6 @@ public class DatabaseParser implements IParseObjects {
 				add(user.getLastName());
 				add(user.getEmail());
 				add(user.getPhoneNumber());
-				add(0);
-				add(null);
-				add(0);
-				add(0);
 			}
 		};
 	}
@@ -122,17 +145,44 @@ public class DatabaseParser implements IParseObjects {
 	}
 
 	@Override
-	public List<Object> getTourMetaFieldsList(Tour tour) {
-		return new ArrayList<Object>() {
+	public City getCityByMetaFields(List<Object> objectList) {
+		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2));
+	}
+
+	@Override
+	public List<String> getCityMetaFieldsNames() {
+		return new ArrayList<String>() {
 			{
-				add(tour.getId());
-				add(tour.getDescription());
+				add("cityId");
+				add("cityName");
+				add("cityDescription");
+			}
+		};
+
+	}
+
+	@Override
+	public List<String> getSiteFieldsNames() {
+		return new ArrayList<String>() {
+			{
+				add("siteId");
+				add("siteName");
+				add("siteDescription");
+				add("siteType");
+				add("siteAccessiblity");
+				add("site_x_coordinate");
+				add("site_y_coordinate");
 			}
 		};
 	}
 
 	@Override
-	public City getCityByMetaFields(List<Object> objectList) {
-		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2));
+	public List<String> getTourMetaFieldsNames() {
+		return new ArrayList<String>() {
+			{
+				add("tourId");
+				add("tourDescription");
+			}
+		};
 	}
 }

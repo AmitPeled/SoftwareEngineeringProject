@@ -15,13 +15,13 @@ public interface IGcmEditorExecutor {
 
 	void addExistingTourToMap(int mapId, int tourId) throws SQLException;
 
-	int addCity(City city) throws SQLException;
+	int addCity(int cityId) throws SQLException;
 
-	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
+//	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
 
 	void updateCity(int cityId, City city) throws SQLException;
 
-	void deleteCity(City city) throws SQLException;
+	void deleteCity(int cityId) throws SQLException;
 
 	int addNewSiteToCity(int cityId, Site site) throws SQLException;
 
@@ -35,7 +35,7 @@ public interface IGcmEditorExecutor {
 
 	int addMapToCity(int cityId, Map mapDescription, File mapFile) throws SQLException;
 
-	void deleteMap(int mapId) throws SQLException;
+	void deleteMapEdit(int mapId) throws SQLException;
 
 	void updateMap(int mapId, Map newMap) throws SQLException;
 }

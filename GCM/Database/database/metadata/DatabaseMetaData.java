@@ -2,6 +2,8 @@ package database.metadata;
 
 import java.util.HashMap;
 
+import database.objectParse.Status;
+
 public class DatabaseMetaData {
 	private static final String host = "remotemysql.com";
 	private static final String DBName = "X6SgPM1fb2";
@@ -22,16 +24,16 @@ public class DatabaseMetaData {
 			put(Tables.citiesSitesIds, "citiesSites");
 			put(Tables.sites, "sites");
 			put(Tables.tourSitesIdsAndDurance, "toursSites");
-			put(Tables.cityTours, "citiesTours");
+			put(Tables.citiesTours, "citiesTours");
 			put(Tables.toursMetaDetails, "toursMetaDetails");
-			put(Tables.mapTours, "mapsTours");
+			put(Tables.mapsTours, "mapsTours");
 		}
 	};
 
 	public static enum Tables {
 		customerUsers, editorUsers, contentManagerUsers, generalManagerUsers, mapsMetaDetails, mapsFiles, mapsSites,
-		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapTours,
-		cityTours
+		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapsTours,
+		citiesTours
 	}
 
 	public static String getHostName() {
@@ -48,5 +50,21 @@ public class DatabaseMetaData {
 
 	public static String getTableName(Tables table) {
 		return tablesNames.get(table);
+	}
+
+	public static int getStatus(Status status) {
+		switch (status) {
+		case published:
+			return 0;
+		case toAdd:
+			return 1;
+		case toUpdate:
+			return 2;
+		case toDelete:
+			return 3;
+		default:
+			System.err.println("bad status value");
+			return -1;
+		}
 	}
 }

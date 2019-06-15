@@ -4,34 +4,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import dataAccess.search.SearchDAO;
 import gcmDataAccess.GcmDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import login.LoginModel;
 import mainApp.GcmClient;
 import maps.Map;
-import search.CustomListCell;
-import search.MapItem;
 
 public class ListViewController implements Initializable
 {
 	private GcmDAO gcmDAO;
 	private int permission;
-	
-	
+	 
 	@FXML 
     private ListView<MapItem> listView;
 	@FXML
@@ -53,11 +48,15 @@ public class ListViewController implements Initializable
 	private RadioButton rPointofinterest;
 	@FXML
 	private RadioButton rDescription;
+	@FXML
+	private Button goTo;
 	
 	String selectedRadioBtn;
 	RadioButton selectRadio;
+	private GcmClient gcmClient;
 	
-	public ListViewController(GcmDAO gcmDAO) {
+	public ListViewController(GcmClient gcmClient,GcmDAO gcmDAO) {
+		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
 	}
 
@@ -73,6 +72,7 @@ public class ListViewController implements Initializable
 		// Radio 3: description.
 		rDescription.setToggleGroup(searchOptions);
 	}
+
 	
 	public void searchListener() {	
 		searchBtn.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -124,7 +124,7 @@ public class ListViewController implements Initializable
 
 		for (Map item : resultSet) 
     	{ 
-			int id = item.getId();
+			String id = Integer.toString(item.getId());
 			String mapName = item.getName();
 			String description = item.getDescription();
 			String pointOfInterest;
@@ -142,34 +142,22 @@ public class ListViewController implements Initializable
 			}
 			double price = item.getPrice();
 			
-			MapItem currentMapItem = new MapItem(id, mapName, description, pointOfInterest, tours, price);
+			MapItem currentMapItem = new MapItem(this,id, mapName, description, pointOfInterest, tours, price);
 			resultList.add(currentMapItem);
     	}
 		return resultList;
 	}
 
-	public int checkForPermissions() {
-		return 1;
-	}
 	
 	public void permissions() {
-		permission = checkForPermissions();
+		//RequestState userState = new UserInfoImpl().getState();
 		if(permission == 0) {
 			buySubscriptionBtn.setVisible(true);
 		}else {
 			addNewMapBtn.setVisible(true);
 		}
 	}
-//	@FXML
-//	public void mapItemListener() {
-//		mapItem.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-//		    @Override
-//		    public void handle(MouseEvent mouseEvent) {
-//		        System.out.println("mouse click detected! " + mouseEvent.getSource());
-//		    }
-//		});
-//	}
-	
+
     /**
 	* @param url
 	* @param rb
@@ -178,7 +166,7 @@ public class ListViewController implements Initializable
 	public void initialize(URL url, ResourceBundle rb) {
     	initRadioButtons();
     	searchListener();
-//    	mapItemListener();
+    	
         assert mapItem != null : "fx:id=\"anchr\" was not injected: check your FXML file 'AxisFxml.fxml'.";
 
         listView.setCellFactory(new Callback<ListView<MapItem>, ListCell<MapItem>>() {
@@ -187,7 +175,14 @@ public class ListViewController implements Initializable
                 return new CustomListCell();
             }
         });
-
-           
     }
+    
+    @FXML
+    public void onBack() {gcmClient.back();}
+
+
+	public void goToMap(int mapId) {
+		System.out.println("Going to map: " + mapId);
+		gcmClient.loadMapDisplay(mapId);
+	}
 }

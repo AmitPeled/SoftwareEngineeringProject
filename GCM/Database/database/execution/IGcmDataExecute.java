@@ -2,7 +2,6 @@ package database.execution;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.List;
 
 import dataAccess.users.PurchaseDetails;
@@ -24,7 +23,7 @@ public interface IGcmDataExecute {
 
 	int addMapToCity(int cityId, Map mapDescription, File mapFile) throws SQLException;
 
-	void deleteMap(int mapId) throws SQLException;
+	void deleteMapEdit(int mapId) throws SQLException;
 
 	void updateMap(int mapId, Map newMap) throws SQLException;
 
@@ -34,11 +33,11 @@ public interface IGcmDataExecute {
 
 	int addCity(City city) throws SQLException;
 
-	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
+//	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
 
 	void updateCity(int cityId, City city) throws SQLException;
 
-	void deleteCity(City city) throws SQLException;
+	void deleteCity(int cityId) throws SQLException;
 
 	int addNewSiteToCity(int cityId, Site site) throws SQLException;
 
@@ -77,13 +76,61 @@ public interface IGcmDataExecute {
 
 	boolean repurchaseMembershipBySavedDetails(int cityId,int timeInterval,String username) throws SQLException;
 
-	List<File> purchaseMapOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
+	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
 
 	void notifyMapView(int cityId) throws SQLException;
 
 	File downloadMap(int cityId, String username) throws SQLException;
 
 	List<Map> getPurchasedMaps(String username) throws SQLException;
+
+	void actionMapAddEdit(Map map, boolean action) throws SQLException;
+
+	void actionMapUpdateEdit(Map map, boolean action) throws SQLException;
+
+	void actionMapDeleteEdit(Map map, boolean action) throws SQLException;
+
+	void actionCityAddEdit(City city, boolean action) throws SQLException;
+
+	void actionCityUpdateEdit(City city, boolean action) throws SQLException;
+
+	void actionCityDeleteEdit(City city, boolean action) throws SQLException;
+
+	void actionSiteAddEdit(Site site, boolean action) throws SQLException;
+
+	void actionSiteUpdateEdit(Site site, boolean action) throws SQLException;
+
+	void actionSiteDeleteEdit(Site site, boolean action) throws SQLException;
+
+	/**
+	 * editors content editons. you can take with EditorDAO the original object
+	 * before the edition.
+	 */
+	List<Map> getMapsAddEdits() throws SQLException;
+
+	List<Map> getMapsUpdateEdits() throws SQLException;
+
+	List<Map> getMapsDeleteEdits() throws SQLException;
+
+	List<Site> getSitesAddEdits() throws SQLException;
+
+	List<Site> getSitesUpdateEdits() throws SQLException;
+
+	List<Site> getSitesDeleteEdits() throws SQLException;
+
+	List<City> getCitiesAddEdits() throws SQLException;
+
+	List<City> getCitiesUpdateEdits() throws SQLException;
+
+	List<City> getCitiesDeleteEdits() throws SQLException;
+
+	void editCityPrice(int cityId, double newPrice) throws SQLException;
+
+	List<Tour> getToursDeleteEdits() throws SQLException;
+
+	List<Tour> getToursUpdateEdits() throws SQLException;
+
+	List<Tour> getToursAddEdits() throws SQLException;
 	// publish map/site/city
 	// purchaseMap
 }

@@ -33,6 +33,11 @@ public interface CustomerDAO {
 	boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails);
 
 	/**
+	 * @return true if purchase succeeded
+	 */
+	boolean purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails);
+
+	/**
 	 * @return 4 last digits of saved credit card.
 	 */
 	String getSavedCreditCard();
@@ -49,11 +54,6 @@ public interface CustomerDAO {
 	 * @return false if no valid user purchase details are stored in the database.
 	 */
 	boolean repurchaseMembershipBySavedDetails();
-
-	/**
-	 * @return one time purchase map
-	 */
-	File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails);
 
 	/**
 	 * both view and download map functionalities are available for period

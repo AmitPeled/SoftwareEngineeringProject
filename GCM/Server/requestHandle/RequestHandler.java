@@ -73,15 +73,15 @@ public class RequestHandler implements IHandleRequest {
 					listToSend.add(gcmDataExecutor.getMapFile((int) listObjectReceived.get(0)));
 					break;
 				case deleteContent:
-					gcmDataExecutor.deleteMap((int) listObjectReceived.get(0));
+					gcmDataExecutor.deleteMapEdit((int) listObjectReceived.get(0));
 					break;
 				case addCity:
 					listToSend.add(gcmDataExecutor.addCity((City) listObjectReceived.get(0)));
 					break;
-				case addCityWithInitialMap:
-					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
-							(Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
-					break;
+//				case addCityWithInitialMap:
+//					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
+//							(Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
+//					break;
 				case getMapsByCityName:
 					listToSend = (List<Object>) (Object) gcmDataExecutor
 							.getMapsByCityName((String) listObjectReceived.get(0));
@@ -103,8 +103,8 @@ public class RequestHandler implements IHandleRequest {
 				case getPurchasedMaps:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				//case purchaseMap:
-				//	listToSend.add(gcmDataExecutor.purchaseMap(username));
+				//case purchaseCity:
+				//	listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails, username));
 				//	break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
@@ -117,6 +117,9 @@ public class RequestHandler implements IHandleRequest {
 				case addNewTourToCity:
 					listToSend.add(gcmDataExecutor.addNewTourToCity((int) listObjectReceived.get(0),
 							(Tour) listObjectReceived.get(1)));
+					break;
+				case getCitySites:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitySites((int) listObjectReceived.get(0));
 					break;
 				case deleteSiteFromMap:
 					break;
@@ -134,8 +137,11 @@ public class RequestHandler implements IHandleRequest {
 		} catch (SQLException e) {
 			requestState = RequestState.somethingWrongHappend;
 			System.err.println("db exception");
+			System.err.println(e.getMessage());
+
 		} catch (Exception e) {
 			System.err.println("server exception");
+			System.err.println(e.getMessage());
 		}
 
 		return new ResponseObject(requestState, listToSend);
@@ -180,7 +186,7 @@ public class RequestHandler implements IHandleRequest {
 			return userType == RequestState.editor || userType == RequestState.contentManager;
 		case getPurchasedMaps:
 			return userType == RequestState.customer;
-		case purchaseMap:
+		case purchaseCity:
 			return userType == RequestState.customer;
 		case updateContent:
 			return userType == RequestState.editor || userType == RequestState.contentManager;

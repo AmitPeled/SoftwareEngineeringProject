@@ -9,11 +9,11 @@ public class CustomListCell extends ListCell<MapItem> {
 
         super.updateItem(item, empty);
         if (item != null && !empty) { 
-            Data data = new Data();
+            Data data = new Data(item.getListViewController());
             data.setInfo(item);
             setGraphic(data.getBox());
         } else {
             setGraphic(null);
         }
-    }
+    } 
 }
