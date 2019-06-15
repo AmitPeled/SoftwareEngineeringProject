@@ -24,7 +24,7 @@ public class DatabaseMetaData {
 			put(Tables.citiesSitesIds, "citiesSites");
 			put(Tables.sites, "sites");
 			put(Tables.tourSitesIdsAndDurance, "toursSites");
-			put(Tables.cityTours, "citiesTours");
+			put(Tables.citiesTours, "citiesTours");
 			put(Tables.toursMetaDetails, "toursMetaDetails");
 			put(Tables.mapsTours, "mapsTours");
 		}
@@ -33,7 +33,7 @@ public class DatabaseMetaData {
 	public static enum Tables {
 		customerUsers, editorUsers, contentManagerUsers, generalManagerUsers, mapsMetaDetails, mapsFiles, mapsSites,
 		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapsTours,
-		cityTours
+		citiesTours
 	}
 
 	public static String getHostName() {

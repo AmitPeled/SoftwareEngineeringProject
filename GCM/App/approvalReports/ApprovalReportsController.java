@@ -18,6 +18,7 @@ import approvalReports.tourApprovalReports.TourSitesTableCell;
 import approvalReports.tourApprovalReports.TourSubmission;
 import approvalReports.tourApprovalReports.TourTableCell;
 import gcmDataAccess.GcmDAO;
+import init.initializers.Initializer;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,6 +36,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import mainApp.GcmClient;
+import maps.City;
+import maps.Site;
+import maps.Tour;
 
 public class ApprovalReportsController  implements Initializable {
 	private GcmDAO gcmDAO;
@@ -101,7 +105,7 @@ public class ApprovalReportsController  implements Initializable {
 	private List<MapSubmission> mapSubmission;
 	private GcmClient gcmClient;
 
-	public ApprovalReportsController(GcmClient gcmClient,
+	private ApprovalReportsController(GcmClient gcmClient,
 			GcmDAO gcmDAO, 
 			List<CitySubmission> citySubmissions, 
 			List<SiteSubmission> siteSubmissions, 
@@ -263,8 +267,73 @@ public class ApprovalReportsController  implements Initializable {
 		mapBtnListener();
 	}
 	
+	public void initialize() {
+		System.out.println("Initializing approval screen");
+		citySubmissions = fetchCitySubmissions(gcmDAO); 
+		siteSubmissions = fetchSiteSubmissions(gcmDAO);
+
+		initialize(null, null);
+	}
+	
 	@FXML
 	public void onBackButton() { gcmClient.back(); }
 
+	public static ApprovalReportsController getConrollerObject(GcmClient gcmClient){
+		GcmDAO gcmDAO = gcmClient.getDataAccessObject();
+		List<CitySubmission> citySubmissions = fetchCitySubmissions(gcmDAO); 
+		List<SiteSubmission> siteSubmissions = fetchSiteSubmissions(gcmDAO);
+		
+		return new ApprovalReportsController(gcmClient, 
+				gcmDAO, 
+				citySubmissions, 
+				siteSubmissions, 
+				new ArrayList<TourSubmission>());
+	}
+
+	private static List<CitySubmission> fetchCitySubmissions(GcmDAO gcmDAO) {
+		List<CitySubmission> citySubmissions = new ArrayList<CitySubmission>();
+		List<City> citiesAdded = gcmDAO.getCitiesAddEdits();
+		List<City> citiesModified = gcmDAO.getCitiesUpdateEdits();
+		List<City> citiesDeleted = gcmDAO.getCitiesDeleteEdits();
+		if(citiesAdded != null && !citiesAdded.isEmpty()) {
+			for (City city : citiesAdded) {
+				citySubmissions.add(new CitySubmission(city, ActionTaken.ADD));
+			}
+		}
+		if(citiesModified!= null && !citiesModified.isEmpty()) {
+			for (City city : citiesModified) {
+				citySubmissions.add(new CitySubmission(city, ActionTaken.EDIT));
+			}
+		} 
+		if(citiesDeleted!= null && !citiesDeleted.isEmpty()) {
+			for (City city : citiesDeleted) {
+				citySubmissions.add(new CitySubmission(city, ActionTaken.DELETE));
+			}
+		}
+		return citySubmissions;
+	}
+	
+	private static List<SiteSubmission> fetchSiteSubmissions(GcmDAO gcmDAO) {
+		List<SiteSubmission> siteSubmissions = new ArrayList<SiteSubmission>();
+		List<Site> sitesAdded = gcmDAO.getSitesAddEdits();
+		List<Site> sitesModified = gcmDAO.getSitesUpdateEdits();
+		List<Site> sitesDeleted = gcmDAO.getSitesDeleteEdits();
+		if(sitesAdded != null && !sitesAdded.isEmpty()) {
+			for (Site site : sitesAdded) {
+				siteSubmissions.add(new SiteSubmission(site, ActionTaken.ADD));
+			}
+		}
+		if(sitesModified!= null && !sitesModified.isEmpty()) {
+			for (Site site : sitesModified) {
+				siteSubmissions.add(new SiteSubmission(site, ActionTaken.EDIT));
+			}
+		} 
+		if(sitesDeleted!= null && !sitesDeleted.isEmpty()) {
+			for (Site site : sitesDeleted) {
+				siteSubmissions.add(new SiteSubmission(site, ActionTaken.DELETE));
+			}
+		}
+		return siteSubmissions;
+	}
 }
 

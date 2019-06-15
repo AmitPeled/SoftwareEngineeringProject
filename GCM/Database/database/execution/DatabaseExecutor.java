@@ -26,9 +26,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 	 */
 	static private ReentrantLock dbAccess = new ReentrantLock();
 
-	public DatabaseExecutor(Connection connection/* , String dbName */) {
+	public DatabaseExecutor(Connection connection) {
 		dbConnection = connection;
-		// this.dbName = dbName;
 	}
 
 	@Override
@@ -75,15 +74,17 @@ public class DatabaseExecutor implements IExecuteQueries {
 		}
 	}
 
-	private int generateId(String tableName) throws SQLException {
+	public int generateId(String tableName) throws SQLException {
 		Statement s2 = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		int id = -1;
 		synchronized (dbAccess) {
-			ResultSet rset = s2.executeQuery("select * from " + tableName);
+			ResultSet rset = s2.executeQuery("select id from idTable;");
+
 			if (rset.next()) {
-				rset.afterLast();
-				rset.previous();
 				id = rset.getInt(1);
+				s2.executeUpdate("UPDATE idTable set id = id + 1;");
+//					rset.afterLast();
+//					rset.previous();
 			}
 		}
 		return id > 0 ? id + 1 : 1;
@@ -139,7 +140,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 			baseString = baseString.concat(objectNames.get(objectNames.size() - 1) + " = ?;");
 		}
-		System.out.println("in concatConditionalsSymbols, "+baseString);
+		System.out.println("in concatConditionalsSymbols, " + baseString);
 		return baseString;
 	}
 
@@ -193,6 +194,19 @@ public class DatabaseExecutor implements IExecuteQueries {
 	}
 
 	@Override
+	public void updateTableColumn(String tableName, String columnToUpdate, Object valueToUpdate, String columnCondition,
+			Object conditonValue) throws SQLException {
+
+		String sqlquery = "update " + tableName + " set " + columnToUpdate + " = ? WHERE " + columnCondition + " = ? ;";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		preparedStatement.setInt(1, (int) valueToUpdate);
+		preparedStatement.setInt(2, (int) conditonValue);
+		synchronized (dbAccess) {
+			preparedStatement.executeUpdate();
+		}
+	
+	}
+
 	public void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException {
 		objects.add(DatabaseMetaData.getStatus(status));
 		insertToTable(tableName, objects);
@@ -201,7 +215,6 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@Override
 	public int insertAndGenerateId(String tableName, List<Object> objects, Status status) throws SQLException {
 		int id = generateId(tableName);
-		System.out.println("id received from server: " + id);
 		objects.set(0, id);
 		insertToTable(tableName, objects, status);
 		return id;
@@ -275,5 +288,18 @@ public class DatabaseExecutor implements IExecuteQueries {
 		objectNames.add("status");
 		objects.add(DatabaseMetaData.getStatus(status));
 		deleteValuesFromTable(tableName, objectNames, objects);
+	}
+
+	@Override
+	public List<List<Object>> selectAllColumns(String tableName, String columnsToSelect) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		String sqlquery = "Select " + columnsToSelect + " from " + tableName +";";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		List<List<Object>> fields = new ArrayList<>();
+		synchronized (dbAccess) {
+			fields = toList(preparedStatement.executeQuery());
+		}
+		return fields;
 	}
 }

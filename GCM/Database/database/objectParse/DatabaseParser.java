@@ -48,8 +48,7 @@ public class DatabaseParser implements IParseObjects {
 		System.out.println((String) objectList.get(1));
 		System.out.println((String) objectList.get(2));
 		return new User((String) objectList.get(0), (String) objectList.get(2), (String) objectList.get(3),
-				(String) objectList.get(4), (String) objectList.get(5), (int) objectList.get(6), expireDate,
-				(int) objectList.get(8), (int) objectList.get(9));
+				(String) objectList.get(4), (String) objectList.get(5));
 	}
 
 //	@Override
@@ -136,10 +135,6 @@ public class DatabaseParser implements IParseObjects {
 				add(user.getLastName());
 				add(user.getEmail());
 				add(user.getPhoneNumber());
-				add(0);
-				add(null);
-				add(0);
-				add(0);
 			}
 		};
 	}

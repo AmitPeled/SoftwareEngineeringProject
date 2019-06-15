@@ -73,7 +73,7 @@ public class RequestHandler implements IHandleRequest {
 					listToSend.add(gcmDataExecutor.getMapFile((int) listObjectReceived.get(0)));
 					break;
 				case deleteContent:
-					gcmDataExecutor.deleteMap((int) listObjectReceived.get(0));
+					gcmDataExecutor.deleteMapEdit((int) listObjectReceived.get(0));
 					break;
 				case addCity:
 					listToSend.add(gcmDataExecutor.addCity((City) listObjectReceived.get(0)));
@@ -103,9 +103,9 @@ public class RequestHandler implements IHandleRequest {
 				case getPurchasedMaps:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				case purchaseCity:
-					listToSend.add(gcmDataExecutor.purchaseMap(username));
-					break;
+				//case purchaseCity:
+				//	listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails, username));
+				//	break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (int) listObjectReceived.get(2));
