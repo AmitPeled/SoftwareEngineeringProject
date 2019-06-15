@@ -7,9 +7,8 @@ Software engineering course final project.
 - [x] Add "Status" columns to every modifyable table
 - [ ] Implement the status column on the server side
 - [x] Create queries to get all unpublished rows
-- [ ] Create datatypes for the queries
 ### Subscription (Eli)
-- [ ] Database tables 
+- [x] Database tables 
 - [ ] Server-side queries
 - [ ] CustomerDAO methods
 ### Purchase And Downloads (Eli)
@@ -87,23 +86,31 @@ Software engineering course final project.
 - [ ] Server side implementation
 ### City report
 - [x] GUI
+- [x] Database tables
 - [ ] Server side implementation
+- [ ] Communication between server-client
 ### All cities report
 - [x] GUI
+- [x] Database tables
 - [ ] Server side implementation
+- [ ] Communication between server-client
 ### Customer personal information
 - [x] GUI
-- [ ] Server side implementation
+- [x] Server side implementation
+- [ ] Communication between server-client
 ### Manager sees customer information
 - [x] GUI
 - [ ] Server side implementation
+- [ ] Communication between server-client
 ### Content manager changes approval
 #### Cities
 - [x] GUI
 - [ ] Server side implementation (Content manager proposes, general manager approves)
+- [ ] Communication between server-client
 #### Sites
-- [ ] GUI
+- [x] GUI
 - [ ] Server side implementation (Content manager proposes, general manager approves)
+- [ ] Communication between server-client
 
 
 # Intro
