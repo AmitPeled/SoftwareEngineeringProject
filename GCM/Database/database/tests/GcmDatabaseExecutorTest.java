@@ -84,7 +84,7 @@ class GcmDatabaseExecutorTest {
 
 	@Test
 	void deleteMapTest() throws SQLException {
-		gcmDataExecutor.deleteMap(mapId);
+		gcmDataExecutor.deleteMapEdit(mapId);
 		gcmDataExecutor.actionMapDeleteEdit(map, true);
 		assertNull(gcmDataExecutor.getMapDetails(mapId));
 		assertNull(gcmDataExecutor.getMapFile(mapId));

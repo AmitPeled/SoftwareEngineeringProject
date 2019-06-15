@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
@@ -138,27 +139,30 @@ public class GcmDataExecutor
 
 	@Override
 	public Map getMapDetails(int mapId) throws SQLException {
+		return getMapDetailsByStatus(mapId, Status.published);
+	}
+
+	public Map getMapDetailsByStatus(int mapId, Status status) throws SQLException {
 		List<List<Object>> metaDetailsRows = queryExecutor.selectColumnsByValue(
-				DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId, "*", Status.published);
+				DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId, "*", status);
 		if (metaDetailsRows.isEmpty())
 			return null;
 		else {
 			List<Integer> mapSitesIds = toIdList(queryExecutor.selectColumnsByValue(
-					DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId", Status.published));
+					DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId", status));
 			List<Site> mapSites = new ArrayList<>();
 			for (int siteId : mapSitesIds) {
 				mapSites.add(getSite(siteId));
 			}
 			List<Integer> mapToursIds = toIdList(queryExecutor.selectColumnsByValue(
-					DatabaseMetaData.getTableName(Tables.mapsTours), "mapId", mapId, "tourId", Status.published));
+					DatabaseMetaData.getTableName(Tables.mapsTours), "mapId", mapId, "tourId", status));
 
 			List<Tour> mapTours = new ArrayList<>();
 			for (int tourId : mapToursIds) {
 				mapTours.add(getTour(tourId));
 			}
-
 			return objectParser.getMap(metaDetailsRows.get(0), mapSites, mapTours); // only one row correspond to this
-																					// id
+																					// id }
 		}
 	}
 
@@ -210,7 +214,7 @@ public class GcmDataExecutor
 	}
 
 	@Override
-	public void deleteMap(int mapId) throws SQLException {
+	public void deleteMapEdit(int mapId) throws SQLException {
 		List<Object> objectsValues = fillWithNulls(objectParser.getMapMetaFieldsNames().size());
 		objectsValues.set(0, mapId);
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), objectsValues,
@@ -230,6 +234,13 @@ public class GcmDataExecutor
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", mapId, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMapsIds), "mapId", mapId, status);
+	}
+
+	public void deleteMap(int mapId, Status status) throws SQLException {
+		deleteMapByStatus(mapId, Status.published);
+		deleteMapByStatus(mapId, Status.toAdd);
+		deleteMapByStatus(mapId, Status.toDelete);
+		deleteMapByStatus(mapId, Status.toUpdate);
 	}
 
 	@Override
@@ -563,7 +574,7 @@ public class GcmDataExecutor
 	public int addNewTourToCity(int cityId, Tour tour) throws SQLException {
 		int tourId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
 				objectParser.getTourMetaFieldsList(tour), Status.toAdd);
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.cityTours), new ArrayList<Object>() {
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesTours), new ArrayList<Object>() {
 			{
 				add(cityId);
 				add(tourId);
@@ -581,30 +592,6 @@ public class GcmDataExecutor
 	}
 
 	@Override
-	public void deleteCity(City city) throws SQLException {
-		// Auto-generated method stub
-
-	}
-
-	@Override
-	public File downloadMap(int mapId, String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getPurchasedMaps(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public File purchaseMap(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void addExistingTourToMap(int mapId, int tourId) throws SQLException {
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
 				objectParser.getTourMetaFieldsList(getTour(tourId)), Status.toAdd);
@@ -617,49 +604,6 @@ public class GcmDataExecutor
 	}
 
 	@Override
-	public double getMembershipPrice(int cityId, int timeInterval) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String getSavedCreditCard() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
-			String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean repurchaseMembership(PurchaseDetails purchaseDetails, String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean repurchaseMembershipBySavedDetails(String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails, String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void notifyMapView(int mapId, String username) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void actionMapAddEdit(Map map, boolean action) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", map.getId(),
 				Status.toAdd);
@@ -669,45 +613,6 @@ public class GcmDataExecutor
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
 					objectParser.getMapMetaFieldsList(map), Status.published);
 
-	}
-
-	List<Map> getMapsObjectAddedTo(Object object) {
-		// mapsSites, mapsTours
-		if (object instanceof Site) {
-			return null;
-
-		} else if (object instanceof Tour) {
-			return null;
-
-		} else {
-			return new ArrayList<>();
-		}
-	}
-
-	List<City> getCitiesObjectAddedTo(Object object) {
-		// sites, tours, maps
-		if (object instanceof Site) {
-			return null;
-
-		} else if (object instanceof Tour) {
-			return null;
-
-		} else if (object instanceof Map) {
-			return null;
-
-		} else {
-			return new ArrayList<>();
-		}
-	}
-
-	List<Tour> getToursObjectAddedTo(Object object) {
-		// sites
-		if (object instanceof Site) {
-			return null;
-		} else {
-			return new ArrayList<>();
-
-		}
 	}
 
 	@Override
@@ -730,39 +635,27 @@ public class GcmDataExecutor
 				Status.toDelete);
 		if (action) {
 			deleteMapByStatus(map.getId(), Status.published);
-//			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId",
-//					map.getId(), Status.published);
 		}
 
 	}
-
 
 	@Override
 	public void actionCityDeleteEdit(City city, boolean action) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId",
 				city.getId(), Status.toDelete);
 		if (action) {
-			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId",
-					city.getId(), Status.published);
+			deleteCity(city.getId());
+//			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId",
+//					city.getId(), Status.published);
 		}
 
 	}
-
-	
 
 	List<Map> getMapsByStatus(Status status) throws SQLException {
 		List<Integer> mapIds = toIdList(
 				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "status",
 						DatabaseMetaData.getStatus(status), "*"));
-		List<Map> mapsObjects = new ArrayList<>();
-		mapIds.forEach((mapId) -> {
-			try {
-				mapsObjects.add(getMapDetails(mapId));
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		});
-		return mapsObjects;
+		return toMapsByIds(mapIds, status);
 	}
 
 	List<City> getCitiesByStatus(Status status) throws SQLException {
@@ -810,33 +703,33 @@ public class GcmDataExecutor
 		return tours;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsAddEdits() throws SQLException {
-		List<Map> maps = new ArrayList<>();
-		List<Integer> mapIds = new ArrayList<>();
-		List<Integer> siteIds = new ArrayList<>();
-		List<Integer> tourIds = new ArrayList<>();
-
-		List<List<Object>> mapAndSitesIds = queryExecutor.selectColumnsByValue(
-				DatabaseMetaData.getTableName(Tables.mapsSites), "status", Status.toAdd, "mapId, siteId");
-		mapIds = (List<Integer>) (Object) toListOfColumnNum(mapAndSitesIds, 1);
-		siteIds = (List<Integer>) (Object) toListOfColumnNum(mapAndSitesIds, 2);
-		for (int i = 0; i < mapIds.size(); i++) {
-			Map map = getMapDetails(mapIds.get(i));
-			map.addSite(getSite(siteIds.get(i)));
-			maps.add(map);
-		}
-		List<List<Object>> mapAndTourIds = queryExecutor.selectColumnsByValue(
-				DatabaseMetaData.getTableName(Tables.mapsTours), "status", Status.toAdd, "mapId, tourId");
-		mapIds = (List<Integer>) (Object) toListOfColumnNum(mapAndTourIds, 1);
-		tourIds = (List<Integer>) (Object) toListOfColumnNum(mapAndTourIds, 2);
-		for (int i = 0; i < mapIds.size(); i++) {
-			Map map = getMapDetails(mapIds.get(i));
-			map.addTour(getTour(tourIds.get(i)));
-			maps.add(map);
-		}
-		return maps;
+//		List<Map> maps = new ArrayList<>();
+//		List<Integer> mapIds = new ArrayList<>();
+//		List<Integer> siteIds = new ArrayList<>();
+//		List<Integer> tourIds = new ArrayList<>();
+//
+//		List<List<Object>> mapAndSitesIds = queryExecutor.selectColumnsByValue(
+//				DatabaseMetaData.getTableName(Tables.mapsSites), "status", Status.toAdd, "mapId, siteId");
+//		mapIds = (List<Integer>) (Object) toListOfColumnNum(mapAndSitesIds, 1);
+//		siteIds = (List<Integer>) (Object) toListOfColumnNum(mapAndSitesIds, 2);
+//		for (int i = 0; i < mapIds.size(); i++) {
+//			Map map = getMapDetails(mapIds.get(i));
+//			map.addSite(getSite(siteIds.get(i)));
+//			maps.add(map);
+//		}
+//		List<List<Object>> mapAndTourIds = queryExecutor.selectColumnsByValue(
+//				DatabaseMetaData.getTableName(Tables.mapsTours), "status", Status.toAdd, "mapId, tourId");
+//		mapIds = (List<Integer>) (Object) toListOfColumnNum(mapAndTourIds, 1);
+//		tourIds = (List<Integer>) (Object) toListOfColumnNum(mapAndTourIds, 2);
+//		for (int i = 0; i < mapIds.size(); i++) {
+//			Map map = getMapDetails(mapIds.get(i));
+//			map.addTour(getTour(tourIds.get(i)));
+//			maps.add(map);
+//		}
+//		return maps;
+		return getMapsByStatus(Status.toAdd);
 	}
 
 	@Override
@@ -905,31 +798,81 @@ public class GcmDataExecutor
 	@Override
 	public List<City> getCitiesDeleteEdits() throws SQLException {
 		return getCitiesByStatus(Status.toDelete);
+	}
 
+	List<Map> getMapsObjectContainedIn(int objectId, Status status) {
+		List<Integer> mapsIds = new ArrayList<>();
+		return toMapsByIds(mapsIds, status);
+	}
+
+	List<Map> toMapsByIds(List<Integer> mapsIds, Status status) {
+		List<Map> mapsObjects = new ArrayList<>();
+		mapsIds.forEach((mapId) -> {
+			try {
+				mapsObjects.add(getMapDetails(mapId));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		return mapsObjects;
 	}
 
 	@Override
-	public void editCityPrice(int cityId, double newPrice) throws SQLException {
-		// TODO Auto-generated method stub
-
+	public List<Map> getMapsObjectAddedTo(int contentId) throws SQLException {
+		List<Integer> mapIds = new ArrayList<>();
+		mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsTours),
+				"tourId", contentId, "mapId", Status.toAdd)));
+		mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
+				"siteId", contentId, "mapId", Status.toAdd)));
+		return toMapsByIds(mapIds, Status.toAdd);
 	}
 
 	@Override
-	public List<Map> getMapsObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<City> getCitiesObjectAddedTo(int contentId) throws SQLException {
+		List<Integer> citiesIds = new ArrayList<>();
+		citiesIds
+				.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
+						"mapId", contentId, "cityId", Status.toAdd)));
+		citiesIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesTours),
+				"tourId", contentId, "cityId", Status.toAdd)));
+		citiesIds.addAll(toIdList(queryExecutor.selectColumnsByValue(
+				DatabaseMetaData.getTableName(Tables.citiesSitesIds), "siteId", contentId, "cityId", Status.toAdd)));
+		return toCities(citiesIds, Status.toAdd);
+	}
+
+	private List<City> toCities(List<Integer> citiesIds, Status status) {
+		List<City> cities = new ArrayList<>();
+		citiesIds.forEach((cityId) -> {
+			try {
+				cities.add(getCityById(cityId));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		return cities;
 	}
 
 	@Override
-	public List<City> getCitiesObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Tour> getToursObjectAddedTo(int contentId) throws SQLException {
+		List<List<Object>> toursIds = queryExecutor.selectColumnsByValue(
+				DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "siteId", contentId, "tourId",
+				Status.toAdd);
+		if (toursIds.isEmpty())
+			return null;
+		else
+			return getToursByIds(toIdList(toursIds), Status.toAdd);
 	}
 
-	@Override
-	public List<Tour> getToursObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
+	private List<Tour> getToursByIds(List<Integer> idList, Status toadd) {
+		List<Tour> tours = new ArrayList<>();
+		idList.forEach((tourId) -> {
+			try {
+				tours.add(getTour(tourId));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		return tours;
 	}
 
 	@Override
@@ -943,6 +886,7 @@ public class GcmDataExecutor
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public void actionSiteAddEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
@@ -964,18 +908,97 @@ public class GcmDataExecutor
 	@Override
 	public void actionTourAddEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionTourUpdateEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionTourDeleteEdit(Site site, boolean action) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
+
+	@Override
+	public void deleteCity(int cityId) throws SQLException {
+	}
+
+	// -------------------------
+
+	@Override
+	public File downloadMap(int mapId, String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map> getPurchasedMaps(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public File purchaseMap(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getMembershipPrice(int cityId, int timeInterval) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getSavedCreditCard() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
+			String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean repurchaseMembership(PurchaseDetails purchaseDetails, String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean repurchaseMembershipBySavedDetails(String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public File purchaseMapOneTime(int mapId, PurchaseDetails purchaseDetails, String username) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void notifyMapView(int mapId, String username) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void editCityPrice(int cityId, double newPrice) throws SQLException {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public int addCity(int cityId) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

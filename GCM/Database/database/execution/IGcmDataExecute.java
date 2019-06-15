@@ -23,7 +23,7 @@ public interface IGcmDataExecute {
 
 	int addMapToCity(int cityId, Map mapDescription, File mapFile) throws SQLException;
 
-	void deleteMap(int mapId) throws SQLException;
+	void deleteMapEdit(int mapId) throws SQLException;
 
 	void updateMap(int mapId, Map newMap) throws SQLException;
 
@@ -37,7 +37,7 @@ public interface IGcmDataExecute {
 
 	void updateCity(int cityId, City city) throws SQLException;
 
-	void deleteCity(City city) throws SQLException;
+	void deleteCity(int cityId) throws SQLException;
 
 	int addNewSiteToCity(int cityId, Site site) throws SQLException;
 

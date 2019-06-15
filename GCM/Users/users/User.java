@@ -2,7 +2,6 @@
 package users;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author amit
