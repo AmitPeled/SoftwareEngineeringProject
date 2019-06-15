@@ -23,5 +23,9 @@ public final class MenuController {
 	public void onAddNewCityButton() { gcmClient.switchScene(SceneNames.ADD_CITY); }
 	
 	@FXML
+	public void onApprovalRequestsButton() {}
+	
+	@FXML
 	public void onLogoutButton() { gcmClient.Logout(); }
+	
 }

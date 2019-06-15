@@ -70,12 +70,14 @@ public class ApprovalReportsController  implements Initializable {
 	private List<CitySubmission> citySubmissions;
 	private List<SiteSubmission> siteSubmissions;
 	private List<TourSubmission> tourSubmission;
+	private GcmClient gcmClient;
 
 	public ApprovalReportsController(GcmClient gcmClient,
 			GcmDAO gcmDAO, 
 			List<CitySubmission> citySubmissions, 
 			List<SiteSubmission> siteSubmissions, 
 			List<TourSubmission> tourSubmission) {
+		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions;
 		this.siteSubmissions = siteSubmissions;
@@ -184,5 +186,8 @@ public class ApprovalReportsController  implements Initializable {
 		cityBtnListener();
 		tourBtnListener();
 	}
+	
+	@FXML
+	public void onBackButton() { gcmClient.back(); }
 
 }
