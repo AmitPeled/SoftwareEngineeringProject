@@ -3,6 +3,7 @@ package database.execution;
 import java.sql.SQLException;
 import java.util.List;
 
+import dataAccess.generalManager.Report;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -52,6 +53,8 @@ public interface IGcmContentManagerExecutor {
 	List<Map> getMapsObjectAddedTo(int contentId)throws SQLException; // gets list of the maps that the object is added to
 	List<City> getCitiesObjectAddedTo(int contentId)throws SQLException;// gets list of the cities that the object is added to
 	List<Tour> getToursObjectAddedTo(int contentId) throws SQLException;// gets list of the tours that the object is added to
+	
+	
 	
 
 

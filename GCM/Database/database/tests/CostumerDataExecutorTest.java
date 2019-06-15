@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import dataAccess.customer.PurchaseHistory;
+import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
@@ -119,7 +120,7 @@ public class CostumerDataExecutorTest {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					int days = 30*timeInterval;
+					int days = 30 * timeInterval;
 					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
@@ -139,7 +140,7 @@ public class CostumerDataExecutorTest {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					int days = 30*timeInterval;
+					int days = 30 * timeInterval;
 					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
@@ -170,7 +171,7 @@ public class CostumerDataExecutorTest {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					int days = 30*timeInterval;
+					int days = 30 * timeInterval;
 					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
@@ -190,7 +191,7 @@ public class CostumerDataExecutorTest {
 			List<Object> pDetails = new ArrayList<Object>() {
 				{
 
-					int days = 30*timeInterval;
+					int days = 30 * timeInterval;
 					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 					java.sql.Date endDate = addDays(startDate, days);
 					add(username);
@@ -215,6 +216,42 @@ public class CostumerDataExecutorTest {
 	}
 
 	@Test
+	void getAllCitiesReports() throws SQLException {
+
+		List<List<Object>> reports = dbExecutor.selectAllColumns("mangerReports", "*");
+		System.out.println(reports.get(0));
+
+		List<Report> allCitiesreports = new ArrayList<>();
+
+		for (int i = 0; i < reports.size(); i++) {
+			Report cityReport = new Report((int) reports.get(i).get(0), (String) reports.get(i).get(1),
+					(int) reports.get(i).get(2), (int) reports.get(i).get(3), (int) reports.get(i).get(4),
+					(int) reports.get(i).get(5), (int) reports.get(i).get(6));
+			allCitiesreports.add(cityReport);
+		}
+		for (int i = 0; i < allCitiesreports.size(); i++) {
+			allCitiesreports.get(i).print();
+		}
+
+	}
+	
+	@Test
+	void  getOneCityReport() throws SQLException {
+		String cityName = "Tel-Aviv";
+		List<List<Object>> report = dbExecutor.selectColumnsByValue("mangerReports", "cityName", cityName,
+				"*");
+		System.out.println(report.get(0));
+		Report cityReport = new Report((int) report.get(0).get(0), (String) report.get(0).get(1),
+				(int) report.get(0).get(2), (int) report.get(0).get(3), (int) report.get(0).get(4),
+				(int) report.get(0).get(5), (int) report.get(0).get(6));
+		
+		cityReport.print();
+	
+	}
+		
+	
+
+	@Test
 	void getPurchaseHistory() throws SQLException {
 
 		String username = "420Booty";
@@ -229,10 +266,10 @@ public class CostumerDataExecutorTest {
 
 		for (int i = 0; i < history.size(); i++) {
 			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
-					(Date) history.get(i).get(5),(int) history.get(i).get(1));
+					(Date) history.get(i).get(5), (int) history.get(i).get(1));
 			purchaseHistories.add(purchaseHistory);
 		}
-		for(int i =0; i<purchaseHistories.size();i++) {
+		for (int i = 0; i < purchaseHistories.size(); i++) {
 			purchaseHistories.get(i).print();
 		}
 
@@ -273,12 +310,31 @@ public class CostumerDataExecutorTest {
 		}
 
 	}
-	
+
+	private void addCityManagerReport(int cityId, String cityName) throws SQLException {
+
+		List<Object> objects = new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(cityName);
+				add(0);
+				add(0);
+				add(0);
+				add(0);
+				add(0);
+
+			}
+		};
+
+		dbExecutor.insertToTable("mangerReports", objects);
+
+	}
+
 	public static Date addDays(Date date, int days) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.DATE, days);
 		return new Date(c.getTimeInMillis());
 	}
-	
+
 }
