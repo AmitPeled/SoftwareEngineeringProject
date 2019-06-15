@@ -48,12 +48,12 @@ public class BuySubscriptionController implements Initializable
 
 	            	if(!monthPickerValue.isEmpty()) {
 	            		String username = gcmDAO.getUserDetails().getUsername();
-	            		//gcmDAO.repurchaseMembershipBySavedDetails(cityId, Integer.parseInt(monthPickerValue), username);
+	            		gcmDAO.repurchaseMembershipBySavedDetails(cityId, Integer.parseInt(monthPickerValue), username);
 	            	}
 	            }
 			})
 		);
-	}
+	} 
 	
 	public void monthsPickerListener() {
 		monthsPicker.valueProperty().addListener(new ChangeListener<String>() {

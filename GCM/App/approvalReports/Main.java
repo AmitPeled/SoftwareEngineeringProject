@@ -13,6 +13,7 @@ import gcmDataAccess.GcmDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import mainApp.GcmClient;
 import maps.City;
 import maps.Coordinates;
 import maps.Map;
@@ -30,6 +31,7 @@ public class Main extends Application {
 		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/approvalReports/ApprovalReportsScene.fxml"));
 		 GcmDAO gcmDAO = new GcmDAO();
 		 //gcmDAO.login("editor", "editor"); 
+		 
 		 TextFieldUtility utilities = new TextFieldUtility();
 		 
 //		 List<CitySubmission> cityLists = new ArrayList<CitySubmission>();
@@ -93,6 +95,7 @@ public class Main extends Application {
 			
 			siteLists.add(new SiteSubmission(site, ActionTaken.DELETE));
 		}
+		
 		for (City city : citiesAddList) {
 			cityLists.add(new CitySubmission(city, ActionTaken.ADD));
 		}
@@ -103,7 +106,7 @@ public class Main extends Application {
 			cityLists.add(new CitySubmission(city, ActionTaken.DELETE));
 		}
 		
-		fxmlLoader.setController(new ApprovalReportsController(gcmDAO, cityLists, siteLists, tourLists, mapLists));
+		fxmlLoader.setController(new ApprovalReportsController(gcmDAO, gcmDAO, cityLists, siteLists, tourLists, mapLists));
 		Parent root = fxmlLoader.load();
 		Scene scene = new Scene( root ); 
 	 

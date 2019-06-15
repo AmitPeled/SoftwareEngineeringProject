@@ -98,18 +98,22 @@ public class ApprovalReportsController  implements Initializable {
 	private List<CitySubmission> citySubmissions;
 	private List<SiteSubmission> siteSubmissions;
 	private List<TourSubmission> tourSubmission;
+	private List<MapSubmission> mapSubmission;
 	private GcmClient gcmClient;
 
 	public ApprovalReportsController(GcmClient gcmClient,
 			GcmDAO gcmDAO, 
 			List<CitySubmission> citySubmissions, 
 			List<SiteSubmission> siteSubmissions, 
-			List<TourSubmission> tourSubmissions) {
+			List<TourSubmission> tourSubmissions, 
+			List<MapSubmission> mapSubmissions) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions == null ? new ArrayList<CitySubmission>() : citySubmissions;
 		this.siteSubmissions = siteSubmissions == null ? new ArrayList<SiteSubmission>() : siteSubmissions;
 		this.tourSubmission = tourSubmissions  == null ? new ArrayList<TourSubmission>() : tourSubmissions;
+		this.mapSubmission = mapSubmission  == null ? new ArrayList<MapSubmission>() : mapSubmission;
+
 	}
 	
 	public void initSiteTableView() {
@@ -252,19 +256,11 @@ public class ApprovalReportsController  implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initTables();
-
 		
 		siteBtnListener();
 		cityBtnListener();
 		tourBtnListener();
 		mapBtnListener();
-
-		initCityTableView();
-		initSiteTableView();
-		initTourTableView();
-		siteBtnListener();
-		cityBtnListener();
-		tourBtnListener();
 	}
 	
 	@FXML
