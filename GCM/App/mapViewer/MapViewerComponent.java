@@ -214,4 +214,10 @@ final class MapViewerComponent implements MapViewer {
 	public Coordinates getMapClickCoordinates() {
 		return selectedLocationPosition;
 	}
+
+	@Override
+	public double getImageWorldWidth() { return realWorldWidth; }
+
+	@Override
+	public double getImageWorldHeight() { return realWorldHeight; }
 }

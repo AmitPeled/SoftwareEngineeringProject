@@ -14,6 +14,7 @@ import mainApp.SceneNames;
 import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
+import maps.Coordinates;
 
 /**
 * This class is an example class that demonstrates how to implement the MapViewerComponent class.
@@ -75,6 +76,8 @@ public class MapViewerSceneController {
 	
 	@FXML
 	public void onAddSite() { 
-		// gcmClient.switchSceneToAddSite(0, mapViewer, heightLocation);; 
+		gcmClient.switchSceneToAddSite(1,
+				mapViewer.getMapClickCoordinates().x,
+				mapViewer.getMapClickCoordinates().y);; 
 	}
 }

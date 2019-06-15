@@ -35,7 +35,13 @@ public class MapItem {
     public double getPrice() {
         return price;
     }
-    public MapItem(ListViewController listViewController, String id, String name, String description, String pointOfInterest, String tours, double price) {
+    public MapItem(ListViewController listViewController, 
+    		String id, 
+    		String name, 
+    		String description, 
+    		String pointOfInterest, 
+    		String tours, 
+    		double price) {
         super();
 		this.listViewController = listViewController;
         this.id = id;
