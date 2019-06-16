@@ -740,7 +740,7 @@ public class GcmDataExecutor implements
 				e.printStackTrace();
 			}
 		});
-		System.err.println(cityObjects.get(0).getDescription());
+//		System.err.println(cityObjects.get(0).getDescription());
 		return cityObjects;
 	}
 

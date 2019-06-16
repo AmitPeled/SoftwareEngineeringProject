@@ -244,7 +244,7 @@ public class RequestHandler implements IHandleRequest {
 			System.err.println(e.getMessage());
 
 		} catch (Exception e) {
-			System.err.println("server exception");
+			System.err.println("server exception. client query="+query);
 			System.err.println(e.getMessage());
 		}
 
