@@ -740,22 +740,29 @@ public class GcmDataExecutor implements
 				e.printStackTrace();
 			}
 		});
-		System.err.println(cityObjects.get(0).getDescription());
+//		System.err.println(cityObjects.get(0).getDescription());
 		return cityObjects;
 	}
 
 	List<Site> getSitesByStatus(Status status) throws SQLException {
 		List<Integer> siteIds = toIdList(
-				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "status",
+				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites), "status",
 						DatabaseMetaData.getStatus(status), "*"));
+		System.err.println("siteId.size(): " + siteIds.size());
 		List<Site> sites = new ArrayList<>();
 		siteIds.forEach((siteId) -> {
 			try {
-				sites.add(getSite(siteId, status));
+				Site site = getSite(siteId, status);
+				if (site != null) {
+					sites.add(site);
+				}
 			} catch (SQLException e) {
+				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
 		});
+		System.err.println("sites.size(): " + sites.size());
+
 		return sites;
 	}
 
