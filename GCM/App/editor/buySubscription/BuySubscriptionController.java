@@ -29,12 +29,14 @@ public class BuySubscriptionController implements Initializable
 	@FXML
 	TextField price;
 	
+	int cityId;
 	int mapId;
 	TextFieldUtility utilities;
 	
-	public BuySubscriptionController(GcmDAO gcmDAO, int mapId) {
+	public BuySubscriptionController(GcmDAO gcmDAO, int mapId, int cityId) {
 		this.gcmDAO = gcmDAO;
 		this.mapId = mapId;
+		this.cityId = cityId;
 	}
 	 
 
@@ -45,43 +47,20 @@ public class BuySubscriptionController implements Initializable
 	            	String monthPickerValue = monthsPicker.getSelectionModel().getSelectedItem();
 
 	            	if(!monthPickerValue.isEmpty()) {
-	            		// add the correct pruchase details
-	            		//PurchaseDetails purchaseDetails = new PurchaseDetails("1","2","3","4");
-	            		// need to insert cityId to buy membership to
-//	            		gcmDAO.purchaseMembership(Integer.parseInt(monthPickerValue), purchaseDetails);
+	            		String username = gcmDAO.getUserDetails().getUsername();
+	            		//gcmDAO.repurchaseMembershipBySavedDetails(cityId, Integer.parseInt(monthPickerValue), username);
 	            	}
 	            }
 			})
 		);
-	}
+	} 
 	
 	public void monthsPickerListener() {
 		monthsPicker.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String newMonth) {
-				String currentPrice = "0";
-				switch(newMonth) {
-				  case "1":
-					  currentPrice = "10$";
-					  break;
-				  case "2":
-					  currentPrice = "10$";
-					  break;
-				  case "3":
-					  currentPrice = "10$";
-					  break;
-				  case "4":
-					  currentPrice = "10$";
-					  break;
-				  case "5":
-					  currentPrice = "10$";
-					  break;
-				  case "6":
-					  currentPrice = "10$";
-					  break;
-				  default:
-				}
-				price.setText(currentPrice);
+				String updatedPrice = Double.toString(gcmDAO.getMembershipPrice(cityId, Integer.parseInt(newMonth)));
+				price.setText(updatedPrice);
 			} 
 		});
 	}

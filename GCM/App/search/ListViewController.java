@@ -4,6 +4,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import dataAccess.customer.CustomerDAO;
+import dataAccess.users.UserDAO;
 import gcmDataAccess.GcmDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +24,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import mainApp.GcmClient;
 import maps.Map;
+import queries.RequestState;
+import userInfo.UserInfoImpl;
 
 public class ListViewController implements Initializable
 {
@@ -150,8 +155,8 @@ public class ListViewController implements Initializable
 
 	
 	public void permissions() {
-		//RequestState userState = new UserInfoImpl().getState();
-		if(permission == 0) {
+		RequestState userState = new UserInfoImpl(new GcmDAO(), new GcmDAO()).getState();
+		if(userState.equals(RequestState.customer)) {
 			buySubscriptionBtn.setVisible(true);
 		}else {
 			addNewMapBtn.setVisible(true);
@@ -164,6 +169,7 @@ public class ListViewController implements Initializable
 	**/
     @Override 
 	public void initialize(URL url, ResourceBundle rb) {
+    	permissions();
     	initRadioButtons();
     	searchListener();
     	
