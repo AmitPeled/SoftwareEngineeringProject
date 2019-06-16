@@ -152,15 +152,15 @@ public class ListViewController implements Initializable
 
 	
 	public void permissions() {
-//		RequestState userState = new UserInfoImpl(gcmDAO, gcmDAO).getState();
-//		
-//		if(userState == RequestState.customer) {
-//			buySubscriptionBtn.setVisible(true);
-//			addNewMapBtn.setVisible(false);
-//		}else {
-//			addNewMapBtn.setVisible(true);
-//			buySubscriptionBtn.setVisible(false);
-//		}
+		RequestState userState = gcmClient.getUserInfo().getState();
+		
+		if(userState == RequestState.customer) {
+			buySubscriptionBtn.setVisible(true);
+			addNewMapBtn.setVisible(false);
+		}else {
+			addNewMapBtn.setVisible(true);
+			buySubscriptionBtn.setVisible(false);
+		}
 	}
 
     /**
