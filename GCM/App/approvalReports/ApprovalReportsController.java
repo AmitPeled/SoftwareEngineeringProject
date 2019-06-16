@@ -121,6 +121,7 @@ public class ApprovalReportsController  implements Initializable {
 	}
 	
 	public void initSiteTableView() {
+		System.out.println(siteName);
 	        siteName.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getName()));
 	        siteDescription.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getDescription()));
 	        siteType.setCellValueFactory(data ->  new ReadOnlyStringWrapper(data.getValue().getSite().getSiteType()));
@@ -271,6 +272,7 @@ public class ApprovalReportsController  implements Initializable {
 		System.out.println("Initializing approval screen");
 		citySubmissions = fetchCitySubmissions(gcmDAO); 
 		siteSubmissions = fetchSiteSubmissions(gcmDAO);
+		
 		mapSubmissions = fetchMapSubmissions(gcmDAO); 
 		tourSubmissions = fetchTourSubmissions(gcmDAO);
 		initialize(null, null);
@@ -369,6 +371,7 @@ public class ApprovalReportsController  implements Initializable {
 		List<Site> sitesDeleted = gcmDAO.getSitesDeleteEdits();
 		if(sitesAdded != null && !sitesAdded.isEmpty()) {
 			for (Site site : sitesAdded) {
+				System.out.println(site);
 				siteSubmissions.add(new SiteSubmission(site, ActionTaken.ADD));
 			}
 		}
