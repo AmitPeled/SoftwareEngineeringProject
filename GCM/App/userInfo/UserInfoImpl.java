@@ -11,8 +11,7 @@ public class UserInfoImpl implements UserInfo {
 	private CustomerDAO customerDAO;
 	private User user;
 	private RequestState state;
-	
-	
+
 	public UserInfoImpl(UserDAO userDao, CustomerDAO customerDAO) {
 		this.userDao = userDao;
 		this.customerDAO = customerDAO;
@@ -24,7 +23,7 @@ public class UserInfoImpl implements UserInfo {
 		if (state == RequestState.wrongDetails) {
 			return false;
 		}
- 
+
 		return true;
 	}
 
@@ -36,8 +35,17 @@ public class UserInfoImpl implements UserInfo {
 		return true;
 	}
 
-	// update the user and den him back
+	
+
+	public RequestState getState() {
+		return this.state;
+
+	}
+
+	// update the user and send him back
+	@Override
 	public User getUserDetailes() {
+
 		if (customerDAO.getUserDetails() == null) {
 			System.out.println("need to get user but get null");
 			return null;
@@ -46,10 +54,7 @@ public class UserInfoImpl implements UserInfo {
 			System.out.println(customerDAO.getUserDetails().getUsername());
 		}
 		return user;
-	}
-	public RequestState getState() {
-		return this.state;
-		
+
 	}
 
 }

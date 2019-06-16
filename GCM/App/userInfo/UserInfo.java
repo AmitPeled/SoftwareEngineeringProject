@@ -19,4 +19,6 @@ public interface UserInfo {
 	 */
 	boolean register(String username, String password, User user);
 
+	User getUserDetailes();
+
 }
