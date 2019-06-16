@@ -84,15 +84,5 @@
             <TableColumn fx:id="tourApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
          </columns>
       </TableView>
-      <Button fx:id="mapReports" layoutX="553.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Map Reports" />
-      <TableView fx:id="mapTable" layoutX="17.0" layoutY="130.0" prefHeight="277.0" prefWidth="700.0">
-         <columns>
-            <TableColumn fx:id="mapName" prefWidth="75.0" text="Map name" />
-            <TableColumn fx:id="mapDescription" prefWidth="75.0" text="Description" />
-            <TableColumn fx:id="mapPrice" prefWidth="75.0" text="Price" />
-            <TableColumn fx:id="mapActionTaken" prefWidth="120.0" text="Action taken" />
-            <TableColumn fx:id="mapApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
-         </columns>
-      </TableView>
    </children>
 </GridPane>
