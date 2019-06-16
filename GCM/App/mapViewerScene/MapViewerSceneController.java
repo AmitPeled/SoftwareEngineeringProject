@@ -43,6 +43,7 @@ public class MapViewerSceneController {
 	private GcmClient gcmClient;
 	private MapViewer mapViewer;
 	private int cityId;
+	private MapViewerSideMenuController sideMenuController;
 	
 	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId) {
 		this.gcmClient = gcmClient;
@@ -64,8 +65,7 @@ public class MapViewerSceneController {
 			toursList.add(new Tour("SomeDemoTour"));
 			List<Site> sitesList = new ArrayList<Site>();
 			sitesList.add(new Site(cityId, "Demo site", new Coordinates(0,0)));
-			// Load side menu
-			MapViewerSideMenuController sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
+			sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
 			loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(SIDE_MENU_FXML));
 			loader.setController(sideMenuController);
@@ -105,12 +105,13 @@ public class MapViewerSceneController {
 	
 	@FXML
 	public void onEditSite() {
-		
+
 	}
 
 	@FXML
 	public void onDeleteSite() {
-		
+		Site site = sideMenuController.getSelectedSite();
+		System.out.println("Deleting site "+ site.getName());		
 	}
 	
 	@FXML
