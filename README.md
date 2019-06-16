@@ -43,7 +43,7 @@ Software engineering course final project.
 - [x] Creates an approval request
 - [ ] Appear in Map object - **Not all tours appear in Map object**
 ##### Adding sites to tour (editing an existing tour)
-- [ ] GUI
+- [x] GUI
 - [ ] DAO methods
 - [ ] Client-Server communication
 - [ ] Creates an approval request
