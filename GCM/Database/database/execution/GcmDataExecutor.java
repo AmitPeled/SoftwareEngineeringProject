@@ -607,17 +607,20 @@ public class GcmDataExecutor implements
 
 	@Override
 	public void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException {
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
-				objectParser.getSiteFieldsList(getSite(siteId)), Status.toAdd);
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance),
-				new ArrayList<Object>() {
-					{
-						add(tourId);
-						add(siteId);
-						add(durnace);
+		Site site = getSite(siteId);
+		if (site != null) {
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
+					objectParser.getSiteFieldsList(site), Status.toAdd);
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance),
+					new ArrayList<Object>() {
+						{
+							add(tourId);
+							add(siteId);
+							add(durnace);
 
-					}
-				}, Status.toAdd);
+						}
+					}, Status.toAdd);
+		}
 	}
 
 	public void addSiteToTourByStatus(int tourId, int siteId, int durnace) throws SQLException {
@@ -745,9 +748,8 @@ public class GcmDataExecutor implements
 	}
 
 	List<Site> getSitesByStatus(Status status) throws SQLException {
-		List<Integer> siteIds = toIdList(
-				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites), "status",
-						DatabaseMetaData.getStatus(status), "*"));
+		List<Integer> siteIds = toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
+				"status", DatabaseMetaData.getStatus(status), "*"));
 		System.err.println("siteId.size(): " + siteIds.size());
 		List<Site> sites = new ArrayList<>();
 		siteIds.forEach((siteId) -> {
