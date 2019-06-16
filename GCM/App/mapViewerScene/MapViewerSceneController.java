@@ -18,6 +18,7 @@ import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
 import maps.Coordinates;
+import maps.Map;
 import maps.Site;
 import maps.Tour;
 
@@ -46,12 +47,14 @@ public class MapViewerSceneController {
 	private int cityId;
 	private MapViewerSideMenuController sideMenuController;
 	private int mapId;
+	private Map map;
 	
-	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId, int mapId) {
+	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId, int mapId, Map map) {
 		this.gcmClient = gcmClient;
 		this.mapViewer = mapViewer;
 		this.cityId = cityId;
 		this.mapId = mapId;
+		this.map = map;
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -64,9 +67,17 @@ public class MapViewerSceneController {
 			GridPane gridPane = loader.load();
 			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
 			
-			List<Tour> toursList = new ArrayList<Tour>();
-			toursList.add(new Tour("SomeDemoTour"));
-			List<Site> sitesList = gcmClient.getDataAccessObject().getCitySites(cityId);
+			// Demo data
+			List<Site> sitesInTour = new ArrayList<Site>();
+			Site demoSiteA = new Site(1, "Demo site A", new Coordinates(200,300));
+			Site demoSiteB = new Site(2, "Demo site B", new Coordinates(300,400));
+			Site demoSiteC = new Site(3, "Demo site C", new Coordinates(5,5));
+			sitesInTour.add(demoSiteA);
+			sitesInTour.add(demoSiteB);
+			sitesInTour.add(demoSiteC);
+			List<Tour> toursList = fetchTours(sitesInTour);
+			List<Site> sitesList = sitesInTour;
+			
 			sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
 			loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(SIDE_MENU_FXML));
@@ -81,6 +92,15 @@ public class MapViewerSceneController {
 			e.printStackTrace();
 		}
 	}
+
+	private List<Tour> fetchTours(List<Site> sitesInTour) {
+		
+		List<Tour> toursList = new ArrayList<Tour>();
+		Tour demoTour = new Tour("SomeDemoTour");
+		demoTour.setSites(sitesInTour);
+		toursList.add(demoTour);
+		return toursList;
+	}
 	
 	public Scene getScene() { return scene; }
 	
@@ -90,8 +110,9 @@ public class MapViewerSceneController {
 	 * @return JavaFX Scene object
 	 */
 	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId, int cityId) {
+		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId);
-		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId);
+		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId,map);
 		return mapViewerSceneController.getScene();
 	}
 	
