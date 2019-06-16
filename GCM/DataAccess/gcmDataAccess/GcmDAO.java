@@ -407,8 +407,8 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public void changeMapPrice(int mapId, double newPrice) {
-		send(new RequestObject(GcmQuery.changeMapPrice, new ArrayList<Object>() {
+	public void editCityPrice(int mapId, double newPrice) {
+		send(new RequestObject(GcmQuery.editCityPrice, new ArrayList<Object>() {
 			{
 				add(mapId);
 				add(newPrice);

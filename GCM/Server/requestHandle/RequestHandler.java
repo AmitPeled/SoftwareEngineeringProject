@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataAccess.users.PurchaseDetails;
 import database.execution.IGcmDataExecute;
 import maps.City;
 import maps.Map;
@@ -103,9 +104,10 @@ public class RequestHandler implements IHandleRequest {
 				case getPurchasedMaps:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				//case purchaseCity:
-				//	listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails, username));
-				//	break;
+				// case purchaseCity:
+				// listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails,
+				// username));
+				// break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (int) listObjectReceived.get(2));
@@ -121,75 +123,115 @@ public class RequestHandler implements IHandleRequest {
 				case getCitySites:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitySites((int) listObjectReceived.get(0));
 					break;
-				case deleteSiteFromMap:
-					break;// TODO
-				case deleteCity:
-					break;// TODO
-				case actionCityAddEdit:
-					break;// TODO
-				case actionCityDeleteEdit:
-					break;// TODO
-				case actionCityUpdateEdit:
-					break;// TODO
-				case actionMapAddEdit:
-					break;// TODO
-				case actionMapDeleteEdit:
-					break;// TODO
-				case actionMapUpdateEdit:
-					break;// TODO
-				case actionSiteAddEdit:
-					break;// TODO
-				case actionSiteDeleteEdit:
-					break;// TODO
-				case actionSiteUpdateEdit:
-					break;// TODO
-				case addCityWithInitialMap:
-					break;// TODO
-				case changeMapPrice:
-					break;// TODO
-				case getCitiesAddEdits:
-					break;// TODO
-				case getCitiesDeleteEdits:
-					break;// TODO
-				case getCitiesObjectAddedTo:
-					break;// TODO
-				case getCitiesUpdateEdits:
-					break;// TODO
-				case getMapsAddEdits:
-					break;// TODO
-				case getMapsDeleteEdits:
-					break;// TODO
-				case getMapsObjectAddedTo:
-					break;// TODO
-				case getMapsUpdateEdits:
-					break;// TODO
-				case getSavedCreditCard:
-					break;// TODO
-				case getSitesAddEdits:
-					break;// TODO
-				case getSitesDeleteEdits:
-					break;// TODO
-				case getSitesUpdateEdits:
-					break;// TODO
-				case getToursAddEdits:
-					break;// TODO
-				case getToursDeleteEdits:
-					break;// TODO
-				case getToursObjectAddedTo:
-					break;// TODO
-				case getToursUpdateEdits:
-					break;// TODO
 				case notifyMapView:
-					break;// TODO
+					gcmDataExecutor.notifyMapView((int) listObjectReceived.get(0));
+					break;
 				case purchaseMembershipToCity:
-					break;// TODO
+					listToSend.add(gcmDataExecutor.purchaseMembershipToCity((int) listObjectReceived.get(0),
+							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
+					break;
+				case deleteSiteFromMap:
+					gcmDataExecutor.deleteSiteFromMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
+					break;
+				case deleteCity:
+					gcmDataExecutor.deleteCity((int) listObjectReceived.get(0));
+					break;
+				case actionCityAddEdit:
+					gcmDataExecutor.actionCityAddEdit((City) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionCityDeleteEdit:
+					gcmDataExecutor.actionCityDeleteEdit((City) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionCityUpdateEdit:
+					gcmDataExecutor.actionCityUpdateEdit((City) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionMapAddEdit:
+					gcmDataExecutor.actionMapAddEdit((Map) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionMapDeleteEdit:
+					gcmDataExecutor.actionMapDeleteEdit((Map) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionMapUpdateEdit:
+					gcmDataExecutor.actionMapUpdateEdit((Map) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionSiteAddEdit:
+					gcmDataExecutor.actionSiteAddEdit((Site) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionSiteDeleteEdit:
+					gcmDataExecutor.actionSiteDeleteEdit((Site) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionSiteUpdateEdit:
+					gcmDataExecutor.actionSiteUpdateEdit((Site) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case editCityPrice:
+					gcmDataExecutor.editCityPrice((int) listObjectReceived.get(0), (double) listObjectReceived.get(1));
+					break;
+				case getCitiesAddEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesAddEdits();
+					break;
+				case getCitiesDeleteEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesDeleteEdits();
+					break;
+				case getCitiesObjectAddedTo:
+					listToSend = (List<Object>) (Object) gcmDataExecutor
+							.getCitiesObjectAddedTo((int) listObjectReceived.get(0));
+					break;
+				case getCitiesUpdateEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesUpdateEdits();
+					break;
+				case getMapsAddEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapsAddEdits();
+					break;
+				case getMapsDeleteEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapsDeleteEdits();
+					break;
+				case getMapsObjectAddedTo:
+					listToSend = (List<Object>) (Object) gcmDataExecutor
+							.getMapsObjectAddedTo((int) listObjectReceived.get(0));
+					break;
+				case getMapsUpdateEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor
+							.getMapsObjectAddedTo((int) listObjectReceived.get(0));
+					break;
+				case getSavedCreditCard:
+					listToSend.add(gcmDataExecutor.getSavedCreditCard(username));
+					break;
+				case getSitesAddEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getSitesAddEdits();
+					break;
+				case getSitesDeleteEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getSitesDeleteEdits();
+
+					break;
+				case getSitesUpdateEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getSitesUpdateEdits();
+					break;
+				case getToursAddEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getToursAddEdits();
+					break;
+				case getToursDeleteEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getToursDeleteEdits();
+					break;
+				case getToursObjectAddedTo:
+					listToSend = (List<Object>) (Object) gcmDataExecutor
+							.getToursObjectAddedTo((int) listObjectReceived.get(0));
+					break;
+				case getToursUpdateEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getToursUpdateEdits();
+					break;
 
 				default:
 					break;
 				}
-//				} else {
-//					requestState = RequestState.wrongDetails;
-//				}
 			} else
 				requestState = RequestState.wrongDetails;
 
