@@ -126,4 +126,7 @@ public class MapViewerSceneController {
 	public void onEditPrice() {
 		gcmClient.switchSceneToEditPrice(cityId);
 	}
+	
+	@FXML
+	public void onBack() {gcmClient.back();}
 }

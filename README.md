@@ -7,22 +7,42 @@ Software engineering course final project.
 - [x] Search by city name
 - [x] Search by description
 ### Editing
+#### Approval Requests
+- [x] DAO methods
+- [ ] GUI - **Exceptions thrown**
+- [x] Server side methods
+- [x] Client-Server communication
 #### Creating a city
-- [x] Creating a new city
-- [ ] Creates an approval request
+- [x] DAO methods
+- [x] GUI
+- [x] Client-Server communication
+- [x] Creates an approval request
 #### Adding maps
-- [ ] Adding a map to a city
+- [x] GUI
+- [ ] Link to mapviewer
+- [x] DAO methods
+- [x] Client-Server communication
 - [ ] Creates an approval request
 #### Adding sites
-- [x] Adding a site to a city
-- [ ] Creates an approval request
-#### Editing/Deleting sites
-- [x] GUI controls
-- [ ] Full functionality
+- [x] DAO methods
+- [x] GUI
+- [x] Client-Server communication
+- [x] Creates an approval request
+#### Deleting sites
+- [x] GUI
+- [ ] DAO methods
+- [ ] Client-Server communication
 - [ ] Creates an approval request
 #### Tours
-- [ ] Creating a new tour
-- [ ] Adding sites to a tour
+##### Creating a new tour
+- [x] GUI
+- [ ] DAO methods
+- [ ] Client-Server communication
+- [ ] Creates an approval request
+##### Adding sites to tour
+- [ ] GUI
+- [ ] DAO methods
+- [ ] Client-Server communication
 - [ ] Creates an approval request
 ### Purchasing maps
 #### One-time purchase
@@ -34,8 +54,10 @@ Software engineering course final project.
 - [ ] Updates the database
 - [ ] Allows users to download maps only after subscription has been purchased
 ### Prices
-- [ ] Support price changes
-- [ ] only privileged users can edit price
+- [x] GUI
+- [ ] DAO methods
+- [ ] Client-Server communication
+- [ ] Creates an approval request- [ ] only privileged users can edit price
 ### Reports
 - [ ] Report on a single city works with real DB data
 - [ ] Report on all cities works with real DB data
