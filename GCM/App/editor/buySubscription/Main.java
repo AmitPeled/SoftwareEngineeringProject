@@ -19,7 +19,7 @@ public class Main extends Application {
 		 gcmDAO.login("editor", "editor"); 
 
 		 TextFieldUtility utilities = new TextFieldUtility();
-		 fxmlLoader.setController(new BuySubscriptionController(gcmDAO, 1, 1));
+		 fxmlLoader.setController(new BuySubscriptionController(gcmDAO, 1));
 		 Parent root = fxmlLoader.load();
 		 Scene scene = new Scene( root );
 

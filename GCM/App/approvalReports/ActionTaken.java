@@ -1,5 +1,5 @@
 package approvalReports;
 
 public enum ActionTaken {
-	ADD, DELETE, UPDATE
+	ADD, DELETE, EDIT
 }
