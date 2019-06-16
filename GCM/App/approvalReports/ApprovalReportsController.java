@@ -13,7 +13,6 @@ import approvalReports.mapApprovalReports.MapSubmission;
 import approvalReports.mapApprovalReports.MapTableCell;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.sitesApprovalReports.SiteTableCell;
-import approvalReports.tourApprovalReports.TourSitesTableCell;
 
 import approvalReports.tourApprovalReports.TourSubmission;
 import approvalReports.tourApprovalReports.TourTableCell;
@@ -162,7 +161,7 @@ public class ApprovalReportsController  implements Initializable {
         tourApprovalDisapproval.setCellFactory(new Callback<TableColumn<TourSubmission, Button>, TableCell<TourSubmission, Button>>() {
             @Override
             public TableCell<TourSubmission, Button> call(TableColumn<TourSubmission, Button> param) {
-                return new TourTableCell();
+                return new TourTableCell(gcmDAO);
             }
         });
 

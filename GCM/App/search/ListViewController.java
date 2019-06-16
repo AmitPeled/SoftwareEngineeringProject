@@ -112,7 +112,7 @@ public class ListViewController implements Initializable
 			            		 data.add(item);
 			            	}
 			                listView.setItems(data);
-			                permissions();
+			                //permissions();
 		            	}
 	            	}else {
 	            		listView.setItems(null);
@@ -153,15 +153,15 @@ public class ListViewController implements Initializable
 		return resultList;
 	}
 
-	
-	public void permissions() {
-		RequestState userState = new UserInfoImpl(new GcmDAO(), new GcmDAO()).getState();
-		if(userState.equals(RequestState.customer)) {
-			buySubscriptionBtn.setVisible(true);
-		}else {
-			addNewMapBtn.setVisible(true);
-		}
-	}
+//	
+//	public void permissions() {
+//		RequestState userState = new UserInfoImpl(gcmDAO, gcmDAO).getState();
+//		if(userState.equals(RequestState.customer)) {
+//			buySubscriptionBtn.setVisible(true);
+//		}else {
+//			addNewMapBtn.setVisible(true);
+//		}
+//	}
 
     /**
 	* @param url
@@ -169,7 +169,7 @@ public class ListViewController implements Initializable
 	**/
     @Override 
 	public void initialize(URL url, ResourceBundle rb) {
-    	permissions();
+    	//permissions();
     	initRadioButtons();
     	searchListener();
     	

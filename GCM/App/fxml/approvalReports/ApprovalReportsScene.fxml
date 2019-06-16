@@ -95,4 +95,4 @@
          </columns>
       </TableView>
    </children>
-</AnchorPane>
+</GridPane>

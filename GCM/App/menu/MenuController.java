@@ -20,17 +20,17 @@ public final class MenuController {
 	public MenuController(GcmClient gcmClient) {
 		if(gcmClient == null) throw new IllegalArgumentException("gcmClient is null");
 		this.gcmClient = gcmClient;
-		checkPermissions();
+		//checkPermissions();
 	}
 	
-	public void checkPermissions() {
-		RequestState state = new UserInfoImpl(new GcmDAO(), new GcmDAO()).getState();
-		if(state.equals(RequestState.customer)) {
-			reportsBtn.setVisible(false);
-			addanewcityBtn.setVisible(false);
-			approvalreportsBtn.setVisible(false);
-		}
-	}
+//	public void checkPermissions() {
+//		RequestState state = new UserInfoImpl(new GcmDAO(), new GcmDAO()).getState();
+//		if(state.equals(RequestState.customer)) {
+//			reportsBtn.setVisible(false);
+//			addanewcityBtn.setVisible(false);
+//			approvalreportsBtn.setVisible(false);
+//		}
+//	}
 	@FXML
 	public void onSearchButton() { gcmClient.switchScene(SceneNames.SEARCH); }
 	
