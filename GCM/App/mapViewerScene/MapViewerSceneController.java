@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import gcmDataAccess.GcmDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
 import maps.Coordinates;
+import maps.Map;
 import maps.Site;
 import maps.Tour;
 
@@ -43,11 +45,16 @@ public class MapViewerSceneController {
 	private GcmClient gcmClient;
 	private MapViewer mapViewer;
 	private int cityId;
+	private MapViewerSideMenuController sideMenuController;
+	private int mapId;
+	private Map map;
 	
-	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId) {
+	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId, int mapId, Map map) {
 		this.gcmClient = gcmClient;
 		this.mapViewer = mapViewer;
 		this.cityId = cityId;
+		this.mapId = mapId;
+		this.map = map;
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -60,12 +67,18 @@ public class MapViewerSceneController {
 			GridPane gridPane = loader.load();
 			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
 			
-			List<Tour> toursList = new ArrayList<Tour>();
-			toursList.add(new Tour("SomeDemoTour"));
-			List<Site> sitesList = new ArrayList<Site>();
-			sitesList.add(new Site(cityId, "Demo site", new Coordinates(0,0)));
-			// Load side menu
-			MapViewerSideMenuController sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
+			// Demo data
+			List<Site> sitesInTour = new ArrayList<Site>();
+			Site demoSiteA = new Site(1, "Demo site A", new Coordinates(200,300));
+			Site demoSiteB = new Site(2, "Demo site B", new Coordinates(300,400));
+			Site demoSiteC = new Site(3, "Demo site C", new Coordinates(5,5));
+			sitesInTour.add(demoSiteA);
+			sitesInTour.add(demoSiteB);
+			sitesInTour.add(demoSiteC);
+			List<Tour> toursList = fetchTours(sitesInTour);
+			List<Site> sitesList = sitesInTour;
+			
+			sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
 			loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(SIDE_MENU_FXML));
 			loader.setController(sideMenuController);
@@ -79,6 +92,15 @@ public class MapViewerSceneController {
 			e.printStackTrace();
 		}
 	}
+
+	private List<Tour> fetchTours(List<Site> sitesInTour) {
+		
+		List<Tour> toursList = new ArrayList<Tour>();
+		Tour demoTour = new Tour("SomeDemoTour");
+		demoTour.setSites(sitesInTour);
+		toursList.add(demoTour);
+		return toursList;
+	}
 	
 	public Scene getScene() { return scene; }
 	
@@ -88,15 +110,16 @@ public class MapViewerSceneController {
 	 * @return JavaFX Scene object
 	 */
 	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId, int cityId) {
-		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(mapId);
-		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId);
+		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
+		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId);
+		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId,map);
 		return mapViewerSceneController.getScene();
 	}
 	
 	@FXML
 	public void onAddSite() { 
 		double widthLocation = mapViewer.getMapClickCoordinates().x * mapViewer.getImageWorldWidth();
-		double heightLocation = mapViewer.getMapClickCoordinates().y* mapViewer.getImageWorldHeight();
+		double heightLocation = mapViewer.getMapClickCoordinates().y * mapViewer.getImageWorldHeight();
 		System.out.println("Adding site to "+ widthLocation + ","+heightLocation);
 		gcmClient.switchSceneToAddSite(cityId,
 				widthLocation,
@@ -105,12 +128,14 @@ public class MapViewerSceneController {
 	
 	@FXML
 	public void onEditSite() {
-		
+
 	}
 
 	@FXML
 	public void onDeleteSite() {
-		
+		Site site = sideMenuController.getSelectedSite();
+		System.out.println("Deleting site "+ site.getName());	
+		//gcmClient.getDataAccessObject().deleteSiteFromMap(mapId, site.getId());
 	}
 	
 	@FXML
