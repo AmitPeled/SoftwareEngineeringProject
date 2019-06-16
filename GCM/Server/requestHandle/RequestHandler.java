@@ -176,7 +176,10 @@ public class RequestHandler implements IHandleRequest {
 					gcmDataExecutor.editCityPrice((int) listObjectReceived.get(0), (double) listObjectReceived.get(1));
 					break;
 				case getCitiesAddEdits:
+					System.out.println("checking if getCitiesAddEdits empty:");
+
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesAddEdits();
+					System.err.println(listToSend.size());
 					break;
 				case getCitiesDeleteEdits:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesDeleteEdits();
@@ -249,57 +252,138 @@ public class RequestHandler implements IHandleRequest {
 	}
 
 	private boolean verifyPrivilege(RequestState userType, GcmQuery query) {
+//		List<GcmQuery> everyone = Arrays.asList( GcmQuery.addCustomer, GcmQuery.verifyUser, GcmQuery.getMapDetails,
+//				GcmQuery.getMapsByCityName, GcmQuery.getMapsBySiteName, GcmQuery.getMapsByDescription );
+//		List<GcmQuery> customer = Arrays.asList( GcmQuery.getUserDetails, GcmQuery.verifyUser, GcmQuery.downloadMap,
+//				GcmQuery.getPurchasedMaps, GcmQuery.getMapsBySiteName, GcmQuery.getMapsByDescription );
+
 		switch (query) {
-		case addCustomer:
-			return true;
 		case verifyUser:
 			return true;
-		case getMapDetails:
-			return true;
-		case getMapsByCityName:
-			return true;
-		case getMapsBySiteName:
-			return true;
-		case getMapsByDescription:
-			return true;
+		case notifyMapView:
+			return userType == RequestState.customer;
 		case getMapFile:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case getUserDetails:
 			return userType == RequestState.customer || userType == RequestState.editor
-					|| userType == RequestState.contentManager;
+					|| userType == RequestState.contentManager || userType == RequestState.generalManager;
 		case addCity:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addExistingSiteToMap:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addMap:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addNewSiteToCity:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case deleteCity:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case deleteContent:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case deleteSiteFromMap:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case downloadMap:
 			return userType == RequestState.customer;
 		case getCityByMapId:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case getPurchasedMaps:
 			return userType == RequestState.customer;
 		case purchaseCity:
 			return userType == RequestState.customer;
 		case updateContent:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addNewTourToCity:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addExistingSiteToTour:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addExistingTourToMap:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
+		case actionCityAddEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionCityDeleteEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionCityUpdateEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionMapAddEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionMapDeleteEdit:
+			return true;
+		case actionMapUpdateEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionSiteAddEdit:
+			return true;
+		case actionSiteDeleteEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionSiteUpdateEdit:
+			return true;
+		case addCustomer:
+			return true;
+		case editCityPrice:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitiesAddEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitiesDeleteEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitiesObjectAddedTo:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitiesUpdateEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitySites:
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
+		case getMapDetails:
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
+		case getMapsAddEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getMapsByCityName:
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
+		case getMapsByDescription:
+			return true;
+		case getMapsBySiteName:
+			return true;
+		case getMapsDeleteEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getMapsObjectAddedTo:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getMapsUpdateEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getSavedCreditCard:
+			return userType == RequestState.customer;
+		case getSitesAddEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getSitesDeleteEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getSitesUpdateEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getToursAddEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getToursDeleteEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getToursObjectAddedTo:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getToursUpdateEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case purchaseMembershipToCity:
+			return userType == RequestState.customer;
+
 		default:
 			return false;
 		}
+
 	}
 
 	private RequestState verifyDetailsConstrains(String username, String password) {

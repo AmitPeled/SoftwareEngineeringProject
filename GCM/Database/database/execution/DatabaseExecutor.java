@@ -230,8 +230,6 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 
 		};
-		System.out.println("selecting status column " + status +", status_val="+DatabaseMetaData.getStatus(status));
-
 		List<String> objectNames = new ArrayList<String>() {
 			{
 				add(objectName);

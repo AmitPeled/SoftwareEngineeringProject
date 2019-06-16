@@ -106,7 +106,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 			return null;
 		}
 		try {
-			System.out.println("connecting to server: ");
+//			System.out.println("connecting to server: ");
 			serverSocket = new Socket(serverHostname, serverPortNumber);
 //			factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 //			serverSocket = (SSLSocket) factory.createSocket(serverHostname, port);
