@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.event.ActionEvent?>
 
-<AnchorPane fx:id="mapItem" prefHeight="189.0" prefWidth="379.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="mapItem" prefHeight="189.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
 		<Text layoutX="27.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Map name:" underline="true" />
 		<Text layoutX="26.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" underline="true" />
@@ -73,6 +73,7 @@
             </Lighting>
          </effect>
       </TextField>
-      <Button fx:id="goTo" layoutX="264.0" layoutY="11.0" mnemonicParsing="false" prefHeight="165.0" prefWidth="101.0" text="GO TO MAP!" textFill="#146f0e" />
+      <Button fx:id="goTo" layoutX="264.0" layoutY="11.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="139.0" text="GO TO MAP!" textFill="#146f0e" />
+      <Button fx:id="oneTimePurchase" layoutX="264.0" layoutY="116.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" text="One Time purchase" textFill="#0e9745" />
    </children>
 </AnchorPane>

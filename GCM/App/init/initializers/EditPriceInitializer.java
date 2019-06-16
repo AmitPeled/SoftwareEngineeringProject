@@ -1,6 +1,7 @@
 package init.initializers;
 
 import editor.editPrice.EditPriceController;
+import gcmDataAccess.GcmDAO;
 import mainApp.GcmClient;
 import utility.TextFieldUtility;
 
@@ -10,7 +11,7 @@ public class EditPriceInitializer implements Initializer {
 	
 	public EditPriceInitializer(GcmClient gcmClient) {
 		controller = new EditPriceController(gcmClient,
-				gcmClient.getDataAccessObject(), 
+				gcmClient.getDataAccessObject(),
 				0, 
 				new TextFieldUtility());
 	}

@@ -10,7 +10,7 @@ public class UserInfoImpl implements UserInfo {
 	private UserDAO userDao;
 	private CustomerDAO customerDAO;
 	private User user;
-	private RequestState state;
+	private RequestState state = RequestState.guest;
 	
 	
 	public UserInfoImpl(UserDAO userDao, CustomerDAO customerDAO) {
@@ -49,7 +49,6 @@ public class UserInfoImpl implements UserInfo {
 	}
 	public RequestState getState() {
 		return this.state;
-		
 	}
 
 }
