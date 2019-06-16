@@ -4,7 +4,7 @@ public enum RequestState {
 	/**
 	 * when a log-in executes properly, it returns the user's account type.
 	 */
-	customer, editor, contentManager, generalManager,
+	customer, editor, contentManager, generalManager, manager,
 
 	/**
 	 * when login details are wrong

@@ -15,8 +15,6 @@ public interface IGcmEditorExecutor {
 
 	void addExistingTourToMap(int mapId, int tourId) throws SQLException;
 
-	int addCity(int cityId) throws SQLException;
-
 //	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
 
 	void updateCity(int cityId, City city) throws SQLException;

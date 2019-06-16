@@ -61,27 +61,5 @@ public interface EditorDAO {
 	public int deleteSiteFromTour(int mapId, int siteId);
 
 	public int tourManager(int cityId, Tour tour);
-//	public int DeleteTourFromMap(int mapId, int siteId);
 
-//	/**
-//	 * Function to edit content. with this function you add, update and delete content.
-//	 * to Update insert contentId = id of the object to update, editedContent = the content to update the object to. 
-//	 * to Add new object insert contentId = -1 (as there is no id yet for the content), editedContent = new content to add. 
-//	 * to Delete, insert contentId = id of the content to delete, and editedContent = null (as you want to erase it)
-//	 */
-//
-//	public int editContent(int contentId, Object editedContent);
-	/**
-	 * to replace a content by a new value. (the content that being modified is the
-	 * meta fields only, i.e name description etc.)
-	 */
-	public int updateContent(int contentId, Object newContent); //site,map,tours
-
-//	/**
-//	 * entirely delete the content and all its occurrences. for example, by deleting
-//	 * a site it is deleted from the city it contained in, and from all the maps
-//	 * contained it (in contrast to deleteSiteFromMap, which keeps the site
-//	 * existence in the system but deletes its occurrence just in the map)
-//	 */
-//	public int deleteContent(int contentId);
 }
