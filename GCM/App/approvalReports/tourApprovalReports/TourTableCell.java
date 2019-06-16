@@ -1,31 +1,12 @@
 package approvalReports.tourApprovalReports;
 
-import gcmDataAccess.GcmDAO;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
-import maps.Tour;
 
 public class TourTableCell extends TableCell<TourSubmission, Button> {
             Button approve = new Button("Approve!");
             Button disapprove = new Button("Disapprove!");
-            GcmDAO gcmDAO = new GcmDAO();
-            
-            public TourTableCell(GcmDAO gcmDAO){
-            	this.gcmDAO = gcmDAO;
-            }
-            
-            public void takeAction(TourSubmission tourSubmission, Boolean approve) {
-            	String actionTaken = tourSubmission.getActionTaken();
-            	Tour tour = tourSubmission.getTour();
-            	if(actionTaken.equals("ADD")) {
-            		//gcmDAO.actionToursAddEdit(tour, approve);
-            	}else if(actionTaken.equals("UPDATE")) {
-            		//gcmDAO.actionToursUpdateEdit(tour, approve);
-            	}else {
-            		//gcmDAO.actionToursDeleteEdit(tour, approve);
-            	}
-            }
             
             @Override
             public void updateItem(Button item, boolean empty) {
@@ -34,13 +15,15 @@ public class TourTableCell extends TableCell<TourSubmission, Button> {
                     setGraphic(null);
                     setText(null);
                 } else {
-            		TourSubmission siteSubmission = getTableView().getItems().get(getIndex());
-
                 	approve.setOnAction(event -> {
-                		takeAction(siteSubmission, true);
+                		// actionCityAddEdit(city, true)
+                		TourSubmission citySubmission = getTableView().getItems().get(getIndex());
+                    	System.out.println(citySubmission.getTour().getId());
                     });
                 	disapprove.setOnAction(event -> {
-                		takeAction(siteSubmission, false);
+                		// actionCityAddEdit(city, false)
+                		TourSubmission tour = getTableView().getItems().get(getIndex());
+                    	System.out.println(tour.getTour().getId());
                     });
                 	HBox pane = new HBox(approve, disapprove);
 
@@ -49,6 +32,3 @@ public class TourTableCell extends TableCell<TourSubmission, Button> {
                 }
             };
         }
-
-
-
