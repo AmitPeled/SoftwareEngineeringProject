@@ -7,11 +7,11 @@ Software engineering course final project.
 - [x] Search by city name
 - [x] Search by description
 ### Editing
-#### Approval Requests
+#### Approval Requests - **Need to implement for tours/sites as well**
 - [x] DAO methods
-- [ ] GUI - **Exceptions thrown**
-- [x] Server side methods
-- [x] Client-Server communication
+- [x] GUI
+- [ ] Server side methods 
+- [ ] Client-Server communication
 #### Map object
 - [ ] **Map object doesn't contain all it's sites and tours (works when fetching them through other DAO methods)**
 #### Creating a city
