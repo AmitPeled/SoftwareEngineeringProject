@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import mainApp.GcmClient;
 import maps.Map;
+import queries.RequestState;
+import userInfo.UserInfoImpl;
 
 public class ListViewController implements Initializable
 {
@@ -150,12 +152,15 @@ public class ListViewController implements Initializable
 
 	
 	public void permissions() {
-		//RequestState userState = new UserInfoImpl().getState();
-		if(permission == 0) {
-			buySubscriptionBtn.setVisible(true);
-		}else {
-			addNewMapBtn.setVisible(true);
-		}
+//		RequestState userState = new UserInfoImpl(gcmDAO, gcmDAO).getState();
+//		
+//		if(userState == RequestState.customer) {
+//			buySubscriptionBtn.setVisible(true);
+//			addNewMapBtn.setVisible(false);
+//		}else {
+//			addNewMapBtn.setVisible(true);
+//			buySubscriptionBtn.setVisible(false);
+//		}
 	}
 
     /**
