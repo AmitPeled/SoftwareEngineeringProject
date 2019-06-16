@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane gridLinesVisible="true" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane gridLinesVisible="true" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" maxWidth="320.0" minWidth="200.0" prefWidth="250.0" />
       <ColumnConstraints hgrow="ALWAYS" maxWidth="1980.0" minWidth="50.0" prefWidth="800.0" />
@@ -34,12 +34,17 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"  onAction="#onAddTour" text="Add Tour">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddTour" text="Add Tour">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditPrice" text="Edit Price">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="backBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBack" text="Back">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
