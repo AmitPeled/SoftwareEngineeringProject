@@ -101,8 +101,8 @@ public class ApprovalReportsController  implements Initializable {
 	
 	private List<CitySubmission> citySubmissions;
 	private List<SiteSubmission> siteSubmissions;
-	private List<TourSubmission> tourSubmission;
-	private List<MapSubmission> mapSubmission;
+	private List<TourSubmission> tourSubmissions;
+	private List<MapSubmission> mapSubmissions;
 	private GcmClient gcmClient;
 
 	private ApprovalReportsController(GcmClient gcmClient,
@@ -115,8 +115,8 @@ public class ApprovalReportsController  implements Initializable {
 		this.gcmDAO = gcmDAO;
 		this.citySubmissions = citySubmissions == null ? new ArrayList<CitySubmission>() : citySubmissions;
 		this.siteSubmissions = siteSubmissions == null ? new ArrayList<SiteSubmission>() : siteSubmissions;
-		this.tourSubmission = tourSubmissions  == null ? new ArrayList<TourSubmission>() : tourSubmissions;
-		this.mapSubmission = mapSubmission  == null ? new ArrayList<MapSubmission>() : mapSubmission;
+		this.tourSubmissions = tourSubmissions  == null ? new ArrayList<TourSubmission>() : tourSubmissions;
+		this.mapSubmissions = mapSubmissions  == null ? new ArrayList<MapSubmission>() : mapSubmissions;
 
 	}
 	
@@ -165,7 +165,7 @@ public class ApprovalReportsController  implements Initializable {
             }
         });
 
-        ObservableList<TourSubmission> details = tourSubmission.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(tourSubmission);
+        ObservableList<TourSubmission> details = tourSubmissions.isEmpty() ? FXCollections.observableArrayList() : FXCollections.observableArrayList(tourSubmissions);
         tourTable.setItems(details);
 	}
 
@@ -183,7 +183,7 @@ public class ApprovalReportsController  implements Initializable {
         });
         
         
-        ObservableList<MapSubmission> details = FXCollections.observableArrayList(mapSubmission);
+        ObservableList<MapSubmission> details = FXCollections.observableArrayList(mapSubmissions);
         mapTable.setItems(details);
 	}
 
@@ -271,7 +271,8 @@ public class ApprovalReportsController  implements Initializable {
 		System.out.println("Initializing approval screen");
 		citySubmissions = fetchCitySubmissions(gcmDAO); 
 		siteSubmissions = fetchSiteSubmissions(gcmDAO);
-
+		mapSubmissions = fetchMapSubmissions(gcmDAO); 
+		tourSubmissions = fetchTourSubmissions(gcmDAO);
 		initialize(null, null);
 	}
 	

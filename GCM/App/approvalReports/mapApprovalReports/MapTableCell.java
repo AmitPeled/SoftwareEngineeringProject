@@ -1,30 +1,30 @@
-package approvalReports.cityApprovalReports;
+package approvalReports.mapApprovalReports;
 
 import gcmDataAccess.GcmDAO;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
-import maps.City;
-import maps.Site;
 
-public class CityTableCell extends TableCell<CitySubmission, Button> {
+import maps.Map;
+
+public class MapTableCell extends TableCell<MapSubmission, Button> {
             Button approve = new Button("Approve!");
             Button disapprove = new Button("Disapprove!");
             GcmDAO gcmDAO = new GcmDAO();
             
-            public CityTableCell(GcmDAO gcmDAO){
+            public MapTableCell(GcmDAO gcmDAO){
             	this.gcmDAO = gcmDAO;
             }
             
-            public void takeAction(CitySubmission citySubmission, Boolean approve) {
-            	String actionTaken = citySubmission.getActionTaken();
-            	City city = citySubmission.getCity();
+            public void takeAction(MapSubmission mapSubmission, Boolean approve) {
+            	String actionTaken = mapSubmission.getActionTaken();
+            	Map map = mapSubmission.getMap();
             	if(actionTaken.equals("ADD")) {
-            		gcmDAO.actionCityAddEdit(city, approve);
+            		gcmDAO.actionMapAddEdit(map, approve);
             	}else if(actionTaken.equals("UPDATE")) {
-            		gcmDAO.actionCityUpdateEdit(city, approve);
+            		gcmDAO.actionMapUpdateEdit(map, approve);
             	}else {
-            		gcmDAO.actionCityDeleteEdit(city, approve);
+            		gcmDAO.actionMapDeleteEdit(map, approve);
             	}
             }
             
@@ -35,13 +35,13 @@ public class CityTableCell extends TableCell<CitySubmission, Button> {
                     setGraphic(null);
                     setText(null);
                 } else {
-                	CitySubmission citySubmission = getTableView().getItems().get(getIndex());
+                	MapSubmission mapSubmission = getTableView().getItems().get(getIndex());
                 	
                 	approve.setOnAction(event -> {
-                    	takeAction(citySubmission, true);
+                    	takeAction(mapSubmission, true);
                     });
                 	disapprove.setOnAction(event -> {
-                    	takeAction(citySubmission, false);
+                    	takeAction(mapSubmission, false);
                     });
                 	
                 	HBox pane = new HBox(approve, disapprove);
