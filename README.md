@@ -10,7 +10,7 @@ Software engineering course final project.
 #### Approval Requests - **Need to implement for tours/sites as well**
 - [x] DAO methods
 - [x] GUI
-- [ ] Server side methods 
+- [ ] Server side methods - **Returns "null" references instead of actual Tours** 
 - [ ] Client-Server communication
 #### Map object
 - [ ] **Map object doesn't contain all it's sites and tours (works when fetching them through other DAO methods)**
@@ -72,6 +72,24 @@ Software engineering course final project.
 ## Features
 ### Guests
 - [ ] Allow guests to use the system
+
+# Tasks
+## Database/DAO
+- [ ] **Fix `getToursAddEdits` returning null references**
+- [ ] Verify that no other `get*Edits` returns null references
+- [ ] Fix `Map` objects not having all the sites/tours (compared to what's printed on the map/fetched by `getSitesByMapId`)
+- [ ] Add option to delete sites
+- [ ] Add methods to change prices per purchase type
+- [ ] (If we have time) Change the way reports are stored to support date-range selection
+## Client
+- [ ] Push MapDownloader class to the master
+- [ ] Hide menu options from non-privileged users
+- [ ] Build customer report screen
+- [ ] Fetch real sites/tours to the map viewer
+- [ ] Load real maps from the database
+- [ ] Allow login in as guests
+## Server
+- [ ] Build the notifications thread
 
 # Intro
 This document will be used by us to keep us all on the same page as to what we're doing and what this project is about.
