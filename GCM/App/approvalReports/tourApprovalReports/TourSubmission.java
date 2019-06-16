@@ -14,12 +14,15 @@ public class TourSubmission {
 	private int containingObjectID;
 
 	/**
-	 * if ADD, type is the ObjectType site added to (MAP/CITY), else ObjectType
-	 * = CITY by default.
+	 * if ADD, type is the ObjectType site added to (MAP/CITY), else ObjectType =
+	 * CITY by default.
 	 */
 	private ObjectsEnum containingObjectType;
 
 	public TourSubmission(Tour tour, ActionTaken actionTaken) {
+		if (tour == null) {
+			throw new IllegalArgumentException();
+		}
 		this.setContainingObjectID(-1);
 		this.setContainingObjectType(ObjectsEnum.CITY);
 		this.tour = tour;
@@ -28,6 +31,9 @@ public class TourSubmission {
 
 	public TourSubmission(int containingObjectID, ObjectsEnum containingObjectType, Tour tour,
 			ActionTaken actionTaken) {
+		if (tour == null || containingObjectID <= 0 || containingObjectType == ObjectsEnum.SITE) {
+			throw new IllegalArgumentException();
+		}
 		this.tour = tour;
 		this.actionTaken = actionTaken;
 		this.setContainingObjectID(containingObjectID);

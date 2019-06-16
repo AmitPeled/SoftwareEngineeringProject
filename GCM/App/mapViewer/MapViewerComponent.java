@@ -212,7 +212,8 @@ final class MapViewerComponent implements MapViewer {
 
 	@Override
 	public Coordinates getMapClickCoordinates() {
-		return selectedLocationPosition;
+		return new Coordinates(selectedLocationPosition.x/width,
+				selectedLocationPosition.y/height);
 	}
 
 	@Override

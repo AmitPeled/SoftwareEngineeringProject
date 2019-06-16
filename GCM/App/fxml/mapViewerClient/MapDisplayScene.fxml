@@ -34,12 +34,17 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"  onAction="#onAddTour" text="Add Tour">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddTour" text="Add Tour">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditPrice" text="Edit Price">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="backBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBack" text="Back">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>

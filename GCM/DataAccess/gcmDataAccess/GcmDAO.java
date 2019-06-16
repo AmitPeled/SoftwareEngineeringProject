@@ -303,15 +303,14 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public int addExistingSiteToTour(int tourId, int siteId, int siteDurance) {
+	public void addExistingSiteToTour(int tourId, int siteId, int siteDurance) {
 		send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
 			{
 				add(tourId);
 				add(siteId);
 				add(siteDurance);
 			}
-		}, username, password));
-		return 0;
+		}, username, password)).getResponse();
 	}
 
 	@Override
@@ -348,7 +347,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
 		int startingIndex = 0;
 		if (numberOfLastAddedPlaces != 0) {
-			startingIndex = sitesList.size() - numberOfLastAddedPlaces - 1;
+			startingIndex = sitesList.size() - numberOfLastAddedPlaces;
 		}
 
 		for (int i = startingIndex; i < sitesList.size(); i++) {
