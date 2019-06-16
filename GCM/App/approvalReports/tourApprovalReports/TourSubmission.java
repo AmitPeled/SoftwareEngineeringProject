@@ -8,6 +8,10 @@ public class TourSubmission {
 	private ActionTaken actionTaken;
 
 	public TourSubmission(Tour tour, ActionTaken actionTaken) {
+		if(tour == null) {
+			throw new IllegalArgumentException();
+		}
+		
 		this.tour = tour;
 		this.actionTaken = actionTaken;
 	}
@@ -18,3 +22,4 @@ public class TourSubmission {
 		return actionTaken.toString();
 	}
 }
+	

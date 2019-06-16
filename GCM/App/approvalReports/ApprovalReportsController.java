@@ -301,21 +301,27 @@ public class ApprovalReportsController  implements Initializable {
 		List<Tour> tourModified = gcmDAO.getToursUpdateEdits();
 		List<Tour> tourDeleted = gcmDAO.getToursDeleteEdits();
 
-		if(tourAdded != null && !tourAdded.isEmpty()) {
-			for (Tour tour : tourAdded) {
-				mapSubmissions.add(new TourSubmission(tour, ActionTaken.ADD));
+		try {
+			if(tourAdded != null && !tourAdded.isEmpty()) {
+				for (Tour tour : tourAdded) {
+					mapSubmissions.add(new TourSubmission(tour, ActionTaken.ADD));
+				}
 			}
+			if(tourModified!= null && !tourModified.isEmpty()) {
+				for (Tour tour : tourModified) {
+					mapSubmissions.add(new TourSubmission(tour, ActionTaken.UPDATE));
+				}
+			} 
+			if(tourDeleted!= null && !tourDeleted.isEmpty()) {
+				for (Tour tour : tourDeleted) {
+					mapSubmissions.add(new TourSubmission(tour, ActionTaken.DELETE));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<TourSubmission>();
 		}
-		if(tourModified!= null && !tourModified.isEmpty()) {
-			for (Tour tour : tourModified) {
-				mapSubmissions.add(new TourSubmission(tour, ActionTaken.UPDATE));
-			}
-		} 
-		if(tourDeleted!= null && !tourDeleted.isEmpty()) {
-			for (Tour tour : tourDeleted) {
-				mapSubmissions.add(new TourSubmission(tour, ActionTaken.DELETE));
-			}
-		}
+		
 		return mapSubmissions;
 	}
 	private static List<MapSubmission> fetchMapSubmissions(GcmDAO gcmDAO) {
@@ -324,20 +330,25 @@ public class ApprovalReportsController  implements Initializable {
 		List<Map> mapsModified = gcmDAO.getMapsUpdateEdits();
 		List<Map> mapsDeleted = gcmDAO.getMapsDeleteEdits();
 
-		if(mapsAdded != null && !mapsAdded.isEmpty()) {
-			for (Map map : mapsAdded) {
-				mapSubmissions.add(new MapSubmission(map, ActionTaken.ADD));
+		try {
+			if(mapsAdded != null && !mapsAdded.isEmpty()) {
+				for (Map map : mapsAdded) {
+					mapSubmissions.add(new MapSubmission(map, ActionTaken.ADD));
+				}
 			}
-		}
-		if(mapsModified!= null && !mapsModified.isEmpty()) {
-			for (Map map : mapsModified) {
-				mapSubmissions.add(new MapSubmission(map, ActionTaken.UPDATE));
+			if(mapsModified!= null && !mapsModified.isEmpty()) {
+				for (Map map : mapsModified) {
+					mapSubmissions.add(new MapSubmission(map, ActionTaken.UPDATE));
+				}
+			} 
+			if(mapsDeleted!= null && !mapsDeleted.isEmpty()) {
+				for (Map map : mapsDeleted) {
+					mapSubmissions.add(new MapSubmission(map, ActionTaken.DELETE));
+				}
 			}
-		} 
-		if(mapsDeleted!= null && !mapsDeleted.isEmpty()) {
-			for (Map map : mapsDeleted) {
-				mapSubmissions.add(new MapSubmission(map, ActionTaken.DELETE));
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<MapSubmission>();
 		}
 		return mapSubmissions;
 	}
@@ -346,21 +357,28 @@ public class ApprovalReportsController  implements Initializable {
 		List<City> citiesAdded = gcmDAO.getCitiesAddEdits();
 		List<City> citiesModified = gcmDAO.getCitiesUpdateEdits();
 		List<City> citiesDeleted = gcmDAO.getCitiesDeleteEdits();
-		if(citiesAdded != null && !citiesAdded.isEmpty()) {
-			for (City city : citiesAdded) {
-				citySubmissions.add(new CitySubmission(city, ActionTaken.ADD));
+
+		try {
+			if(citiesAdded != null && !citiesAdded.isEmpty()) {
+				for (City city : citiesAdded) {
+					citySubmissions.add(new CitySubmission(city, ActionTaken.ADD));
+				}
 			}
+			if(citiesModified!= null && !citiesModified.isEmpty()) {
+				for (City city : citiesModified) {
+					citySubmissions.add(new CitySubmission(city, ActionTaken.UPDATE));
+				}
+			} 
+			if(citiesDeleted!= null && !citiesDeleted.isEmpty()) {
+				for (City city : citiesDeleted) {
+					citySubmissions.add(new CitySubmission(city, ActionTaken.DELETE));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<CitySubmission>();
 		}
-		if(citiesModified!= null && !citiesModified.isEmpty()) {
-			for (City city : citiesModified) {
-				citySubmissions.add(new CitySubmission(city, ActionTaken.UPDATE));
-			}
-		} 
-		if(citiesDeleted!= null && !citiesDeleted.isEmpty()) {
-			for (City city : citiesDeleted) {
-				citySubmissions.add(new CitySubmission(city, ActionTaken.DELETE));
-			}
-		}
+		
 		return citySubmissions;
 	}
 	
@@ -369,22 +387,29 @@ public class ApprovalReportsController  implements Initializable {
 		List<Site> sitesAdded = gcmDAO.getSitesAddEdits();
 		List<Site> sitesModified = gcmDAO.getSitesUpdateEdits();
 		List<Site> sitesDeleted = gcmDAO.getSitesDeleteEdits();
-		if(sitesAdded != null && !sitesAdded.isEmpty()) {
-			for (Site site : sitesAdded) {
-				System.out.println(site);
-				siteSubmissions.add(new SiteSubmission(site, ActionTaken.ADD));
+		
+		try {
+			if(sitesAdded != null && !sitesAdded.isEmpty()) {
+				for (Site site : sitesAdded) {
+					System.out.println(site);
+					siteSubmissions.add(new SiteSubmission(site, ActionTaken.ADD));
+				}
 			}
+			if(sitesModified!= null && !sitesModified.isEmpty()) {
+				for (Site site : sitesModified) {
+					siteSubmissions.add(new SiteSubmission(site, ActionTaken.UPDATE));
+				}
+			} 
+			if(sitesDeleted!= null && !sitesDeleted.isEmpty()) {
+				for (Site site : sitesDeleted) {
+					siteSubmissions.add(new SiteSubmission(site, ActionTaken.DELETE));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<SiteSubmission>();
 		}
-		if(sitesModified!= null && !sitesModified.isEmpty()) {
-			for (Site site : sitesModified) {
-				siteSubmissions.add(new SiteSubmission(site, ActionTaken.UPDATE));
-			}
-		} 
-		if(sitesDeleted!= null && !sitesDeleted.isEmpty()) {
-			for (Site site : sitesDeleted) {
-				siteSubmissions.add(new SiteSubmission(site, ActionTaken.DELETE));
-			}
-		}
+		
 		return siteSubmissions;
 	}
 }
