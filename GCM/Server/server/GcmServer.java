@@ -26,7 +26,7 @@ public class GcmServer {
 			server = new ServerSocket(PORT_NUMBER);
 			Connection connection = DBConnector.connect();
 			RequestHandler requestHandler = new RequestHandler(new GcmDataExecutor(
-					new DatabaseExecutor(connection/* , DatabaseMetaData.getDbName() */), new DatabaseParser()));
+					new DatabaseExecutor(connection), new DatabaseParser()));
 
 			while (true) {
 				new ServerThread(server.accept(), requestHandler);

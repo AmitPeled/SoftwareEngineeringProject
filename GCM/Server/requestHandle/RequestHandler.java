@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataAccess.users.PurchaseDetails;
 import database.execution.IGcmDataExecute;
 import maps.City;
 import maps.Map;
@@ -103,9 +104,10 @@ public class RequestHandler implements IHandleRequest {
 				case getPurchasedMaps:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				//case purchaseCity:
-				//	listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails, username));
-				//	break;
+				// case purchaseCity:
+				// listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails,
+				// username));
+				// break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (int) listObjectReceived.get(2));
@@ -121,16 +123,118 @@ public class RequestHandler implements IHandleRequest {
 				case getCitySites:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitySites((int) listObjectReceived.get(0));
 					break;
+				case notifyMapView:
+					gcmDataExecutor.notifyMapView((int) listObjectReceived.get(0));
+					break;
+				case purchaseMembershipToCity:
+					listToSend.add(gcmDataExecutor.purchaseMembershipToCity((int) listObjectReceived.get(0),
+							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
+					break;
 				case deleteSiteFromMap:
+					gcmDataExecutor.deleteSiteFromMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
 					break;
 				case deleteCity:
+					gcmDataExecutor.deleteCity((int) listObjectReceived.get(0));
 					break;
+				case actionCityAddEdit:
+					gcmDataExecutor.actionCityAddEdit((City) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionCityDeleteEdit:
+					gcmDataExecutor.actionCityDeleteEdit((City) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionCityUpdateEdit:
+					gcmDataExecutor.actionCityUpdateEdit((City) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionMapAddEdit:
+					gcmDataExecutor.actionMapAddEdit((Map) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionMapDeleteEdit:
+					gcmDataExecutor.actionMapDeleteEdit((Map) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionMapUpdateEdit:
+					gcmDataExecutor.actionMapUpdateEdit((Map) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionSiteAddEdit:
+					gcmDataExecutor.actionSiteAddEdit((Site) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionSiteDeleteEdit:
+					gcmDataExecutor.actionSiteDeleteEdit((Site) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionSiteUpdateEdit:
+					gcmDataExecutor.actionSiteUpdateEdit((Site) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case editCityPrice:
+					gcmDataExecutor.editCityPrice((int) listObjectReceived.get(0), (double) listObjectReceived.get(1));
+					break;
+				case getCitiesAddEdits:
+					System.out.println("checking if getCitiesAddEdits empty:");
+
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesAddEdits();
+					System.err.println(listToSend.size());
+					break;
+				case getCitiesDeleteEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesDeleteEdits();
+					break;
+				case getCitiesObjectAddedTo:
+					listToSend = (List<Object>) (Object) gcmDataExecutor
+							.getCitiesObjectAddedTo((int) listObjectReceived.get(0));
+					break;
+				case getCitiesUpdateEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesUpdateEdits();
+					break;
+				case getMapsAddEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapsAddEdits();
+					break;
+				case getMapsDeleteEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapsDeleteEdits();
+					break;
+				case getMapsObjectAddedTo:
+					listToSend = (List<Object>) (Object) gcmDataExecutor
+							.getMapsObjectAddedTo((int) listObjectReceived.get(0));
+					break;
+				case getMapsUpdateEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor
+							.getMapsObjectAddedTo((int) listObjectReceived.get(0));
+					break;
+				case getSavedCreditCard:
+					listToSend.add(gcmDataExecutor.getSavedCreditCard(username));
+					break;
+				case getSitesAddEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getSitesAddEdits();
+					break;
+				case getSitesDeleteEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getSitesDeleteEdits();
+
+					break;
+				case getSitesUpdateEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getSitesUpdateEdits();
+					break;
+				case getToursAddEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getToursAddEdits();
+					break;
+				case getToursDeleteEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getToursDeleteEdits();
+					break;
+				case getToursObjectAddedTo:
+					listToSend = (List<Object>) (Object) gcmDataExecutor
+							.getToursObjectAddedTo((int) listObjectReceived.get(0));
+					break;
+				case getToursUpdateEdits:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getToursUpdateEdits();
+					break;
+
 				default:
 					break;
 				}
-//				} else {
-//					requestState = RequestState.wrongDetails;
-//				}
 			} else
 				requestState = RequestState.wrongDetails;
 
@@ -148,57 +252,138 @@ public class RequestHandler implements IHandleRequest {
 	}
 
 	private boolean verifyPrivilege(RequestState userType, GcmQuery query) {
+//		List<GcmQuery> everyone = Arrays.asList( GcmQuery.addCustomer, GcmQuery.verifyUser, GcmQuery.getMapDetails,
+//				GcmQuery.getMapsByCityName, GcmQuery.getMapsBySiteName, GcmQuery.getMapsByDescription );
+//		List<GcmQuery> customer = Arrays.asList( GcmQuery.getUserDetails, GcmQuery.verifyUser, GcmQuery.downloadMap,
+//				GcmQuery.getPurchasedMaps, GcmQuery.getMapsBySiteName, GcmQuery.getMapsByDescription );
+
 		switch (query) {
-		case addCustomer:
-			return true;
 		case verifyUser:
 			return true;
-		case getMapDetails:
-			return true;
-		case getMapsByCityName:
-			return true;
-		case getMapsBySiteName:
-			return true;
-		case getMapsByDescription:
-			return true;
+		case notifyMapView:
+			return userType == RequestState.customer;
 		case getMapFile:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case getUserDetails:
 			return userType == RequestState.customer || userType == RequestState.editor
-					|| userType == RequestState.contentManager;
+					|| userType == RequestState.contentManager || userType == RequestState.generalManager;
 		case addCity:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addExistingSiteToMap:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addMap:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addNewSiteToCity:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case deleteCity:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case deleteContent:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case deleteSiteFromMap:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case downloadMap:
 			return userType == RequestState.customer;
 		case getCityByMapId:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case getPurchasedMaps:
 			return userType == RequestState.customer;
 		case purchaseCity:
 			return userType == RequestState.customer;
 		case updateContent:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addNewTourToCity:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addExistingSiteToTour:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
 		case addExistingTourToMap:
-			return userType == RequestState.editor || userType == RequestState.contentManager;
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
+		case actionCityAddEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionCityDeleteEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionCityUpdateEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionMapAddEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionMapDeleteEdit:
+			return true;
+		case actionMapUpdateEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionSiteAddEdit:
+			return true;
+		case actionSiteDeleteEdit:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case actionSiteUpdateEdit:
+			return true;
+		case addCustomer:
+			return true;
+		case editCityPrice:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitiesAddEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitiesDeleteEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitiesObjectAddedTo:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitiesUpdateEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getCitySites:
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
+		case getMapDetails:
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
+		case getMapsAddEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getMapsByCityName:
+			return userType == RequestState.editor || userType == RequestState.contentManager
+					|| userType == RequestState.generalManager;
+		case getMapsByDescription:
+			return true;
+		case getMapsBySiteName:
+			return true;
+		case getMapsDeleteEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getMapsObjectAddedTo:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getMapsUpdateEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getSavedCreditCard:
+			return userType == RequestState.customer;
+		case getSitesAddEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getSitesDeleteEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getSitesUpdateEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getToursAddEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getToursDeleteEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getToursObjectAddedTo:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case getToursUpdateEdits:
+			return userType == RequestState.contentManager || userType == RequestState.generalManager;
+		case purchaseMembershipToCity:
+			return userType == RequestState.customer;
+
 		default:
 			return false;
 		}
+
 	}
 
 	private RequestState verifyDetailsConstrains(String username, String password) {

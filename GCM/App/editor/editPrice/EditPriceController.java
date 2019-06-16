@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import mainApp.GcmClient;
 import utility.TextFieldUtility;
 
 public class EditPriceController implements Initializable
@@ -20,14 +21,20 @@ public class EditPriceController implements Initializable
 	TextField price;
 	@FXML
 	Button editPrice;
-	int mapId;
+	int cityId;
 	@FXML
 	TextField errors;
-	TextFieldUtility utilities; 
+	TextFieldUtility utilities;
+
+	private GcmClient gcmClient; 
 	
-	public EditPriceController(ContentManagerDAO contentManagerDAO, int mapId, TextFieldUtility utilities) {
+	public EditPriceController(GcmClient gcmClient,
+			ContentManagerDAO contentManagerDAO, 
+			int cityId, 
+			TextFieldUtility utilities) {
+		this.gcmClient = gcmClient;
 		this.contentManagerDAO = contentManagerDAO;
-		this.mapId = mapId;
+		this.cityId = cityId;
 		this.utilities = utilities;
 	}
 	 
@@ -40,7 +47,8 @@ public class EditPriceController implements Initializable
 	            		if(utilities.isNumeric(newPriceStr)) {
 	            			errors.setVisible(false);
 	            			double newPrice = Double.parseDouble(newPriceStr);
-			            	contentManagerDAO.changeMapPrice(mapId, newPrice);
+			            	contentManagerDAO.editCityPrice(cityId, newPrice);
+			            	gcmClient.back();
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);
 	            		}
@@ -58,5 +66,9 @@ public class EditPriceController implements Initializable
 		errors.setVisible(false);
 		editPriceListener();
 		
+	}
+
+	public void initalizeControl(int cityId) {
+		this.cityId = cityId;
 	}
 }

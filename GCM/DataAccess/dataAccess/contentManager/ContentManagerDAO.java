@@ -55,6 +55,6 @@ public interface ContentManagerDAO {
 	List<City> getCitiesObjectAddedTo(int contentId);// gets list of the cities that the object is added to
 	List<Tour> getToursObjectAddedTo(int contentId);// gets list of the tours that the object is added to
 	
-	void changeMapPrice(int mapId, double newPrice);
+	void editCityPrice(int cityId, double newPrice);
 
 }

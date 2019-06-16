@@ -140,7 +140,6 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 			baseString = baseString.concat(objectNames.get(objectNames.size() - 1) + " = ?;");
 		}
-		System.out.println("in concatConditionalsSymbols, " + baseString);
 		return baseString;
 	}
 

@@ -7,7 +7,7 @@ import java.util.List;
 import dataAccess.generalManager.Report;
 import maps.Map;
 
-public interface IGcmGenetalManager {
+public interface IGcmGeneralManager {
 	List<Map> getPriceEdits();
 
 	void discardMapPriceEdit(Map map);

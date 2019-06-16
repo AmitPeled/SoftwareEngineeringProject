@@ -1,117 +1,51 @@
 # GCM - Global City Map
 Software engineering course final project.
 
-# Tasks
-## Database
-### Editions and approvals (Amit)
-- [x] Add "Status" columns to every modifyable table
-- [ ] Implement the status column on the server side
-- [x] Create queries to get all unpublished rows
-### Subscription (Eli)
-- [x] Database tables 
-- [ ] Server-side queries
-- [ ] CustomerDAO methods
-### Purchase And Downloads (Eli)
-- [x] Database tables (purchases)
-- [ ] Database tables (downloads)
-- [ ] Build queries for purchase history
-- [ ] Build queries for download statistics (support date ranges!)
-- [ ] CustomerDAO
-
-## Server
-### Sites 
-- [ ] Support editing sites
-- [x] Support adding sites
-- [x] Support removing sites
-### Cities 
-- [ ] Support editing cities
-- [x] Support adding cities
-- [x] Support removing cities
-### Tours
-- [ ] Support editing tours
-- [x] Support adding tours
-- [x] Support removing tours
-### Maps
-- [ ] Support editing maps
-- [x] Support adding maps
-- [x] Support removing maps
-
 # Checklist
-## Search 
-- [x] Searching maps by City (Gavri)
-- [x] Searching maps by Sites (Gavri])
-- [ ] Searching maps by both (Gavri)
+## Requirements
+### Search
+- [x] Search by city name
+- [x] Search by description
+### Editing
+#### Creating a city
+- [x] Creating a new city
+- [ ] Creates an approval request
+#### Adding maps
+- [ ] Adding a map to a city
+- [ ] Creates an approval request
+#### Adding sites
+- [x] Adding a site to a city
+- [ ] Creates an approval request
+#### Editing/Deleting sites
+- [x] GUI controls
+- [ ] Full functionality
+- [ ] Creates an approval request
+#### Tours
+- [ ] Creating a new tour
+- [ ] Adding sites to a tour
+- [ ] Creates an approval request
+### Purchasing maps
+#### One-time purchase
+- [ ] GUI controls that offer single-purchase
+- [ ] Updates the database
+- [ ] Allows users to download maps only after subscription has been purchased
+#### Full subscription
+- [ ] GUI controls that offer single-purchase
+- [ ] Updates the database
+- [ ] Allows users to download maps only after subscription has been purchased
+### Prices
+- [ ] Support price changes
+- [ ] only privileged users can edit price
+### Reports
+- [ ] Report on a single city works with real DB data
+- [ ] Report on all cities works with real DB data
+- [ ] Only admins can view reports
+### Notifications
+- [ ] Create a notification thread on the server that sends messages to customers
 
-## Editing map (asaf)
-### Adding a city
-- [x] UI controls
-- [x] Database communication
-- [x] Including in map display scene
-### Adding a map
-- [x] UI controls
-- [x] Database communication
-- [ ] Including in map display scene
-### Adding a site
-- [x] UI controls
-- [x] Database communication
-- [ ] Including in map display scene 
-### Editing a site
-- [x] UI controls
-- [x] Database communication
-- [ ] Including in map display scene 
-### Adding a tour
-- [x] UI controls
-- [ ] Database communication
-- [ ] Including in map display scene 
-
-## Registration (Done)
-- [x] Registring a new user
-- [x] Login to the system using an existing username and password
-
-## Purchasing maps
-- [ ] Purchasing maps (Eli and Amit sync on a DAO method)
-- [ ] Downloading purchased maps (?)
-- [ ] Purchasing a subscription (?)
-
-## Notification (Asaf will take)
-- [ ] System sends a notification to users when subscription runs out (Asaf)
-- [ ] Sending a notification to users when a map change has been approved 
-
-## Prices
-- [ ] Changing map prices (Gavri to push)
-
-## Reports (Scenes ready, need server communication)
-### Selecting a time frame
-- [x] GUI
-- [ ] Server side implementation
-### City report
-- [x] GUI
-- [x] Database tables
-- [ ] Server side implementation
-- [ ] Communication between server-client
-### All cities report
-- [x] GUI
-- [x] Database tables
-- [ ] Server side implementation
-- [ ] Communication between server-client
-### Customer personal information
-- [x] GUI
-- [x] Server side implementation
-- [ ] Communication between server-client
-### Manager sees customer information
-- [x] GUI
-- [ ] Server side implementation
-- [ ] Communication between server-client
-### Content manager changes approval
-#### Cities
-- [x] GUI
-- [ ] Server side implementation (Content manager proposes, general manager approves)
-- [ ] Communication between server-client
-#### Sites
-- [x] GUI
-- [ ] Server side implementation (Content manager proposes, general manager approves)
-- [ ] Communication between server-client
-
+## Features
+### Guests
+- [ ] Allow guests to use the system
 
 # Intro
 This document will be used by us to keep us all on the same page as to what we're doing and what this project is about.

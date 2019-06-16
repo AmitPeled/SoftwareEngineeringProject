@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
+import dataAccess.customer.PurchaseHistory;
+import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import maps.City;
 import maps.Map;
@@ -32,6 +34,8 @@ public interface IGcmDataExecute {
 	File getMapFile(int mapId) throws SQLException;
 
 	int addCity(City city) throws SQLException;
+
+	public void deleteSite(int siteId) throws SQLException;
 
 //	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
 
@@ -131,6 +135,22 @@ public interface IGcmDataExecute {
 	List<Tour> getToursUpdateEdits() throws SQLException;
 
 	List<Tour> getToursAddEdits() throws SQLException;
+	
+	void actionTourAddEdit(Site site, boolean action) throws SQLException;
+	void actionTourUpdateEdit(Site site, boolean action) throws SQLException;
+	void actionTourDeleteEdit(Site site, boolean action) throws SQLException;
+
+
+	List<Map> getMapsObjectAddedTo(int contentId)throws SQLException; // gets list of the maps that the object is added to
+	List<City> getCitiesObjectAddedTo(int contentId)throws SQLException;// gets list of the cities that the object is added to
+	List<Tour> getToursObjectAddedTo(int contentId) throws SQLException;// gets list of the tours that the object is added to
+	
 	// publish map/site/city
 	// purchaseMap
+	
+	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
+
+	Report getOneCityReport(String cityName) throws SQLException;
+
+	List<Report> getAllcitiesReport() throws SQLException; 
 }
