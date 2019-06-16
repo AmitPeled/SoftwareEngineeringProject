@@ -49,7 +49,6 @@ public class UserInfoImpl implements UserInfo {
 	}
 	public RequestState getState() {
 		return this.state;
-		
 	}
 
 }
