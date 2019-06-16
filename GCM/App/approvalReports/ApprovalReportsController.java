@@ -37,6 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import mainApp.GcmClient;
 import maps.City;
+import maps.Map;
 import maps.Site;
 import maps.Tour;
 
@@ -282,14 +283,62 @@ public class ApprovalReportsController  implements Initializable {
 		GcmDAO gcmDAO = gcmClient.getDataAccessObject();
 		List<CitySubmission> citySubmissions = fetchCitySubmissions(gcmDAO); 
 		List<SiteSubmission> siteSubmissions = fetchSiteSubmissions(gcmDAO);
+		List<MapSubmission> mapSubmissions = fetchMapSubmissions(gcmDAO);
+		List<TourSubmission> tourSubmissions = fetchTourSubmissions(gcmDAO);
 		
 		return new ApprovalReportsController(gcmClient, 
 				gcmDAO, 
 				citySubmissions, 
 				siteSubmissions, 
-				new ArrayList<TourSubmission>());
+				tourSubmissions,
+				mapSubmissions);
 	}
+	private static List<TourSubmission> fetchTourSubmissions(GcmDAO gcmDAO) {
+		List<TourSubmission> mapSubmissions = new ArrayList<TourSubmission>();
+		List<Tour> tourAdded = gcmDAO.getToursAddEdits();
+		List<Tour> tourModified = gcmDAO.getToursUpdateEdits();
+		List<Tour> tourDeleted = gcmDAO.getToursDeleteEdits();
 
+		if(tourAdded != null && !tourAdded.isEmpty()) {
+			for (Tour tour : tourAdded) {
+				mapSubmissions.add(new TourSubmission(tour, ActionTaken.ADD));
+			}
+		}
+		if(tourModified!= null && !tourModified.isEmpty()) {
+			for (Tour tour : tourModified) {
+				mapSubmissions.add(new TourSubmission(tour, ActionTaken.UPDATE));
+			}
+		} 
+		if(tourDeleted!= null && !tourDeleted.isEmpty()) {
+			for (Tour tour : tourDeleted) {
+				mapSubmissions.add(new TourSubmission(tour, ActionTaken.DELETE));
+			}
+		}
+		return mapSubmissions;
+	}
+	private static List<MapSubmission> fetchMapSubmissions(GcmDAO gcmDAO) {
+		List<MapSubmission> mapSubmissions = new ArrayList<MapSubmission>();
+		List<Map> mapsAdded = gcmDAO.getMapsAddEdits();
+		List<Map> mapsModified = gcmDAO.getMapsUpdateEdits();
+		List<Map> mapsDeleted = gcmDAO.getMapsDeleteEdits();
+
+		if(mapsAdded != null && !mapsAdded.isEmpty()) {
+			for (Map map : mapsAdded) {
+				mapSubmissions.add(new MapSubmission(map, ActionTaken.ADD));
+			}
+		}
+		if(mapsModified!= null && !mapsModified.isEmpty()) {
+			for (Map map : mapsModified) {
+				mapSubmissions.add(new MapSubmission(map, ActionTaken.UPDATE));
+			}
+		} 
+		if(mapsDeleted!= null && !mapsDeleted.isEmpty()) {
+			for (Map map : mapsDeleted) {
+				mapSubmissions.add(new MapSubmission(map, ActionTaken.DELETE));
+			}
+		}
+		return mapSubmissions;
+	}
 	private static List<CitySubmission> fetchCitySubmissions(GcmDAO gcmDAO) {
 		List<CitySubmission> citySubmissions = new ArrayList<CitySubmission>();
 		List<City> citiesAdded = gcmDAO.getCitiesAddEdits();
@@ -302,7 +351,7 @@ public class ApprovalReportsController  implements Initializable {
 		}
 		if(citiesModified!= null && !citiesModified.isEmpty()) {
 			for (City city : citiesModified) {
-				citySubmissions.add(new CitySubmission(city, ActionTaken.EDIT));
+				citySubmissions.add(new CitySubmission(city, ActionTaken.UPDATE));
 			}
 		} 
 		if(citiesDeleted!= null && !citiesDeleted.isEmpty()) {
@@ -325,7 +374,7 @@ public class ApprovalReportsController  implements Initializable {
 		}
 		if(sitesModified!= null && !sitesModified.isEmpty()) {
 			for (Site site : sitesModified) {
-				siteSubmissions.add(new SiteSubmission(site, ActionTaken.EDIT));
+				siteSubmissions.add(new SiteSubmission(site, ActionTaken.UPDATE));
 			}
 		} 
 		if(sitesDeleted!= null && !sitesDeleted.isEmpty()) {
