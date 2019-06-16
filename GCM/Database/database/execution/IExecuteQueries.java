@@ -64,4 +64,5 @@ public interface IExecuteQueries {
 
 	List<List<Object>> selectAllColumns(String tableName, String columnsToSelect) throws SQLException;
 
+
 }

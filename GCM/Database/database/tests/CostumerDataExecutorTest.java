@@ -35,6 +35,17 @@ public class CostumerDataExecutorTest {
 		DBConnector.closeConnection();
 	}
 
+	
+	@Test
+	void approveCitystatus()throws SQLException{
+		int cityId = 3;
+		
+		dbExecutor.updateTableColumn("citiesMetaDetails", "status", 0, "cityId", cityId);
+		
+		
+	}
+	
+	
 	@Test
 	void getPriceWithCityId() throws SQLException {
 

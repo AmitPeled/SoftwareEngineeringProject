@@ -28,7 +28,7 @@ import users.User;
 
 @SuppressWarnings("serial")
 public class CostumerDataExecutor
-		implements IGcmDataExecute, IGcmCustomerExecutor, IGcmEditorExecutor, IGcmContentManagerExecutor,IGcmGenetalManager {
+		implements IGcmDataExecute, IGcmCustomerExecutor, IGcmEditorExecutor, IGcmContentManagerExecutor {
 	IExecuteQueries queryExecutor;
 	IParseObjects objectParser;
 	private UserInfoImpl userInfoImpl;
@@ -970,11 +970,6 @@ public class CostumerDataExecutor
 		return null;
 	}
 
-	@Override
-	public int addCity(int cityId) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public void actionMapAddEdit(Map map, boolean action) throws SQLException {
@@ -1098,36 +1093,6 @@ public class CostumerDataExecutor
 
 	@Override
 	public List<Tour> getToursAddEdits() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getPriceEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void discardMapPriceEdit(Map map) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void approveMapPriceEdit(Map map) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Report getCityReport(Date startDate, Date endDate, int cityId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Report getSystemReport(Date startDate, Date endDate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
