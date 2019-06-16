@@ -28,6 +28,11 @@ public class MapTableCell extends TableCell<MapSubmission, Button> {
             	}
             }
             
+            public void disableBtn() {
+            	approve.setVisible(false);
+            	disapprove.setVisible(false);
+            }
+            
             @Override
             public void updateItem(Button item, boolean empty) {
                 super.updateItem(item, empty);
@@ -39,9 +44,11 @@ public class MapTableCell extends TableCell<MapSubmission, Button> {
                 	
                 	approve.setOnAction(event -> {
                     	takeAction(mapSubmission, true);
+                    	disableBtn();
                     });
                 	disapprove.setOnAction(event -> {
                     	takeAction(mapSubmission, false);
+                    	disableBtn();
                     });
                 	
                 	HBox pane = new HBox(approve, disapprove);

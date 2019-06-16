@@ -28,6 +28,11 @@ public class SiteTableCell extends TableCell<SiteSubmission, Button> {
             	}
             }
             
+            public void disableBtn() {
+            	approve.setVisible(false);
+            	disapprove.setVisible(false);
+            }
+            
             @Override
             public void updateItem(Button item, boolean empty) {
                 super.updateItem(item, empty);
@@ -39,9 +44,11 @@ public class SiteTableCell extends TableCell<SiteSubmission, Button> {
                 	
                 	approve.setOnAction(event -> {
                     	takeAction(siteSubmission, true);
+                    	disableBtn();
                     });
                 	disapprove.setOnAction(event -> {
                     	takeAction(siteSubmission, false);
+                    	disableBtn();
                     });
                 	
                 	HBox pane = new HBox(approve, disapprove);

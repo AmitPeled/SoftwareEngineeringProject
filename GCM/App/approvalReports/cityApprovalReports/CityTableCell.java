@@ -27,7 +27,10 @@ public class CityTableCell extends TableCell<CitySubmission, Button> {
             		gcmDAO.actionCityDeleteEdit(city, approve);
             	}
             }
-            
+            public void disableBtn() {
+            	approve.setVisible(false);
+            	disapprove.setVisible(false);
+            }
             @Override
             public void updateItem(Button item, boolean empty) {
                 super.updateItem(item, empty);
@@ -39,9 +42,12 @@ public class CityTableCell extends TableCell<CitySubmission, Button> {
                 	
                 	approve.setOnAction(event -> {
                     	takeAction(citySubmission, true);
+                    	disableBtn();
                     });
+                	
                 	disapprove.setOnAction(event -> {
                     	takeAction(citySubmission, false);
+                    	disableBtn();
                     });
                 	
                 	HBox pane = new HBox(approve, disapprove);
