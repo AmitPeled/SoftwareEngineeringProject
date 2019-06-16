@@ -200,23 +200,27 @@ public class GcmDataExecutor implements
 			return objectParser.getSite(siteRows.get(0)); // only one site row correspond to this id
 	}
 
-	@SuppressWarnings("unchecked")
 	public Tour getTour(int tourId) throws SQLException {
-		List<List<Object>> siteRows = queryExecutor.selectColumnsByValue(
-				DatabaseMetaData.getTableName(Tables.toursMetaDetails), "tourId", tourId, "*", Status.published);
-		if (siteRows.isEmpty())
+		return getTour(tourId, Status.published);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Tour getTour(int tourId, Status status) throws SQLException {
+		List<List<Object>> tourRows = queryExecutor.selectColumnsByValue(
+				DatabaseMetaData.getTableName(Tables.toursMetaDetails), "tourId", tourId, "*", status);
+		if (tourRows.isEmpty())
 			return null;
 		else {
 			List<List<Object>> siteIdsAndDurances = queryExecutor.selectColumnsByValue(
 					DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId", tourId,
-					"siteId, siteDurance", Status.published);
+					"siteId, siteDurance", status);
 
 			List<Integer> siteIds = (List<Integer>) (Object) toListOfColumnNum(siteIdsAndDurances, 1);
 
 			List<Integer> siteDurances = (List<Integer>) (Object) toListOfColumnNum(siteIdsAndDurances, 2);
 
 			List<Site> sites = getSitesByIds(siteIds);
-			return objectParser.getTour(siteRows.get(0), sites, siteDurances); // only one site row correspond to this
+			return objectParser.getTour(tourRows.get(0), sites, siteDurances); // only one site row correspond to this
 																				// id
 		}
 	}
@@ -607,17 +611,20 @@ public class GcmDataExecutor implements
 
 	@Override
 	public void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException {
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
-				objectParser.getSiteFieldsList(getSite(siteId)), Status.toAdd);
-		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance),
-				new ArrayList<Object>() {
-					{
-						add(tourId);
-						add(siteId);
-						add(durnace);
+		Site site = getSite(siteId);
+		if (site != null) {
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
+					objectParser.getSiteFieldsList(site), Status.toAdd);
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance),
+					new ArrayList<Object>() {
+						{
+							add(tourId);
+							add(siteId);
+							add(durnace);
 
-					}
-				}, Status.toAdd);
+						}
+					}, Status.toAdd);
+		}
 	}
 
 	public void addSiteToTourByStatus(int tourId, int siteId, int durnace) throws SQLException {
@@ -745,9 +752,8 @@ public class GcmDataExecutor implements
 	}
 
 	List<Site> getSitesByStatus(Status status) throws SQLException {
-		List<Integer> siteIds = toIdList(
-				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites), "status",
-						DatabaseMetaData.getStatus(status), "*"));
+		List<Integer> siteIds = toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
+				"status", DatabaseMetaData.getStatus(status), "*"));
 		System.err.println("siteId.size(): " + siteIds.size());
 		List<Site> sites = new ArrayList<>();
 		siteIds.forEach((siteId) -> {
@@ -773,7 +779,7 @@ public class GcmDataExecutor implements
 		List<Tour> tours = new ArrayList<>();
 		tourIds.forEach((tourId) -> {
 			try {
-				tours.add(getTour(tourId));
+				tours.add(getTour(tourId, status));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -887,7 +893,7 @@ public class GcmDataExecutor implements
 		List<Map> mapsObjects = new ArrayList<>();
 		mapsIds.forEach((mapId) -> {
 			try {
-				mapsObjects.add(getMapDetails(mapId));
+				mapsObjects.add(getMapDetailsByStatus(mapId, Status.toAdd));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
