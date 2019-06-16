@@ -12,6 +12,8 @@ Software engineering course final project.
 - [ ] GUI - **Exceptions thrown**
 - [x] Server side methods
 - [x] Client-Server communication
+#### Map object
+- [ ] **Map object doesn't contain all it's sites and tours (works when fetching them through other DAO methods)**
 #### Creating a city
 - [x] DAO methods
 - [x] GUI
@@ -30,16 +32,17 @@ Software engineering course final project.
 - [x] Creates an approval request
 #### Deleting sites
 - [x] GUI
-- [ ] DAO methods
-- [ ] Client-Server communication
-- [ ] Creates an approval request
+- [ ] DAO methods - **There's no method to delete a site completely**
+- [ ] Client-Server communication - **No method to delete site completely**
+- [ ] Creates an approval request - **There are methods to approve deletion, but none to create a removal request**
 #### Tours
 ##### Creating a new tour
 - [x] GUI
-- [ ] DAO methods
-- [ ] Client-Server communication
-- [ ] Creates an approval request
-##### Adding sites to tour
+- [x] DAO methods 
+- [x] Client-Server communication
+- [x] Creates an approval request
+- [ ] Appear in Map object - **Not all tours appear in Map object**
+##### Adding sites to tour (editing an existing tour)
 - [ ] GUI
 - [ ] DAO methods
 - [ ] Client-Server communication
@@ -54,10 +57,11 @@ Software engineering course final project.
 - [ ] Updates the database
 - [ ] Allows users to download maps only after subscription has been purchased
 ### Prices
-- [x] GUI
-- [ ] DAO methods
+- [ ] GUI - **Need to edit prices for all subscription/purchase types**
+- [ ] DAO methods - **Exists, but only with one price without specifications**
 - [ ] Client-Server communication
-- [ ] Creates an approval request- [ ] only privileged users can edit price
+- [ ] Creates an approval request
+- [ ] only privileged users can edit price
 ### Reports
 - [ ] Report on a single city works with real DB data
 - [ ] Report on all cities works with real DB data
