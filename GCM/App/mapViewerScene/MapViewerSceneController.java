@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import gcmDataAccess.GcmDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -44,11 +45,13 @@ public class MapViewerSceneController {
 	private MapViewer mapViewer;
 	private int cityId;
 	private MapViewerSideMenuController sideMenuController;
+	private int mapId;
 	
-	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId) {
+	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId, int mapId) {
 		this.gcmClient = gcmClient;
 		this.mapViewer = mapViewer;
 		this.cityId = cityId;
+		this.mapId = mapId;
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -88,8 +91,8 @@ public class MapViewerSceneController {
 	 * @return JavaFX Scene object
 	 */
 	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId, int cityId) {
-		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(mapId);
-		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId);
+		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId);
+		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId);
 		return mapViewerSceneController.getScene();
 	}
 	
@@ -111,7 +114,8 @@ public class MapViewerSceneController {
 	@FXML
 	public void onDeleteSite() {
 		Site site = sideMenuController.getSelectedSite();
-		System.out.println("Deleting site "+ site.getName());		
+		System.out.println("Deleting site "+ site.getName());	
+		//gcmClient.getDataAccessObject().deleteSiteFromMap(mapId, site.getId());
 	}
 	
 	@FXML
