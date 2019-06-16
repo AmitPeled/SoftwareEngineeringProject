@@ -29,7 +29,7 @@ import users.User;
 //import javax.net.ssl.SSLSocket;
 //import javax.net.ssl.SSLSocketFactory;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unchecked" })
 public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, SearchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
@@ -106,7 +106,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 			return null;
 		}
 		try {
-			System.out.println("connecting to server: ");
+//			System.out.println("connecting to server: ");
 			serverSocket = new Socket(serverHostname, serverPortNumber);
 //			factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 //			serverSocket = (SSLSocket) factory.createSocket(serverHostname, port);
@@ -182,7 +182,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		this.password = password;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsByCityName(String cityName) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByCityName, new ArrayList<Object>() {
@@ -192,7 +191,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		}, username, password)).getResponse();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsBySiteName(String siteName) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
@@ -202,7 +200,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		}, username, password)).getResponse();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getMapsByDescription(String description) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByDescription, new ArrayList<Object>() {
@@ -255,17 +252,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public int updateContent(int contentId, Object newContent) {
-		send(new RequestObject(GcmQuery.updateContent, new ArrayList<Object>() {
-			{
-				add(contentId);
-				add(newContent);
-			}
-		}, username, password));
-		return 0;
-	}
-
-	@Override
 	public boolean purchaseCityOneTime(int mapId, PurchaseDetails purchaseDetails) {
 		return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new ArrayList<Object>() {
 			{
@@ -275,7 +261,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		}, username, password)).getResponse().get(0);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getPurchasedMaps() {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getPurchasedMaps, null, username, password))
@@ -339,7 +324,6 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		return 0;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Site> getCitySites(int cityId) {
 		return (List<Site>) (Object) send(new RequestObject(GcmQuery.getCitySites, new ArrayList<Object>() {
@@ -374,6 +358,277 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
+	public File downloadMap(int mapId) {
+		try {
+			return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
+				{
+					add(mapId);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return new File("import\\resources\\Gta3_map.gif");
+		}
+	}
+
+	@Override
+	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails) {
+		try {
+			return (boolean) send(new RequestObject(GcmQuery.purchaseMembershipToCity, new ArrayList<Object>() {
+				{
+					add(cityId);
+					add(timeInterval);
+					add(purchaseDetails);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public void notifyMapView(int mapId) {
+		send(new RequestObject(GcmQuery.notifyMapView, new ArrayList<Object>() {
+			{
+				add(mapId);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public String getSavedCreditCard() {
+		try {
+			return (String) send(
+					new RequestObject(GcmQuery.getSavedCreditCard, new ArrayList<Object>(), username, password))
+							.getResponse().get(0);
+		} catch (Exception e) {
+			return "No credit card saved.";
+		}
+	}
+
+	@Override
+	public void editCityPrice(int mapId, double newPrice) {
+		send(new RequestObject(GcmQuery.editCityPrice, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(newPrice);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionMapAddEdit(Map map, boolean action) {
+		send(new RequestObject(GcmQuery.actionMapAddEdit, new ArrayList<Object>() {
+			{
+				add(map);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionMapUpdateEdit(Map map, boolean action) {
+		send(new RequestObject(GcmQuery.actionMapUpdateEdit, new ArrayList<Object>() {
+			{
+				add(map);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionMapDeleteEdit(Map map, boolean action) {
+		send(new RequestObject(GcmQuery.actionMapDeleteEdit, new ArrayList<Object>() {
+			{
+				add(map);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionCityAddEdit(City city, boolean action) {
+		send(new RequestObject(GcmQuery.actionCityAddEdit, new ArrayList<Object>() {
+			{
+				add(city);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionCityUpdateEdit(City city, boolean action) {
+		send(new RequestObject(GcmQuery.actionCityUpdateEdit, new ArrayList<Object>() {
+			{
+				add(city);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionCityDeleteEdit(City city, boolean action) {
+		send(new RequestObject(GcmQuery.actionCityDeleteEdit, new ArrayList<Object>() {
+			{
+				add(city);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionSiteAddEdit(Site site, boolean action) {
+		send(new RequestObject(GcmQuery.actionSiteAddEdit, new ArrayList<Object>() {
+			{
+				add(site);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionSiteUpdateEdit(Site site, boolean action) {
+		send(new RequestObject(GcmQuery.actionSiteUpdateEdit, new ArrayList<Object>() {
+			{
+				add(site);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void actionSiteDeleteEdit(Site site, boolean action) {
+		send(new RequestObject(GcmQuery.actionSiteDeleteEdit, new ArrayList<Object>() {
+			{
+				add(site);
+				add(action);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public List<Map> getMapsAddEdits() {
+		return (List<Map>) (Object) send(
+				new RequestObject(GcmQuery.getMapsAddEdits, new ArrayList<Object>(), username, password)).getResponse();
+	}
+
+	@Override
+	public List<Map> getMapsUpdateEdits() {
+		return (List<Map>) (Object) send(
+				new RequestObject(GcmQuery.getMapsUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
+	public List<Map> getMapsDeleteEdits() {
+		return (List<Map>) (Object) send(
+				new RequestObject(GcmQuery.getMapsDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
+	public List<Site> getSitesUpdateEdits() {
+		return (List<Site>) (Object) send(
+				new RequestObject(GcmQuery.getSitesUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
+	public List<Site> getSitesDeleteEdits() {
+		return (List<Site>) (Object) send(
+				new RequestObject(GcmQuery.getSitesDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
+	public List<City> getCitiesAddEdits() {
+		return (List<City>) (Object) send(
+				new RequestObject(GcmQuery.getCitiesAddEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
+	public List<City> getCitiesUpdateEdits() {
+		return (List<City>) (Object) send(
+				new RequestObject(GcmQuery.getCitiesUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
+	public List<City> getCitiesDeleteEdits() {
+		return (List<City>) (Object) send(
+				new RequestObject(GcmQuery.getCitiesDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
+	public List<Site> getSitesAddEdits() {
+		return (List<Site>) (Object) send(
+				new RequestObject(GcmQuery.getSitesAddEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
+	public List<Map> getMapsObjectAddedTo(int contentId) {
+		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsObjectAddedTo, new ArrayList<Object>() {
+			{
+				add(contentId);
+			}
+		}, username, password)).getResponse();
+
+	}
+
+	@Override
+	public List<City> getCitiesObjectAddedTo(int contentId) {
+		return (List<City>) (Object) send(new RequestObject(GcmQuery.getCitiesObjectAddedTo, new ArrayList<Object>() {
+			{
+				add(contentId);
+			}
+		}, username, password)).getResponse();
+
+	}
+
+	@Override
+	public List<Tour> getToursObjectAddedTo(int contentId) {
+		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursObjectAddedTo, new ArrayList<Object>() {
+			{
+				add(contentId);
+			}
+		}, username, password)).getResponse();
+
+	}
+
+	@Override
+	public List<Tour> getToursAddEdits() {
+		return (List<Tour>) (Object) send(
+				new RequestObject(GcmQuery.getToursAddEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
+	public List<Tour> getToursUpdateEdits() {
+		return (List<Tour>) (Object) send(
+				new RequestObject(GcmQuery.getToursUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
+	public List<Tour> getToursDeleteEdits() {
+		return (List<Tour>) (Object) send(
+				new RequestObject(GcmQuery.getToursDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
+
+	}
+
+	@Override
 	public double getMembershipPrice(int cityId, int timeInterval) {
 		return 0;
 	}
@@ -388,184 +643,5 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	public boolean repurchaseMembershipBySavedDetails() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public File downloadMap(int mapId) {
-//		return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
-//			{
-//				add(mapId);
-//			}
-//		}, username, password)).getResponse().get(0);
-		return null; // TODO
-	}
-
-	@Override
-	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void notifyMapView(int mapId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getSavedCreditCard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void changeMapPrice(int mapId, double newPrice) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionMapAddEdit(Map map, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionMapUpdateEdit(Map map, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionMapDeleteEdit(Map map, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionCityAddEdit(City city, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionCityUpdateEdit(City city, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionCityDeleteEdit(City city, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionSiteAddEdit(Site site, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionSiteUpdateEdit(Site site, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionSiteDeleteEdit(Site site, boolean action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public List<Map> getMapsAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getMapsUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getMapsDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List<Site> getSitesUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Site> getSitesDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<City> getCitiesAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<City> getCitiesUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<City> getCitiesDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Site> getSitesAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map> getMapsObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<City> getCitiesObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Tour> getToursObjectAddedTo(int contentId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Tour> getToursAddEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Tour> getToursUpdateEdits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Tour> getToursDeleteEdits() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
