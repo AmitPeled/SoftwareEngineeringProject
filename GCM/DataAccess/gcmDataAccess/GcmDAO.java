@@ -347,7 +347,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
 		int startingIndex = 0;
 		if (numberOfLastAddedPlaces != 0) {
-			startingIndex = sitesList.size() - numberOfLastAddedPlaces - 1;
+			startingIndex = sitesList.size() - numberOfLastAddedPlaces;
 		}
 
 		for (int i = startingIndex; i < sitesList.size(); i++) {
