@@ -66,8 +66,7 @@ public class MapViewerSceneController {
 			
 			List<Tour> toursList = new ArrayList<Tour>();
 			toursList.add(new Tour("SomeDemoTour"));
-			List<Site> sitesList = new ArrayList<Site>();
-			sitesList.add(new Site(cityId, "Demo site", new Coordinates(0,0)));
+			List<Site> sitesList = gcmClient.getDataAccessObject().getCitySites(cityId);
 			sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
 			loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(SIDE_MENU_FXML));
@@ -99,7 +98,7 @@ public class MapViewerSceneController {
 	@FXML
 	public void onAddSite() { 
 		double widthLocation = mapViewer.getMapClickCoordinates().x * mapViewer.getImageWorldWidth();
-		double heightLocation = mapViewer.getMapClickCoordinates().y* mapViewer.getImageWorldHeight();
+		double heightLocation = mapViewer.getMapClickCoordinates().y * mapViewer.getImageWorldHeight();
 		System.out.println("Adding site to "+ widthLocation + ","+heightLocation);
 		gcmClient.switchSceneToAddSite(cityId,
 				widthLocation,
