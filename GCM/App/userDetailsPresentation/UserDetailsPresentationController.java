@@ -3,6 +3,7 @@ package userDetailsPresentation;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gcmDataAccess.GcmDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
@@ -14,6 +15,7 @@ public class UserDetailsPresentationController implements Initializable {
 
 	private User user;
 	private GcmClient gcmClient;
+	private GcmDAO gcmDAO;
 	
 	@FXML
 	private Text nametxt, lastnametxt, emailtxt, phonenumbertxt, usernametxt;
@@ -29,6 +31,7 @@ public class UserDetailsPresentationController implements Initializable {
 		emailtxt.setText(user.getEmail());
 		phonenumbertxt.setText(user.getPhoneNumber());
 		usernametxt.setText(user.getUsername());
+		
 	}
 
 	@Override
