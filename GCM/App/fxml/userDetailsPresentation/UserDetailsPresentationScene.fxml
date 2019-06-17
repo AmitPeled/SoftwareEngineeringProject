@@ -99,8 +99,19 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
       </HBox>
-      <ListView prefHeight="200.0" prefWidth="200.0" />
-      <Button mnemonicParsing="false" text="Back">
+      <Label text="Purchase history">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <VBox.margin>
+            <Insets left="10.0" />
+         </VBox.margin>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listviewLV" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="backbtn" mnemonicParsing="false" onAction="#onBackButton" text="Back">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>

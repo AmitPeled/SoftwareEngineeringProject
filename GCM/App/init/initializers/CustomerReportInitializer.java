@@ -10,7 +10,7 @@ public class CustomerReportInitializer implements Initializer {
 	
 	public CustomerReportInitializer(GcmClient gcmClient) {
 		controller = new UserDetailsPresentationController(gcmClient);
-		fxmlFilePath = "/fxml/UserDetailsPresentationScene.fxml";
+		fxmlFilePath = "/fxml/userDetailsPresentation/UserDetailsPresentationScene.fxml";
 	}
 	
 	@Override
