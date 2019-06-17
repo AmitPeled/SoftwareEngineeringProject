@@ -383,34 +383,36 @@ public class ApprovalReportsController  implements Initializable {
 	}
 	
 	private static List<SiteSubmission> fetchSiteSubmissions(GcmDAO gcmDAO) {
-		List<SiteSubmission> siteSubmissions = new ArrayList<SiteSubmission>();
-		List<Site> sitesAdded = gcmDAO.getSitesAddEdits();
-		List<Site> sitesModified = gcmDAO.getSitesUpdateEdits();
-		List<Site> sitesDeleted = gcmDAO.getSitesDeleteEdits();
-		
-		try {
-			if(sitesAdded != null && !sitesAdded.isEmpty()) {
-				for (Site site : sitesAdded) {
-					System.out.println(site);
-					siteSubmissions.add(new SiteSubmission(site, ActionTaken.ADD));
-				}
-			}
-			if(sitesModified!= null && !sitesModified.isEmpty()) {
-				for (Site site : sitesModified) {
-					siteSubmissions.add(new SiteSubmission(site, ActionTaken.UPDATE));
-				}
-			} 
-			if(sitesDeleted!= null && !sitesDeleted.isEmpty()) {
-				for (Site site : sitesDeleted) {
-					siteSubmissions.add(new SiteSubmission(site, ActionTaken.DELETE));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ArrayList<SiteSubmission>();
-		}
-		
+		List<SiteSubmission> siteSubmissions = gcmDAO.getSiteSubmissions();
 		return siteSubmissions;
+//		List<SiteSubmission> siteSubmissions = new ArrayList<SiteSubmission>();
+//		List<Site> sitesAdded = gcmDAO.getSitesAddEdits();
+//		List<Site> sitesModified = gcmDAO.getSitesUpdateEdits();
+//		List<Site> sitesDeleted = gcmDAO.getSitesDeleteEdits();
+//		
+//		try {
+//			if(sitesAdded != null && !sitesAdded.isEmpty()) {
+//				for (Site site : sitesAdded) {
+//					System.out.println(site);
+//					siteSubmissions.add(new SiteSubmission(site, ActionTaken.ADD));
+//				}
+//			}
+//			if(sitesModified!= null && !sitesModified.isEmpty()) {
+//				for (Site site : sitesModified) {
+//					siteSubmissions.add(new SiteSubmission(site, ActionTaken.UPDATE));
+//				}
+//			} 
+//			if(sitesDeleted!= null && !sitesDeleted.isEmpty()) {
+//				for (Site site : sitesDeleted) {
+//					siteSubmissions.add(new SiteSubmission(site, ActionTaken.DELETE));
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new ArrayList<SiteSubmission>();
+//		}
+//		
+//		return siteSubmissions;
 	}
 }
 

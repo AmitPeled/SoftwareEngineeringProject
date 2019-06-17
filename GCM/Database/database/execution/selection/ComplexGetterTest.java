@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import approvalReports.mapApprovalReports.MapSubmission;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
@@ -91,20 +92,43 @@ class ComplexGetterTest {
 //		System.out.println(gcmDataExecutor.getMapsDeleteEdits().size());
 ////		assertEquals("fsd", cities.get(3).getDescription());
 //	}
+//	@Test
+//	void getSitesSubmissions() throws SQLException {
+//		List<SiteSubmission> sites = gcmDataExecutor.getSiteSubmissions();
+////		System.out.println(sites);
+////		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toAdd));
+//		sites = gcmDataExecutor.getSiteSubmissionsByStatus(Status.toAdd);
+//		System.out.println("site addition in place 4 is added to " + sites.get(4).getContainingObjectType() + ", of id="
+//				+ sites.get(4).getContainingObjectID() + ". site.description() = "
+//				+ sites.get(4).getSite().getDescription());
+//		System.out.println("site addition in place 6 is added to " + sites.get(6).getContainingObjectType()
+//				+ ", of id=" + sites.get(6).getContainingObjectID() + ". site.description() = "
+//				+ sites.get(6).getSite().getDescription());
+//		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toDelete));
+//		sites = gcmDataExecutor.getSiteSubmissionsByStatus(Status.toUpdate);
+//		System.out.println(sites.get(0).getSite().getDescription()+", action="+sites.get(0).getActionTaken());
+////		assertEquals("fsd", cities.get(3).getDescription());
+//	}
 	@Test
-	void getSitesSubmissions() throws SQLException {
-		List<SiteSubmission> sites = gcmDataExecutor.getSiteSubmissions();
-//		System.out.println(sites);
+	void getMapSubmissions() throws SQLException {
+		List<MapSubmission> maps = gcmDataExecutor.getMapSubmissions();
+		System.out.println(maps);
 //		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toAdd));
-		sites = gcmDataExecutor.getSiteSubmissionsByStatus(Status.toAdd);
-		System.out.println("site addition in place 4 is added to " + sites.get(4).getContainingObjectType() + ", of id="
-				+ sites.get(4).getContainingObjectID() + ". site.description() = "
-				+ sites.get(4).getSite().getDescription());
-		System.out.println("site addition in place 6 is added to " + sites.get(6).getContainingObjectType()
-				+ ", of id=" + sites.get(6).getContainingObjectID() + ". site.description() = "
-				+ sites.get(6).getSite().getDescription());
-		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toDelete));
-		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toUpdate));
+		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.toAdd);
+		System.out.println(maps);
+		System.out.println("site addition in place 4 is added to city of id="
+				+ maps.get(0).getContainingCityID() + ". map.description() = "
+				+ maps.get(0).getMap().getDescription());
+		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.toUpdate);
+		System.out.println(maps);
+		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.toDelete);
+		System.out.println(maps);
+//		System.out.println("site addition in place 6 is added to " + maps.get(6).getContainingObjectType()
+//				+ ", of id=" + maps.get(6).getContainingObjectID() + ". site.description() = "
+//				+ maps.get(6).getSite().getDescription());
+//		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toDelete));
+//		maps = gcmDataExecutor.getSiteSubmissionsByStatus(Status.toUpdate);
+//		System.out.println(maps.get(0).getSite().getDescription()+", action="+maps.get(0).getActionTaken());
 //		assertEquals("fsd", cities.get(3).getDescription());
 	}
 

@@ -57,4 +57,8 @@ public class SiteSubmission {
 	public void setContainingObjectID(int containingObjectID) {
 		this.containingObjectID = containingObjectID;
 	}
+
+	public ActionTaken getAction() {
+		return actionTaken;
+	}
 }

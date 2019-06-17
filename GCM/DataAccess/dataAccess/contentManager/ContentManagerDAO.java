@@ -2,6 +2,10 @@ package dataAccess.contentManager;
 
 import java.util.List;
 
+import approvalReports.cityApprovalReports.CitySubmission;
+import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.sitesApprovalReports.SiteSubmission;
+import approvalReports.tourApprovalReports.TourSubmission;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -52,9 +56,14 @@ public interface ContentManagerDAO {
 	List<City> getCitiesDeleteEdits();
 
 	List<Map> getMapsObjectAddedTo(int contentId); // gets list of the maps that the object is added to
-	List<City> getCitiesObjectAddedTo(int contentId);// gets list of the cities that the object is added to
-	List<Tour> getToursObjectAddedTo(int contentId);// gets list of the tours that the object is added to
+	List<City> getCitiesObjectAddedTo(int contentId); // gets list of the cities that the object is added to
+	List<Tour> getToursObjectAddedTo(int contentId); // gets list of the tours that the object is added to
 	
 	void editCityPrice(int cityId, double newPrice);
+	List<SiteSubmission> getSiteSubmissions();
+	void actionCityEdit(CitySubmission citySubmission, boolean action);
+	void actionMapEdit(MapSubmission mapSubmission, boolean action);
+	void actionTourEdit(TourSubmission tourSubmission, boolean action);
+	void actionSiteEdit(SiteSubmission siteSubmission, boolean action);
 
 }

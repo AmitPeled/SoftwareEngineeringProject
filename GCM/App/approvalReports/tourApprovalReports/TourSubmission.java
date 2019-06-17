@@ -47,6 +47,9 @@ public class TourSubmission {
 	public String getActionTaken() {
 		return actionTaken.toString();
 	}
+	public ActionTaken getAction() {
+		return actionTaken;
+	}
 
 	public ObjectsEnum getContainingObjectType() {
 		return containingObjectType;
