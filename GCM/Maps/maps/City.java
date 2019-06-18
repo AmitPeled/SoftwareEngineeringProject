@@ -54,15 +54,15 @@ public final class City implements Serializable {
 		return this.descriptionString;
 	}
 
-	public SortedSet<Integer> getMapIds() {
+	public SortedSet<Integer> getMapsId() {
 		return this.maps;
 	}
 
-	public SortedSet<Integer> getSiteIds() {
+	public SortedSet<Integer> getSitesId() {
 		return this.sites;
 	}
 	
-	public SortedSet<Integer> getTourIds() {
+	public SortedSet<Integer> getToursId() {
 		return this.tours;
 	}
 }

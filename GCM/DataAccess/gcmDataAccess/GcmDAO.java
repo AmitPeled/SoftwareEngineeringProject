@@ -641,25 +641,45 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 
 	@Override
 	public void actionCityEdit(CitySubmission citySubmission, boolean action) {
-		send(new RequestObject(GcmQuery.actionCityEdit, new ArrayList<Object>(), username, password));
+		send(new RequestObject(GcmQuery.actionCityEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
 
 	}
 
 	@Override
 	public void actionMapEdit(MapSubmission citySubmission, boolean action) {
-		send(new RequestObject(GcmQuery.actionMapEdit, new ArrayList<Object>(), username, password));
+		send(new RequestObject(GcmQuery.actionMapEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
 
 	}
 
 	@Override
 	public void actionTourEdit(TourSubmission citySubmission, boolean action) {
-		send(new RequestObject(GcmQuery.actionTourEdit, new ArrayList<Object>(), username, password));
+		send(new RequestObject(GcmQuery.actionTourEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
 
 	}
 
 	@Override
 	public void actionSiteEdit(SiteSubmission citySubmission, boolean action) {
-		send(new RequestObject(GcmQuery.actionSiteEdit, new ArrayList<Object>(), username, password));
+		send(new RequestObject(GcmQuery.actionSiteEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
 
 	}
 

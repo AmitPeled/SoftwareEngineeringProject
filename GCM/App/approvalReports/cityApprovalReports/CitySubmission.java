@@ -17,4 +17,7 @@ public class CitySubmission {
 	public String getActionTaken() {
 		return actionTaken.toString();
 	}
+	public ActionTaken getAction() {
+		return actionTaken;
+	}
 }

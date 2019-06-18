@@ -51,4 +51,8 @@ public class MapSubmission {
 	public void setMapFile(File mapFile) {
 		this.mapFile = mapFile;
 	}
+
+	public ActionTaken getAction() {
+		return actionTaken;
+	}
 }
