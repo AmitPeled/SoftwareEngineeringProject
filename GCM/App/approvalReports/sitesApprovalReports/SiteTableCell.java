@@ -17,15 +17,16 @@ public class SiteTableCell extends TableCell<SiteSubmission, Button> {
             }
             
             public void takeAction(SiteSubmission siteSubmission, Boolean approve) {
-            	String actionTaken = siteSubmission.getActionTaken();
-            	Site map = siteSubmission.getSite();
-            	if(actionTaken.equals("ADD")) {
-            		gcmDAO.actionSiteAddEdit(map, approve);
-            	}else if(actionTaken.equals("UPDATE")) {
-            		gcmDAO.actionSiteUpdateEdit(map, approve);
-            	}else {
-            		gcmDAO.actionSiteDeleteEdit(map, approve);
-            	}
+            	gcmDAO.actionSiteEdit(siteSubmission, approve);
+//            	String actionTaken = siteSubmission.getActionTaken();
+//            	Site map = siteSubmission.getSite();
+//            	if(actionTaken.equals("ADD")) {
+//            		gcmDAO.actionSiteAddEdit(map, approve);
+//            	}else if(actionTaken.equals("UPDATE")) {
+//            		gcmDAO.actionSiteUpdateEdit(map, approve);
+//            	}else {
+//            		gcmDAO.actionSiteDeleteEdit(map, approve);
+//            	}
             }
             
             public void disableBtn() {

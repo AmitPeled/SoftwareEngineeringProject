@@ -17,15 +17,16 @@ public class CityTableCell extends TableCell<CitySubmission, Button> {
             }
             
             public void takeAction(CitySubmission citySubmission, Boolean approve) {
-            	String actionTaken = citySubmission.getActionTaken();
-            	City city = citySubmission.getCity();
-            	if(actionTaken.equals("ADD")) {
-            		gcmDAO.actionCityAddEdit(city, approve);
-            	}else if(actionTaken.equals("UPDATE")) {
-            		gcmDAO.actionCityUpdateEdit(city, approve);
-            	}else {
-            		gcmDAO.actionCityDeleteEdit(city, approve);
-            	}
+            	gcmDAO.actionCityEdit(citySubmission, approve);
+//            	String actionTaken = citySubmission.getActionTaken();
+//            	City city = citySubmission.getCity();
+//            	if(actionTaken.equals("ADD")) {
+//            		gcmDAO.actionCityAddEdit(city, approve);
+//            	}else if(actionTaken.equals("UPDATE")) {
+//            		gcmDAO.actionCityUpdateEdit(city, approve);
+//            	}else {
+//            		gcmDAO.actionCityDeleteEdit(city, approve);
+//            	}
             }
             public void disableBtn() {
             	approve.setVisible(false);
