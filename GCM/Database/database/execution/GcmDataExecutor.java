@@ -760,6 +760,8 @@ public class GcmDataExecutor implements
 		if (status == Status.ADD)
 			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
 					objectParser.getTourMetaFieldsList(tour), status);
+		else queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
+				objectParser.getTourMetaFieldsList(tour), status);
 		int tourId = id;
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesTours), new ArrayList<Object>() {
 			{
