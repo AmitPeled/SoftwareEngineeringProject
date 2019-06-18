@@ -1,11 +1,13 @@
 package approvalReports.mapApprovalReports;
 
 import java.io.File;
+import java.io.Serializable;
 
 import approvalReports.ActionTaken;
 import maps.Map;
 
-public class MapSubmission {
+public class MapSubmission implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Map map;
 	private File mapFile;
 	private ActionTaken actionTaken;
