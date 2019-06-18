@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import approvalReports.ActionTaken;
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.sitesApprovalReports.SiteSubmission;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
@@ -29,7 +31,7 @@ import users.User;
  *
  */
 class GcmDatabaseExecutorTest {
-	static IGcmDataExecute gcmDataExecutor;
+	static GcmDataExecutor gcmDataExecutor;
 	static int cityId;
 	static int mapId = 2;
 	static int siteId;
@@ -121,18 +123,90 @@ class GcmDatabaseExecutorTest {
 //
 //	}
 
+//	@Test
+//	void deleteCityTest() throws SQLException {
+//		gcmDataExecutor.deleteCityEdit(cityId);
+//		city = gcmDataExecutor.getCityByMapId(mapId);
+//		assertNotNull(city);
+////		System.err.println("mapId=" + mapId);
+//		assertNotNull(gcmDataExecutor.getMapDetails(mapId));
+////		System.out.println("cityid = " + city.getId());
+//		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.DELETE), true);
+//		city = gcmDataExecutor.getCityByMapId(mapId);
+//		assertNull(city);
+//		assertNull(gcmDataExecutor.getMapDetails(mapId));
+//		assertNull(gcmDataExecutor.getMapFile(mapId));
+//	}
+
+//	@Test
+//	void addSiteTest() throws SQLException {
+//		site = new Site("site name", "site", "type", true, new Coordinates());
+//		siteId = gcmDataExecutor.addNewSiteToCity(cityId, site);
+//		List<SiteSubmission> siteSubmissions = gcmDataExecutor.getSiteSubmissions();
+//		assertFalse(siteSubmissions.isEmpty());
+//		for (SiteSubmission submission : gcmDataExecutor.getSiteSubmissions()) {
+//			System.out.println("approving site. " + submission.getActionTaken() + ", containingType="
+//					+ submission.getContainingObjectID() + ", containingId=" + submission.getContainingObjectType() + ", "
+//					+ submission.getSite().getDescription());
+//			gcmDataExecutor.actionSiteEdit(submission, true);
+//		}
+//		gcmDataExecutor.UpdateSite(siteId, new Site("updated name", "updated desc", "type", false, new Coordinates()));
+//		assertEquals(site.getDescription(), siteSubmissions.get(0).getSite().getDescription());
+//		for (SiteSubmission submission : gcmDataExecutor.getSiteSubmissions()) {
+//			System.out.println("approving site. " + submission.getActionTaken() + ", containingType="
+//					+ submission.getContainingObjectID() + ", containingId=" + submission.getContainingObjectType() + ", "
+//					+ submission.getSite().getDescription());
+//			gcmDataExecutor.actionSiteEdit(submission, true);
+//		}
+//		System.err.println("site received: " + gcmDataExecutor.getSite(siteId).getId());
+//		assertTrue(gcmDataExecutor.getSiteSubmissions().isEmpty());
+////		assertNotNull(gcmDataExecutor.getSite(siteId));
+////		assertEquals(gcmDataExecutor.getSite(siteId).getDescription(), "updated desc");
+////		gcmDataExecutor.actionSiteEdit(tour, action);
+////		assertNull(gcmDataExecutor.getSiteSubmissions());
+////		System.err.println("mapId=" + mapId);
+////		assertNotNull(gcmDataExecutor.getMapDetails(mapId));
+////		System.out.println("cityid = " + city.getId());
+////		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.DELETE), true);
+////		city = gcmDataExecutor.getCityByMapId(mapId);
+////		assertNull(city);
+////		assertNull(gcmDataExecutor.getMapDetails(mapId));
+////		assertNull(gcmDataExecutor.getMapFile(mapId));
+//	}
 	@Test
-	void deleteCityTest() throws SQLException {
-		gcmDataExecutor.deleteCityEdit(cityId);
-		city = gcmDataExecutor.getCityByMapId(mapId);
-		assertNotNull(city);
-		System.err.println("mapId=" + mapId);
-		assertNotNull(gcmDataExecutor.getMapDetails(mapId));
-		System.out.println("cityid = " + city.getId());
-		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.DELETE), true);
-		city = gcmDataExecutor.getCityByMapId(mapId);
-		assertNull(city);
-		assertNull(gcmDataExecutor.getMapDetails(mapId));
-		assertNull(gcmDataExecutor.getMapFile(mapId));
+	void addMapTest() throws SQLException {
+		map = new Map("map name", "map", 1,1, new Coordinates());
+		mapId = gcmDataExecutor.addMapToCity(cityId, map, mapFile);
+		List<MapSubmission> mapSubmissions = gcmDataExecutor.getMapSubmissions();
+		assertFalse(mapSubmissions.isEmpty());
+		for (MapSubmission submission : gcmDataExecutor.getMapSubmissions()) {
+			System.out.println("approving map. " + submission.getActionTaken() + ", containingCityId="
+					+ submission.getContainingCityID() + ", "
+					+ submission.getMap().getDescription());
+			gcmDataExecutor.actionMapEdit(submission, false);
+		}
+//		gcmDataExecutor.UpdateSite(siteId, new Site("updated name", "updated desc", "type", false, new Coordinates()));
+//		assertEquals(site.getDescription(), siteSubmissions.get(0).getSite().getDescription());
+//		for (SiteSubmission submission : gcmDataExecutor.getSiteSubmissions()) {
+//			System.out.println("approving site. " + submission.getActionTaken() + ", containingType="
+//					+ submission.getContainingObjectID() + ", containingId=" + submission.getContainingObjectType() + ", "
+//					+ submission.getSite().getDescription());
+//			gcmDataExecutor.actionSiteEdit(submission, true);
+//		}
+//		System.err.println("site received: " + gcmDataExecutor.getSite(siteId).getId());
+//		assertTrue(gcmDataExecutor.getSiteSubmissions().isEmpty());
+//		assertNotNull(gcmDataExecutor.getSite(siteId));
+//		assertEquals(gcmDataExecutor.getSite(siteId).getDescription(), "updated desc");
+//		gcmDataExecutor.actionSiteEdit(tour, action);
+//		assertNull(gcmDataExecutor.getSiteSubmissions());
+//		System.err.println("mapId=" + mapId);
+//		assertNotNull(gcmDataExecutor.getMapDetails(mapId));
+//		System.out.println("cityid = " + city.getId());
+//		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.DELETE), true);
+//		city = gcmDataExecutor.getCityByMapId(mapId);
+//		assertNull(city);
+//		assertNull(gcmDataExecutor.getMapDetails(mapId));
+//		assertNull(gcmDataExecutor.getMapFile(mapId));
 	}
+
 }

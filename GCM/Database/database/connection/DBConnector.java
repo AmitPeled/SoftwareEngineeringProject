@@ -16,8 +16,10 @@ public class DBConnector {
 	public static Connection connect(String host, String DBName, String username, String password) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + DBName
-					+ "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", username, password); // For MySQL
+			conn = DriverManager.getConnection(DBName, username, dbPassword);
+
+//			conn = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + DBName
+//					+ "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", username, password); // For MySQL
 		} catch (SQLException e) {
 			System.err.println("unable to connect to DB");
 			System.err.println(e.getMessage());
