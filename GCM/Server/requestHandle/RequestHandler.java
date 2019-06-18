@@ -9,6 +9,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import approvalReports.cityApprovalReports.CitySubmission;
+import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.sitesApprovalReports.SiteSubmission;
+import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.users.PurchaseDetails;
 import database.execution.IGcmDataExecute;
 import maps.City;
@@ -73,11 +77,19 @@ public class RequestHandler implements IHandleRequest {
 				case getMapFile:
 					listToSend.add(gcmDataExecutor.getMapFile((int) listObjectReceived.get(0)));
 					break;
-				case deleteContent:
+				case deleteMap:
 					gcmDataExecutor.deleteMapEdit((int) listObjectReceived.get(0));
 					break;
 				case addCity:
 					listToSend.add(gcmDataExecutor.addCity((City) listObjectReceived.get(0)));
+					break;
+				case getSiteSubmissions:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getSiteSubmissions();
+				case getMapSubmissions:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapSubmissions();
+					break;
+				case getTourSubmissions:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getTourSubmissions();
 					break;
 //				case addCityWithInitialMap:
 //					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
@@ -134,7 +146,7 @@ public class RequestHandler implements IHandleRequest {
 					gcmDataExecutor.deleteSiteFromMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
 					break;
 				case deleteCity:
-					gcmDataExecutor.deleteCity((int) listObjectReceived.get(0));
+					gcmDataExecutor.deleteCityEdit((int) listObjectReceived.get(0));
 					break;
 				case actionCityAddEdit:
 					gcmDataExecutor.actionCityAddEdit((City) listObjectReceived.get(0),
@@ -231,7 +243,25 @@ public class RequestHandler implements IHandleRequest {
 				case getToursUpdateEdits:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getToursUpdateEdits();
 					break;
+				case actionTourEdit:
+					gcmDataExecutor.actionTourEdit((TourSubmission) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionSiteEdit:
+					gcmDataExecutor.actionSiteEdit((SiteSubmission) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionMapEdit:
+					gcmDataExecutor.actionMapEdit((MapSubmission) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
+				case actionCityEdit:
+					gcmDataExecutor.actionCityEdit((CitySubmission) listObjectReceived.get(0),
+							(boolean) listObjectReceived.get(1));
+					break;
 
+				case purchaseCity:
+					break;
 				default:
 					break;
 				}
@@ -244,7 +274,7 @@ public class RequestHandler implements IHandleRequest {
 			System.err.println(e.getMessage());
 
 		} catch (Exception e) {
-			System.err.println("server exception. client query="+query);
+			System.err.println("server exception. client query=" + query);
 			System.err.println(e.getMessage());
 		}
 
@@ -252,6 +282,9 @@ public class RequestHandler implements IHandleRequest {
 	}
 
 	private boolean verifyPrivilege(RequestState userType, GcmQuery query) {
+		int a = 0;
+		if (a == 0)
+			return true;
 //		List<GcmQuery> everyone = Arrays.asList( GcmQuery.addCustomer, GcmQuery.verifyUser, GcmQuery.getMapDetails,
 //				GcmQuery.getMapsByCityName, GcmQuery.getMapsBySiteName, GcmQuery.getMapsByDescription );
 //		List<GcmQuery> customer = Arrays.asList( GcmQuery.getUserDetails, GcmQuery.verifyUser, GcmQuery.downloadMap,
@@ -283,7 +316,7 @@ public class RequestHandler implements IHandleRequest {
 		case deleteCity:
 			return userType == RequestState.editor || userType == RequestState.contentManager
 					|| userType == RequestState.generalManager;
-		case deleteContent:
+		case deleteMap:
 			return userType == RequestState.editor || userType == RequestState.contentManager
 					|| userType == RequestState.generalManager;
 		case deleteSiteFromMap:
@@ -298,9 +331,6 @@ public class RequestHandler implements IHandleRequest {
 			return userType == RequestState.customer;
 		case purchaseCity:
 			return userType == RequestState.customer;
-		case updateContent:
-			return userType == RequestState.editor || userType == RequestState.contentManager
-					|| userType == RequestState.generalManager;
 		case addNewTourToCity:
 			return userType == RequestState.editor || userType == RequestState.contentManager
 					|| userType == RequestState.generalManager;

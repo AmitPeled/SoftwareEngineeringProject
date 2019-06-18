@@ -1,10 +1,13 @@
 package approvalReports.mapApprovalReports;
 
+import java.io.File;
+
 import approvalReports.ActionTaken;
 import maps.Map;
 
 public class MapSubmission {
 	private Map map;
+	private File mapFile;
 	private ActionTaken actionTaken;
 	/**
 	 * the id of the city contained in. if ADD/DELETE, field contains the id of the
@@ -18,9 +21,10 @@ public class MapSubmission {
 		this.actionTaken = actionTaken;
 	}
 
-	public MapSubmission(int containingCityID, Map map, ActionTaken actionTaken) {
+	public MapSubmission(int containingCityID, Map map, File mapFile, ActionTaken actionTaken) {
 		this.setContainingCityID(containingCityID);
 		this.map = map;
+		this.setMapFile(mapFile);
 		this.actionTaken = actionTaken;
 	}
 
@@ -38,5 +42,17 @@ public class MapSubmission {
 
 	public void setContainingCityID(int containingCityID) {
 		this.containingCityID = containingCityID;
+	}
+
+	public File getMapFile() {
+		return mapFile;
+	}
+
+	public void setMapFile(File mapFile) {
+		this.mapFile = mapFile;
+	}
+
+	public ActionTaken getAction() {
+		return actionTaken;
 	}
 }
