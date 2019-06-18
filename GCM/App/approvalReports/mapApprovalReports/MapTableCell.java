@@ -17,15 +17,16 @@ public class MapTableCell extends TableCell<MapSubmission, Button> {
             }
             
             public void takeAction(MapSubmission mapSubmission, Boolean approve) {
-            	String actionTaken = mapSubmission.getActionTaken();
-            	Map map = mapSubmission.getMap();
-            	if(actionTaken.equals("ADD")) {
-            		gcmDAO.actionMapAddEdit(map, approve);
-            	}else if(actionTaken.equals("UPDATE")) {
-            		gcmDAO.actionMapUpdateEdit(map, approve);
-            	}else {
-            		gcmDAO.actionMapDeleteEdit(map, approve);
-            	}
+            	gcmDAO.actionMapEdit(mapSubmission, approve);
+//            	String actionTaken = mapSubmission.getActionTaken();
+//            	Map map = mapSubmission.getMap();
+//            	if(actionTaken.equals("ADD")) {
+//            		gcmDAO.actionMapAddEdit(map, approve);
+//            	}else if(actionTaken.equals("UPDATE")) {
+//            		gcmDAO.actionMapUpdateEdit(map, approve);
+//            	}else {
+//            		gcmDAO.actionMapDeleteEdit(map, approve);
+//            	}
             }
             
             public void disableBtn() {

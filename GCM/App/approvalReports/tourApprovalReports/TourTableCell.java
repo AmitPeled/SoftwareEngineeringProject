@@ -16,15 +16,16 @@ public class TourTableCell extends TableCell<TourSubmission, Button> {
             }
             
             public void takeAction(TourSubmission tourSubmission, Boolean approve) {
-            	String actionTaken = tourSubmission.getActionTaken();
-            	Tour tour = tourSubmission.getTour();
-            	if(actionTaken.equals("ADD")) {
-            		//gcmDAO.actionToursAddEdit(tour, approve);
-            	}else if(actionTaken.equals("UPDATE")) {
-            		//gcmDAO.actionToursUpdateEdit(tour, approve);
-            	}else {
-            		//gcmDAO.actionToursDeleteEdit(tour, approve);
-            	}
+            	gcmDAO.actionTourEdit(tourSubmission, approve);
+//            	String actionTaken = tourSubmission.getActionTaken();
+//            	Tour tour = tourSubmission.getTour();
+//            	if(actionTaken.equals("ADD")) {
+//            		//gcmDAO.actionToursAddEdit(tour, approve);
+//            	}else if(actionTaken.equals("UPDATE")) {
+//            		//gcmDAO.actionToursUpdateEdit(tour, approve);
+//            	}else {
+//            		//gcmDAO.actionToursDeleteEdit(tour, approve);
+//            	}
             }
             
             public void disableBtn() {
