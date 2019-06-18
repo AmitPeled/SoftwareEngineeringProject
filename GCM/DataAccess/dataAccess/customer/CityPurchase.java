@@ -2,13 +2,12 @@ package dataAccess.customer;
 
 import java.sql.Date;
 
-public class PurchaseHistory {
+public class CityPurchase {
 	private Date startDate;
 	private Date endDate;
-	int cityId;// meybey change to string - cityName?
+	int cityId;
 
-	public PurchaseHistory(Date startDate, Date endDate, int cityId) {
-		super();
+	public CityPurchase(Date startDate, Date endDate, int cityId) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.cityId = cityId;

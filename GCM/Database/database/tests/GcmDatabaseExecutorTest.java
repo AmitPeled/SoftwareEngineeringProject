@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -48,7 +49,7 @@ class GcmDatabaseExecutorTest {
 	static void setAll() throws IllegalArgumentException, SQLException {
 		gcmDataExecutor = new GcmDataExecutor(new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
-		city = new City(11, "test name", "test desc");
+		city = new City("test name", "test desc");
 		cityId = gcmDataExecutor.addCity(city);
 		city = new City(cityId, "test name", "test desc");
 		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.ADD), true);

@@ -35,7 +35,7 @@ public interface IParseObjects {
 //	City getCityByMetaFields(List<Object> objectList);
 
 
-	City getCity(List<Object> fieldsList, SortedSet<Integer> mapsId,SortedSet<Integer> toursId, SortedSet<Integer> sitesId);
+//	City getCity(List<Object> fieldsList, SortedSet<Integer> mapsId,SortedSet<Integer> toursId, SortedSet<Integer> sitesId);
 
 	/**
 	 * this function rule is to parse a Map object into a List of its fields values.
@@ -49,7 +49,7 @@ public interface IParseObjects {
 
 	List<Object> getSiteFieldsList(Site site);
 
-	List<Object> getCityMetaFieldsList(City city);
+	List<Object> getCityFieldsWithDefualtPrice(City city);
 
 	List<Object> getUserFieldsList(User user);
 
@@ -61,5 +61,10 @@ public interface IParseObjects {
 	List<String> getCityMetaFieldsNames();
 	List<String> getSiteFieldsNames();
 	List<String> getTourMetaFieldsNames();
+	
+	List<Object> getCityFields(City city);
+
+	City getCity(List<Object> objectList, List<Double> priceList, SortedSet<Integer> mapsId, SortedSet<Integer> toursId,
+			SortedSet<Integer> sitesId);
 
 }

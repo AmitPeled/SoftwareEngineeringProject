@@ -28,7 +28,7 @@ public class ContentGetter {
 	}
 
 	public Tour getTour(int tourId) throws SQLException {
-		return getTourByStatus(tourId, Status.published);
+		return getTourByStatus(tourId, Status.PUBLISH);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -67,7 +67,7 @@ public class ContentGetter {
 	}
 
 	public Site getSite(int siteId) throws SQLException {
-		return getSiteByStatus(siteId, Status.published);
+		return getSiteByStatus(siteId, Status.PUBLISH);
 	}
 
 	public Site getSiteByStatus(int siteId, Status status) throws SQLException {
@@ -89,7 +89,7 @@ public class ContentGetter {
 	}
 
 	public Map getMapDetails(int mapId) throws SQLException {
-		return getMapDetailsByStatus(mapId, Status.published);
+		return getMapDetailsByStatus(mapId, Status.PUBLISH);
 	}
 
 	public Map getMapDetailsByStatus(int mapId, Status status) throws SQLException {

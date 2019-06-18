@@ -32,7 +32,7 @@ class GetterTest {
 		assertEquals("siteDescription", map.getSites().get(0).getDescription());
 		assertEquals(1, map.getTours().size());
 		assertEquals("tourDescription", map.getTours().get(0).getDescription());
-		map = contentGetter.getMapDetailsByStatus(1, Status.toDelete);
+		map = contentGetter.getMapDetailsByStatus(1, Status.DELETE);
 		assertNull(map);
 		map = contentGetter.getMapDetails(-1);
 		assertNull(map);
@@ -52,9 +52,9 @@ class GetterTest {
 		assertEquals("tourDescription", tour.getDescription());
 		tour = contentGetter.getTour(-1);
 		assertNull(tour);
-		tour = contentGetter.getTourByStatus(1,Status.toDelete);
+		tour = contentGetter.getTourByStatus(1,Status.DELETE);
 		assertNull(tour);
-		tour = contentGetter.getTourByStatus(2,Status.toAdd);
+		tour = contentGetter.getTourByStatus(2,Status.ADD);
 		assertEquals("tourDesc", tour.getDescription());
 	}
 
