@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import mainApp.GcmClient;
 import maps.Map;
+import queries.RequestState;
+import userInfo.UserInfoImpl;
 
 public class ListViewController implements Initializable
 {
@@ -54,10 +56,12 @@ public class ListViewController implements Initializable
 	String selectedRadioBtn;
 	RadioButton selectRadio;
 	private GcmClient gcmClient;
+	RequestState userState;
 	
 	public ListViewController(GcmClient gcmClient,GcmDAO gcmDAO) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
+		userState = gcmClient.getUserInfo().getState();
 	}
 
 	
@@ -150,11 +154,15 @@ public class ListViewController implements Initializable
 
 	
 	public void permissions() {
-		//RequestState userState = new UserInfoImpl().getState();
-		if(permission == 0) {
+		if(userState == RequestState.customer) {
 			buySubscriptionBtn.setVisible(true);
+			addNewMapBtn.setVisible(false);
+		}else if(userState == RequestState.guest){
+			addNewMapBtn.setVisible(false);
+			buySubscriptionBtn.setVisible(false);
 		}else {
 			addNewMapBtn.setVisible(true);
+			buySubscriptionBtn.setVisible(false);
 		}
 	}
 
@@ -172,7 +180,7 @@ public class ListViewController implements Initializable
         listView.setCellFactory(new Callback<ListView<MapItem>, ListCell<MapItem>>() {
             @Override
             public ListCell<MapItem> call(ListView<MapItem> listView) {
-                return new CustomListCell();
+                return new CustomListCell(userState);
             }
         });
     }
@@ -180,7 +188,10 @@ public class ListViewController implements Initializable
     @FXML
     public void onBack() {gcmClient.back();}
 
-
+    public void goToOneTimePurchase(int mapId) {
+		System.out.println("Going to One Time Purchase: " + mapId);
+		gcmClient.loadMapDisplay(mapId);
+	}
 	public void goToMap(int mapId) {
 		System.out.println("Going to map: " + mapId);
 		gcmClient.loadMapDisplay(mapId);

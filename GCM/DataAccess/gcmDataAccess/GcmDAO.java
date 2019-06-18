@@ -10,6 +10,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import approvalReports.cityApprovalReports.CitySubmission;
+import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.sitesApprovalReports.SiteSubmission;
+import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.contentManager.ContentManagerDAO;
 import dataAccess.customer.CustomerDAO;
 import dataAccess.editor.EditorDAO;
@@ -232,7 +236,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 
 	public int deleteContent(int contentId) {
 		// by now delete map only
-		send(new RequestObject(GcmQuery.deleteContent, new ArrayList<Object>() {
+		send(new RequestObject(GcmQuery.deleteMap, new ArrayList<Object>() {
 			{
 				add(contentId);
 			}
@@ -303,14 +307,14 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public int addExistingSiteToTour(int tourId, int siteId, int siteDurance) {
-		return (int) send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
+	public void addExistingSiteToTour(int tourId, int siteId, int siteDurance) {
+		send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
 			{
 				add(tourId);
 				add(siteId);
 				add(siteDurance);
 			}
-		}, username, password)).getResponse().get(0);
+		}, username, password)).getResponse();
 	}
 
 	@Override
@@ -347,7 +351,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
 		int startingIndex = 0;
 		if (numberOfLastAddedPlaces != 0) {
-			startingIndex = sitesList.size() - numberOfLastAddedPlaces - 1;
+			startingIndex = sitesList.size() - numberOfLastAddedPlaces;
 		}
 
 		for (int i = startingIndex; i < sitesList.size(); i++) {
@@ -576,6 +580,27 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
+	public List<SiteSubmission> getSiteSubmissions() {
+		return (List<SiteSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getSiteSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
+	public List<MapSubmission> getMapSubmissions() {
+		return (List<MapSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getMapSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
+	public List<TourSubmission> getTourSubmissions() {
+		return (List<TourSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getTourSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
 	public List<Map> getMapsObjectAddedTo(int contentId) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsObjectAddedTo, new ArrayList<Object>() {
 			{
@@ -625,6 +650,50 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		return (List<Tour>) (Object) send(
 				new RequestObject(GcmQuery.getToursDeleteEdits, new ArrayList<Object>(), username, password))
 						.getResponse();
+
+	}
+
+	@Override
+	public void actionCityEdit(CitySubmission citySubmission, boolean action) {
+		send(new RequestObject(GcmQuery.actionCityEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void actionMapEdit(MapSubmission citySubmission, boolean action) {
+		send(new RequestObject(GcmQuery.actionMapEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void actionTourEdit(TourSubmission citySubmission, boolean action) {
+		send(new RequestObject(GcmQuery.actionTourEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void actionSiteEdit(SiteSubmission citySubmission, boolean action) {
+		send(new RequestObject(GcmQuery.actionSiteEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
 
 	}
 

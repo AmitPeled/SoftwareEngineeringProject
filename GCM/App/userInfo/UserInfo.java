@@ -1,5 +1,6 @@
 package userInfo;
 
+import queries.RequestState;
 import users.User;
 
 public interface UserInfo {
@@ -20,5 +21,8 @@ public interface UserInfo {
 	boolean register(String username, String password, User user);
 
 	User getUserDetailes();
+
+	
+	RequestState getState();
 
 }

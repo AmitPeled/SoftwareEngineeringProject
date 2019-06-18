@@ -20,6 +20,11 @@ public final class IntroController{
 	}
 	
 	@FXML
+	public void onGuestEntranceButton() {
+		gcmClient.switchScene(SceneNames.SEARCH);;
+	}
+	
+	@FXML
 	public void onExitButton() {
 		gcmClient.shutdown();
 	}

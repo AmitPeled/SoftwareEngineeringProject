@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,9 +16,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" prefHeight="441.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane alignment="CENTER" prefHeight="441.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="700.0" prefWidth="100.0" />
+      <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -47,6 +53,11 @@
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
+            </Button>
+            <Button fx:id="mapReports" mnemonicParsing="false" text="Map reports">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </Button>
          </children>
       </HBox>
@@ -82,6 +93,15 @@
             <TableColumn fx:id="tourDescription" prefWidth="75.0" text="Description" />
             <TableColumn fx:id="tourActionTaken" prefWidth="120.0" text="Action taken" />
             <TableColumn fx:id="tourApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
+         </columns>
+      </TableView>
+      <TableView fx:id="mapTable" prefHeight="277.0" prefWidth="700.0" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
+         <columns>
+            <TableColumn fx:id="mapName" prefWidth="75.0" text="Map name" />
+            <TableColumn fx:id="mapDescription" prefWidth="75.0" text="Description" />
+            <TableColumn fx:id="mapPrice" prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="mapActionTaken" prefWidth="120.0" text="Action taken" />
+            <TableColumn fx:id="mapApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
          </columns>
       </TableView>
    </children>

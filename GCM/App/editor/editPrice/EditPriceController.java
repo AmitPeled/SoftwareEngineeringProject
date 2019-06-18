@@ -1,9 +1,13 @@
 package editor.editPrice;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import dataAccess.contentManager.ContentManagerDAO;
+import gcmDataAccess.GcmDAO;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,9 +22,22 @@ public class EditPriceController implements Initializable
 	private ContentManagerDAO contentManagerDAO;
 	
 	@FXML
-	TextField price;
+	TextField oneTime;
+	@FXML
+	TextField firstMonth;
+	@FXML
+	TextField secondMonth;
+	@FXML
+	TextField thirdMonth;
+	@FXML
+	TextField fourthMonth;
+	@FXML
+	TextField fifthMonth;
+	@FXML
+	TextField sixMonth;
 	@FXML
 	Button editPrice;
+	
 	int cityId;
 	@FXML
 	TextField errors;
@@ -42,12 +59,28 @@ public class EditPriceController implements Initializable
 		editPrice.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) { 
-	            	String newPriceStr = price.getText();
-	            	if(newPriceStr != null && !newPriceStr.isEmpty()) {
-	            		if(utilities.isNumeric(newPriceStr)) {
+	            	String oneTimePrice = oneTime.getText();
+	            	String firstMonthPrice = firstMonth.getText();
+	            	String secondMonthPrice = secondMonth.getText();
+	            	String thirdMonthPrice = thirdMonth.getText();
+	            	String fourthMonthPrice = fourthMonth.getText();
+	            	String fifthMonthPrice = fifthMonth.getText();
+	            	String sixMonthPrice = sixMonth.getText();
+	            	List<String> priceList = Arrays.asList(oneTimePrice, firstMonthPrice, 
+	            			secondMonthPrice, thirdMonthPrice, 
+	            			fourthMonthPrice, fifthMonthPrice, sixMonthPrice);
+	            	
+	            	if(utilities.checkFilledFields(priceList)) {
+	            		
+	            		String numericResult = utilities.areAllFieldsNumeric(priceList);
+	            		if(!numericResult.equals("no")) {
 	            			errors.setVisible(false);
-	            			double newPrice = Double.parseDouble(newPriceStr);
-			            	contentManagerDAO.editCityPrice(cityId, newPrice);
+	            			List<Double> listPricesDouble = new ArrayList<Double>();
+	            			for (String price : priceList) {
+		            			double newPrice = Double.parseDouble(price);
+		            			listPricesDouble.add(newPrice);
+							}
+			            	//contentManagerDAO.editCityPrice(cityId, listPricesDouble);
 			            	gcmClient.back();
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);
@@ -60,12 +93,23 @@ public class EditPriceController implements Initializable
 			})
 		);
 	}
-
+	
+	public void initPrices() {
+		oneTime.setText("15");
+		List<TextField> textFieldsList = Arrays.asList(firstMonth, secondMonth, thirdMonth, fourthMonth, fifthMonth, sixMonth);
+		int i = 1;
+		for (TextField textField : textFieldsList) {
+			String price = Double.toString(gcmClient.getDataAccessObject().getMembershipPrice(cityId, 1));
+			textField.setText(price);
+			i++;
+		}
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		errors.setVisible(false);
 		editPriceListener();
-		
+		initPrices();
 	}
 
 	public void initalizeControl(int cityId) {

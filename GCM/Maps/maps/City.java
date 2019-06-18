@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.SortedSet;
 
 /**
- * Contains references (by ID) to the maps, sites and tours that are associated to the
- * City
+ * Contains references (by ID) to the maps, sites and tours that are associated
+ * to the City
  *
  */
 public final class City implements Serializable {
@@ -18,12 +18,12 @@ public final class City implements Serializable {
 	private SortedSet<Integer> sites;
 	private SortedSet<Integer> tours;
 
-	
 	public City(String name, String description) throws IllegalArgumentException {
 		this.id = -1;
 		this.name = name;
 		this.descriptionString = description;
 	}
+
 	/**
 	 * default empty maps, sites and tours
 	 */
@@ -31,7 +31,8 @@ public final class City implements Serializable {
 		this(id, name, description, null, null, null);
 	}
 
-	public City(int id, String name, String description, SortedSet<Integer> maps, SortedSet<Integer> sites, SortedSet<Integer> tours) {
+	public City(int id, String name, String description, SortedSet<Integer> maps, SortedSet<Integer> tours,
+			SortedSet<Integer> sites) {
 		if (id <= 0)
 			throw new IllegalArgumentException("id has to be a positive number");
 		this.id = id;
@@ -54,15 +55,15 @@ public final class City implements Serializable {
 		return this.descriptionString;
 	}
 
-	public SortedSet<Integer> getMapIds() {
+	public SortedSet<Integer> getMapsId() {
 		return this.maps;
 	}
 
-	public SortedSet<Integer> getSiteIds() {
+	public SortedSet<Integer> getSitesId() {
 		return this.sites;
 	}
-	
-	public SortedSet<Integer> getTourIds() {
+
+	public SortedSet<Integer> getToursId() {
 		return this.tours;
 	}
 }
