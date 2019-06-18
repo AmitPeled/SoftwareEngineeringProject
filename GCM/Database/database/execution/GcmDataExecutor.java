@@ -10,10 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import com.sun.org.apache.bcel.internal.generic.LSTORE;
-import com.sun.org.apache.bcel.internal.generic.ObjectType;
-
+import java.util.TreeSet;
 import approvalReports.ActionTaken;
 import approvalReports.ObjectsEnum;
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -120,8 +117,15 @@ public class GcmDataExecutor implements
 	}
 
 	public int addMapToCityByStatus(int cityId, Map mapDescription, File mapFile, Status status) throws SQLException {
-		int mapId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
-				objectParser.getMapMetaFieldsList(mapDescription), status);
+		int id = mapDescription.getId();
+		if (status == Status.toAdd) {
+			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
+					objectParser.getMapMetaFieldsList(mapDescription), status);
+		} else {
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
+					objectParser.getMapMetaFieldsList(mapDescription), status);
+		}
+		int mapId = id;
 		List<Object> mapFileRow = new ArrayList<Object>() {
 			{
 				add(mapId);
@@ -268,7 +272,7 @@ public class GcmDataExecutor implements
 	}
 
 	public int addCity(City city, Status status) throws SQLException {
-		int id = -1;
+		int id = city.getId();
 		if (status == Status.toAdd)
 			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
 					objectParser.getCityMetaFieldsList(city), status);
@@ -398,8 +402,14 @@ public class GcmDataExecutor implements
 	}
 
 	public int addNewSiteToCityByStatus(int cityId, Site site, Status status) throws SQLException {
-		int siteId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.sites),
-				objectParser.getSiteFieldsList(site), status);
+		int id = site.getId();
+		if (status == Status.toAdd)
+			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.sites),
+					objectParser.getSiteFieldsList(site), status);
+		else
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
+					objectParser.getSiteFieldsList(site), status);
+		int siteId = id;
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesSitesIds), new ArrayList<Object>() {
 			{
 				add(cityId);
@@ -695,11 +705,15 @@ public class GcmDataExecutor implements
 	private City getCityById(int cityId, Status status) throws SQLException {
 		List<List<Object>> list = queryExecutor.selectColumnsByValue(
 				DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId", cityId, "*", status);
-		
-		// getMapsId, getSitesId, getToursId
-		if (!list.isEmpty())
-			return objectParser.getCityByMetaFields(list.get(0));
-		else
+		if (!list.isEmpty()) {
+			List<Integer> maps = toIdList(queryExecutor.selectColumnsByValue(
+					DatabaseMetaData.getTableName(Tables.citiesMapsIds), "cityId", cityId, "mapId", status));
+			List<Integer> tours = toIdList(queryExecutor.selectColumnsByValue(
+					DatabaseMetaData.getTableName(Tables.citiesTours), "cityId", cityId, "tourId", status));
+			List<Integer> sites = toIdList(queryExecutor.selectColumnsByValue(
+					DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
+			return objectParser.getCity(list.get(0), new TreeSet<>(maps), new TreeSet<>(tours), new TreeSet<>(sites));
+		} else
 			return null;
 
 	}
@@ -732,8 +746,11 @@ public class GcmDataExecutor implements
 	}
 
 	public int addNewTourToCity(int cityId, Tour tour, Status status) throws SQLException {
-		int tourId = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
-				objectParser.getTourMetaFieldsList(tour), status);
+		int id = tour.getId();
+		if (status == Status.toAdd)
+			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
+					objectParser.getTourMetaFieldsList(tour), status);
+		int tourId = id;
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesTours), new ArrayList<Object>() {
 			{
 				add(cityId);

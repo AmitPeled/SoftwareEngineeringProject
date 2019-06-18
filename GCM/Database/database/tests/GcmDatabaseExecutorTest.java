@@ -52,7 +52,9 @@ class GcmDatabaseExecutorTest {
 		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.ADD), true);
 		map = new Map(12, name, description, width, height, new Coordinates(), 0, null, null);
 		mapId = gcmDataExecutor.addMapToCity(cityId, map, mapFile);
+		map = new Map(mapId, name, description, width, height, new Coordinates(), 0, null, null);
 		gcmDataExecutor.actionMapEdit(new MapSubmission(cityId, map, mapFile, ActionTaken.ADD), true);
+
 //		map = new Map(mapId, name, description, width, height, new Coordinates(), 0, null, null);
 //		siteId = gcmDataExecutor.addNewSiteToCity(cityId,
 //				new Site("name", "desc", "type", false, new Coordinates(7, 9)));
@@ -124,6 +126,8 @@ class GcmDatabaseExecutorTest {
 		gcmDataExecutor.deleteCityEdit(cityId);
 		city = gcmDataExecutor.getCityByMapId(mapId);
 		assertNotNull(city);
+		System.err.println("mapId=" + mapId);
+		assertNotNull(gcmDataExecutor.getMapDetails(mapId));
 		System.out.println("cityid = " + city.getId());
 		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.DELETE), true);
 		city = gcmDataExecutor.getCityByMapId(mapId);

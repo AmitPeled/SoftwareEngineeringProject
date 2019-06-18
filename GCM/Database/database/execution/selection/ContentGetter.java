@@ -140,18 +140,18 @@ public class ContentGetter {
 		return object;
 	}
 
-	public City getCityById(int cityId) throws SQLException {
-		return getCityById(cityId, Status.published);
-	}
-
-	public City getCityById(int cityId, Status status) throws SQLException {
-		List<List<Object>> list = queryExecutor.selectColumnsByValue(
-				DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId", cityId, "*", status);
-		if (!list.isEmpty())
-			return objectParser.getCityByMetaFields(list.get(0));
-		else
-			return null;
-
-	}
+//	public City getCityById(int cityId) throws SQLException {
+//		return getCityById(cityId, Status.published);
+//	}
+//
+//	public City getCityById(int cityId, Status status) throws SQLException {
+//		List<List<Object>> list = queryExecutor.selectColumnsByValue(
+//				DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId", cityId, "*", status);
+//		if (!list.isEmpty())
+//			return objectParser.getCityByMetaFields(list.get(0));
+//		else
+//			return null;
+//
+//	}
 
 }

@@ -37,14 +37,14 @@ class GetterTest {
 		map = contentGetter.getMapDetails(-1);
 		assertNull(map);
 	}
-
-	@Test
-	void getCity() throws SQLException {
-		City city = contentGetter.getCityById(1);
-		assertEquals("cityDescription", city.getDescription());
-		city = contentGetter.getCityById(-1);
-		assertNull(city);
-	}
+//
+//	@Test
+//	void getCity() throws SQLException {
+//		City city = contentGetter.getCityById(1);
+//		assertEquals("cityDescription", city.getDescription());
+//		city = contentGetter.getCityById(-1);
+//		assertNull(city);
+//	}
 
 	@Test
 	void getTour() throws SQLException {

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.SortedSet;
 
 import maps.City;
 import maps.Coordinates;
@@ -117,7 +118,6 @@ public class DatabaseParser implements IParseObjects {
 				add(city.getId());
 				add(city.getName());
 				add(city.getDescription());
-
 			}
 		};
 	}
@@ -153,8 +153,10 @@ public class DatabaseParser implements IParseObjects {
 	}
 
 	@Override
-	public City getCityByMetaFields(List<Object> objectList) {
-		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2));
+	public City getCity(List<Object> objectList, SortedSet<Integer> mapsId, SortedSet<Integer> toursId,
+			SortedSet<Integer> sitesId) {
+		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2), mapsId,
+				toursId, sitesId);
 	}
 
 	@Override
