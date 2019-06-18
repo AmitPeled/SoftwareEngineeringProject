@@ -9,7 +9,9 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mapViewerScene.MapViewerSceneController;
+import userDetailsPresentation.UserDetailsPresentationController;
 import userInfo.UserInfo;
+import users.User;
 
 /**
  * The GcmClient class's responsibility is encapsulating all the high-level JavaFX/FXML related 
@@ -116,6 +118,22 @@ class GcmClientImpl implements GcmClient {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void switchSceneToCustomerReport(User user) {
+		
+		Scene scene = manager.getScene(SceneNames.CUSTOMER_REPORT);
+		try {
+			UserDetailsPresentationController controller = (UserDetailsPresentationController) manager.getController(SceneNames.CUSTOMER_REPORT);
+			controller.initalizeControl(user);
+			primaryStage.setScene(scene);
+			scenesStack.push(scene);
+		}catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+		
 	} 
 
 }

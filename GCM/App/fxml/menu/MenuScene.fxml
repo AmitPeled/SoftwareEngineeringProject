@@ -7,6 +7,7 @@
 <?import javafx.scene.text.Text?>
 
 <VBox alignment="CENTER" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+
    <children>
       <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu">
          <font>
@@ -32,6 +33,11 @@
          <VBox.margin>
             <Insets bottom="20.0" />
          </VBox.margin></Button>
+      <Button fx:id="customerreportbtn" mnemonicParsing="false" onAction="#onCustomerReportButton" prefHeight="25.0" prefWidth="150.0" text="Customer Report">
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </Button>
       <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="25.0" prefWidth="150.0" text="Logout">
          <VBox.margin>
             <Insets bottom="20.0" />

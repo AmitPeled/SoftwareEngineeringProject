@@ -41,5 +41,10 @@ public class CityPurchase {
 		System.out.println("CityId = " + this.cityId + " Start date = " + this.startDate + " End date = " + this.endDate);
 
 	}
+	
+	public String toString() {
+		return ("CityId = " + this.cityId + " Start date = " + this.startDate + " End date = " + this.endDate);
+
+	}
 
 }
