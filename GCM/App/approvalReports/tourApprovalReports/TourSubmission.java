@@ -1,10 +1,13 @@
 package approvalReports.tourApprovalReports;
 
+import java.io.Serializable;
+
 import approvalReports.ActionTaken;
 import approvalReports.ObjectsEnum;
 import maps.Tour;
 
-public class TourSubmission {
+public class TourSubmission implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Tour tour;
 	private ActionTaken actionTaken;
 	/**

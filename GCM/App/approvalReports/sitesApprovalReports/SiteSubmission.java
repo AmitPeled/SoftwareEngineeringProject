@@ -1,10 +1,13 @@
 package approvalReports.sitesApprovalReports;
 
+import java.io.Serializable;
+
 import approvalReports.ActionTaken;
 import approvalReports.ObjectsEnum;
 import maps.Site;
 
-public class SiteSubmission {
+public class SiteSubmission implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Site site;
 	private ActionTaken actionTaken;
 	/**
