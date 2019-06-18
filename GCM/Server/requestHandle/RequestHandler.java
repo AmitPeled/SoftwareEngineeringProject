@@ -85,6 +85,11 @@ public class RequestHandler implements IHandleRequest {
 					break;
 				case getSiteSubmissions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getSiteSubmissions();
+				case getMapSubmissions:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapSubmissions();
+					break;
+				case getTourSubmissions:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getTourSubmissions();
 					break;
 //				case addCityWithInitialMap:
 //					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
@@ -237,12 +242,6 @@ public class RequestHandler implements IHandleRequest {
 					break;
 				case getToursUpdateEdits:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getToursUpdateEdits();
-					break;
-				case getTourSubmissions:
-					listToSend = (List<Object>) (Object) gcmDataExecutor.getTourSubmissions();
-					break;
-				case getMapSubmissions:
-					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapSubmissions();
 					break;
 				case actionTourEdit:
 					gcmDataExecutor.actionTourEdit((TourSubmission) listObjectReceived.get(0),

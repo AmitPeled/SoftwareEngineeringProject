@@ -61,6 +61,9 @@ public interface ContentManagerDAO {
 	
 	void editCityPrice(int cityId, double newPrice);
 	List<SiteSubmission> getSiteSubmissions();
+	List<MapSubmission> getMapSubmissions();
+	List<TourSubmission> getTourSubmissions();
+
 	void actionCityEdit(CitySubmission citySubmission, boolean action);
 	void actionMapEdit(MapSubmission mapSubmission, boolean action);
 	void actionTourEdit(TourSubmission tourSubmission, boolean action);

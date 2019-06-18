@@ -587,6 +587,20 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
+	public List<MapSubmission> getMapSubmissions() {
+		return (List<MapSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getMapSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
+	public List<TourSubmission> getTourSubmissions() {
+		return (List<TourSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getTourSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
 	public List<Map> getMapsObjectAddedTo(int contentId) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsObjectAddedTo, new ArrayList<Object>() {
 			{
