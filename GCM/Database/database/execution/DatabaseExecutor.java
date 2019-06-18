@@ -38,7 +38,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 				sqlquery = sqlquery.concat("?, ");
 			}
 			sqlquery = sqlquery.concat("?);");
-			System.out.println(sqlquery);
+//			System.out.println(sqlquery);
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 			int id = generateId(tableName);
 			preparedStatement.setObject(1, id);
@@ -62,7 +62,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 			sqlquery = sqlquery.concat("?);");
 
-			System.out.println(sqlquery);
+//			System.out.println(sqlquery);
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 			for (int i = 0; i < objects.size(); i++) {
@@ -93,7 +93,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@Override
 	public void deleteValueFromTable(String tableName, String objectName, Object object) throws SQLException {
 		String sqlquery = "DELETE from " + tableName + " WHERE " + objectName + " = ?;";
-		System.out.println(sqlquery);
+//		System.out.println(sqlquery);
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setObject(1, object);
 		synchronized (dbAccess) {
@@ -171,7 +171,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 			throws SQLException {
 		String sqlquery = "DELETE from " + tableName + " WHERE ";
 		sqlquery = concatConditionalsSymbols(sqlquery, objectNames);
-		System.out.println(sqlquery);
+//		System.out.println(sqlquery);
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		putValuesInSymbols(preparedStatement, objects);
 		synchronized (dbAccess) {

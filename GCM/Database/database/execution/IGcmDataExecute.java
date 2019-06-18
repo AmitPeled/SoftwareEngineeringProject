@@ -184,4 +184,6 @@ public interface IGcmDataExecute {
 
 	List<Tour> getCityTours(int cityId) throws SQLException;// TODO
 
+	void updateTour(int tourId, Tour tour) throws SQLException;
+
 }
