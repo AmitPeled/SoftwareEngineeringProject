@@ -38,11 +38,6 @@ public class UserInfoImpl implements UserInfo {
 
 	
 
-	public RequestState getState() {
-		return this.state;
-
-	}
-
 	// update the user and send him back
 	@Override
 	public User getUserDetailes() {
@@ -57,6 +52,7 @@ public class UserInfoImpl implements UserInfo {
 		return user;
 
 	}
+	@Override
 	public RequestState getState() {
 		return this.state;
 
