@@ -10,7 +10,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import dataAccess.customer.CityPurchase;
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import database.connection.DBConnector;
@@ -262,10 +262,10 @@ public class CostumerDataExecutorTest {
 		System.out.println(history.size());
 		System.out.println(history.get(0).get(2));
 
-		List<CityPurchase> purchaseHistories = new ArrayList<>();
+		List<PurchaseHistory> purchaseHistories = new ArrayList<>();
 
 		for (int i = 0; i < history.size(); i++) {
-			CityPurchase purchaseHistory = new CityPurchase((Date) history.get(i).get(2),
+			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
 					(Date) history.get(i).get(5), (int) history.get(i).get(1));
 			purchaseHistories.add(purchaseHistory);
 		}

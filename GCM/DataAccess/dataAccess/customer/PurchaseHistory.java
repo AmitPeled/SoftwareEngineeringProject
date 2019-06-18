@@ -2,12 +2,12 @@ package dataAccess.customer;
 
 import java.sql.Date;
 
-public class CityPurchase {
+public class PurchaseHistory {
 	private Date startDate;
 	private Date endDate;
 	int cityId;
 
-	public CityPurchase(Date startDate, Date endDate, int cityId) {
+	public PurchaseHistory(Date startDate, Date endDate, int cityId) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.cityId = cityId;

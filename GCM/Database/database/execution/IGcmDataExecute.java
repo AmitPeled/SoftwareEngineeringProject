@@ -8,7 +8,7 @@ import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
-import dataAccess.customer.CityPurchase;
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import maps.City;
@@ -138,7 +138,7 @@ public interface IGcmDataExecute {
 
 	List<Tour> getToursObjectAddedTo(int contentId) throws SQLException;
 
-	List<CityPurchase> getPurchaseHistory(String username) throws SQLException;
+	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
 	Report getOneCityReport(String cityName) throws SQLException;
 

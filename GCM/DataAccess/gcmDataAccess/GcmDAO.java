@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -273,7 +274,12 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 
 	@Override
 	public User getUserDetails() {
-		return (User) send(new RequestObject(GcmQuery.getUserDetails, null, username, password)).getResponse().get(0);
+		try {
+			return (User) send(new RequestObject(GcmQuery.getUserDetails, null, username, password)).getResponse()
+					.get(0);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -712,5 +718,93 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	public boolean repurchaseMembershipBySavedDetails() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void updateCity(int cityId, City city) throws SQLException {
+		send(new RequestObject(GcmQuery.updateCity, new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(city);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void deleteCityEdit(int cityId) throws SQLException {
+		send(new RequestObject(GcmQuery.deleteCityEdit, new ArrayList<Object>() {
+			{
+				add(cityId);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void UpdateSite(int siteId, Site newSite) throws SQLException {
+		send(new RequestObject(GcmQuery.UpdateSite, new ArrayList<Object>() {
+			{
+				add(siteId);
+				add(newSite);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void deleteTourFromMap(int mapId, int tourId) throws SQLException {
+		send(new RequestObject(GcmQuery.deleteTourFromMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(tourId);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void deleteTourFromCity(int tourId) throws SQLException {
+		send(new RequestObject(GcmQuery.deleteTourFromCity, new ArrayList<Object>() {
+			{
+				add(tourId);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public List<Tour> getCityTours(int cityId) throws SQLException {
+		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getCityTours, new ArrayList<Object>() {
+			{
+				add(cityId);
+			}
+		}, username, password)).getResponse();
+	}
+
+	@Override
+	public void updateTour(int tourId, Tour tour) throws SQLException {
+		send(new RequestObject(GcmQuery.updateTour, new ArrayList<Object>() {
+			{
+				add(tourId);
+				add(tour);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void deleteSiteFromCity(int siteId) throws SQLException {
+		send(new RequestObject(GcmQuery.deleteSiteFromCity, new ArrayList<Object>() {
+			{
+				add(siteId);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void updateMap(int mapId, Map newMap) throws SQLException {
+		send(new RequestObject(GcmQuery.updateMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(newMap);
+			}
+		}, username, password));
 	}
 }

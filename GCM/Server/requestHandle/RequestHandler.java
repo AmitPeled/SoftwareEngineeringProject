@@ -259,7 +259,33 @@ public class RequestHandler implements IHandleRequest {
 					gcmDataExecutor.actionCityEdit((CitySubmission) listObjectReceived.get(0),
 							(boolean) listObjectReceived.get(1));
 					break;
-
+				case deleteCityEdit:
+					gcmDataExecutor.deleteCityEdit((int) listObjectReceived.get(0));
+					break;
+				case deleteSiteFromCity:
+					gcmDataExecutor.deleteSiteFromCity((int) listObjectReceived.get(0));
+					break;
+				case deleteTourFromCity:
+					gcmDataExecutor.deleteTourFromCity((int) listObjectReceived.get(0));
+					break;
+				case deleteTourFromMap:
+					gcmDataExecutor.deleteTourFromMap((int) listObjectReceived.get(0),(int) listObjectReceived.get(1));
+					break;
+				case getCityTours:
+					listToSend = (List<Object>)(Object)gcmDataExecutor.getCityTours((int) listObjectReceived.get(0));
+					break;
+				case updateCity:
+					gcmDataExecutor.updateCity((int) listObjectReceived.get(0),(City) listObjectReceived.get(1));
+					break;
+				case updateMap:
+					gcmDataExecutor.updateMap((int) listObjectReceived.get(0),(Map) listObjectReceived.get(1));
+					break;
+				case UpdateSite:
+					gcmDataExecutor.UpdateSite((int) listObjectReceived.get(0),(Site) listObjectReceived.get(1));
+					break;
+				case updateTour:
+					gcmDataExecutor.updateTour((int) listObjectReceived.get(0),(Tour) listObjectReceived.get(1));
+					break;
 				case purchaseCity:
 					break;
 				default:

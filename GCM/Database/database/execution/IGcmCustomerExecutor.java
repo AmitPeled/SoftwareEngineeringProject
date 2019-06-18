@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-import dataAccess.customer.CityPurchase;
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.users.PurchaseDetails;
 import maps.Map;
 
@@ -30,6 +30,6 @@ public interface IGcmCustomerExecutor {
 	List<Map> getPurchasedMaps(String username) throws SQLException;
 	
 	//done
-	List<CityPurchase> getPurchaseHistory(String username) throws SQLException; 
+	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException; 
 
 }

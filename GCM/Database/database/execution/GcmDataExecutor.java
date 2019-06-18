@@ -17,7 +17,7 @@ import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
-import dataAccess.customer.CityPurchase;
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
@@ -652,9 +652,18 @@ public class GcmDataExecutor implements
 
 	@Override
 	public User getUserDetails(String username) throws SQLException {
-		return objectParser.getUser(queryExecutor
-				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
-				.get(0));
+		List<List<Object>> rows = queryExecutor
+				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*");
+		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
+				username, "*"));
+		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers), "username",
+				username, "*"));
+		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers), "username",
+				username, "*"));
+		if (rows.isEmpty())
+			return null;
+		else
+			return objectParser.getUser(rows.get(0));
 	}
 
 	@Override
@@ -760,8 +769,9 @@ public class GcmDataExecutor implements
 		if (status == Status.ADD)
 			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
 					objectParser.getTourMetaFieldsList(tour), status);
-		else queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
-				objectParser.getTourMetaFieldsList(tour), status);
+		else
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
+					objectParser.getTourMetaFieldsList(tour), status);
 		int tourId = id;
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesTours), new ArrayList<Object>() {
 			{
@@ -1703,18 +1713,18 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public List<CityPurchase> getPurchaseHistory(String username) throws SQLException {
+	public List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException {
 
 		// getting username purchase history
 		List<List<Object>> history = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username", username,
 				"*");
 
-		List<CityPurchase> purchases = new ArrayList<>();
+		List<PurchaseHistory> purchases = new ArrayList<>();
 		// converting it to PurchaseHistory objects that contains - city id, start date
 		// , end date
 		for (int i = 0; i < history.size(); i++) {
-			CityPurchase purchaseHistory = new CityPurchase((Date) history.get(i).get(2), (Date) history.get(i).get(5),
-					(int) history.get(i).get(1));
+			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
+					(Date) history.get(i).get(5), (int) history.get(i).get(1));
 			purchases.add(purchaseHistory);
 		}
 
