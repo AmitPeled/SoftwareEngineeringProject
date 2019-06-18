@@ -6,6 +6,7 @@ public enum SceneNames {
 	MENU,
 	SEARCH, 
 	REPORTS, 
+	CUSTOMER_REPORT,
 	
 	// Login and registration
 	LOGIN,
