@@ -62,6 +62,8 @@ public class DatabaseMetaData {
 			return 2;
 		case DELETE:
 			return 3;
+		case PRICE_UPDATE:
+			return 4;
 		default:
 			System.err.println("bad status value");
 			return -1;

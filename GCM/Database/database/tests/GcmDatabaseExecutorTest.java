@@ -176,14 +176,13 @@ class GcmDatabaseExecutorTest {
 //	}
 	@Test
 	void addMapTest() throws SQLException {
-		map = new Map("map name", "map", 1,1, new Coordinates());
+		map = new Map("map name", "map", 1, 1, new Coordinates());
 		mapId = gcmDataExecutor.addMapToCity(cityId, map, mapFile);
 		List<MapSubmission> mapSubmissions = gcmDataExecutor.getMapSubmissions();
 		assertFalse(mapSubmissions.isEmpty());
 		for (MapSubmission submission : gcmDataExecutor.getMapSubmissions()) {
 			System.out.println("approving map. " + submission.getActionTaken() + ", containingCityId="
-					+ submission.getContainingCityID() + ", "
-					+ submission.getMap().getDescription());
+					+ submission.getContainingCityID() + ", " + submission.getMap().getDescription());
 			gcmDataExecutor.actionMapEdit(submission, false);
 		}
 //		gcmDataExecutor.UpdateSite(siteId, new Site("updated name", "updated desc", "type", false, new Coordinates()));
@@ -208,6 +207,41 @@ class GcmDatabaseExecutorTest {
 //		assertNull(city);
 //		assertNull(gcmDataExecutor.getMapDetails(mapId));
 //		assertNull(gcmDataExecutor.getMapFile(mapId));
+	}
+
+	@Test
+	void pricesTest() throws SQLException {
+//		assertThrows(IllegalArgumentException.class, () -> gcmDataExecutor.changeCityPrices(1, new ArrayList<Double>() {
+//			{
+//				add(12.2);
+//				add(15d);
+//				add(17d);
+//				add(18d);
+//			}
+//		}));
+//		gcmDataExecutor.changeCityPrices(1, new ArrayList<Double>() {
+//			{
+//				add(12.2);
+//				add(15d);
+//				add(17d);
+//				add(18d);
+//				add(18.8d);
+//				add(19.4);
+//				add(19.6d);
+//			}
+//		});
+		gcmDataExecutor.approveCityPrice(1, new ArrayList<Double>() {
+			{
+				add(12.2);
+				add(15d);
+				add(17d);
+				add(18d);
+				add(18.8d);
+				add(19.4);
+				add(19.6d);
+			}
+		}, true);
+
 	}
 
 }

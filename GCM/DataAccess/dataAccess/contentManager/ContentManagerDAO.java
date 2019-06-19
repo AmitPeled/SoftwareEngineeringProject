@@ -1,5 +1,6 @@
 package dataAccess.contentManager;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -68,5 +69,8 @@ public interface ContentManagerDAO {
 	void actionMapEdit(MapSubmission mapSubmission, boolean action);
 	void actionTourEdit(TourSubmission tourSubmission, boolean action);
 	void actionSiteEdit(SiteSubmission siteSubmission, boolean action);
+	
+	void changeCityPrices(int id, List<Double> prices) throws SQLException; //TODO
+
 
 }
