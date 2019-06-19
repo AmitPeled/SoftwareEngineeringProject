@@ -1454,10 +1454,10 @@ public class GcmDataExecutor implements
 				}
 			};
 			try {
-				String tableToUpdate = "subscribes";
+				String columnToUpdate = "subscribes";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-				updateMangerReports(cityId, tableToUpdate);
+				notifyManagerReportColumn(cityId, columnToUpdate);
 
 			} catch (SQLException e) {
 				return false;
@@ -1483,7 +1483,7 @@ public class GcmDataExecutor implements
 			{
 				String tableUPDATE = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-				updateMangerReports(cityId, tableUPDATE);
+				notifyManagerReportColumn(cityId, tableUPDATE);
 			} catch (SQLException e) {
 				return false;
 			}
@@ -1515,7 +1515,7 @@ public class GcmDataExecutor implements
 
 		for (int i : cityId) {
 			mapsIdList.addAll(queryExecutor.selectColumnsByValue("citiesMaps", "cityId", i, "mapId"));
-			updateMangerReports(i, tableUPDATE);
+			notifyManagerReportColumn(i, tableUPDATE);
 
 		}
 		List<Integer> mapsId = toIdList(mapsIdList);
@@ -1596,9 +1596,9 @@ public class GcmDataExecutor implements
 			try
 
 			{
-				String tableUPDATE = "downloads";
+				String columnToUpdate = "downloads";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-				updateMangerReports(cityId, tableUPDATE);
+				notifyManagerReportColumn(cityId, columnToUpdate);
 
 			} catch (SQLException e) {
 				return false;
@@ -1623,7 +1623,7 @@ public class GcmDataExecutor implements
 				String tableUPDATE = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-				updateMangerReports(cityId, tableUPDATE);
+				notifyManagerReportColumn(cityId, tableUPDATE);
 			} catch (
 
 			SQLException e) {
@@ -1690,10 +1690,10 @@ public class GcmDataExecutor implements
 		};
 		try {
 
-			String tableUPDATE = "oneTimePurchase";
+			String columnToUpdate = "oneTimePurchase";
 			queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-			updateMangerReports(cityId, tableUPDATE);
+			notifyManagerReportColumn(cityId, columnToUpdate);
 		} catch (
 
 		SQLException e) {
@@ -1704,11 +1704,30 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public void notifyMapView(int cityId) throws SQLException {
+	public boolean notifyMapView(String username, int mapId) throws SQLException {
+		City city = getCityByMapId(mapId);
+		if (city != null && verifyPurchasedCity(username, city.getId())) {
+			String columnToUpdate = "viewsNum";
+			notifyManagerReportColumn(city.getId(), columnToUpdate);
+			return true;
+		} else
+			return false;
+	}
 
-		String tableUPDATE = "viewsNum";
-		updateMangerReports(cityId, tableUPDATE);
-
+	private boolean verifyPurchasedCity(String username, int cityId) throws SQLException {
+		List<List<Object>> rows = queryExecutor.selectColumnsByValues("purchaseDeatailsHistory",
+				new ArrayList<String>() {
+					{
+						add("username");
+						add("cityId");
+					}
+				}, new ArrayList<Object>() {
+					{
+						add(username);
+						add(cityId);
+					}
+				}, "*");
+		return !rows.isEmpty();
 	}
 
 	@Override
@@ -1759,18 +1778,13 @@ public class GcmDataExecutor implements
 
 	// when you want to update column in mangerReports you call this
 	// for example when adding new map
-	private void updateMangerReports(int cityId, String tableUPDATE) throws SQLException {
-
+	private void notifyManagerReportColumn(int cityId, String columnToUpdate) throws SQLException {
 		int plusOne;
-
 		List<List<Object>> updateListCulomn = queryExecutor.selectColumnsByValue("mangerReports", "cityId", cityId,
-				"oneTimePurchase");
-		if (updateListCulomn.isEmpty()) {
-			// system.out.println("wtf is not supposed to be empty");
-		} else {
+				columnToUpdate);
+		if (!updateListCulomn.isEmpty()) {
 			plusOne = (int) updateListCulomn.get(0).get(0) + 1;
-
-			queryExecutor.updateTableColumn("mangerReports", tableUPDATE, plusOne, "cityId", cityId);
+			queryExecutor.updateTableColumn("mangerReports", columnToUpdate, plusOne, "cityId", cityId);
 		}
 
 	}

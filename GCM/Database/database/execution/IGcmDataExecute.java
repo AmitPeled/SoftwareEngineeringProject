@@ -72,8 +72,6 @@ public interface IGcmDataExecute {
 
 	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
 
-	void notifyMapView(int cityId) throws SQLException;
-
 	File downloadMap(int cityId, String username) throws SQLException;
 
 	List<Map> getPurchasedMaps(String username) throws SQLException;
@@ -177,5 +175,7 @@ public interface IGcmDataExecute {
 	List<PriceSubmission> getPriceSubmissions() throws SQLException;//TODO
 
 	void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException;
+
+	boolean notifyMapView(String username, int mapId) throws SQLException;
 
 }
