@@ -6,6 +6,7 @@ import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.priceApprovalReports.PriceSubmission;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
@@ -158,17 +159,23 @@ public interface IGcmDataExecute {
 
 	void actionSiteEdit(SiteSubmission tour, boolean action) throws SQLException;
 
-	void updateCity(int cityId, City city) throws SQLException; // TODO
-	void deleteCityEdit(int cityId) throws SQLException; // TODO
-	void UpdateSite(int siteId, Site newSite) throws SQLException; // TODO
-	void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException; // TODO
-	void deleteSiteFromTour(int tourId, int siteId) throws SQLException;// TODO
-	void deleteTourFromMap(int mapId, int tourId) throws SQLException;// TODO
-	void deleteTourFromCity(int tourId) throws SQLException;// TODO
-	List<Tour> getCityTours(int cityId) throws SQLException;// TODO
-	void updateTour(int tourId, Tour tour) throws SQLException; // TODO
-	public void deleteSiteFromCity(int siteId) throws SQLException; // TODO
-	void deleteSiteFromMap(int mapId, int siteId) throws SQLException; //TODO
-	void updateMap(int mapId, Map newMap) throws SQLException; // TODO
+	void updateCity(int cityId, City city) throws SQLException; // TOCHECK
+	void deleteCityEdit(int cityId) throws SQLException; // TOCHECK
+	void UpdateSite(int siteId, Site newSite) throws SQLException; // TOCHECK
+	void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException; // TOCHECK
+	void deleteSiteFromTour(int tourId, int siteId) throws SQLException;// TOCHECK
+	void deleteTourFromMap(int mapId, int tourId) throws SQLException;// TOCHECK
+	void deleteTourFromCity(int tourId) throws SQLException;// TOCHECK
+	List<Tour> getCityTours(int cityId) throws SQLException;// TOCHECK
+	void updateTour(int tourId, Tour tour) throws SQLException; // TOCHECK
+	public void deleteSiteFromCity(int siteId) throws SQLException; // TOCHECK
+	void deleteSiteFromMap(int mapId, int siteId) throws SQLException; // TOCHECK
+	void updateMap(int mapId, Map newMap) throws SQLException; // TOCHECK
+
+	void changeCityPrices(int id, List<Double> prices) throws SQLException; //TODO
+
+	List<PriceSubmission> getPriceSubmissions() throws SQLException;//TODO
+
+	void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException;
 
 }

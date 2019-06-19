@@ -7,17 +7,21 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.priceApprovalReports.PriceSubmission;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.contentManager.ContentManagerDAO;
 import dataAccess.customer.CustomerDAO;
 import dataAccess.editor.EditorDAO;
+import dataAccess.generalManager.GeneralManagerDAO;
+import dataAccess.generalManager.Report;
 import dataAccess.search.SearchDAO;
 import dataAccess.users.PurchaseDetails;
 import dataAccess.users.UserDAO;
@@ -35,7 +39,8 @@ import users.User;
 //import javax.net.ssl.SSLSocketFactory;
 
 @SuppressWarnings({ "serial", "unchecked" })
-public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, SearchDAO, Serializable {
+public class GcmDAO
+		implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
 	String password = null;
@@ -806,5 +811,35 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 				add(newMap);
 			}
 		}, username, password));
+	}
+
+	@Override
+	public void changeCityPrices(int id, List<Double> prices) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<PriceSubmission> getPriceSubmissions() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Report getCityReport(Date startDate, Date endDate, int cityId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Report> getSystemReport(Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

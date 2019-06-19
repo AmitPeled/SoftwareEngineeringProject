@@ -15,6 +15,7 @@ import approvalReports.ActionTaken;
 import approvalReports.ObjectsEnum;
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.priceApprovalReports.PriceSubmission;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
@@ -656,10 +657,10 @@ public class GcmDataExecutor implements
 				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*");
 		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
 				username, "*"));
-		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers), "username",
-				username, "*"));
-		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers), "username",
-				username, "*"));
+		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
+				"username", username, "*"));
+		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
+				"username", username, "*"));
 		if (rows.isEmpty())
 			return null;
 		else
@@ -729,8 +730,7 @@ public class GcmDataExecutor implements
 					DatabaseMetaData.getTableName(Tables.citiesTours), "cityId", cityId, "tourId", status));
 			List<Integer> sites = toIdList(queryExecutor.selectColumnsByValue(
 					DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
-			return objectParser.getCity(list.get(0), new TreeSet<>(maps), new TreeSet<>(tours),
-					new TreeSet<>(sites));
+			return objectParser.getCity(list.get(0), new TreeSet<>(maps), new TreeSet<>(tours), new TreeSet<>(sites));
 		} else
 			return null;
 
@@ -1852,6 +1852,42 @@ public class GcmDataExecutor implements
 			return null;
 		else
 			return getCityById((int) lists.get(0).get(0));
+	}
+
+	@Override
+	public void changeCityPrices(int cityId, List<Double> prices) throws SQLException {
+		addCityPrices(cityId, prices, Status.PRICE_UPDATE);
+	}
+
+	public void addCityPrices(int cityId, List<Double> prices, Status status) throws SQLException {
+		if (prices.size() == 7) {
+			City city = getCityById(cityId);
+			city.setPrices(prices);
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+					objectParser.getCityFields(city), status);
+		}
+	}
+
+	@Override
+	public List<PriceSubmission> getPriceSubmissions() throws SQLException {
+		List<PriceSubmission> priceSubmissions = new ArrayList<>();
+		List<City> cities = getCitiesByStatus(Status.PRICE_UPDATE);
+		for (City city : cities) {
+			City publishedCity = getCityById(city.getId());
+			priceSubmissions
+					.add(new PriceSubmission(publishedCity.getId(), city.getPrices(), publishedCity.getPrices()));
+		}
+		return priceSubmissions;
+	}
+
+	@Override
+	public void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException {
+		City publishedCity = getCityById(cityId);
+		deleteFromTables(cityId);
+		if (approve) {
+			addCityPrices(cityId, prices, Status.PUBLISH);
+		} else
+			addCity(publishedCity, Status.PUBLISH, false);
 	}
 
 	@Override
