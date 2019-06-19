@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.SortedSet;
 
 import maps.City;
 import maps.Coordinates;
@@ -109,7 +110,7 @@ public class DatabaseParser implements IParseObjects {
 	}
 
 	@Override
-	public List<Object> getCityMetaFieldsList(City city) { // meta fields are all the fields that aren't arrays.
+	public List<Object> getCityFieldsWithDefualtPrice(City city) { // default prices values
 		if (city == null)
 			return new ArrayList<>();
 		return new ArrayList<Object>() {
@@ -117,7 +118,34 @@ public class DatabaseParser implements IParseObjects {
 				add(city.getId());
 				add(city.getName());
 				add(city.getDescription());
+				add(60);
+				add(10);
+				add(18);
+				add(26);
+				add(34);
+				add(42);
+				add(50);
+			}
+		};
+	}
 
+	@Override
+	public List<Object> getCityFields(City city) {
+		if (city == null)
+			return new ArrayList<>();
+		List<Double> prices = city.getPrices();
+		return new ArrayList<Object>() {
+			{
+				add(city.getId());
+				add(city.getName());
+				add(city.getDescription());
+				add(prices.get(0));
+				add(prices.get(1));
+				add(prices.get(2));
+				add(prices.get(3));
+				add(prices.get(4));
+				add(prices.get(5));
+				add(prices.get(6));
 			}
 		};
 	}
@@ -153,8 +181,20 @@ public class DatabaseParser implements IParseObjects {
 	}
 
 	@Override
-	public City getCityByMetaFields(List<Object> objectList) {
-		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2));
+	public City getCity(List<Object> objectList, SortedSet<Integer> mapsId, SortedSet<Integer> toursId,
+			SortedSet<Integer> sitesId) {
+		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
+				new ArrayList<Double>() {
+					{
+						add((Double) objectList.get(3));
+						add((Double) objectList.get(4));
+						add((Double) objectList.get(5));
+						add((Double) objectList.get(6));
+						add((Double) objectList.get(7));
+						add((Double) objectList.get(8));
+						add((Double) objectList.get(9));
+					}
+				}, mapsId, toursId, sitesId);
 	}
 
 	@Override

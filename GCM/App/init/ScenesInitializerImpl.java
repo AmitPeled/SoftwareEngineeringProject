@@ -50,6 +50,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		initializers.put(SceneNames.ADD_SITE, new AddSiteInitializer(gcmClient));
 		initializers.put(SceneNames.EDIT_PRICE, new EditPriceInitializer(gcmClient));
 		initializers.put(SceneNames.APPROVAL_REPORTS, new ApprovalReportsInitializer(gcmClient));
+		initializers.put(SceneNames.CUSTOMER_REPORT, new CustomerReportInitializer(gcmClient));
 	}
 	
 	@Override

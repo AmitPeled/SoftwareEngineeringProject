@@ -7,9 +7,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import approvalReports.cityApprovalReports.CitySubmission;
+import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.sitesApprovalReports.SiteSubmission;
+import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.contentManager.ContentManagerDAO;
 import dataAccess.customer.CustomerDAO;
 import dataAccess.editor.EditorDAO;
@@ -232,7 +237,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 
 	public int deleteContent(int contentId) {
 		// by now delete map only
-		send(new RequestObject(GcmQuery.deleteContent, new ArrayList<Object>() {
+		send(new RequestObject(GcmQuery.deleteMap, new ArrayList<Object>() {
 			{
 				add(contentId);
 			}
@@ -269,7 +274,12 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 
 	@Override
 	public User getUserDetails() {
-		return (User) send(new RequestObject(GcmQuery.getUserDetails, null, username, password)).getResponse().get(0);
+		try {
+			return (User) send(new RequestObject(GcmQuery.getUserDetails, null, username, password)).getResponse()
+					.get(0);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -303,14 +313,14 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
-	public int addExistingSiteToTour(int tourId, int siteId, int siteDurance) {
-		return (int) send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
+	public void addExistingSiteToTour(int tourId, int siteId, int siteDurance) {
+		send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
 			{
 				add(tourId);
 				add(siteId);
 				add(siteDurance);
 			}
-		}, username, password)).getResponse().get(0);
+		}, username, password)).getResponse();
 	}
 
 	@Override
@@ -347,7 +357,7 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 		int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
 		int startingIndex = 0;
 		if (numberOfLastAddedPlaces != 0) {
-			startingIndex = sitesList.size() - numberOfLastAddedPlaces - 1;
+			startingIndex = sitesList.size() - numberOfLastAddedPlaces;
 		}
 
 		for (int i = startingIndex; i < sitesList.size(); i++) {
@@ -576,6 +586,27 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
+	public List<SiteSubmission> getSiteSubmissions() {
+		return (List<SiteSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getSiteSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
+	public List<MapSubmission> getMapSubmissions() {
+		return (List<MapSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getMapSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
+	public List<TourSubmission> getTourSubmissions() {
+		return (List<TourSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getTourSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
 	public List<Map> getMapsObjectAddedTo(int contentId) {
 		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsObjectAddedTo, new ArrayList<Object>() {
 			{
@@ -629,6 +660,50 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	}
 
 	@Override
+	public void actionCityEdit(CitySubmission citySubmission, boolean action) {
+		send(new RequestObject(GcmQuery.actionCityEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void actionMapEdit(MapSubmission citySubmission, boolean action) {
+		send(new RequestObject(GcmQuery.actionMapEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void actionTourEdit(TourSubmission citySubmission, boolean action) {
+		send(new RequestObject(GcmQuery.actionTourEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void actionSiteEdit(SiteSubmission citySubmission, boolean action) {
+		send(new RequestObject(GcmQuery.actionSiteEdit, new ArrayList<Object>() {
+			{
+				add(citySubmission);
+				add(action);
+			}
+		}, username, password));
+
+	}
+
+	@Override
 	public double getMembershipPrice(int cityId, int timeInterval) {
 		return 0;
 	}
@@ -643,5 +718,93 @@ public class GcmDAO implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDA
 	public boolean repurchaseMembershipBySavedDetails() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void updateCity(int cityId, City city) throws SQLException {
+		send(new RequestObject(GcmQuery.updateCity, new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(city);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void deleteCityEdit(int cityId) throws SQLException {
+		send(new RequestObject(GcmQuery.deleteCityEdit, new ArrayList<Object>() {
+			{
+				add(cityId);
+			}
+		}, username, password));
+
+	}
+
+	@Override
+	public void UpdateSite(int siteId, Site newSite) throws SQLException {
+		send(new RequestObject(GcmQuery.UpdateSite, new ArrayList<Object>() {
+			{
+				add(siteId);
+				add(newSite);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void deleteTourFromMap(int mapId, int tourId) throws SQLException {
+		send(new RequestObject(GcmQuery.deleteTourFromMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(tourId);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void deleteTourFromCity(int tourId) throws SQLException {
+		send(new RequestObject(GcmQuery.deleteTourFromCity, new ArrayList<Object>() {
+			{
+				add(tourId);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public List<Tour> getCityTours(int cityId) throws SQLException {
+		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getCityTours, new ArrayList<Object>() {
+			{
+				add(cityId);
+			}
+		}, username, password)).getResponse();
+	}
+
+	@Override
+	public void updateTour(int tourId, Tour tour) throws SQLException {
+		send(new RequestObject(GcmQuery.updateTour, new ArrayList<Object>() {
+			{
+				add(tourId);
+				add(tour);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void deleteSiteFromCity(int siteId) throws SQLException {
+		send(new RequestObject(GcmQuery.deleteSiteFromCity, new ArrayList<Object>() {
+			{
+				add(siteId);
+			}
+		}, username, password));
+	}
+
+	@Override
+	public void updateMap(int mapId, Map newMap) throws SQLException {
+		send(new RequestObject(GcmQuery.updateMap, new ArrayList<Object>() {
+			{
+				add(mapId);
+				add(newMap);
+			}
+		}, username, password));
 	}
 }

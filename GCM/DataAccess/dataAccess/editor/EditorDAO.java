@@ -1,6 +1,7 @@
 package dataAccess.editor;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 import maps.City;
@@ -54,12 +55,22 @@ public interface EditorDAO {
 
 	public int addExistingTourToMap(int mapId, int tourId);
 
-	public int addExistingSiteToTour(int tourId, int siteId, int siteDurance);
+	public void addExistingSiteToTour(int tourId, int siteId, int siteDurance);
 
 	public int deleteSiteFromMap(int mapId, int siteId);
 
 	public int deleteSiteFromTour(int mapId, int siteId);
 
 	public int tourManager(int cityId, Tour tour);
+	
+	void updateCity(int cityId, City city) throws SQLException; // TODO
+	void deleteCityEdit(int cityId) throws SQLException; // TODO
+	void UpdateSite(int siteId, Site newSite) throws SQLException; // TODO
+	void deleteTourFromMap(int mapId, int tourId) throws SQLException;// TODO
+	void deleteTourFromCity(int tourId) throws SQLException;// TODO
+	List<Tour> getCityTours(int cityId) throws SQLException;// TODO
+	void updateTour(int tourId, Tour tour) throws SQLException; // TODO
+	public void deleteSiteFromCity(int siteId) throws SQLException; // TODO
+	void updateMap(int mapId, Map newMap) throws SQLException; // TODO
 
 }

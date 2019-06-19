@@ -1,9 +1,12 @@
 package approvalReports.cityApprovalReports;
 
+import java.io.Serializable;
+
 import approvalReports.ActionTaken;
 import maps.City;
 
-public class CitySubmission {
+public class CitySubmission implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private City city;
 	private ActionTaken actionTaken;
 	
@@ -16,5 +19,8 @@ public class CitySubmission {
 	}
 	public String getActionTaken() {
 		return actionTaken.toString();
+	}
+	public ActionTaken getAction() {
+		return actionTaken;
 	}
 }

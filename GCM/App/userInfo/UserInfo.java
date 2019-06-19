@@ -1,5 +1,6 @@
 package userInfo;
 
+import queries.RequestState;
 import users.User;
 
 public interface UserInfo {
@@ -18,5 +19,10 @@ public interface UserInfo {
 	 * @return true if user was registered successfully, false otherwise
 	 */
 	boolean register(String username, String password, User user);
+
+	User getUserDetailes();
+
+	
+	RequestState getState();
 
 }

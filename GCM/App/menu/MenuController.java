@@ -3,6 +3,8 @@ package menu;
 import javafx.fxml.FXML;
 import mainApp.GcmClient;
 import mainApp.SceneNames;
+import userInfo.UserInfoImpl;
+import users.User;
 
 public final class MenuController {
 	
@@ -27,5 +29,17 @@ public final class MenuController {
 	
 	@FXML
 	public void onLogoutButton() { gcmClient.Logout(); }
+	
+	@FXML 
+	public void onCustomerReportButton() {
+		
+
+		
+		//User user = gcmClient.getUserInfo().getUserDetailes();
+		
+		User user = new User("olaola","eli","levi", "asd@asd", "5461234567");
+		
+		
+		gcmClient.switchSceneToCustomerReport(user);}
 	
 }

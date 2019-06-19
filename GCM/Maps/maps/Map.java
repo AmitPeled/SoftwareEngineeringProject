@@ -1,6 +1,7 @@
 package maps;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +45,8 @@ public final class Map implements Serializable {
 		this.width = width;
 		this.height = height;
 		this.offset = offset;
+		this.mapTours = new ArrayList<>();
+		this.mapSites = new ArrayList<>();
 	}
 
 	/**

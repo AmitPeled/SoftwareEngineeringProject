@@ -4,6 +4,10 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
+import approvalReports.cityApprovalReports.CitySubmission;
+import approvalReports.mapApprovalReports.MapSubmission;
+import approvalReports.sitesApprovalReports.SiteSubmission;
+import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
@@ -27,7 +31,6 @@ public interface IGcmDataExecute {
 
 	void deleteMapEdit(int mapId) throws SQLException;
 
-	void updateMap(int mapId, Map newMap) throws SQLException;
 
 	Map getMapDetails(int mapId) throws SQLException;
 
@@ -35,21 +38,9 @@ public interface IGcmDataExecute {
 
 	int addCity(City city) throws SQLException;
 
-	public void deleteSite(int siteId) throws SQLException;
-
-//	int addCityWithInitialMap(City city, Map map, File mapFile) throws SQLException;
-
-	void updateCity(int cityId, City city) throws SQLException;
-
-	void deleteCity(int cityId) throws SQLException;
-
 	int addNewSiteToCity(int cityId, Site site) throws SQLException;
 
 	void addExistingSiteToMap(int mapId, int siteId) throws SQLException;
-
-	void deleteSiteFromMap(int mapId, int siteId) throws SQLException;
-
-	void UpdateSite(int siteId, Site newSite) throws SQLException;
 
 	List<Map> getMapsByCityName(String cityName) throws SQLException;
 
@@ -63,22 +54,20 @@ public interface IGcmDataExecute {
 
 	List<Site> getCitySites(int cityId) throws SQLException;
 
-	void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException;
-
 	int addNewTourToCity(int cityId, Tour tour) throws SQLException;
 
 	void addExistingTourToMap(int mapId, int tourId) throws SQLException;
 
-	double getMembershipPrice(int cityId, int timeInterval,String username) throws SQLException;
-	
-	double getOneTimePurchasePrice(int cityId)throws SQLException;
+	double getMembershipPrice(int cityId, int timeInterval, String username) throws SQLException;
+
+	double getOneTimePurchasePrice(int cityId) throws SQLException;
 
 	boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
 			throws SQLException;
 
 	String getSavedCreditCard(String username) throws SQLException;
 
-	boolean repurchaseMembershipBySavedDetails(int cityId,int timeInterval,String username) throws SQLException;
+	boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username) throws SQLException;
 
 	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
 
@@ -135,22 +124,51 @@ public interface IGcmDataExecute {
 	List<Tour> getToursUpdateEdits() throws SQLException;
 
 	List<Tour> getToursAddEdits() throws SQLException;
-	
+
 	void actionTourAddEdit(Site site, boolean action) throws SQLException;
+
 	void actionTourUpdateEdit(Site site, boolean action) throws SQLException;
+
 	void actionTourDeleteEdit(Site site, boolean action) throws SQLException;
 
+	List<Map> getMapsObjectAddedTo(int contentId) throws SQLException; // gets list of the maps that the object is added
+																		// to
 
-	List<Map> getMapsObjectAddedTo(int contentId)throws SQLException; // gets list of the maps that the object is added to
-	List<City> getCitiesObjectAddedTo(int contentId)throws SQLException;// gets list of the cities that the object is added to
-	List<Tour> getToursObjectAddedTo(int contentId) throws SQLException;// gets list of the tours that the object is added to
-	
-	// publish map/site/city
-	// purchaseMap
-	
+	List<City> getCitiesObjectAddedTo(int contentId) throws SQLException;
+
+	List<Tour> getToursObjectAddedTo(int contentId) throws SQLException;
+
 	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
 	Report getOneCityReport(String cityName) throws SQLException;
 
-	List<Report> getAllcitiesReport() throws SQLException; 
+	List<Report> getAllcitiesReport() throws SQLException;
+
+	List<SiteSubmission> getSiteSubmissions() throws SQLException;
+
+	List<MapSubmission> getMapSubmissions() throws SQLException;
+
+	List<TourSubmission> getTourSubmissions() throws SQLException;
+
+	void actionTourEdit(TourSubmission tour, boolean action) throws SQLException;
+
+	void actionMapEdit(MapSubmission tour, boolean action) throws SQLException;
+
+	void actionCityEdit(CitySubmission tour, boolean action) throws SQLException;
+
+	void actionSiteEdit(SiteSubmission tour, boolean action) throws SQLException;
+
+	void updateCity(int cityId, City city) throws SQLException; // TODO
+	void deleteCityEdit(int cityId) throws SQLException; // TODO
+	void UpdateSite(int siteId, Site newSite) throws SQLException; // TODO
+	void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException; // TODO
+	void deleteSiteFromTour(int tourId, int siteId) throws SQLException;// TODO
+	void deleteTourFromMap(int mapId, int tourId) throws SQLException;// TODO
+	void deleteTourFromCity(int tourId) throws SQLException;// TODO
+	List<Tour> getCityTours(int cityId) throws SQLException;// TODO
+	void updateTour(int tourId, Tour tour) throws SQLException; // TODO
+	public void deleteSiteFromCity(int siteId) throws SQLException; // TODO
+	void deleteSiteFromMap(int mapId, int siteId) throws SQLException; //TODO
+	void updateMap(int mapId, Map newMap) throws SQLException; // TODO
+
 }
