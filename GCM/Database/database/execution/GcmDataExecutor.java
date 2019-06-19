@@ -820,14 +820,13 @@ public class GcmDataExecutor implements
 		if (map != null) {
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId",
 					map.getId(), Status.ADD);
-			File file = getMapFile(map.getId());
+			File file = getMapFile(map.getId(), Status.ADD);
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", map.getId(),
 					Status.ADD);
 			if (action) {
 				City city = getCitiesObjectAddedTo(map.getId()).get(0);
 				addMapToCityByStatus(city.getId(), map, file, Status.PUBLISH);
 			}
-
 		}
 	}
 
