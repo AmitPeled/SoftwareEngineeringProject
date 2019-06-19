@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import dataAccess.customer.PurchaseHistory;
-import gcmDataAccess.GcmDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.text.Text;
+import javafx.scene.control.TextField;
 import mainApp.GcmClient;
 import users.User;
 
@@ -24,9 +24,11 @@ public class UserDetailsPresentationController implements Initializable {
 	//private GcmDAO gcmDAO;
 
 	@FXML
-	private Text nametxt, lastnametxt, emailtxt, phonenumbertxt, usernametxt;
+	private TextField nametxt, lastnametxt, emailtxt, phonenumbertxt, usernametxt;
 	@FXML
 	private ListView<String> listviewLV;
+	@FXML 
+	private Button updatebtn;
 
 	public UserDetailsPresentationController(GcmClient gcmClient) {
 		this.gcmClient = gcmClient;
@@ -36,6 +38,24 @@ public class UserDetailsPresentationController implements Initializable {
 	public void onBackButton() {
 		gcmClient.back();
 	}
+	
+	@FXML
+	public void onEditButton() {
+		emailtxt.setEditable(true);
+		phonenumbertxt.setEditable(true);
+		updatebtn.setVisible(true);
+	}
+	
+	@FXML void onUpdateButton() {
+		emailtxt.setEditable(false);
+		phonenumbertxt.setEditable(false);
+		updatebtn.setVisible(false);
+		
+		//execution query and update deatails
+		//update user and call set deatails!
+		
+	}
+	
 
 	public void setDeteails() {
 
