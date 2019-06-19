@@ -401,12 +401,16 @@ public class GcmDAO
 	}
 
 	@Override
-	public void notifyMapView(int mapId) {
-		send(new RequestObject(GcmQuery.notifyMapView, new ArrayList<Object>() {
-			{
-				add(mapId);
-			}
-		}, username, password));
+	public boolean notifyMapView(int mapId) {
+		try {
+			return (boolean) send(new RequestObject(GcmQuery.notifyMapView, new ArrayList<Object>() {
+				{
+					add(mapId);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return false;
+		}
 
 	}
 
@@ -838,7 +842,7 @@ public class GcmDAO
 			{
 				add(cityId);
 				add(prices);
-				add(approve);
+				add(prices);
 			}
 		}, username, password));
 	}

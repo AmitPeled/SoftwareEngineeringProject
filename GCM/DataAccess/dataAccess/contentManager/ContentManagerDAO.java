@@ -70,7 +70,7 @@ public interface ContentManagerDAO {
 	void actionTourEdit(TourSubmission tourSubmission, boolean action);
 	void actionSiteEdit(SiteSubmission siteSubmission, boolean action);
 	
-	void changeCityPrices(int id, List<Double> prices) throws SQLException; //TODO
+	void changeCityPrices(int cityId, List<Double> prices) throws SQLException; //TODO
 
 
 }

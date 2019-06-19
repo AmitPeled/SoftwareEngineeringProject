@@ -56,12 +56,10 @@ public interface CustomerDAO {
 	boolean repurchaseMembershipBySavedDetails();
 
 	/**
-	 * both view and download map functionalities are available for period
-	 * memberships only, and returns the same thing - the map's file. the download
-	 * and view itself operates in the client side. the reason to do it apart is to
-	 * maintain viewing and downloading statistics in the database.
+	 * @return if user has access to view the map and update the system in
+	 *         accordance.
 	 */
-	void notifyMapView(int mapId);
+	boolean notifyMapView(int mapId);
 
 	File downloadMap(int mapId);
 
