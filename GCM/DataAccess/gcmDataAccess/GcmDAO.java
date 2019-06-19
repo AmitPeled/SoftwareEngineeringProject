@@ -842,7 +842,7 @@ public class GcmDAO
 			{
 				add(cityId);
 				add(prices);
-				add(prices);
+				add(approve);
 			}
 		}, username, password));
 	}

@@ -73,4 +73,5 @@ public interface ContentManagerDAO {
 	void changeCityPrices(int cityId, List<Double> prices) throws SQLException; //TODO
 
 
+
 }
