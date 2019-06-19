@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import approvalReports.priceApprovalReports.PriceSubmission;
-import maps.Map;
 
 public interface GeneralManagerDAO {
 

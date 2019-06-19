@@ -269,22 +269,33 @@ public class RequestHandler implements IHandleRequest {
 					gcmDataExecutor.deleteTourFromCity((int) listObjectReceived.get(0));
 					break;
 				case deleteTourFromMap:
-					gcmDataExecutor.deleteTourFromMap((int) listObjectReceived.get(0),(int) listObjectReceived.get(1));
+					gcmDataExecutor.deleteTourFromMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
 					break;
 				case getCityTours:
-					listToSend = (List<Object>)(Object)gcmDataExecutor.getCityTours((int) listObjectReceived.get(0));
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCityTours((int) listObjectReceived.get(0));
 					break;
 				case updateCity:
-					gcmDataExecutor.updateCity((int) listObjectReceived.get(0),(City) listObjectReceived.get(1));
+					gcmDataExecutor.updateCity((int) listObjectReceived.get(0), (City) listObjectReceived.get(1));
 					break;
 				case updateMap:
-					gcmDataExecutor.updateMap((int) listObjectReceived.get(0),(Map) listObjectReceived.get(1));
+					gcmDataExecutor.updateMap((int) listObjectReceived.get(0), (Map) listObjectReceived.get(1));
 					break;
 				case UpdateSite:
-					gcmDataExecutor.UpdateSite((int) listObjectReceived.get(0),(Site) listObjectReceived.get(1));
+					gcmDataExecutor.UpdateSite((int) listObjectReceived.get(0), (Site) listObjectReceived.get(1));
 					break;
 				case updateTour:
-					gcmDataExecutor.updateTour((int) listObjectReceived.get(0),(Tour) listObjectReceived.get(1));
+					gcmDataExecutor.updateTour((int) listObjectReceived.get(0), (Tour) listObjectReceived.get(1));
+					break;
+				case approveCityPrice:
+					gcmDataExecutor.approveCityPrice((int) listObjectReceived.get(0),
+							(List<Double>) listObjectReceived.get(1), (boolean) listObjectReceived.get(2));
+					break;
+				case changeCityPrices:
+					gcmDataExecutor.changeCityPrices((int) listObjectReceived.get(0),
+							(List<Double>) listObjectReceived.get(1));
+					break;
+				case getPriceSubmissions:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getPriceSubmissions();
 					break;
 				case purchaseCity:
 					break;

@@ -814,21 +814,33 @@ public class GcmDAO
 	}
 
 	@Override
-	public void changeCityPrices(int id, List<Double> prices) throws SQLException {
-		// TODO Auto-generated method stub
+	public void changeCityPrices(int cityId, List<Double> prices) throws SQLException {
+		send(new RequestObject(GcmQuery.changeCityPrices, new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(prices);
+			}
+		}, username, password));
 
 	}
 
 	@Override
 	public List<PriceSubmission> getPriceSubmissions() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<PriceSubmission>) (Object) send(
+				new RequestObject(GcmQuery.getPriceSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
+
 	}
 
 	@Override
 	public void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException {
-		// TODO Auto-generated method stub
-
+		send(new RequestObject(GcmQuery.approveCityPrice, new ArrayList<Object>() {
+			{
+				add(cityId);
+				add(prices);
+				add(approve);
+			}
+		}, username, password));
 	}
 
 	@Override

@@ -1370,12 +1370,12 @@ public class GcmDataExecutor implements
 		int cityId = city.getId();
 		deleteFromTables(cityId, toStatus(actionTaken));
 		if (action) {
+			City publishedCity = getCityById(cityId);
 			delete(cityId);
 			if (actionTaken == ActionTaken.ADD)
 				addCity(city, Status.PUBLISH, true);
 			else if (actionTaken == ActionTaken.UPDATE) {
 				// prices aren't changed. the can be changed only by manager procedure
-				City publishedCity = getCityById(cityId);
 				city.setPrices(publishedCity.getPrices());
 				addCity(city, Status.PUBLISH, false);
 			}
@@ -1856,15 +1856,22 @@ public class GcmDataExecutor implements
 
 	@Override
 	public void changeCityPrices(int cityId, List<Double> prices) throws SQLException {
-		addCityPrices(cityId, prices, Status.PRICE_UPDATE);
+		addCityWithPrices(getCityById(cityId), prices, Status.PRICE_UPDATE);
 	}
 
-	public void addCityPrices(int cityId, List<Double> prices, Status status) throws SQLException {
+//	public void addCityPrices(int cityId, List<Double> prices, Status status) throws SQLException {
+//		if (prices.size() == 7) {
+//			City city = getCityById(cityId);
+//			city.setPrices(prices);
+//			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+//					objectParser.getCityFields(city), status);
+//		}
+//	}
+	public void addCityWithPrices(City publishedCity, List<Double> prices, Status status) throws SQLException {
 		if (prices.size() == 7) {
-			City city = getCityById(cityId);
-			city.setPrices(prices);
+			publishedCity.setPrices(prices);
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
-					objectParser.getCityFields(city), status);
+					objectParser.getCityFields(publishedCity), status);
 		}
 	}
 
@@ -1882,12 +1889,12 @@ public class GcmDataExecutor implements
 
 	@Override
 	public void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException {
-		City publishedCity = getCityById(cityId);
-		deleteFromTables(cityId);
+		deleteFromTables(cityId, Status.PRICE_UPDATE); // delete all price edits occurrences
 		if (approve) {
-			addCityPrices(cityId, prices, Status.PUBLISH);
-		} else
-			addCity(publishedCity, Status.PUBLISH, false);
+			City publishedCity = getCityById(cityId);
+			deleteFromTables(cityId, Status.PUBLISH); // delete current city
+			addCityWithPrices(publishedCity, prices, Status.PUBLISH); // add the new city
+		}
 	}
 
 	@Override
