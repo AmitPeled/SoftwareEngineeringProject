@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
@@ -295,6 +296,21 @@ public class DatabaseExecutor implements IExecuteQueries {
 		
 		String sqlquery = "Select " + columnsToSelect + " from " + tableName +";";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		List<List<Object>> fields = new ArrayList<>();
+		synchronized (dbAccess) {
+			fields = toList(preparedStatement.executeQuery());
+		}
+		return fields;
+	}
+
+	@Override
+	public List<List<Object>> betweenDates(String tableName, String columnToSelect, Object Date1,
+			String columnCondition, Object Date2) throws SQLException {
+		
+		String sqlquery = "Select " + columnToSelect + " From " + tableName + " Where " + columnCondition + " Between ? " + " And ? " ;
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		preparedStatement.setDate(1, (Date) Date1);
+		preparedStatement.setDate(2, (Date) Date2);
 		List<List<Object>> fields = new ArrayList<>();
 		synchronized (dbAccess) {
 			fields = toList(preparedStatement.executeQuery());

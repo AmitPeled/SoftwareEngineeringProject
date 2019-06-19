@@ -305,6 +305,43 @@ public class CostumerDataExecutorTest {
 		updateMangerReports(cityId, tableToUpdate);
 
 	}
+	
+	@Test
+	 void getPurchaseHistoryManager() throws SQLException {
+		
+		String tableName = "purchaseDeatailsHistory";
+		String columnToSelect = "*";
+		String columnCondition = "expiredDate";
+		int days = 90;
+		java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		java.sql.Date endDate = addDays(startDate, days);
+		startDate = addDays(startDate, -50);
+		System.out.println(startDate);
+		System.out.println(endDate);
+		
+		List<List<Object>> history = dbExecutor.betweenDates(tableName, columnToSelect, startDate, columnCondition, endDate);
+	//	System.out.println(history.get(0));
+	//	System.out.println(history.get(1));
+	//	System.out.println(history.size());
+	//	System.out.println(history.get(0).get(2));
+
+		List<PurchaseHistory> purchaseHistories = new ArrayList<>();
+
+		for (int i = 0; i < history.size(); i++) {
+			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
+					(Date) history.get(i).get(5), (int) history.get(i).get(1));
+			purchaseHistories.add(purchaseHistory);
+		}
+		for (int i = 0; i < purchaseHistories.size(); i++) {
+			purchaseHistories.get(i).print();
+		}
+
+	}
+		
+		
+		
+	
+	
 
 	private void updateMangerReports(int cityId, String tableToUpdate) throws SQLException {
 
