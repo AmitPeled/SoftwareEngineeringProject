@@ -54,13 +54,13 @@ public class DatabaseMetaData {
 
 	public static int getStatus(Status status) {
 		switch (status) {
-		case published:
+		case PUBLISH:
 			return 0;
-		case toAdd:
+		case ADD:
 			return 1;
-		case toUpdate:
+		case UPDATE:
 			return 2;
-		case toDelete:
+		case DELETE:
 			return 3;
 		default:
 			System.err.println("bad status value");
