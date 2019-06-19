@@ -170,11 +170,11 @@ public interface IGcmDataExecute {
 	void deleteSiteFromMap(int mapId, int siteId) throws SQLException; // TOCHECK
 	void updateMap(int mapId, Map newMap) throws SQLException; // TOCHECK
 
-	void changeCityPrices(int id, List<Double> prices) throws SQLException; //TODO
+	void changeCityPrices(int id, List<Double> prices) throws SQLException;// TOCHECK
 
-	List<PriceSubmission> getPriceSubmissions() throws SQLException;//TODO
+	List<PriceSubmission> getPriceSubmissions() throws SQLException;// TOCHECK
 
-	void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException;
+	void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException;// TOCHECK
 
 	boolean notifyMapView(String username, int mapId) throws SQLException;
 

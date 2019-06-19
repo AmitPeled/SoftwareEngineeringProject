@@ -146,11 +146,11 @@ public class GcmDataExecutor implements
 
 	@Override
 	public Map getMapDetails(int mapId) throws SQLException {
-		return getMapDetailsByStatus(mapId, Status.PUBLISH);
+		return getMapDetails(mapId, Status.PUBLISH);
 
 	}
 
-	public Map getMapDetailsByStatus(int mapId, Status status) throws SQLException {
+	public Map getMapDetails(int mapId, Status status) throws SQLException {
 		List<List<Object>> metaDetailsRows = queryExecutor.selectColumnsByValue(
 				DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId, "*", status);
 		if (metaDetailsRows.isEmpty())
@@ -222,6 +222,10 @@ public class GcmDataExecutor implements
 
 	@Override
 	public File getMapFile(int mapId) throws SQLException {
+		return getMapFile(mapId, Status.PUBLISH);
+	}
+
+	public File getMapFile(int mapId, Status status) throws SQLException {
 		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsFiles),
 				"mapId", mapId, "mapFile");
 		if (rows.isEmpty())
@@ -590,7 +594,7 @@ public class GcmDataExecutor implements
 		}
 		List<Integer> mapsIds = toIdList(mapIdRows);
 		for (int mapId : mapsIds) {
-			maps.add(getMapDetailsByStatus(mapId, Status.PUBLISH));
+			maps.add(getMapDetails(mapId, Status.PUBLISH));
 
 		}
 		return maps;
@@ -1023,8 +1027,8 @@ public class GcmDataExecutor implements
 			for (List<Object> list : cityIdsAndMapIds) {
 				int cityId = (int) list.get(0);
 				int mapId = (int) list.get(1);
-				Map map = getMapDetailsByStatus(mapId, status);
-				File file = getMapFile(mapId);
+				Map map = getMapDetails(mapId, status);
+				File file = getMapFile(mapId, status);
 				if (map != null && file != null)
 					mapSubmissions.add(new MapSubmission(cityId, map, file, actionTaken));
 			}
@@ -1179,7 +1183,7 @@ public class GcmDataExecutor implements
 		List<Map> mapsObjects = new ArrayList<>();
 		mapsIds.forEach((mapId) -> {
 			try {
-				mapsObjects.add(getMapDetailsByStatus(mapId, status));
+				mapsObjects.add(getMapDetails(mapId, status));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -1496,9 +1500,11 @@ public class GcmDataExecutor implements
 
 	@Override
 	public File downloadMap(int mapId, String username) throws SQLException {
-		// TODO Auto-generated method stub
-
-		return getMapFile(mapId);
+		City city = getCityByMapId(mapId);
+		if (city != null && verifyPurchasedCity(username, city.getId()))
+			return getMapFile(mapId, Status.PUBLISH);
+		else
+			return null;
 	}
 
 	@Override
@@ -1715,8 +1721,8 @@ public class GcmDataExecutor implements
 	}
 
 	private boolean verifyPurchasedCity(String username, int cityId) throws SQLException {
-		List<List<Object>> rows = queryExecutor.selectColumnsByValues("purchaseDeatailsHistory",
-				new ArrayList<String>() {
+		List<List<Object>> rows = queryExecutor
+				.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.purchaseHistory), new ArrayList<String>() {
 					{
 						add("username");
 						add("cityId");
