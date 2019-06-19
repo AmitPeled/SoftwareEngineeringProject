@@ -1882,7 +1882,7 @@ public class GcmDataExecutor implements
 		for (City city : cities) {
 			City publishedCity = getCityById(city.getId());
 			priceSubmissions
-					.add(new PriceSubmission(publishedCity.getId(), city.getPrices(), publishedCity.getPrices()));
+					.add(new PriceSubmission(publishedCity.getId(), publishedCity.getPrices(), city.getPrices()));
 		}
 		return priceSubmissions;
 	}
