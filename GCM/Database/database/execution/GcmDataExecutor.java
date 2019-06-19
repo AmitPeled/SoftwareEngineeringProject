@@ -712,7 +712,7 @@ public class GcmDataExecutor implements
 			return getCityById((int) lists.get(0).get(0));
 	}
 
-	private City getCityById(int cityId) throws SQLException {
+	public City getCityById(int cityId) throws SQLException {
 		City city = getCityById(cityId, Status.PUBLISH);
 		if (city == null)
 			city = getCityById(cityId, Status.ADD);
@@ -729,8 +729,7 @@ public class GcmDataExecutor implements
 					DatabaseMetaData.getTableName(Tables.citiesTours), "cityId", cityId, "tourId", status));
 			List<Integer> sites = toIdList(queryExecutor.selectColumnsByValue(
 					DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
-
-			return objectParser.getCity(list.get(0), new ArrayList<>(), new TreeSet<>(maps), new TreeSet<>(tours),
+			return objectParser.getCity(list.get(0), new TreeSet<>(maps), new TreeSet<>(tours),
 					new TreeSet<>(sites));
 		} else
 			return null;

@@ -181,10 +181,20 @@ public class DatabaseParser implements IParseObjects {
 	}
 
 	@Override
-	public City getCity(List<Object> objectList, List<Double> priceList, SortedSet<Integer> mapsId,
-			SortedSet<Integer> toursId, SortedSet<Integer> sitesId) {
-		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2), priceList,
-				mapsId, toursId, sitesId);
+	public City getCity(List<Object> objectList, SortedSet<Integer> mapsId, SortedSet<Integer> toursId,
+			SortedSet<Integer> sitesId) {
+		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
+				new ArrayList<Double>() {
+					{
+						add((Double) objectList.get(3));
+						add((Double) objectList.get(4));
+						add((Double) objectList.get(5));
+						add((Double) objectList.get(6));
+						add((Double) objectList.get(7));
+						add((Double) objectList.get(8));
+						add((Double) objectList.get(9));
+					}
+				}, mapsId, toursId, sitesId);
 	}
 
 	@Override

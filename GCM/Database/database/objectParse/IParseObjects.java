@@ -2,6 +2,7 @@ package database.objectParse;
 
 import java.util.List;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import maps.City;
 import maps.Map;
@@ -64,7 +65,7 @@ public interface IParseObjects {
 	
 	List<Object> getCityFields(City city);
 
-	City getCity(List<Object> objectList, List<Double> priceList, SortedSet<Integer> mapsId, SortedSet<Integer> toursId,
+	City getCity(List<Object> objectList, SortedSet<Integer> mapsId, SortedSet<Integer> toursId,
 			SortedSet<Integer> sitesId);
 
 }
