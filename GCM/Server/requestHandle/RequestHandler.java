@@ -136,7 +136,7 @@ public class RequestHandler implements IHandleRequest {
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitySites((int) listObjectReceived.get(0));
 					break;
 				case notifyMapView:
-					gcmDataExecutor.notifyMapView((int) listObjectReceived.get(0));
+					listToSend.add(gcmDataExecutor.notifyMapView(username, (int) listObjectReceived.get(0)));
 					break;
 				case purchaseMembershipToCity:
 					listToSend.add(gcmDataExecutor.purchaseMembershipToCity((int) listObjectReceived.get(0),
