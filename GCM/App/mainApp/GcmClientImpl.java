@@ -121,12 +121,12 @@ class GcmClientImpl implements GcmClient {
 	}
 
 	@Override
-	public void switchSceneToCustomerReport(User user) {
+	public void switchSceneToCustomerReport() {
 		
 		Scene scene = manager.getScene(SceneNames.CUSTOMER_REPORT);
 		try {
 			UserDetailsPresentationController controller = (UserDetailsPresentationController) manager.getController(SceneNames.CUSTOMER_REPORT);
-			controller.initalizeControl(user);
+			controller.initalizeControl();
 			primaryStage.setScene(scene);
 			scenesStack.push(scene);
 		}catch (Exception e) {

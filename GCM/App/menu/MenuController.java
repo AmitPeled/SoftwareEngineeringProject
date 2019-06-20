@@ -31,15 +31,6 @@ public final class MenuController {
 	public void onLogoutButton() { gcmClient.Logout(); }
 	
 	@FXML 
-	public void onCustomerReportButton() {
-		
-
-		
-		//User user = gcmClient.getUserInfo().getUserDetailes();
-		
-		User user = new User("olaola","eli","levi", "asd@asd", "5461234567");
-		
-		
-		gcmClient.switchSceneToCustomerReport(user);}
+	public void onCustomerReportButton() { gcmClient.switchSceneToCustomerReport();}
 	
 }
