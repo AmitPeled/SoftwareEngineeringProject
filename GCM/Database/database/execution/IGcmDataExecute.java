@@ -63,7 +63,7 @@ public interface IGcmDataExecute {
 
 	double getOneTimePurchasePrice(int cityId) throws SQLException;
 
-	boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
+	boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
 			throws SQLException;
 
 	String getSavedCreditCard(String username) throws SQLException;
@@ -71,8 +71,6 @@ public interface IGcmDataExecute {
 	boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username) throws SQLException;
 
 	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
-
-	void notifyMapView(int cityId) throws SQLException;
 
 	File downloadMap(int cityId, String username) throws SQLException;
 
@@ -172,10 +170,12 @@ public interface IGcmDataExecute {
 	void deleteSiteFromMap(int mapId, int siteId) throws SQLException; // TOCHECK
 	void updateMap(int mapId, Map newMap) throws SQLException; // TOCHECK
 
-	void changeCityPrices(int id, List<Double> prices) throws SQLException; //TODO
+	void changeCityPrices(int id, List<Double> prices) throws SQLException;// TOCHECK
 
-	List<PriceSubmission> getPriceSubmissions() throws SQLException;//TODO
+	List<PriceSubmission> getPriceSubmissions() throws SQLException;// TOCHECK
 
-	void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException;
+	void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException;// TOCHECK
+
+	boolean notifyMapView(String username, int mapId) throws SQLException;
 
 }

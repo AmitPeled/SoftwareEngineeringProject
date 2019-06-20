@@ -146,11 +146,11 @@ public class GcmDataExecutor implements
 
 	@Override
 	public Map getMapDetails(int mapId) throws SQLException {
-		return getMapDetailsByStatus(mapId, Status.PUBLISH);
+		return getMapDetails(mapId, Status.PUBLISH);
 
 	}
 
-	public Map getMapDetailsByStatus(int mapId, Status status) throws SQLException {
+	public Map getMapDetails(int mapId, Status status) throws SQLException {
 		List<List<Object>> metaDetailsRows = queryExecutor.selectColumnsByValue(
 				DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId, "*", status);
 		if (metaDetailsRows.isEmpty())
@@ -222,6 +222,10 @@ public class GcmDataExecutor implements
 
 	@Override
 	public File getMapFile(int mapId) throws SQLException {
+		return getMapFile(mapId, Status.PUBLISH);
+	}
+
+	public File getMapFile(int mapId, Status status) throws SQLException {
 		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsFiles),
 				"mapId", mapId, "mapFile");
 		if (rows.isEmpty())
@@ -590,7 +594,7 @@ public class GcmDataExecutor implements
 		}
 		List<Integer> mapsIds = toIdList(mapIdRows);
 		for (int mapId : mapsIds) {
-			maps.add(getMapDetailsByStatus(mapId, Status.PUBLISH));
+			maps.add(getMapDetails(mapId, Status.PUBLISH));
 
 		}
 		return maps;
@@ -816,14 +820,13 @@ public class GcmDataExecutor implements
 		if (map != null) {
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId",
 					map.getId(), Status.ADD);
-			File file = getMapFile(map.getId());
+			File file = getMapFile(map.getId(), Status.ADD);
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", map.getId(),
 					Status.ADD);
 			if (action) {
 				City city = getCitiesObjectAddedTo(map.getId()).get(0);
 				addMapToCityByStatus(city.getId(), map, file, Status.PUBLISH);
 			}
-
 		}
 	}
 
@@ -1023,8 +1026,8 @@ public class GcmDataExecutor implements
 			for (List<Object> list : cityIdsAndMapIds) {
 				int cityId = (int) list.get(0);
 				int mapId = (int) list.get(1);
-				Map map = getMapDetailsByStatus(mapId, status);
-				File file = getMapFile(mapId);
+				Map map = getMapDetails(mapId, status);
+				File file = getMapFile(mapId, status);
 				if (map != null && file != null)
 					mapSubmissions.add(new MapSubmission(cityId, map, file, actionTaken));
 			}
@@ -1179,7 +1182,7 @@ public class GcmDataExecutor implements
 		List<Map> mapsObjects = new ArrayList<>();
 		mapsIds.forEach((mapId) -> {
 			try {
-				mapsObjects.add(getMapDetailsByStatus(mapId, status));
+				mapsObjects.add(getMapDetails(mapId, status));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -1454,10 +1457,10 @@ public class GcmDataExecutor implements
 				}
 			};
 			try {
-				String tableToUpdate = "subscribes";
+				String columnToUpdate = "subscribes";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-				updateMangerReports(cityId, tableToUpdate);
+				notifyManagerReportColumn(cityId, columnToUpdate);
 
 			} catch (SQLException e) {
 				return false;
@@ -1483,7 +1486,7 @@ public class GcmDataExecutor implements
 			{
 				String tableUPDATE = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-				updateMangerReports(cityId, tableUPDATE);
+				notifyManagerReportColumn(cityId, tableUPDATE);
 			} catch (SQLException e) {
 				return false;
 			}
@@ -1496,9 +1499,11 @@ public class GcmDataExecutor implements
 
 	@Override
 	public File downloadMap(int mapId, String username) throws SQLException {
-		// TODO Auto-generated method stub
-
-		return getMapFile(mapId);
+		City city = getCityByMapId(mapId);
+		if (city != null && verifyPurchasedCity(username, city.getId()))
+			return getMapFile(mapId, Status.PUBLISH);
+		else
+			return null;
 	}
 
 	@Override
@@ -1515,7 +1520,7 @@ public class GcmDataExecutor implements
 
 		for (int i : cityId) {
 			mapsIdList.addAll(queryExecutor.selectColumnsByValue("citiesMaps", "cityId", i, "mapId"));
-			updateMangerReports(i, tableUPDATE);
+			notifyManagerReportColumn(i, tableUPDATE);
 
 		}
 		List<Integer> mapsId = toIdList(mapsIdList);
@@ -1551,85 +1556,89 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
+	public boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
 			String username) throws SQLException {
 		// if seccess -> validate payment (not really can happen)
 
 		// update user purchaseDetails in his table , update report table
-		List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
-				"username", username, "purchaseDate");
-		if (checkIfAlreadyExistUser.isEmpty()) {
-			List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
-				{
-					add(username);
-					add(purchaseDetails.getFirstname());
-					add(purchaseDetails.getLastname());
-					add(purchaseDetails.getCreditCard());
-					add(purchaseDetails.getCvv());
-					add(purchaseDetails.getCardExpireDate());
-				}
-			};
-			try {
-				queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
-			} catch (SQLException e) {
-				// else give null
-				return false;
-			}
-		}
-
-		// update purchaseDeatailsHistory so can know all purchase history
-		if (timeInterval > 0) {
-			List<Object> pDetails = new ArrayList<Object>() {
-				{
-
-					int days = 30 * timeInterval;
-					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-					java.sql.Date endDate = addDays(startDate, days);
-					add(username);
-					add(cityId);
-					add(startDate);
-					add(false);
-					add(timeInterval);
-					add(endDate);
-				}
-			};
-			try
-
-			{
-				String tableUPDATE = "downloads";
-				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-				updateMangerReports(cityId, tableUPDATE);
-
-			} catch (SQLException e) {
-				return false;
-			}
+		if (timeInterval == 0) {
+			purchaseCityOneTime(cityId, purchaseDetails, username);
 		} else {
-			// oneTimePurchase
-			List<Object> pDetails = new ArrayList<Object>() {
-				{
-
-					int days = 30 * timeInterval;
-					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-					java.sql.Date endDate = addDays(startDate, days);
-					add(username);
-					add(cityId);
-					add(startDate);
-					add(true);
-					add(timeInterval);
-					add(endDate);
+			List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
+					"username", username, "purchaseDate");
+			if (checkIfAlreadyExistUser.isEmpty()) {
+				List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
+					{
+						add(username);
+						add(purchaseDetails.getFirstname());
+						add(purchaseDetails.getLastname());
+						add(purchaseDetails.getCreditCard());
+						add(purchaseDetails.getCvv());
+						add(purchaseDetails.getCardExpireDate());
+					}
+				};
+				try {
+					queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
+				} catch (SQLException e) {
+					// else give null
+					return false;
 				}
-			};
-			try {
-				String tableUPDATE = "oneTimePurchase";
-				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-
-				updateMangerReports(cityId, tableUPDATE);
-			} catch (
-
-			SQLException e) {
-				return false;
 			}
 
+			// update purchaseDeatailsHistory so can know all purchase history
+			if (timeInterval > 0) {
+				List<Object> pDetails = new ArrayList<Object>() {
+					{
+
+						int days = 30 * timeInterval;
+						java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+						java.sql.Date endDate = addDays(startDate, days);
+						add(username);
+						add(cityId);
+						add(startDate);
+						add(false);
+						add(timeInterval);
+						add(endDate);
+					}
+				};
+				try
+
+				{
+					String columnToUpdate = "downloads";
+					queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+					notifyManagerReportColumn(cityId, columnToUpdate);
+
+				} catch (SQLException e) {
+					return false;
+				}
+			} else {
+				// oneTimePurchase
+				List<Object> pDetails = new ArrayList<Object>() {
+					{
+
+						int days = 30 * timeInterval;
+						java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+						java.sql.Date endDate = addDays(startDate, days);
+						add(username);
+						add(cityId);
+						add(startDate);
+						add(true);
+						add(timeInterval);
+						add(endDate);
+					}
+				};
+				try {
+					String tableUPDATE = "oneTimePurchase";
+					queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
+					notifyManagerReportColumn(cityId, tableUPDATE);
+				} catch (
+
+				SQLException e) {
+					return false;
+				}
+
+			}
 		}
 		// if seccuss
 		return true;
@@ -1690,10 +1699,10 @@ public class GcmDataExecutor implements
 		};
 		try {
 
-			String tableUPDATE = "oneTimePurchase";
+			String columnToUpdate = "oneTimePurchase";
 			queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-			updateMangerReports(cityId, tableUPDATE);
+			notifyManagerReportColumn(cityId, columnToUpdate);
 		} catch (
 
 		SQLException e) {
@@ -1704,11 +1713,30 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public void notifyMapView(int cityId) throws SQLException {
+	public boolean notifyMapView(String username, int mapId) throws SQLException {
+		City city = getCityByMapId(mapId);
+		if (city != null && verifyPurchasedCity(username, city.getId())) {
+			String columnToUpdate = "viewsNum";
+			notifyManagerReportColumn(city.getId(), columnToUpdate);
+			return true;
+		} else
+			return false;
+	}
 
-		String tableUPDATE = "viewsNum";
-		updateMangerReports(cityId, tableUPDATE);
-
+	private boolean verifyPurchasedCity(String username, int cityId) throws SQLException {
+		List<List<Object>> rows = queryExecutor
+				.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.purchaseHistory), new ArrayList<String>() {
+					{
+						add("username");
+						add("cityId");
+					}
+				}, new ArrayList<Object>() {
+					{
+						add(username);
+						add(cityId);
+					}
+				}, "*");
+		return !rows.isEmpty();
 	}
 
 	@Override
@@ -1759,18 +1787,13 @@ public class GcmDataExecutor implements
 
 	// when you want to update column in mangerReports you call this
 	// for example when adding new map
-	private void updateMangerReports(int cityId, String tableUPDATE) throws SQLException {
-
+	private void notifyManagerReportColumn(int cityId, String columnToUpdate) throws SQLException {
 		int plusOne;
-
 		List<List<Object>> updateListCulomn = queryExecutor.selectColumnsByValue("mangerReports", "cityId", cityId,
-				"oneTimePurchase");
-		if (updateListCulomn.isEmpty()) {
-			// system.out.println("wtf is not supposed to be empty");
-		} else {
+				columnToUpdate);
+		if (!updateListCulomn.isEmpty()) {
 			plusOne = (int) updateListCulomn.get(0).get(0) + 1;
-
-			queryExecutor.updateTableColumn("mangerReports", tableUPDATE, plusOne, "cityId", cityId);
+			queryExecutor.updateTableColumn("mangerReports", columnToUpdate, plusOne, "cityId", cityId);
 		}
 
 	}

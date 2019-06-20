@@ -113,13 +113,13 @@ public class RequestHandler implements IHandleRequest {
 				case getCityByMapId:
 					listToSend.add(gcmDataExecutor.getCityByMapId((int) listObjectReceived.get(0)));
 					break;
-				case getPurchasedMaps:
+				case getActiveCitiesPurchases:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				// case purchaseCity:
-				// listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails,
-				// username));
-				// break;
+				case purchaseCity:
+					listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),(int) listObjectReceived.get(1),
+							(PurchaseDetails) listObjectReceived.get(2), username));
+					break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (int) listObjectReceived.get(2));
@@ -136,10 +136,10 @@ public class RequestHandler implements IHandleRequest {
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitySites((int) listObjectReceived.get(0));
 					break;
 				case notifyMapView:
-					gcmDataExecutor.notifyMapView((int) listObjectReceived.get(0));
+					listToSend.add(gcmDataExecutor.notifyMapView(username, (int) listObjectReceived.get(0)));
 					break;
 				case purchaseMembershipToCity:
-					listToSend.add(gcmDataExecutor.purchaseMembershipToCity((int) listObjectReceived.get(0),
+					listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
 					break;
 				case deleteSiteFromMap:
@@ -294,8 +294,6 @@ public class RequestHandler implements IHandleRequest {
 				case getPriceSubmissions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPriceSubmissions();
 					break;
-				case purchaseCity:
-					break;
 				default:
 					break;
 				}
@@ -361,7 +359,7 @@ public class RequestHandler implements IHandleRequest {
 		case getCityByMapId:
 			return userType == RequestState.editor || userType == RequestState.contentManager
 					|| userType == RequestState.generalManager;
-		case getPurchasedMaps:
+		case getActiveCitiesPurchases:
 			return userType == RequestState.customer;
 		case purchaseCity:
 			return userType == RequestState.customer;

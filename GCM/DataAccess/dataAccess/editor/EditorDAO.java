@@ -59,7 +59,7 @@ public interface EditorDAO {
 
 	public int deleteSiteFromMap(int mapId, int siteId);
 
-	public int deleteSiteFromTour(int mapId, int siteId);
+	public void deleteSiteFromTour(int mapId, int siteId);
 
 	public int tourManager(int cityId, Tour tour);
 	
