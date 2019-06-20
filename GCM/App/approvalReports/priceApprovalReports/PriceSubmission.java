@@ -1,8 +1,10 @@
 package approvalReports.priceApprovalReports;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PriceSubmission {
+public class PriceSubmission implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private List<Double> pricesBefore;
 	private List<Double> pricesAfter;
 	private int cityId;

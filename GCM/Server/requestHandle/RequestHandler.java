@@ -188,10 +188,7 @@ public class RequestHandler implements IHandleRequest {
 					gcmDataExecutor.editCityPrice((int) listObjectReceived.get(0), (double) listObjectReceived.get(1));
 					break;
 				case getCitiesAddEdits:
-					System.out.println("checking if getCitiesAddEdits empty:");
-
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesAddEdits();
-					System.err.println(listToSend.size());
 					break;
 				case getCitiesDeleteEdits:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesDeleteEdits();

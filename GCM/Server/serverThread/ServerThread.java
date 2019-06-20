@@ -25,21 +25,27 @@ public class ServerThread extends Thread {
 //		System.out.println("I'm in thread: " + this.getName());
 		ObjectInputStream in = null;
 		ObjectOutputStream out = null;
+		RequestObject requestObject = null;
 		try {
 			in = new ObjectInputStream(socket.getInputStream());
 			out = new ObjectOutputStream(socket.getOutputStream());
+			requestObject = (RequestObject) in.readObject();
 //			System.out.println("Connection is set");
-			try {
-				RequestObject requestObject = (RequestObject) in.readObject();
-				ResponseObject responseObject = requestHandler.handleRequest(requestObject);
-				out.writeObject(responseObject);
-			} catch (ClassNotFoundException e) {
-				System.err.println("Object sent by client is not of the type RequestObject");
-				System.err.println(e.getMessage());
-			}
 		} catch (IOException ex) {
 			System.err.println("Unable to get streams from client");
 			System.err.println(ex.getMessage());
+		} catch (ClassNotFoundException e) {
+			System.err.println("Object sent by client is not of the type RequestObject");
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		try {
+			ResponseObject responseObject = requestHandler.handleRequest(requestObject);
+			out.writeObject(responseObject);
+		} catch (IOException e) {
+			System.err.println("Error sending server response");
+			System.err.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				in.close();
