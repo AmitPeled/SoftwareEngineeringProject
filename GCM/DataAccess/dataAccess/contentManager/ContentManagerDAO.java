@@ -7,6 +7,7 @@ import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
+import dataAccess.customer.PurchaseHistory;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -72,6 +73,7 @@ public interface ContentManagerDAO {
 	void actionSiteEdit(SiteSubmission siteSubmission, boolean action);
 	
 	void changeCityPrices(int cityId, List<Double> prices) throws SQLException; //TODO
+	List<PurchaseHistory> getPurchaseHistory();
 
 
 

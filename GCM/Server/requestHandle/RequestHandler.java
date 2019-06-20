@@ -294,6 +294,10 @@ public class RequestHandler implements IHandleRequest {
 				case getPriceSubmissions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPriceSubmissions();
 					break;
+				case getPurchaseHistory:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchaseHistory(username);
+					break;
+					
 				default:
 					break;
 				}
