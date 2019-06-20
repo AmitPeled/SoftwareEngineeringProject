@@ -1556,85 +1556,89 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
+	public boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
 			String username) throws SQLException {
 		// if seccess -> validate payment (not really can happen)
 
 		// update user purchaseDetails in his table , update report table
-		List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
-				"username", username, "purchaseDate");
-		if (checkIfAlreadyExistUser.isEmpty()) {
-			List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
-				{
-					add(username);
-					add(purchaseDetails.getFirstname());
-					add(purchaseDetails.getLastname());
-					add(purchaseDetails.getCreditCard());
-					add(purchaseDetails.getCvv());
-					add(purchaseDetails.getCardExpireDate());
-				}
-			};
-			try {
-				queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
-			} catch (SQLException e) {
-				// else give null
-				return false;
-			}
-		}
-
-		// update purchaseDeatailsHistory so can know all purchase history
-		if (timeInterval > 0) {
-			List<Object> pDetails = new ArrayList<Object>() {
-				{
-
-					int days = 30 * timeInterval;
-					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-					java.sql.Date endDate = addDays(startDate, days);
-					add(username);
-					add(cityId);
-					add(startDate);
-					add(false);
-					add(timeInterval);
-					add(endDate);
-				}
-			};
-			try
-
-			{
-				String columnToUpdate = "downloads";
-				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-				notifyManagerReportColumn(cityId, columnToUpdate);
-
-			} catch (SQLException e) {
-				return false;
-			}
+		if (timeInterval == 0) {
+			purchaseCityOneTime(cityId, purchaseDetails, username);
 		} else {
-			// oneTimePurchase
-			List<Object> pDetails = new ArrayList<Object>() {
-				{
-
-					int days = 30 * timeInterval;
-					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-					java.sql.Date endDate = addDays(startDate, days);
-					add(username);
-					add(cityId);
-					add(startDate);
-					add(true);
-					add(timeInterval);
-					add(endDate);
+			List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
+					"username", username, "purchaseDate");
+			if (checkIfAlreadyExistUser.isEmpty()) {
+				List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
+					{
+						add(username);
+						add(purchaseDetails.getFirstname());
+						add(purchaseDetails.getLastname());
+						add(purchaseDetails.getCreditCard());
+						add(purchaseDetails.getCvv());
+						add(purchaseDetails.getCardExpireDate());
+					}
+				};
+				try {
+					queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
+				} catch (SQLException e) {
+					// else give null
+					return false;
 				}
-			};
-			try {
-				String tableUPDATE = "oneTimePurchase";
-				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-
-				notifyManagerReportColumn(cityId, tableUPDATE);
-			} catch (
-
-			SQLException e) {
-				return false;
 			}
 
+			// update purchaseDeatailsHistory so can know all purchase history
+			if (timeInterval > 0) {
+				List<Object> pDetails = new ArrayList<Object>() {
+					{
+
+						int days = 30 * timeInterval;
+						java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+						java.sql.Date endDate = addDays(startDate, days);
+						add(username);
+						add(cityId);
+						add(startDate);
+						add(false);
+						add(timeInterval);
+						add(endDate);
+					}
+				};
+				try
+
+				{
+					String columnToUpdate = "downloads";
+					queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+					notifyManagerReportColumn(cityId, columnToUpdate);
+
+				} catch (SQLException e) {
+					return false;
+				}
+			} else {
+				// oneTimePurchase
+				List<Object> pDetails = new ArrayList<Object>() {
+					{
+
+						int days = 30 * timeInterval;
+						java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+						java.sql.Date endDate = addDays(startDate, days);
+						add(username);
+						add(cityId);
+						add(startDate);
+						add(true);
+						add(timeInterval);
+						add(endDate);
+					}
+				};
+				try {
+					String tableUPDATE = "oneTimePurchase";
+					queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
+					notifyManagerReportColumn(cityId, tableUPDATE);
+				} catch (
+
+				SQLException e) {
+					return false;
+				}
+
+			}
 		}
 		// if seccuss
 		return true;

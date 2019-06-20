@@ -99,7 +99,8 @@ public class EditPriceController implements Initializable
 		List<TextField> textFieldsList = Arrays.asList(firstMonth, secondMonth, thirdMonth, fourthMonth, fifthMonth, sixMonth);
 		int i = 1;
 		for (TextField textField : textFieldsList) {
-			String price = Double.toString(gcmClient.getDataAccessObject().getMembershipPrice(cityId, 1));
+			//now all relevant prices can be retrieved by cityObject.getPrices()
+			String price = Double.toString(-1);//Double.toString(gcmClient.getDataAccessObject().getCityPrice(cityId, 1));
 			textField.setText(price);
 			i++;
 		}

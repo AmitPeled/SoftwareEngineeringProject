@@ -58,23 +58,31 @@ public class GcmDAO
 
 	@Override
 	public Map getMapDetails(int mapID) {
-		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapDetails, new ArrayList<Object>() {
-			{
-				add(mapID);
-			}
-		}, username, password));
-		return (Map) responseObject.getResponse().get(0);
+		try {
+			ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapDetails, new ArrayList<Object>() {
+				{
+					add(mapID);
+				}
+			}, username, password));
+			return (Map) responseObject.getResponse().get(0);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
 	public File getMapFile(int mapID) {
-		ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
-			{
+		try {
+			ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
+				{
 
-				add(mapID);
-			}
-		}, username, password));
-		return (File) responseObject.getResponse().get(0);
+					add(mapID);
+				}
+			}, username, password));
+			return (File) responseObject.getResponse().get(0);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -169,22 +177,30 @@ public class GcmDAO
 
 	@Override
 	public int addMapToCity(int cityId, Map mapDetails, File mapFile) {
-		return (int) send(new RequestObject(GcmQuery.addMap, new ArrayList<Object>() {
-			{
-				add(cityId);
-				add(mapDetails);
-				add(mapFile);
-			}
-		}, username, password)).getResponse().get(0);
+		try {
+			return (int) send(new RequestObject(GcmQuery.addMap, new ArrayList<Object>() {
+				{
+					add(cityId);
+					add(mapDetails);
+					add(mapFile);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 
 	@Override
 	public int addCity(City city) {
-		return (int) send(new RequestObject(GcmQuery.addCity, new ArrayList<Object>() {
-			{
-				add(city);
-			}
-		}, username, password)).getResponse().get(0);
+		try {
+			return (int) send(new RequestObject(GcmQuery.addCity, new ArrayList<Object>() {
+				{
+					add(city);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 
 	private void setDetails(String username, String password) {
@@ -221,12 +237,16 @@ public class GcmDAO
 
 	@Override
 	public int addNewSiteToCity(int cityId, Site site) {
-		return (int) send(new RequestObject(GcmQuery.addNewSiteToCity, new ArrayList<Object>() {
-			{
-				add(cityId);
-				add(site);
-			}
-		}, username, password)).getResponse().get(0);
+		try {
+			return (int) send(new RequestObject(GcmQuery.addNewSiteToCity, new ArrayList<Object>() {
+				{
+					add(cityId);
+					add(site);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 
 	@Override
@@ -261,19 +281,23 @@ public class GcmDAO
 		return 0;
 	}
 
-	@Override
-	public boolean purchaseCityOneTime(int mapId, PurchaseDetails purchaseDetails) {
-		return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new ArrayList<Object>() {
-			{
-				add(mapId);
-				add(purchaseDetails);
-			}
-		}, username, password)).getResponse().get(0);
-	}
+//	@Override
+//	public boolean purchaseCityOneTime(int mapId, PurchaseDetails purchaseDetails) {
+//		try {
+//			return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new ArrayList<Object>() {
+//				{
+//					add(mapId);
+//					add(purchaseDetails);
+//				}
+//			}, username, password)).getResponse().get(0);
+//		} catch (Exception e) {
+//			return false;
+//		}
+//	}
 
 	@Override
-	public List<Map> getPurchasedMaps() {
-		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getPurchasedMaps, null, username, password))
+	public List<City> getActiveCitiesPurchases() {
+		return (List<City>) (Object) send(new RequestObject(GcmQuery.getActiveCitiesPurchases, null, username, password))
 				.getResponse();
 	}
 
@@ -289,21 +313,29 @@ public class GcmDAO
 
 	@Override
 	public City getCityByMapId(int mapId) {
-		return (City) send(new RequestObject(GcmQuery.getCityByMapId, new ArrayList<Object>() {
-			{
-				add(mapId);
-			}
-		}, username, password)).getResponse().get(0);
+		try {
+			return (City) send(new RequestObject(GcmQuery.getCityByMapId, new ArrayList<Object>() {
+				{
+					add(mapId);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
 	public int addNewTourToCity(int cityId, Tour tour) {
-		return (int) send(new RequestObject(GcmQuery.addNewTourToCity, new ArrayList<Object>() {
-			{
-				add(cityId);
-				add(tour);
-			}
-		}, username, password)).getResponse().get(0);
+		try {
+			return (int) send(new RequestObject(GcmQuery.addNewTourToCity, new ArrayList<Object>() {
+				{
+					add(cityId);
+					add(tour);
+				}
+			}, username, password)).getResponse().get(0);
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 
 	@Override
@@ -329,14 +361,13 @@ public class GcmDAO
 	}
 
 	@Override
-	public int deleteSiteFromTour(int mapId, int siteId) {
+	public void deleteSiteFromTour(int mapId, int siteId) {
 		send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
 			{
 				add(mapId);
 				add(siteId);
 			}
 		}, username, password)).getResponse().get(0);
-		return 0;
 	}
 
 	@Override
@@ -381,12 +412,12 @@ public class GcmDAO
 				}
 			}, username, password)).getResponse().get(0);
 		} catch (Exception e) {
-			return new File("import\\resources\\Gta3_map.gif");
+			return null;
 		}
 	}
 
 	@Override
-	public boolean purchaseMembershipToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails) {
+	public boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails) {
 		try {
 			return (boolean) send(new RequestObject(GcmQuery.purchaseMembershipToCity, new ArrayList<Object>() {
 				{
@@ -712,10 +743,10 @@ public class GcmDAO
 
 	}
 
-	@Override
-	public double getMembershipPrice(int cityId, int timeInterval) {
-		return 0;
-	}
+//	@Override
+//	public double getCityPrice(int cityId, int timeInterval) {
+//		return 0;
+//	}
 
 	@Override
 	public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
