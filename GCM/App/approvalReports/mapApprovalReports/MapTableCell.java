@@ -1,11 +1,14 @@
 package approvalReports.mapApprovalReports;
 
+import java.util.List;
+
 import gcmDataAccess.GcmDAO;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
 
 import maps.Map;
+import users.User;
 
 public class MapTableCell extends TableCell<MapSubmission, Button> {
             Button approve = new Button("Approve!");
@@ -16,17 +19,15 @@ public class MapTableCell extends TableCell<MapSubmission, Button> {
             	this.gcmDAO = gcmDAO;
             }
             
-            public void takeAction(MapSubmission mapSubmission, Boolean approve) {
-            	gcmDAO.actionMapEdit(mapSubmission, approve);
-//            	String actionTaken = mapSubmission.getActionTaken();
-//            	Map map = mapSubmission.getMap();
-//            	if(actionTaken.equals("ADD")) {
-//            		gcmDAO.actionMapAddEdit(map, approve);
-//            	}else if(actionTaken.equals("UPDATE")) {
-//            		gcmDAO.actionMapUpdateEdit(map, approve);
-//            	}else {
-//            		gcmDAO.actionMapDeleteEdit(map, approve);
-//            	}
+            /**
+             * @param mapSubmission
+             * @param approve
+             * @return list of users that are affected by the action taken.
+             * 				if approved actionTaken of UPDATE/DELETE, returns list of users that holds the map
+             * 				else, returns an empty list (as no users holdings are affected by ADD or edit disapprovement)
+             */
+            public List<User> takeAction(MapSubmission mapSubmission, Boolean approve) {
+            	return gcmDAO.actionMapEdit(mapSubmission, approve);
             }
             
             public void disableBtn() {

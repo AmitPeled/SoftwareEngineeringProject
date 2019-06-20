@@ -249,7 +249,7 @@ public class RequestHandler implements IHandleRequest {
 							(boolean) listObjectReceived.get(1));
 					break;
 				case actionMapEdit:
-					gcmDataExecutor.actionMapEdit((MapSubmission) listObjectReceived.get(0),
+					listToSend = (List<Object>) (Object) gcmDataExecutor.actionMapEdit((MapSubmission) listObjectReceived.get(0),
 							(boolean) listObjectReceived.get(1));
 					break;
 				case actionCityEdit:

@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -227,7 +228,7 @@ public class GcmDataExecutor implements
 
 	public File getMapFile(int mapId, Status status) throws SQLException {
 		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsFiles),
-				"mapId", mapId, "mapFile");
+				"mapId", mapId, "mapFile", status);
 		if (rows.isEmpty())
 			return null;
 		else {
@@ -1366,7 +1367,7 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public void actionMapEdit(MapSubmission tourSubmission, boolean action) throws SQLException {
+	public List<User> actionMapEdit(MapSubmission tourSubmission, boolean action) throws SQLException {
 		ActionTaken actionTaken = tourSubmission.getAction();
 		int containingId = tourSubmission.getContainingCityID();
 		Map map = tourSubmission.getMap();
@@ -1379,7 +1380,19 @@ public class GcmDataExecutor implements
 			if (actionTaken == ActionTaken.ADD || actionTaken == ActionTaken.UPDATE) {
 				addMapToCityByStatus(containingId, map, file, publish);
 			}
+			return getUsersHoldingMap(id);
 		}
+		return new ArrayList<>();
+	}
+
+	private List<User> getUsersHoldingMap(int id) throws SQLException {
+		List<User> users = new ArrayList<>();
+		List<List<Object>> lists = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "mapId", id, "username");
+		for(List<Object> list : lists) {
+			String username = (String)list.get(0);
+			users.add(getUserDetails(username));
+		}
+		return users;
 	}
 
 	@Override
@@ -1516,8 +1529,17 @@ public class GcmDataExecutor implements
 	@Override
 	public File downloadMap(int mapId, String username) throws SQLException {
 		City city = getCityByMapId(mapId);
-		if (city != null && verifyPurchasedCity(username, city.getId()))
-			return getMapFile(mapId, Status.PUBLISH);
+		if (city != null && verifyPurchasedCity(username, city.getId())) {
+			File mapFile = getMapFile(mapId, Status.PUBLISH);
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), new ArrayList<Object>() {
+				{
+					add(username);
+					add(mapFile);
+					add(new java.util.Date().toInstant()); 
+				}
+			});
+			return mapFile;
+		}
 		else
 			return null;
 	}
@@ -1572,8 +1594,8 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
-			String username) throws SQLException {
+	public boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
+			throws SQLException {
 		// if seccess -> validate payment (not really can happen)
 
 		// update user purchaseDetails in his table , update report table
