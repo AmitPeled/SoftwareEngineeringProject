@@ -1788,7 +1788,7 @@ public class GcmDataExecutor implements
 		// , end date
 		for (int i = 0; i < history.size(); i++) {
 			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
-					(Date) history.get(i).get(5), (int) history.get(i).get(1));
+					(Date) history.get(i).get(5), getCityById((int) history.get(i).get(1)));
 			purchases.add(purchaseHistory);
 		}
 
