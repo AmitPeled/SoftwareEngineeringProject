@@ -39,7 +39,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 				sqlquery = sqlquery.concat("?, ");
 			}
 			sqlquery = sqlquery.concat("?);");
-//			System.out.println(sqlquery);
+			// System.out.println(sqlquery);
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 			int id = generateId(tableName);
 			preparedStatement.setObject(1, id);
@@ -63,7 +63,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 			sqlquery = sqlquery.concat("?);");
 
-//			System.out.println(sqlquery);
+			// System.out.println(sqlquery);
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 			for (int i = 0; i < objects.size(); i++) {
@@ -84,8 +84,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 			if (rset.next()) {
 				id = rset.getInt(1);
 				s2.executeUpdate("UPDATE idTable set id = id + 1;");
-//					rset.afterLast();
-//					rset.previous();
+				// rset.afterLast();
+				// rset.previous();
 			}
 		}
 		return id > 0 ? id + 1 : 1;
@@ -94,7 +94,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@Override
 	public void deleteValueFromTable(String tableName, String objectName, Object object) throws SQLException {
 		String sqlquery = "DELETE from " + tableName + " WHERE " + objectName + " = ?;";
-//		System.out.println(sqlquery);
+		// System.out.println(sqlquery);
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setObject(1, object);
 		synchronized (dbAccess) {
@@ -172,7 +172,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 			throws SQLException {
 		String sqlquery = "DELETE from " + tableName + " WHERE ";
 		sqlquery = concatConditionalsSymbols(sqlquery, objectNames);
-//		System.out.println(sqlquery);
+		// System.out.println(sqlquery);
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		putValuesInSymbols(preparedStatement, objects);
 		synchronized (dbAccess) {
@@ -204,7 +204,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 		synchronized (dbAccess) {
 			preparedStatement.executeUpdate();
 		}
-	
+
 	}
 
 	public void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException {
@@ -293,8 +293,8 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@Override
 	public List<List<Object>> selectAllColumns(String tableName, String columnsToSelect) throws SQLException {
 		// TODO Auto-generated method stub
-		
-		String sqlquery = "Select " + columnsToSelect + " from " + tableName +";";
+
+		String sqlquery = "Select " + columnsToSelect + " from " + tableName + ";";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		List<List<Object>> fields = new ArrayList<>();
 		synchronized (dbAccess) {
@@ -306,8 +306,9 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@Override
 	public List<List<Object>> betweenDates(String tableName, String columnToSelect, Object Date1,
 			String columnCondition, Object Date2) throws SQLException {
-		
-		String sqlquery = "Select " + columnToSelect + " From " + tableName + " Where " + columnCondition + " Between ? " + " And ? " ;
+
+		String sqlquery = "Select " + columnToSelect + " From " + tableName + " Where " + columnCondition
+				+ " Between ? " + " And ? ";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setDate(1, (Date) Date1);
 		preparedStatement.setDate(2, (Date) Date2);
@@ -317,4 +318,24 @@ public class DatabaseExecutor implements IExecuteQueries {
 		}
 		return fields;
 	}
+
+	@Override
+	public List<List<Object>> betweenDatesAndConditions(String tableName, String columnToSelect, Object Date1,
+			String columnDateCondition, Object Date2, String columnCondition1, String columnCondition2,
+			Object conditon1, Object condition2) throws SQLException {
+		String sqlquery = "Select " + columnToSelect + " From " + tableName + " Where " + columnDateCondition
+				+ " Between ? " + " And ? " + " And " + columnCondition1 + " = ?" + " And " + columnCondition2 + " = ?";
+		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
+		preparedStatement.setDate(1, (Date) Date1);
+		preparedStatement.setDate(2, (Date) Date2);
+		preparedStatement.setInt(3, (int) conditon1);
+		preparedStatement.setInt(4, (int) condition2);
+		List<List<Object>> fields = new ArrayList<>();
+		synchronized (dbAccess) {
+			fields = toList(preparedStatement.executeQuery());
+		}
+		return fields;
+
+	}
+
 }

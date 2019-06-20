@@ -1,6 +1,7 @@
 package database.execution;
 
 import java.io.File;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -141,9 +142,9 @@ public interface IGcmDataExecute {
 
 	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
-	Report getOneCityReport(String cityName) throws SQLException;
+	Report getCityReport(Date startDate, Date endDate, int cityId) throws SQLException;
 
-	List<Report> getAllcitiesReport() throws SQLException;
+	List<Report> getAllcitiesReport(Date startDate, Date endDate) throws SQLException;
 
 	List<SiteSubmission> getSiteSubmissions() throws SQLException;
 

@@ -35,17 +35,14 @@ public class CostumerDataExecutorTest {
 		DBConnector.closeConnection();
 	}
 
-	
 	@Test
-	void approveCitystatus()throws SQLException{
+	void approveCitystatus() throws SQLException {
 		int cityId = 3;
-		
+
 		dbExecutor.updateTableColumn("citiesMetaDetails", "status", 0, "cityId", cityId);
-		
-		
+
 	}
-	
-	
+
 	@Test
 	void getPriceWithCityId() throws SQLException {
 
@@ -213,7 +210,9 @@ public class CostumerDataExecutorTest {
 					add(endDate);
 				}
 			};
-			try {
+			try
+
+			{
 				dbExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 			} catch (SQLException e) {
 				System.out.println(false);
@@ -225,42 +224,6 @@ public class CostumerDataExecutorTest {
 		System.out.println(true);
 
 	}
-
-	@Test
-	void getAllCitiesReports() throws SQLException {
-
-		List<List<Object>> reports = dbExecutor.selectAllColumns("mangerReports", "*");
-		System.out.println(reports.get(0));
-
-		List<Report> allCitiesreports = new ArrayList<>();
-
-		for (int i = 0; i < reports.size(); i++) {
-			Report cityReport = new Report((int) reports.get(i).get(0), (String) reports.get(i).get(1),
-					(int) reports.get(i).get(2), (int) reports.get(i).get(3), (int) reports.get(i).get(4),
-					(int) reports.get(i).get(5), (int) reports.get(i).get(6));
-			allCitiesreports.add(cityReport);
-		}
-		for (int i = 0; i < allCitiesreports.size(); i++) {
-			allCitiesreports.get(i).print();
-		}
-
-	}
-	
-	@Test
-	void  getOneCityReport() throws SQLException {
-		String cityName = "Tel-Aviv";
-		List<List<Object>> report = dbExecutor.selectColumnsByValue("mangerReports", "cityName", cityName,
-				"*");
-		System.out.println(report.get(0));
-		Report cityReport = new Report((int) report.get(0).get(0), (String) report.get(0).get(1),
-				(int) report.get(0).get(2), (int) report.get(0).get(3), (int) report.get(0).get(4),
-				(int) report.get(0).get(5), (int) report.get(0).get(6));
-		
-		cityReport.print();
-	
-	}
-		
-	
 
 	@Test
 	void getPurchaseHistory() throws SQLException {
@@ -287,28 +250,22 @@ public class CostumerDataExecutorTest {
 	}
 
 	@Test
-	void updateTableColumn() throws SQLException {
-		int cityId = 1;
-		String tableToUpdate = "oneTimePurchase";
-		updateMangerReports(cityId, tableToUpdate);
+	void ReportList() throws SQLException {
+		int days = 90;
+		java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		java.sql.Date endDate = addDays(startDate, days);
+		startDate = addDays(startDate, -50);
+		List<Report> list = getAllcitiesReport(startDate, endDate);
 
-		tableToUpdate = "subscribes";
-		updateMangerReports(cityId, tableToUpdate);
-
-		tableToUpdate = "resubscribers";
-		updateMangerReports(cityId, tableToUpdate);
-
-		tableToUpdate = "viewsNum";
-		updateMangerReports(cityId, tableToUpdate);
-
-		tableToUpdate = "downloads";
-		updateMangerReports(cityId, tableToUpdate);
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).print();
+		}
 
 	}
-	
+
 	@Test
-	 void getPurchaseHistoryManager() throws SQLException {
-		
+	void getPurchaseHistoryManager() throws SQLException {
+
 		String tableName = "purchaseDeatailsHistory";
 		String columnToSelect = "*";
 		String columnCondition = "expiredDate";
@@ -318,12 +275,15 @@ public class CostumerDataExecutorTest {
 		startDate = addDays(startDate, -50);
 		System.out.println(startDate);
 		System.out.println(endDate);
-		
-		List<List<Object>> history = dbExecutor.betweenDates(tableName, columnToSelect, startDate, columnCondition, endDate);
-	//	System.out.println(history.get(0));
-	//	System.out.println(history.get(1));
-	//	System.out.println(history.size());
-	//	System.out.println(history.get(0).get(2));
+
+		List<List<Object>> history = dbExecutor.betweenDates(tableName, columnToSelect, startDate, columnCondition,
+				endDate);
+
+		System.out.println(history.size());
+		// System.out.println(history.get(0));
+		// System.out.println(history.get(1));
+		// System.out.println(history.size());
+		// System.out.println(history.get(0).get(2));
 
 		List<PurchaseHistory> purchaseHistories = new ArrayList<>();
 
@@ -337,32 +297,63 @@ public class CostumerDataExecutorTest {
 		}
 
 	}
-		
-		
-		
-	
-	
 
-	private void updateMangerReports(int cityId, String tableToUpdate) throws SQLException {
+	@Test
+	void getCityName() throws SQLException {
 
-		int plusOne;
+		String tableName = "citiesMetaDetails";
+		String columnsToSelect = "*";
+		String objectName = "cityId";
+		int object = 239;
+		String cityName;
 
-		List<List<Object>> updateListCulomn = dbExecutor.selectColumnsByValue("mangerReports", "cityId", cityId,
-				"oneTimePurchase");
-		if (updateListCulomn.isEmpty()) {
-			System.out.println("wtf is not supposed to be empty");
-		} else {
-			plusOne = (int) updateListCulomn.get(0).get(0) + 1;
-
-			dbExecutor.updateTableColumn("mangerReports", tableToUpdate, plusOne, "cityId", cityId);
-		}
+		List<List<Object>> list = dbExecutor.selectColumnsByValue(tableName, objectName, object, columnsToSelect);
+		System.out.println(list);
+		cityName = (String) list.get(0).get(1);
+		System.out.println(cityName);
 
 	}
 
-	private void addCityManagerReport(int cityId, String cityName) throws SQLException {
+	@Test
+	void addRowToMangerReport() throws SQLException {
+
+		// need to get cityId and table that need to be 1 -> get the name and than
+		// insert new row and than update the table
+		int cityId = 361;
+		addCityManagerReport(cityId, "subscribes");
+
+	}
+
+	@Test
+	void cityReport() throws SQLException {
+		int days = 30;
+		java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		java.sql.Date endDate = addDays(startDate, days);
+		startDate = addDays(startDate, -50);
+
+		createMangerReportOnOneCity(239, startDate, endDate);
+	}
+
+	@Test
+	void getAll() throws SQLException {
+		List<List<Object>> list = dbExecutor.selectAllColumns("citiesMetaDetails", "cityId");
+
+		System.out.println(list);
+	}
+
+	private void updateMangerReports(int cityId, String tableToUpdate) throws SQLException {
+
+		dbExecutor.updateTableColumn("mangerReports", tableToUpdate, 1, "cityId", cityId);
+
+	}
+
+	private void addCityManagerReport(int cityId, String tableToUpdate) throws SQLException {
+
+		String cityName = getCityNameToMe(cityId);
 
 		List<Object> objects = new ArrayList<Object>() {
 			{
+				java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 				add(cityId);
 				add(cityName);
 				add(0);
@@ -370,11 +361,13 @@ public class CostumerDataExecutorTest {
 				add(0);
 				add(0);
 				add(0);
+				add(date);
 
 			}
 		};
 
 		dbExecutor.insertToTable("mangerReports", objects);
+		updateMangerReports(cityId, tableToUpdate);
 
 	}
 
@@ -383,6 +376,139 @@ public class CostumerDataExecutorTest {
 		c.setTime(date);
 		c.add(Calendar.DATE, days);
 		return new Date(c.getTimeInMillis());
+	}
+
+	private String getCityNameToMe(int cityId) throws SQLException {
+
+		String tableName = "citiesMetaDetails";
+		String columnsToSelect = "*";
+		String objectName = "cityId";
+		String cityName;
+
+		List<List<Object>> list = dbExecutor.selectColumnsByValue(tableName, objectName, cityId, columnsToSelect);
+		cityName = (String) list.get(0).get(1);
+		return cityName;
+
+	}
+
+	private void createMangerReportOnOneCity(int cityId, Date date1, Date date2) throws SQLException {
+		String cityName = getCityNameToMe(cityId);
+
+		Report report = new Report();
+		report.setCityId(cityId);
+		report.setCityName(cityName);
+
+		List<String> tableNames = new ArrayList<>();
+		tableNames.add("oneTimePurchase");
+		tableNames.add("subscribes");
+		tableNames.add("resubscribers");
+		tableNames.add("viewsNum");
+		tableNames.add("downloads");
+		int oneTimePurchase = 0, subscribes = 0, resubscribers = 0, viewsNum = 0, downloads = 0;
+
+		for (int i = 0; i < tableNames.size(); i++) {
+
+			List<List<Object>> list = dbExecutor.betweenDatesAndConditions("mangerReports", "*", date1,
+					"occurrenceDate", date2, "cityId", tableNames.get(i), cityId, 1);
+			if (!list.isEmpty()) {
+
+				if (tableNames.get(i).equals("oneTimePurchase")) {
+					oneTimePurchase = list.size();
+				} else if (tableNames.get(i).equals("subscribes")) {
+					subscribes = list.size();
+				} else if (tableNames.get(i).equals("resubscribers")) {
+					resubscribers = list.size();
+				} else if (tableNames.get(i).equals("viewsNum")) {
+					viewsNum = list.size();
+				} else if (tableNames.get(i).equals("downloads")) {
+					downloads = list.size();
+				}
+			}
+
+		}
+
+		report.setOneTimePurchase(oneTimePurchase);
+		report.setSubscribes(subscribes);
+		report.setResubscribers(resubscribers);
+		report.setViewsNum(viewsNum);
+		report.setDownloads(downloads);
+		report.print();
+
+	}
+
+	private List<Report> getAllcitiesReport(Date startDate, Date endDate) throws SQLException {
+
+		String tableName = "mangerReports";
+		String columnCondition = "occurrenceDate";
+		List<List<Object>> cityIdList = dbExecutor.selectAllColumns("citiesMetaDetails", "cityId");
+		List<Report> allCitiesreports = new ArrayList<>();
+		for (int i = 0; i < cityIdList.size(); i++) {
+			List<List<Object>> list = dbExecutor.betweenDates(tableName, "*", startDate, columnCondition, endDate);
+
+			if (!list.isEmpty()) {
+				Report report = reportCreateMangerReportOnOneCity((int) cityIdList.get(i).get(0), startDate, endDate);
+
+				if (emptyfields(report)) {
+					allCitiesreports.add(report);
+				}
+			}
+		}
+
+		return allCitiesreports;
+	}
+
+	private Report reportCreateMangerReportOnOneCity(int cityId, Date date1, Date date2) throws SQLException {
+		String cityName = getCityNameToMe(cityId);
+
+		Report report = new Report();
+		report.setCityId(cityId);
+		report.setCityName(cityName);
+
+		List<String> tableNames = new ArrayList<>();
+		tableNames.add("oneTimePurchase");
+		tableNames.add("subscribes");
+		tableNames.add("resubscribers");
+		tableNames.add("viewsNum");
+		tableNames.add("downloads");
+		int oneTimePurchase = 0, subscribes = 0, resubscribers = 0, viewsNum = 0, downloads = 0;
+
+		for (int i = 0; i < tableNames.size(); i++) {
+
+			List<List<Object>> list = dbExecutor.betweenDatesAndConditions("mangerReports", "*", date1,
+					"occurrenceDate", date2, "cityId", tableNames.get(i), cityId, 1);
+			if (!list.isEmpty()) {
+
+				if (tableNames.get(i).equals("oneTimePurchase")) {
+					oneTimePurchase = list.size();
+				} else if (tableNames.get(i).equals("subscribes")) {
+					subscribes = list.size();
+				} else if (tableNames.get(i).equals("resubscribers")) {
+					resubscribers = list.size();
+				} else if (tableNames.get(i).equals("viewsNum")) {
+					viewsNum = list.size();
+				} else if (tableNames.get(i).equals("downloads")) {
+					downloads = list.size();
+				}
+
+			}
+		}
+		report.setOneTimePurchase(oneTimePurchase);
+		report.setSubscribes(subscribes);
+		report.setResubscribers(resubscribers);
+		report.setViewsNum(viewsNum);
+		report.setDownloads(downloads);
+
+		return report;
+
+	}
+
+	private boolean emptyfields(Report report) {
+
+		if (report.getDownloads() == 0 && report.getOneTimePurchase() == 0 && report.getResubscribers() == 0
+				&& report.getSubscribes() == 0 && report.getViewsNum() == 0) {
+			return false;
+		}
+		return true;
 	}
 
 }
