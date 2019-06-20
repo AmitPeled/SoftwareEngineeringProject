@@ -21,6 +21,9 @@ public class Report {
 		this.downloads = downloads;
 	}
 
+	public Report() {
+	}
+
 	public String getCityName() {
 		return cityName;
 	}
