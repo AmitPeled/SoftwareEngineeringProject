@@ -1470,10 +1470,10 @@ public class GcmDataExecutor implements
 				}
 			};
 			try {
-				String tableToUpdate = "subscribes";
+				String columnToUpdate = "subscribes";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-				notifyManagerReportColumn(cityId, tableToUpdate);
+				notifyManagerReportColumn(cityId, columnToUpdate);
 
 			} catch (SQLException e) {
 				return false;
