@@ -21,7 +21,7 @@ public class UserDetailsPresentationController implements Initializable {
 	private User user;
 	private List<PurchaseHistory> purchaseHistories;
 	private GcmClient gcmClient;
-	//private GcmDAO gcmDAO;
+	// private GcmDAO gcmDAO;
 
 	@FXML
 	private Text nametxt, lastnametxt, emailtxt, phonenumbertxt, usernametxt;
@@ -31,27 +31,25 @@ public class UserDetailsPresentationController implements Initializable {
 	public UserDetailsPresentationController(GcmClient gcmClient) {
 		this.gcmClient = gcmClient;
 	}
-	
+
 	@FXML
 	public void onBackButton() {
 		gcmClient.back();
 	}
 
 	public void setDeteails() {
-
+		user = gcmClient.getUserInfo().getUserDetailes();
 		nametxt.setText(user.getFirstName());
 		lastnametxt.setText(user.getLastName());
 		emailtxt.setText(user.getEmail());
 		phonenumbertxt.setText(user.getPhoneNumber());
 		usernametxt.setText(user.getUsername());
 
-		
-		//suppose to call real data and initilaze like we do in garbageData function
-		
-		
-		// List<PurchaseHistory> purchaseHistories = gcmDAO.getPurchaseHistory(user.getUsername());
-		
-		
+		// suppose to call real data and initilaze like we do in garbageData function
+
+		// List<PurchaseHistory> purchaseHistories =
+		// gcmDAO.getPurchaseHistory(user.getUsername());
+
 		garbageData();
 	}
 
@@ -60,8 +58,7 @@ public class UserDetailsPresentationController implements Initializable {
 		// setDeteails();
 	}
 
-	public void initalizeControl(User user) {
-		this.user = user;
+	public void initalizeControl() {
 		setDeteails();
 	}
 
@@ -72,8 +69,8 @@ public class UserDetailsPresentationController implements Initializable {
 		PurchaseHistory history3 = new PurchaseHistory(startDate, startDate, 3);
 		PurchaseHistory history4 = new PurchaseHistory(startDate, startDate, 4);
 
-		ObservableList<String> list = FXCollections.observableArrayList(history1.toString(), history2.toString(), history3.toString(),
-				history4.toString());
+		ObservableList<String> list = FXCollections.observableArrayList(history1.toString(), history2.toString(),
+				history3.toString(), history4.toString());
 
 		listviewLV.setItems(list);
 	}
