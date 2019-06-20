@@ -152,7 +152,7 @@ public interface IGcmDataExecute {
 
 	void actionTourEdit(TourSubmission tour, boolean action) throws SQLException;
 
-	void actionMapEdit(MapSubmission tour, boolean action) throws SQLException;
+	List<User> actionMapEdit(MapSubmission tour, boolean action) throws SQLException;
 
 	void actionCityEdit(CitySubmission tour, boolean action) throws SQLException;
 

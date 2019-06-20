@@ -11,6 +11,7 @@ import maps.City;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
+import users.User;
 
 public interface ContentManagerDAO {
 
@@ -66,7 +67,7 @@ public interface ContentManagerDAO {
 	List<TourSubmission> getTourSubmissions();
 
 	void actionCityEdit(CitySubmission citySubmission, boolean action);
-	void actionMapEdit(MapSubmission mapSubmission, boolean action);
+	List<User> actionMapEdit(MapSubmission mapSubmission, boolean action);
 	void actionTourEdit(TourSubmission tourSubmission, boolean action);
 	void actionSiteEdit(SiteSubmission siteSubmission, boolean action);
 	

@@ -711,8 +711,8 @@ public class GcmDAO
 	}
 
 	@Override
-	public void actionMapEdit(MapSubmission citySubmission, boolean action) {
-		send(new RequestObject(GcmQuery.actionMapEdit, new ArrayList<Object>() {
+	public List<User> actionMapEdit(MapSubmission citySubmission, boolean action) {
+		return (List<User>)(Object)send(new RequestObject(GcmQuery.actionMapEdit, new ArrayList<Object>() {
 			{
 				add(citySubmission);
 				add(action);
