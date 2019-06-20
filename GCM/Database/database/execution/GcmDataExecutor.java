@@ -1473,7 +1473,7 @@ public class GcmDataExecutor implements
 				String tableToUpdate = "subscribes";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-				addRowToManagerReports(cityId, tableToUpdate);
+				notifyManagerReportColumn(cityId, tableToUpdate);
 
 			} catch (SQLException e) {
 				return false;
@@ -1499,7 +1499,7 @@ public class GcmDataExecutor implements
 			{
 				String tableUPDATE = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-				addRowToManagerReports(cityId, tableUPDATE);
+				notifyManagerReportColumn(cityId, tableUPDATE);
 			} catch (SQLException e) {
 				return false;
 			}
@@ -1530,7 +1530,7 @@ public class GcmDataExecutor implements
 
 		for (int i : cityId) {
 			mapsIdList.addAll(queryExecutor.selectColumnsByValue("citiesMaps", "cityId", i, "mapId"));
-			addRowToManagerReports(i, tableUPDATE);
+			notifyManagerReportColumn(i, tableUPDATE);
 
 		}
 		List<Integer> mapsId = toIdList(mapsIdList);
@@ -1613,7 +1613,7 @@ public class GcmDataExecutor implements
 			{
 				String tableUPDATE = "downloads";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-				addRowToManagerReports(cityId, tableUPDATE);
+				notifyManagerReportColumn(cityId, tableUPDATE);
 
 			} catch (SQLException e) {
 				return false;
@@ -1638,7 +1638,7 @@ public class GcmDataExecutor implements
 				String tableUPDATE = "oneTimePurchase";
 				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-				addRowToManagerReports(cityId, tableUPDATE);
+				notifyManagerReportColumn(cityId, tableUPDATE);
 			} catch (
 
 			SQLException e) {
@@ -1708,7 +1708,7 @@ public class GcmDataExecutor implements
 			String tableUPDATE = "oneTimePurchase";
 			queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
 
-			addRowToManagerReports(cityId, tableUPDATE);
+			notifyManagerReportColumn(cityId, tableUPDATE);
 		} catch (
 
 		SQLException e) {
@@ -1722,7 +1722,7 @@ public class GcmDataExecutor implements
 	public void notifyMapView(int cityId) throws SQLException {
 
 		String tableUPDATE = "viewsNum";
-		addRowToManagerReports(cityId, tableUPDATE);
+		notifyManagerReportColumn(cityId, tableUPDATE);
 
 	}
 
@@ -1778,7 +1778,7 @@ public class GcmDataExecutor implements
 
 	}
 
-	private void addRowToManagerReports(int cityId, String tableToUpdate) throws SQLException {
+	private void notifyManagerReportColumn(int cityId, String tableToUpdate) throws SQLException {
 
 		String cityName = getCityNameToMe(cityId);
 

@@ -113,9 +113,9 @@ public class RequestHandler implements IHandleRequest {
 				case getCityByMapId:
 					listToSend.add(gcmDataExecutor.getCityByMapId((int) listObjectReceived.get(0)));
 					break;
-				case getPurchasedMaps:
-					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
-					break;
+//				case getPurchasedMaps:
+//					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
+//					break;
 				// case purchaseCity:
 				// listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails,
 				// username));
@@ -361,8 +361,8 @@ public class RequestHandler implements IHandleRequest {
 		case getCityByMapId:
 			return userType == RequestState.editor || userType == RequestState.contentManager
 					|| userType == RequestState.generalManager;
-		case getPurchasedMaps:
-			return userType == RequestState.customer;
+//		case getPurchasedMaps:
+//			return userType == RequestState.customer;
 		case purchaseCity:
 			return userType == RequestState.customer;
 		case addNewTourToCity:
