@@ -1,5 +1,6 @@
 package database.objectParse;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,7 @@ import users.User;
  *
  */
 @SuppressWarnings("serial")
-public class DatabaseParser implements IParseObjects {
+public class DatabaseParser implements IParseObjects, Serializable {
 
 	@Override
 	public Map getMap(List<Object> objectList, List<Site> mapSites, List<Tour> mapTours) {
