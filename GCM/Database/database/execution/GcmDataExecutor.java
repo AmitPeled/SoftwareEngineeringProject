@@ -1779,7 +1779,6 @@ public class GcmDataExecutor implements
 
 	@Override
 	public List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException {
-
 		// getting username purchase history
 		List<List<Object>> history = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username", username,
 				"*");

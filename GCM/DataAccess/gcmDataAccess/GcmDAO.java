@@ -19,6 +19,7 @@ import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.contentManager.ContentManagerDAO;
 import dataAccess.customer.CustomerDAO;
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.editor.EditorDAO;
 import dataAccess.generalManager.GeneralManagerDAO;
 import dataAccess.generalManager.Report;
@@ -297,8 +298,8 @@ public class GcmDAO
 
 	@Override
 	public List<City> getActiveCitiesPurchases() {
-		return (List<City>) (Object) send(new RequestObject(GcmQuery.getActiveCitiesPurchases, null, username, password))
-				.getResponse();
+		return (List<City>) (Object) send(
+				new RequestObject(GcmQuery.getActiveCitiesPurchases, null, username, password)).getResponse();
 	}
 
 	@Override
@@ -712,7 +713,7 @@ public class GcmDAO
 
 	@Override
 	public List<User> actionMapEdit(MapSubmission citySubmission, boolean action) {
-		return (List<User>)(Object)send(new RequestObject(GcmQuery.actionMapEdit, new ArrayList<Object>() {
+		return (List<User>) (Object) send(new RequestObject(GcmQuery.actionMapEdit, new ArrayList<Object>() {
 			{
 				add(citySubmission);
 				add(action);
@@ -741,23 +742,6 @@ public class GcmDAO
 			}
 		}, username, password));
 
-	}
-
-//	@Override
-//	public double getCityPrice(int cityId, int timeInterval) {
-//		return 0;
-//	}
-
-	@Override
-	public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean repurchaseMembershipBySavedDetails() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -879,6 +863,13 @@ public class GcmDAO
 	}
 
 	@Override
+	public List<PurchaseHistory> getPurchaseHistory() {
+		return (List<PurchaseHistory>) (Object) send(
+				new RequestObject(GcmQuery.getPurchaseHistory, new ArrayList<Object>(), username, password))
+						.getResponse();
+	}
+
+	@Override
 	public Report getCityReport(Date startDate, Date endDate, int cityId) {
 		// TODO Auto-generated method stub
 		return null;
@@ -888,5 +879,17 @@ public class GcmDAO
 	public List<Report> getSystemReport(Date startDate, Date endDate) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean repurchaseMembershipBySavedDetails() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
