@@ -48,9 +48,5 @@ public class PurchaseHistory implements Serializable {
 		return ("City name: " + cityName + " Start date: " + this.startDate + "\tEnd date: " + this.endDate);
 	}
 	
-	public String toString() {
-		return ("CityId = " + this.cityId + " Start date = " + this.startDate + " End date = " + this.endDate);
-
-	}
-
+	
 }

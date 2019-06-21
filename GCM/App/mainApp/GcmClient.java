@@ -73,8 +73,6 @@ public interface GcmClient {
 	void switchSceneToAddSite(int cityId, double widthLocation, double heightLocation);
 
 	void switchSceneToEditPrice(int cityId);
-	
-	void switchSceneToCustomerReport(User user);
 
 	void switchSceneToCustomerReport();
 
