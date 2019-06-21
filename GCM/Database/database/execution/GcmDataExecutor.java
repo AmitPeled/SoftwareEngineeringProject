@@ -30,6 +30,7 @@ import maps.City;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
+import purchase.mapContent.MapContent;
 import queries.RequestState;
 import users.User;
 
@@ -722,7 +723,8 @@ public class GcmDataExecutor implements
 		else
 			return getCityById((int) lists.get(0).get(0));
 	}
-@Override
+
+	@Override
 	public City getCityById(int cityId) throws SQLException {
 		City city = getCityById(cityId, Status.PUBLISH);
 		if (city == null)
@@ -1595,96 +1597,93 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public boolean purchaseSubscriptionToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
-			throws SQLException {
+	public boolean purchaseSubscriptionToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails,
+			String username) throws SQLException {
 		// if seccess -> validate payment (not really can happen)
 
 		// update user purchaseDetails in his table , update report table
-		if (timeInterval == 0) {
-			purchaseCityOneTime(cityId, purchaseDetails, username);
-		} else {
-			List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
-					"username", username, "purchaseDate");
-			if (checkIfAlreadyExistUser.isEmpty()) {
-				List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
-					{
-						add(username);
-						add(purchaseDetails.getFirstname());
-						add(purchaseDetails.getLastname());
-						add(purchaseDetails.getCreditCard());
-						add(purchaseDetails.getCvv());
-						add(purchaseDetails.getCardExpireDate());
-					}
-				};
-				try {
-					queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
-				} catch (SQLException e) {
-					// else give null
-					return false;
-				}
-			}
-
-			// update purchaseDeatailsHistory so can know all purchase history
-			if (timeInterval > 0) {
-				List<Object> pDetails = new ArrayList<Object>() {
-					{
-
-						int days = 30 * timeInterval;
-						java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-						java.sql.Date endDate = addDays(startDate, days);
-						add(username);
-						add(cityId);
-						add(startDate);
-						add(false);
-						add(timeInterval);
-						add(endDate);
-					}
-				};
-				try
-
+		List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
+				"username", username, "purchaseDate");
+		if (checkIfAlreadyExistUser.isEmpty()) {
+			List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
 				{
-					String columnToUpdate = "downloads";
-					queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-					notifyManagerReportColumn(cityId, columnToUpdate);
-
-				} catch (SQLException e) {
-					return false;
+					add(username);
+					add(purchaseDetails.getFirstname());
+					add(purchaseDetails.getLastname());
+					add(purchaseDetails.getCreditCard());
+					add(purchaseDetails.getCvv());
+					add(purchaseDetails.getCardExpireDate());
 				}
-			} else {
-				// oneTimePurchase
-				List<Object> pDetails = new ArrayList<Object>() {
-					{
-
-						int days = 30 * timeInterval;
-						java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-						java.sql.Date endDate = addDays(startDate, days);
-						add(username);
-						add(cityId);
-						add(startDate);
-						add(true);
-						add(timeInterval);
-						add(endDate);
-					}
-				};
-				try {
-					String tableUPDATE = "oneTimePurchase";
-					queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
-
-					notifyManagerReportColumn(cityId, tableUPDATE);
-				} catch (
-
-				SQLException e) {
-					return false;
-				}
-
+			};
+			try {
+				queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
+			} catch (SQLException e) {
+				// else give null
+				return false;
 			}
 		}
+
+		// update purchaseDeatailsHistory so can know all purchase history
+		if (timeInterval > 0) {
+			List<Object> pDetails = new ArrayList<Object>() {
+				{
+
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
+					add(username);
+					add(cityId);
+					add(startDate);
+					add(false);
+					add(timeInterval);
+					add(endDate);
+				}
+			};
+			try
+
+			{
+				String columnToUpdate = "downloads";
+				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+				notifyManagerReportColumn(cityId, columnToUpdate);
+
+			} catch (SQLException e) {
+				return false;
+			}
+		} else {
+			// oneTimePurchase
+			List<Object> pDetails = new ArrayList<Object>() {
+				{
+
+					int days = 30 * timeInterval;
+					java.sql.Date startDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+					java.sql.Date endDate = addDays(startDate, days);
+					add(username);
+					add(cityId);
+					add(startDate);
+					add(true);
+					add(timeInterval);
+					add(endDate);
+				}
+			};
+			try {
+				String tableUPDATE = "oneTimePurchase";
+				queryExecutor.insertToTable("purchaseDeatailsHistory", pDetails);
+
+				notifyManagerReportColumn(cityId, tableUPDATE);
+			} catch (
+
+			SQLException e) {
+				return false;
+			}
+
+		}
+
 		// if seccuss
 		return true;
 	}
 
 	@Override
-	public List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
+	public List<MapContent> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
 			throws SQLException {
 
 		int timeInterval = 0;
@@ -1716,10 +1715,14 @@ public class GcmDataExecutor implements
 		List<List<Object>> mapsIdList = queryExecutor.selectColumnsByValue("citiesMaps", "cityId", cityId, "mapId");
 		List<Integer> mapsid = toIdList(mapsIdList);
 
-		List<File> files = new ArrayList<>();
+		List<MapContent> mapContents = new ArrayList<>();
 
-		for (int i : mapsid) {
-			files.add(getMapFile(i));
+		for (int mapId : mapsid) {
+			City city = getCityByMapId(mapId);
+			if (city != null) {
+				MapContent mapContent = new MapContent(getMapDetails(mapId), getMapFile(mapId), city.getId());
+				mapContents.add(mapContent);
+			}
 		}
 
 		// update purchase history
@@ -1748,7 +1751,7 @@ public class GcmDataExecutor implements
 			return null;
 		}
 
-		return files;
+		return mapContents;
 	}
 
 	@Override

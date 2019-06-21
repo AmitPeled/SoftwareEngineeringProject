@@ -17,6 +17,7 @@ import maps.City;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
+import purchase.mapContent.MapContent;
 import queries.RequestState;
 import users.User;
 
@@ -71,7 +72,7 @@ public interface IGcmDataExecute {
 
 	boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username) throws SQLException;
 
-	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
+	List<MapContent> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
 
 	File downloadMap(int cityId, String username) throws SQLException;
 

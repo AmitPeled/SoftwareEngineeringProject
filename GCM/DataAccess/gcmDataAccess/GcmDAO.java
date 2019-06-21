@@ -286,7 +286,7 @@ public class GcmDAO
 	@Override
 	public List<MapContent> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails) {
 		try {
-			return (List<MapContent> )(Object) send(new RequestObject(GcmQuery.purchaseSubscriptionToCity, new ArrayList<Object>() {
+			return (List<MapContent> )(Object) send(new RequestObject(GcmQuery.purchaseCityOneTime, new ArrayList<Object>() {
 				{
 					add(cityId);
 					add(purchaseDetails);

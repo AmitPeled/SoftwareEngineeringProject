@@ -297,6 +297,9 @@ public class RequestHandler implements IHandleRequest {
 				case getCity:
 					listToSend.add(gcmDataExecutor.getCityById((int) listObjectReceived.get(0)));
 					break;
+				case purchaseCityOneTime:
+					listToSend = (List<Object>)(Object)gcmDataExecutor.purchaseCityOneTime((int) listObjectReceived.get(0),(PurchaseDetails) listObjectReceived.get(1), username);
+					break;
 
 				default:
 					break;
