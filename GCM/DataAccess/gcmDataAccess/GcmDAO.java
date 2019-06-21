@@ -870,6 +870,16 @@ public class GcmDAO
 	}
 
 	@Override
+	public City getCity(int cityId) {
+		try {
+			return (City) send(new RequestObject(GcmQuery.getCity, new ArrayList<Object>(), username, password))
+					.getResponse().get(0);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
 	public Report getCityReport(Date startDate, Date endDate, int cityId) {
 		// TODO Auto-generated method stub
 		return null;
