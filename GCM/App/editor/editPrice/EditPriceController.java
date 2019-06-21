@@ -43,20 +43,24 @@ public class EditPriceController implements Initializable
 	int cityId;
 	@FXML
 	TextField errors;
-	TextFieldUtility utilities;
-
+	static GcmDAO gcmDAO;
 	private GcmClient gcmClient; 
-	
+	static TextFieldUtility utilities;
 	public EditPriceController(GcmClient gcmClient,
 			ContentManagerDAO contentManagerDAO, 
 			int cityId, 
 			TextFieldUtility utilities) {
 		this.gcmClient = gcmClient;
 		this.contentManagerDAO = contentManagerDAO;
-		this.cityId = cityId;
+		this.cityId = 271;
 		this.utilities = utilities;
 	}
-	 
+	public static void main(String arg[]) {
+		utilities = new TextFieldUtility();
+		gcmDAO = new GcmDAO();
+		gcmDAO.login("sonus", "123456");
+		EditPriceController editController = new EditPriceController(null, gcmDAO, 271, utilities);
+	}
 	public void editPriceListener() {	
 		editPrice.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
@@ -88,7 +92,7 @@ public class EditPriceController implements Initializable
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-			            	gcmClient.back();
+			            	//gcmClient.back();
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);
 	            		}
@@ -103,8 +107,9 @@ public class EditPriceController implements Initializable
 	
 	public void initPrices() {
 		List<TextField> textFieldsList = Arrays.asList(oneTime, firstMonth, secondMonth, thirdMonth, fourthMonth, fifthMonth, sixMonth);
-		City currCity = gcmClient.getDataAccessObject().getCity(cityId);
+		City currCity = gcmDAO.getCity(cityId);
 		List<Double> pricesList = currCity.getPrices();
+		//List<Double> pricesList = Arrays.asList(1.0,2.0);
 		int i = 1;
 		for (TextField textField : textFieldsList) {
 			for (Double currPrice : pricesList) {

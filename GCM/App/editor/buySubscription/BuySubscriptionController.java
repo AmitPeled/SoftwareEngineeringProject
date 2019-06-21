@@ -29,12 +29,12 @@ public class BuySubscriptionController implements Initializable
 	@FXML
 	TextField price;
 	
-	int mapId;
+	int cityId;
 	TextFieldUtility utilities;
 	
-	public BuySubscriptionController(GcmDAO gcmDAO, int mapId) {
+	public BuySubscriptionController(GcmDAO gcmDAO, int cityId) {
 		this.gcmDAO = gcmDAO;
-		this.mapId = mapId;
+		this.cityId = cityId;
 	}
 	 
 
@@ -47,8 +47,8 @@ public class BuySubscriptionController implements Initializable
 	            	if(!monthPickerValue.isEmpty()) {
 	            		// add the correct pruchase details
 	            		//PurchaseDetails purchaseDetails = new PurchaseDetails("1","2","3","4");
-	            		// need to insert cityId to buy membership to
-//	            		gcmDAO.purchaseMembership(Integer.parseInt(monthPickerValue), purchaseDetails);
+	            		//need to insert cityId to buy membership to
+	            		//gcmDAO.purchaseCity(cityId, Integer.parseInt(monthPickerValue), purchaseDetails);
 	            	}
 	            }
 			})
