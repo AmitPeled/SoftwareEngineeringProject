@@ -872,8 +872,11 @@ public class GcmDAO
 	@Override
 	public City getCity(int cityId) {
 		try {
-			return (City) send(new RequestObject(GcmQuery.getCity, new ArrayList<Object>(), username, password))
-					.getResponse().get(0);
+			return (City) send(new RequestObject(GcmQuery.getCity, new ArrayList<Object>() {
+				{
+					add(cityId);
+				}
+			}, username, password)).getResponse().get(0);
 		} catch (Exception e) {
 			return null;
 		}
