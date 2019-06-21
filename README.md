@@ -6,6 +6,8 @@ Software engineering course final project.
 ### Search
 - [x] Search by city name
 - [x] Search by description
+- [ ] Showing One-time purchase only for guests
+- [ ] Showing Purchas options for customers
 ### Editing
 #### Approval Requests - **Need to implement for tours/sites as well**
 - [x] DAO methods
@@ -14,6 +16,8 @@ Software engineering course final project.
 - [x] Client-Server communication
 #### Map object
 - [x] **Map object doesn't contain all it's sites and tours (works when fetching them through other DAO methods)**
+#### Editing Maps
+- [ ] GUI screen to add a map
 #### Creating a city
 - [x] DAO methods
 - [x] GUI
@@ -49,7 +53,7 @@ Software engineering course final project.
 - [x] Creates an approval request
 ### Purchasing maps
 #### One-time purchase
-- [ ] GUI controls that offer single-purchase
+- [x] GUI controls that offer single-purchase
 - [ ] Updates the database
 - [ ] Allows users to download maps only after subscription has been purchased
 #### Full subscription
@@ -67,16 +71,16 @@ Software engineering course final project.
 - [ ] Report on all cities works with real DB data
 - [ ] Only admins can view reports
 ### Customer Reports
-- [ ] GUI
-- [x] DAO methods - `getUserDetails` throws exception
-- [ ] Server methods
-- [ ] Client-Server communication
+- [x] GUI
+- [x] DAO methods
+- [x] Server methods
+- [x] Client-Server communication
 ### Notifications
 - [ ] Create a notification thread on the server that sends messages to customers
 
 ## Features
 ### Guests
-- [ ] Allow guests to use the system
+- [x] Allow guests to use the system
 
 # Tasks
 ## Database/DAO
@@ -90,10 +94,10 @@ Software engineering course final project.
 ## Client
 - [ ] Push MapDownloader class to the master
 - [ ] Hide menu options from non-privileged users
-- [ ] Build customer report screen
+- [x] Build customer report screen
 - [ ] Fetch real sites/tours to the map viewer
 - [ ] Load real maps from the database
-- [ ] Allow login in as guests
+- [x] Allow login in as guests
 ## Server
 - [ ] Build the notifications thread
 
