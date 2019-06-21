@@ -718,7 +718,7 @@ public class GcmDAO
 				add(citySubmission);
 				add(action);
 			}
-		}, username, password));
+		}, username, password)).getResponse();
 
 	}
 
@@ -867,6 +867,16 @@ public class GcmDAO
 		return (List<PurchaseHistory>) (Object) send(
 				new RequestObject(GcmQuery.getPurchaseHistory, new ArrayList<Object>(), username, password))
 						.getResponse();
+	}
+
+	@Override
+	public City getCity(int cityId) {
+		try {
+			return (City) send(new RequestObject(GcmQuery.getCity, new ArrayList<Object>(), username, password))
+					.getResponse().get(0);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override

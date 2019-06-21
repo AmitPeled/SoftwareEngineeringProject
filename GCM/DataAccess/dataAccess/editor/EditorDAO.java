@@ -73,4 +73,6 @@ public interface EditorDAO {
 	public void deleteSiteFromCity(int siteId) throws SQLException; // TODO
 	void updateMap(int mapId, Map newMap) throws SQLException; // TODO
 
+	City getCity(int cityId);
+
 }

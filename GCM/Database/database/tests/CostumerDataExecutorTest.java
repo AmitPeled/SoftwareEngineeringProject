@@ -15,19 +15,25 @@ import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
+import database.execution.GcmDataExecutor;
 import database.execution.IExecuteQueries;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
+import database.objectParse.DatabaseParser;
 
 public class CostumerDataExecutorTest {
 
 	static IExecuteQueries dbExecutor;
+	static GcmDataExecutor gcmDataExecutor;
 	static String tableName;
 
 	@BeforeAll
 	static void setAll() {
 		dbExecutor = new DatabaseExecutor(DBConnector.connect());
+		gcmDataExecutor = new GcmDataExecutor(dbExecutor, new DatabaseParser());
+
 		tableName = DatabaseMetaData.getTableName(Tables.customerUsers);
+
 	}
 
 	@AfterAll
@@ -240,7 +246,7 @@ public class CostumerDataExecutorTest {
 
 		for (int i = 0; i < history.size(); i++) {
 			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
-					(Date) history.get(i).get(5), (int) history.get(i).get(1));
+					(Date) history.get(i).get(5), gcmDataExecutor.getCityById((int) history.get(i).get(1)));
 			purchaseHistories.add(purchaseHistory);
 		}
 		for (int i = 0; i < purchaseHistories.size(); i++) {
@@ -289,7 +295,7 @@ public class CostumerDataExecutorTest {
 
 		for (int i = 0; i < history.size(); i++) {
 			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
-					(Date) history.get(i).get(5), (int) history.get(i).get(1));
+					(Date) history.get(i).get(5), gcmDataExecutor.getCityById((int) history.get(i).get(1)));
 			purchaseHistories.add(purchaseHistory);
 		}
 		for (int i = 0; i < purchaseHistories.size(); i++) {
