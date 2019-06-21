@@ -113,13 +113,13 @@ public class RequestHandler implements IHandleRequest {
 				case getCityByMapId:
 					listToSend.add(gcmDataExecutor.getCityByMapId((int) listObjectReceived.get(0)));
 					break;
-				case getPurchasedMaps:
+				case getActiveCitiesPurchases:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
-				// case purchaseCity:
-				// listToSend.add(gcmDataExecutor.purchaseCityOneTime(cityId, purchaseDetails,
-				// username));
-				// break;
+				case purchaseCity:
+					listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),
+							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
+					break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (int) listObjectReceived.get(2));
@@ -136,10 +136,10 @@ public class RequestHandler implements IHandleRequest {
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitySites((int) listObjectReceived.get(0));
 					break;
 				case notifyMapView:
-					gcmDataExecutor.notifyMapView((int) listObjectReceived.get(0));
+					listToSend.add(gcmDataExecutor.notifyMapView(username, (int) listObjectReceived.get(0)));
 					break;
 				case purchaseMembershipToCity:
-					listToSend.add(gcmDataExecutor.purchaseMembershipToCity((int) listObjectReceived.get(0),
+					listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
 					break;
 				case deleteSiteFromMap:
@@ -188,10 +188,7 @@ public class RequestHandler implements IHandleRequest {
 					gcmDataExecutor.editCityPrice((int) listObjectReceived.get(0), (double) listObjectReceived.get(1));
 					break;
 				case getCitiesAddEdits:
-					System.out.println("checking if getCitiesAddEdits empty:");
-
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesAddEdits();
-					System.err.println(listToSend.size());
 					break;
 				case getCitiesDeleteEdits:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCitiesDeleteEdits();
@@ -252,15 +249,53 @@ public class RequestHandler implements IHandleRequest {
 							(boolean) listObjectReceived.get(1));
 					break;
 				case actionMapEdit:
-					gcmDataExecutor.actionMapEdit((MapSubmission) listObjectReceived.get(0),
-							(boolean) listObjectReceived.get(1));
+					listToSend = (List<Object>) (Object) gcmDataExecutor.actionMapEdit(
+							(MapSubmission) listObjectReceived.get(0), (boolean) listObjectReceived.get(1));
 					break;
 				case actionCityEdit:
 					gcmDataExecutor.actionCityEdit((CitySubmission) listObjectReceived.get(0),
 							(boolean) listObjectReceived.get(1));
 					break;
-
-				case purchaseCity:
+				case deleteCityEdit:
+					gcmDataExecutor.deleteCityEdit((int) listObjectReceived.get(0));
+					break;
+				case deleteSiteFromCity:
+					gcmDataExecutor.deleteSiteFromCity((int) listObjectReceived.get(0));
+					break;
+				case deleteTourFromCity:
+					gcmDataExecutor.deleteTourFromCity((int) listObjectReceived.get(0));
+					break;
+				case deleteTourFromMap:
+					gcmDataExecutor.deleteTourFromMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
+					break;
+				case getCityTours:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getCityTours((int) listObjectReceived.get(0));
+					break;
+				case updateCity:
+					gcmDataExecutor.updateCity((int) listObjectReceived.get(0), (City) listObjectReceived.get(1));
+					break;
+				case updateMap:
+					gcmDataExecutor.updateMap((int) listObjectReceived.get(0), (Map) listObjectReceived.get(1));
+					break;
+				case UpdateSite:
+					gcmDataExecutor.UpdateSite((int) listObjectReceived.get(0), (Site) listObjectReceived.get(1));
+					break;
+				case updateTour:
+					gcmDataExecutor.updateTour((int) listObjectReceived.get(0), (Tour) listObjectReceived.get(1));
+					break;
+				case approveCityPrice:
+					gcmDataExecutor.approveCityPrice((int) listObjectReceived.get(0),
+							(List<Double>) listObjectReceived.get(1), (boolean) listObjectReceived.get(2));
+					break;
+				case changeCityPrices:
+					gcmDataExecutor.changeCityPrices((int) listObjectReceived.get(0),
+							(List<Double>) listObjectReceived.get(1));
+					break;
+				case getPriceSubmissions:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getPriceSubmissions();
+					break;
+				case getPurchaseHistory:
+					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchaseHistory(username);
 					break;
 				default:
 					break;
@@ -272,18 +307,21 @@ public class RequestHandler implements IHandleRequest {
 			requestState = RequestState.somethingWrongHappend;
 			System.err.println("db exception");
 			System.err.println(e.getMessage());
-
+			e.printStackTrace();
 		} catch (Exception e) {
 			System.err.println("server exception. client query=" + query);
 			System.err.println(e.getMessage());
+			e.printStackTrace();
+
 		}
 
 		return new ResponseObject(requestState, listToSend);
 	}
 
 	private boolean verifyPrivilege(RequestState userType, GcmQuery query) {
+    //everyone is privileged for now
 		int a = 0;
-		if (a == 0)
+		if (a == 0) // to eliminate "unreachable code" warning
 			return true;
 //		List<GcmQuery> everyone = Arrays.asList( GcmQuery.addCustomer, GcmQuery.verifyUser, GcmQuery.getMapDetails,
 //				GcmQuery.getMapsByCityName, GcmQuery.getMapsBySiteName, GcmQuery.getMapsByDescription );
@@ -327,7 +365,7 @@ public class RequestHandler implements IHandleRequest {
 		case getCityByMapId:
 			return userType == RequestState.editor || userType == RequestState.contentManager
 					|| userType == RequestState.generalManager;
-		case getPurchasedMaps:
+		case getActiveCitiesPurchases:
 			return userType == RequestState.customer;
 		case purchaseCity:
 			return userType == RequestState.customer;

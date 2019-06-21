@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -48,7 +49,7 @@ class GcmDatabaseExecutorTest {
 	static void setAll() throws IllegalArgumentException, SQLException {
 		gcmDataExecutor = new GcmDataExecutor(new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
-		city = new City(11, "test name", "test desc");
+		city = new City("test name", "test desc");
 		cityId = gcmDataExecutor.addCity(city);
 		city = new City(cityId, "test name", "test desc");
 		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.ADD), true);
@@ -175,15 +176,15 @@ class GcmDatabaseExecutorTest {
 //	}
 	@Test
 	void addMapTest() throws SQLException {
-		map = new Map("map name", "map", 1,1, new Coordinates());
+		map = new Map("map name", "map", 1, 1, new Coordinates());
 		mapId = gcmDataExecutor.addMapToCity(cityId, map, mapFile);
 		List<MapSubmission> mapSubmissions = gcmDataExecutor.getMapSubmissions();
 		assertFalse(mapSubmissions.isEmpty());
+		
 		for (MapSubmission submission : gcmDataExecutor.getMapSubmissions()) {
-			System.out.println("approving map. " + submission.getActionTaken() + ", containingCityId="
-					+ submission.getContainingCityID() + ", "
-					+ submission.getMap().getDescription());
-			gcmDataExecutor.actionMapEdit(submission, false);
+			System.out.println("map to approve " + submission.getActionTaken() + ", containingCityId="
+					+ submission.getContainingCityID() /*+ ", " + submission.getMap().getDescription()*/);
+//			gcmDataExecutor.actionMapEdit(submission, false);
 		}
 //		gcmDataExecutor.UpdateSite(siteId, new Site("updated name", "updated desc", "type", false, new Coordinates()));
 //		assertEquals(site.getDescription(), siteSubmissions.get(0).getSite().getDescription());
@@ -208,5 +209,40 @@ class GcmDatabaseExecutorTest {
 //		assertNull(gcmDataExecutor.getMapDetails(mapId));
 //		assertNull(gcmDataExecutor.getMapFile(mapId));
 	}
+//
+//	@Test
+//	void pricesTest() throws SQLException {
+////		assertThrows(IllegalArgumentException.class, () -> gcmDataExecutor.changeCityPrices(1, new ArrayList<Double>() {
+////			{
+////				add(12.2);
+////				add(15d);
+////				add(17d);
+////				add(18d);
+////			}
+////		}));
+////		gcmDataExecutor.changeCityPrices(1, new ArrayList<Double>() {
+////			{
+////				add(12.2);
+////				add(15d);
+////				add(17d);
+////				add(18d);
+////				add(18.8d);
+////				add(19.4);
+////				add(19.6d);
+////			}
+////		});
+//		gcmDataExecutor.approveCityPrice(1, new ArrayList<Double>() {
+//			{
+//				add(12.2);
+//				add(15d);
+//				add(17d);
+//				add(18d);
+//				add(18.8d);
+//				add(19.4);
+//				add(19.6d);
+//			}
+//		}, true);
+//
+//	}
 
 }

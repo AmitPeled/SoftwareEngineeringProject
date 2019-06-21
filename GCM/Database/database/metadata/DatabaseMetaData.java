@@ -27,13 +27,15 @@ public class DatabaseMetaData {
 			put(Tables.citiesTours, "citiesTours");
 			put(Tables.toursMetaDetails, "toursMetaDetails");
 			put(Tables.mapsTours, "mapsTours");
+			put(Tables.purchaseHistory, "purchaseDeatailsHistory");
+			put(Tables.mapsDownloadHistory, "mapsDownloadHistory");
 		}
 	};
 
 	public static enum Tables {
 		customerUsers, editorUsers, contentManagerUsers, generalManagerUsers, mapsMetaDetails, mapsFiles, mapsSites,
 		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapsTours,
-		citiesTours
+		citiesTours, purchaseHistory, mapsDownloadHistory
 	}
 
 	public static String getHostName() {
@@ -54,14 +56,16 @@ public class DatabaseMetaData {
 
 	public static int getStatus(Status status) {
 		switch (status) {
-		case published:
+		case PUBLISH:
 			return 0;
-		case toAdd:
+		case ADD:
 			return 1;
-		case toUpdate:
+		case UPDATE:
 			return 2;
-		case toDelete:
+		case DELETE:
 			return 3;
+		case PRICE_UPDATE:
+			return 4;
 		default:
 			System.err.println("bad status value");
 			return -1;

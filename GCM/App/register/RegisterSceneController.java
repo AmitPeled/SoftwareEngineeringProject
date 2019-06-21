@@ -30,7 +30,7 @@ public class RegisterSceneController implements Initializable {
 		System.out.println("well, im going back");
 		clearFields();
 		RegisterModel.back();
-	} 
+	}
 
 	@FXML
 	public void register(ActionEvent event) throws IOException {
@@ -71,7 +71,8 @@ public class RegisterSceneController implements Initializable {
 
 		} else {
 			// register.register(username, password, user);
-			User user = new User(usernametxt.getText(),nametxt.getText(), lastnametxt.getText(), emailtxt.getText(), phonetxt.getText());
+			User user = new User(usernametxt.getText(), nametxt.getText(), lastnametxt.getText(), emailtxt.getText(),
+					phonetxt.getText());
 
 			if (!RegisterModel.register(usernametxt.getText(), passwordtxt.getText(), user)) {
 				System.out.println("someting is up");

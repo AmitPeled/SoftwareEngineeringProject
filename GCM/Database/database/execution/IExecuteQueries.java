@@ -53,6 +53,13 @@ public interface IExecuteQueries {
 	void updateTableColumn(String tableName, String columnToUpdate, Object valueToUpdate, String columnCondition,
 			Object conditonValue) throws SQLException;
 
+	List<List<Object>> betweenDates(String tableName, String columnToSelect, Object Date1, String columnCondition,
+			Object Date2) throws SQLException;
+
+	List<List<Object>> betweenDatesAndConditions(String tableName, String columnToSelect, Object Date1,
+			String columnDateCondition, Object Date2, String columnCondition1, String columnCondition2,
+			Object conditon1, Object condition2) throws SQLException;
+
 	List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object, String columnsToSelect,
 			Status status) throws SQLException;
 

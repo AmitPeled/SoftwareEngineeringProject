@@ -37,6 +37,7 @@ public class UserInfoImpl implements UserInfo {
 	}
 
 	
+
 	// update the user and send him back
 	@Override
 	public User getUserDetailes() {
