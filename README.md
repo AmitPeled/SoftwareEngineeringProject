@@ -50,8 +50,8 @@ Software engineering course final project.
 ### Purchasing maps
 #### One-time purchase
 - [ ] GUI controls that offer single-purchase
-- [ ] Updates the database
-- [ ] Allows users to download maps only after subscription has been purchased
+- [x] Updates the database
+- [x] Allows users to download maps only after subscription has been purchased
 #### Full subscription
 - [ ] GUI controls that offer single-purchase
 - [ ] Updates the database
@@ -72,11 +72,11 @@ Software engineering course final project.
 - [ ] Server methods
 - [ ] Client-Server communication
 ### Notifications
-- [ ] Create a notification thread on the server that sends messages to customers
+- [x] Create a notification thread on the server that sends messages to customers
 
 ## Features
 ### Guests
-- [ ] Allow guests to use the system
+- [x] Allow guests to use the system
 
 # Tasks
 ## Database/DAO
@@ -90,10 +90,10 @@ Software engineering course final project.
 ## Client
 - [ ] Push MapDownloader class to the master
 - [ ] Hide menu options from non-privileged users
-- [ ] Build customer report screen
+- [x] Build customer report screen
 - [ ] Fetch real sites/tours to the map viewer
 - [ ] Load real maps from the database
-- [ ] Allow login in as guests
+- [x] Allow login in as guests
 ## Server
-- [ ] Build the notifications thread
+- [x] Build the notifications thread 
 
