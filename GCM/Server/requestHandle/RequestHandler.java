@@ -117,8 +117,8 @@ public class RequestHandler implements IHandleRequest {
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 					break;
 				case purchaseCity:
-					listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),(int) listObjectReceived.get(1),
-							(PurchaseDetails) listObjectReceived.get(2), username));
+					listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),
+							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
 					break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
@@ -249,8 +249,8 @@ public class RequestHandler implements IHandleRequest {
 							(boolean) listObjectReceived.get(1));
 					break;
 				case actionMapEdit:
-					listToSend = (List<Object>) (Object) gcmDataExecutor.actionMapEdit((MapSubmission) listObjectReceived.get(0),
-							(boolean) listObjectReceived.get(1));
+					listToSend = (List<Object>) (Object) gcmDataExecutor.actionMapEdit(
+							(MapSubmission) listObjectReceived.get(0), (boolean) listObjectReceived.get(1));
 					break;
 				case actionCityEdit:
 					gcmDataExecutor.actionCityEdit((CitySubmission) listObjectReceived.get(0),
@@ -300,6 +300,7 @@ public class RequestHandler implements IHandleRequest {
 				case getCity:
 					listToSend.add(gcmDataExecutor.getCityById((int) listObjectReceived.get(0)));
 					break;
+
 				default:
 					break;
 				}
@@ -310,18 +311,21 @@ public class RequestHandler implements IHandleRequest {
 			requestState = RequestState.somethingWrongHappend;
 			System.err.println("db exception");
 			System.err.println(e.getMessage());
-
+			e.printStackTrace();
 		} catch (Exception e) {
 			System.err.println("server exception. client query=" + query);
 			System.err.println(e.getMessage());
+			e.printStackTrace();
+
 		}
 
 		return new ResponseObject(requestState, listToSend);
 	}
 
 	private boolean verifyPrivilege(RequestState userType, GcmQuery query) {
+    //everyone is privileged for now
 		int a = 0;
-		if (a == 0)
+		if (a == 0) // to eliminate "unreachable code" warning
 			return true;
 //		List<GcmQuery> everyone = Arrays.asList( GcmQuery.addCustomer, GcmQuery.verifyUser, GcmQuery.getMapDetails,
 //				GcmQuery.getMapsByCityName, GcmQuery.getMapsBySiteName, GcmQuery.getMapsByDescription );
