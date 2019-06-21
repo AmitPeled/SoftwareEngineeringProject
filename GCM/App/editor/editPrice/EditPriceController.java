@@ -1,6 +1,7 @@
 package editor.editPrice;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,7 +81,12 @@ public class EditPriceController implements Initializable
 		            			double newPrice = Double.parseDouble(price);
 		            			listPricesDouble.add(newPrice);
 							}
-			            	//contentManagerDAO.editCityPrice(cityId, listPricesDouble);
+			            	try {
+								contentManagerDAO.changeCityPrices(cityId, listPricesDouble);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 			            	gcmClient.back();
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);
@@ -95,14 +101,16 @@ public class EditPriceController implements Initializable
 	}
 	
 	public void initPrices() {
-		oneTime.setText("15");
-		List<TextField> textFieldsList = Arrays.asList(firstMonth, secondMonth, thirdMonth, fourthMonth, fifthMonth, sixMonth);
+		List<TextField> textFieldsList = Arrays.asList(oneTime, firstMonth, secondMonth, thirdMonth, fourthMonth, fifthMonth, sixMonth);
+		List<Double> pricesList = Arrays.asList(1.0,2.0,3.0);
 		int i = 1;
 		for (TextField textField : textFieldsList) {
-			//now all relevant prices can be retrieved by cityObject.getPrices()
-			String price = Double.toString(-1);//Double.toString(gcmClient.getDataAccessObject().getCityPrice(cityId, 1));
-			textField.setText(price);
-			i++;
+			for (Double currPrice : pricesList) {
+				//now all relevant prices can be retrieved by cityObject.getPrices()
+				String price = Double.toString(currPrice);//Double.toString(gcmClient.getDataAccessObject().getCityPrice(cityId, 1));
+				textField.setText(price);
+				i++;
+			}
 		}
 	}
 	
