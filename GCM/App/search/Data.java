@@ -31,9 +31,12 @@ public class Data
 	private Button goTo;
 	
 	private ListViewController listViewController;
+	Boolean permissionsForMap;
 	
-    public Data(ListViewController listViewController, RequestState userState){ 
+    public Data(ListViewController listViewController, RequestState userState, Boolean permissionsForMap){ 
         this.listViewController = listViewController;
+        this.permissionsForMap = permissionsForMap;
+        
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/search/mapItem.fxml"));
         fxmlLoader.setController(this);
         try
@@ -47,17 +50,20 @@ public class Data
         }
     }
     public void checkPermissions(RequestState userState) {	
-    	System.out.println(userState);
+    	goTo.setVisible(false);
+		oneTimePurchase.setVisible(false);
+		
 		if(userState == RequestState.guest) {
-			goTo.setVisible(false);
-			oneTimePurchase.setVisible(true);
+			if(permissionsForMap) {
+				oneTimePurchase.setVisible(true);
+			}
 		}else if(userState == RequestState.customer){
 			// check if customer as subscription for this city
-			goTo.setVisible(true);
-			oneTimePurchase.setVisible(false);
+			if(permissionsForMap) {
+				goTo.setVisible(true);
+			}
 		}else {
 			goTo.setVisible(true);
-			oneTimePurchase.setVisible(false);
 		}
     }
     public void setInfo(MapItem item)

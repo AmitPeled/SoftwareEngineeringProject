@@ -4,6 +4,7 @@ import java.util.EnumMap;
 
 import approvalReports.ApprovalReportsController;
 import javafx.scene.Scene;
+import menu.MenuController;
 
 final class SceneManagerImpl implements SceneManager {
 	private EnumMap<SceneNames, Scene> scenes;
@@ -23,6 +24,8 @@ final class SceneManagerImpl implements SceneManager {
 	public Scene getScene(SceneNames name) { 
 		if(name == SceneNames.APPROVAL_REPORTS) {
 			((ApprovalReportsController)controllers.get(name)).initialize();
+		}else if(name == SceneNames.MENU) {
+			((MenuController)controllers.get(name)).updateVisiblity();
 		}
 		return scenes.get(name); 
 	}
