@@ -8,13 +8,15 @@ public class PriceSubmission implements Serializable {
 	private List<Double> pricesBefore;
 	private List<Double> pricesAfter;
 	private int cityId;
+	private String cityName;
 
-	public PriceSubmission(int cityId, List<Double> pricesBefore, List<Double> pricesAfter) {
+	public PriceSubmission(int cityId, String cityName, List<Double> pricesBefore, List<Double> pricesAfter) {
 		if (pricesAfter == null || pricesAfter.size() != 7)
 			throw new IllegalArgumentException("price submission must contain prices for all months");
 		this.pricesAfter = pricesAfter;
 		this.pricesBefore = pricesBefore;
 		this.cityId = cityId;
+		this.cityName = cityName;
 	}
 
 	public List<Double> getPricesBefore() {
@@ -23,6 +25,10 @@ public class PriceSubmission implements Serializable {
 
 	public List<Double> getPricesAfter() {
 		return pricesAfter;
+	}
+
+	public String getCiytName() {
+		return cityName;
 	}
 
 	public int getCityId() {
