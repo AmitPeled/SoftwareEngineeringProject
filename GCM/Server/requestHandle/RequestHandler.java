@@ -32,18 +32,15 @@ public class RequestHandler implements IHandleRequest {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ResponseObject handleRequest(RequestObject requestObject) {
+	public ResponseObject handleRequest(String username, String password, GcmQuery query, List<Object> listObjectReceived) {
 		List<Object> listToSend = new ArrayList<Object>();
-		GcmQuery query = requestObject.getQuery();
-		String username = requestObject.getUname(), password = requestObject.getPass();
 		RequestState requestState = null;
 		try {
 			RequestState userType = gcmDataExecutor.verifyUser(username, password);
-			List<Object> listObjectReceived = requestObject.getObjects();
 			if (PrivilegeVerifier.verifyPrivilege(query, userType)) {
 
 //				if (userType == UserType.notLogged || gcmDataExecutor.verifyUser(/* userType, */username, password)) {
-				switch (requestObject.getQuery()) {
+				switch (query) {
 				case addCustomer:
 					requestState = verifyDetailsConstrains(username, password);
 					if (requestState == RequestState.customer

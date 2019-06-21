@@ -45,17 +45,51 @@ public class GcmDAO
 		implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
 	String serverHostname;
 	int serverPortNumber;
+	Socket serverSocket = null;
+	ObjectInputStream in = null;
+	ObjectOutputStream out = null;
+
 	String password = null;
 	String username = null;
+
+	private void connectToServer() {
+		System.out.println("Connecting to host " + serverHostname + " on port " + serverPortNumber + ".");
+		try {
+			serverSocket = new Socket(serverHostname, serverPortNumber);
+		} catch (UnknownHostException e) {
+			System.err.println("Unknown host: " + serverHostname);
+			System.err.println(e.getMessage());
+			System.exit(1);
+		} catch (IOException e) {
+			System.err.println("Unable to get streams from server");
+			System.err.println(e.getMessage());
+			System.exit(1);
+		}
+	}
+
+//	@Override
+	protected void finalize() throws Throwable {
+		/** Closing all the resources */
+		try {
+			out.close();
+			in.close();
+			serverSocket.close();
+		} catch (IOException e) {
+			System.err.println("Error closing resources");
+			System.err.println(e.getMessage());
+		}
+	}
 
 	public GcmDAO(String host, int port) {
 		serverHostname = host;
 		serverPortNumber = port;
+		connectToServer();
 	}
 
 	public GcmDAO() {
 		serverHostname = "localhost";
 		serverPortNumber = 8080;
+		connectToServer();
 	}
 
 	@Override
@@ -115,43 +149,18 @@ public class GcmDAO
 	}
 
 	private ResponseObject send(RequestObject req) { // false for error, true otherwise
-		System.out.println("Connecting to host " + serverHostname + " on port " + serverPortNumber + ".");
-//		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-//		SSLSocket serverSocket = null;
-		Socket serverSocket = null;
-		ObjectInputStream in = null;
-		ObjectOutputStream out = null;
 		if (req == null) {
 			System.err.println("Error! no request sent.");
 			return null;
 		}
 		try {
-//			System.out.println("connecting to server: ");
-			serverSocket = new Socket(serverHostname, serverPortNumber);
-//			factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-//			serverSocket = (SSLSocket) factory.createSocket(serverHostname, port);
-//			serverSocket.startHandshake();
 			out = new ObjectOutputStream(serverSocket.getOutputStream());
 			in = new ObjectInputStream(serverSocket.getInputStream());
-
-		} catch (UnknownHostException e) {
-			System.err.println("Unknown host: " + serverHostname);
-			System.err.println(e.getMessage());
-			System.exit(1);
-		} catch (IOException e) {
-			System.err.println("Unable to get streams from server");
-			System.err.println(e.getMessage());
-			System.exit(1);
-		}
-
-//		System.out.println("Sending data to server..");
-		try {
 			out.writeObject(req);
 		} catch (IOException e1) {
 			System.err.println("error in sending data to server");
 			System.err.println(e1.getMessage());
 		}
-//		System.out.println("data sent. receiving data:");
 		Object res = null;
 		try {
 			res = in.readObject();
@@ -164,16 +173,6 @@ public class GcmDAO
 			return null;
 		}
 		ResponseObject resObject = (ResponseObject) res;
-
-		/** Closing all the resources */
-		try {
-			out.close();
-			in.close();
-			serverSocket.close();
-		} catch (IOException e) {
-			System.err.println("Error closing resources");
-			System.err.println(e.getMessage());
-		}
 		return resObject;
 	}
 
@@ -286,12 +285,13 @@ public class GcmDAO
 	@Override
 	public List<MapContent> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails) {
 		try {
-			return (List<MapContent> )(Object) send(new RequestObject(GcmQuery.purchaseCityOneTime, new ArrayList<Object>() {
-				{
-					add(cityId);
-					add(purchaseDetails);
-				}
-			}, username, password)).getResponse();
+			return (List<MapContent>) (Object) send(
+					new RequestObject(GcmQuery.purchaseCityOneTime, new ArrayList<Object>() {
+						{
+							add(cityId);
+							add(purchaseDetails);
+						}
+					}, username, password)).getResponse();
 		} catch (Exception e) {
 			return new ArrayList<>();
 		}
@@ -299,8 +299,8 @@ public class GcmDAO
 
 	@Override
 	public List<City> getActiveCitiesPurchases() {
-		return (List<City>) (Object) send(
-				new RequestObject(GcmQuery.getActiveSubscriptions, null, username, password)).getResponse();
+		return (List<City>) (Object) send(new RequestObject(GcmQuery.getActiveSubscriptions, null, username, password))
+				.getResponse();
 	}
 
 	@Override
