@@ -6,6 +6,7 @@ import java.util.List;
 import dataAccess.users.PurchaseDetails;
 import maps.City;
 import maps.Map;
+import purchase.mapContent.MapContent;
 import users.User;
 
 public interface CustomerDAO {
@@ -28,7 +29,7 @@ public interface CustomerDAO {
 	 * @return false if time purchase interval exceeds 6 months or purchase details
 	 *         are not valid.
 	 */
-	boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails);
+	boolean purchaseSubscriptionToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails);
 
 	/**
 	 * @return true if purchase succeeded
@@ -46,12 +47,12 @@ public interface CustomerDAO {
 	 * 
 	 * @return false for invalid purchase details
 	 */
-	boolean repurchaseMembership(PurchaseDetails purchaseDetails);
+	boolean repurchaseSubscription(PurchaseDetails purchaseDetails);
 
 	/**
 	 * @return false if no valid user purchase details are stored in the database.
 	 */
-	boolean repurchaseMembershipBySavedDetails();
+	boolean repurchaseSubscriptionBySavedDetails();
 
 	/**
 	 * @return if user has access to view the map and update the system in
@@ -69,5 +70,7 @@ public interface CustomerDAO {
 	 * membership)
 	 */
 	User getUserDetails();
+
+	List<MapContent> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails);
 
 }

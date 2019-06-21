@@ -64,7 +64,7 @@ public interface IGcmDataExecute {
 
 	double getOneTimePurchasePrice(int cityId) throws SQLException;
 
-	boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
+	boolean purchaseSubscriptionToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
 			throws SQLException;
 
 	String getSavedCreditCard(String username) throws SQLException;

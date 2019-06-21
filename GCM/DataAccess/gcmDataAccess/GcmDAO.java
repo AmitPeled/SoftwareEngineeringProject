@@ -30,6 +30,7 @@ import maps.City;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
+import purchase.mapContent.MapContent;
 import queries.GcmQuery;
 import queries.RequestState;
 import request.RequestObject;
@@ -282,24 +283,24 @@ public class GcmDAO
 		return 0;
 	}
 
-//	@Override
-//	public boolean purchaseCityOneTime(int mapId, PurchaseDetails purchaseDetails) {
-//		try {
-//			return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new ArrayList<Object>() {
-//				{
-//					add(mapId);
-//					add(purchaseDetails);
-//				}
-//			}, username, password)).getResponse().get(0);
-//		} catch (Exception e) {
-//			return false;
-//		}
-//	}
+	@Override
+	public List<MapContent> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails) {
+		try {
+			return (List<MapContent> )(Object) send(new RequestObject(GcmQuery.purchaseSubscriptionToCity, new ArrayList<Object>() {
+				{
+					add(cityId);
+					add(purchaseDetails);
+				}
+			}, username, password)).getResponse();
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
 
 	@Override
 	public List<City> getActiveCitiesPurchases() {
 		return (List<City>) (Object) send(
-				new RequestObject(GcmQuery.getActiveCitiesPurchases, null, username, password)).getResponse();
+				new RequestObject(GcmQuery.getActiveSubscriptions, null, username, password)).getResponse();
 	}
 
 	@Override
@@ -418,9 +419,9 @@ public class GcmDAO
 	}
 
 	@Override
-	public boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails) {
+	public boolean purchaseSubscriptionToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails) {
 		try {
-			return (boolean) send(new RequestObject(GcmQuery.purchaseMembershipToCity, new ArrayList<Object>() {
+			return (boolean) send(new RequestObject(GcmQuery.purchaseSubscriptionToCity, new ArrayList<Object>() {
 				{
 					add(cityId);
 					add(timeInterval);
@@ -892,13 +893,13 @@ public class GcmDAO
 	}
 
 	@Override
-	public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
+	public boolean repurchaseSubscription(PurchaseDetails purchaseDetails) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean repurchaseMembershipBySavedDetails() {
+	public boolean repurchaseSubscriptionBySavedDetails() {
 		// TODO Auto-generated method stub
 		return false;
 	}

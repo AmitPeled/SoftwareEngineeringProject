@@ -1,6 +1,7 @@
 package requestHandle;
 
 import request.RequestObject;
+import requestHandle.privilegeVerify.PrivilegeVerifier;
 import response.ResponseObject;
 import users.User;
 
@@ -39,7 +40,7 @@ public class RequestHandler implements IHandleRequest {
 		try {
 			RequestState userType = gcmDataExecutor.verifyUser(username, password);
 			List<Object> listObjectReceived = requestObject.getObjects();
-			if (verifyPrivilege(userType, query)) {
+			if (PrivilegeVerifier.verifyPrivilege(query, userType)) {
 
 //				if (userType == UserType.notLogged || gcmDataExecutor.verifyUser(/* userType, */username, password)) {
 				switch (requestObject.getQuery()) {
@@ -113,12 +114,8 @@ public class RequestHandler implements IHandleRequest {
 				case getCityByMapId:
 					listToSend.add(gcmDataExecutor.getCityByMapId((int) listObjectReceived.get(0)));
 					break;
-				case getActiveCitiesPurchases:
+				case getActiveSubscriptions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
-					break;
-				case purchaseCity:
-					listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),
-							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
 					break;
 				case addExistingSiteToTour:
 					gcmDataExecutor.addExistingSiteToTour((int) listObjectReceived.get(0),
@@ -138,8 +135,8 @@ public class RequestHandler implements IHandleRequest {
 				case notifyMapView:
 					listToSend.add(gcmDataExecutor.notifyMapView(username, (int) listObjectReceived.get(0)));
 					break;
-				case purchaseMembershipToCity:
-					listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),
+				case purchaseSubscriptionToCity:
+					listToSend.add(gcmDataExecutor.purchaseSubscriptionToCity((int) listObjectReceived.get(0),
 							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
 					break;
 				case deleteSiteFromMap:
@@ -323,7 +320,7 @@ public class RequestHandler implements IHandleRequest {
 	}
 
 	private boolean verifyPrivilege(RequestState userType, GcmQuery query) {
-    //everyone is privileged for now
+		// everyone is privileged for now
 		int a = 0;
 		if (a == 0) // to eliminate "unreachable code" warning
 			return true;
@@ -369,9 +366,9 @@ public class RequestHandler implements IHandleRequest {
 		case getCityByMapId:
 			return userType == RequestState.editor || userType == RequestState.contentManager
 					|| userType == RequestState.generalManager;
-		case getActiveCitiesPurchases:
+		case getActiveSubscriptions:
 			return userType == RequestState.customer;
-		case purchaseCity:
+		case purchaseSubscriptionToCity:
 			return userType == RequestState.customer;
 		case addNewTourToCity:
 			return userType == RequestState.editor || userType == RequestState.contentManager
@@ -449,8 +446,6 @@ public class RequestHandler implements IHandleRequest {
 			return userType == RequestState.contentManager || userType == RequestState.generalManager;
 		case getToursUpdateEdits:
 			return userType == RequestState.contentManager || userType == RequestState.generalManager;
-		case purchaseMembershipToCity:
-			return userType == RequestState.customer;
 
 		default:
 			return false;

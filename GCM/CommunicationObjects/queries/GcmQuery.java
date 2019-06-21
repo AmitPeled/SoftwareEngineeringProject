@@ -5,8 +5,8 @@ import java.io.Serializable;
 public enum GcmQuery implements Serializable {
 	addCustomer, verifyUser, addMap, deleteMap, getMapDetails, getMapFile, addCity, deleteCity, addNewSiteToCity,
 	addExistingSiteToMap, deleteSiteFromMap, getMapsByCityName, getMapsBySiteName, getMapsByDescription, getUserDetails,
-	getCityByMapId, purchaseCity, getActiveCitiesPurchases, downloadMap, addNewTourToCity, addExistingTourToMap,
-	addExistingSiteToTour, getCitySites, purchaseMembershipToCity, getToursDeleteEdits, getToursUpdateEdits,
+	getCityByMapId, purchaseSubscriptionToCity, getActiveSubscriptions, downloadMap, addNewTourToCity, addExistingTourToMap,
+	addExistingSiteToTour, getCitySites, getToursDeleteEdits, getToursUpdateEdits,
 	getToursAddEdits, getToursObjectAddedTo, getCitiesObjectAddedTo, getMapsObjectAddedTo, getSitesAddEdits,
 	getCitiesDeleteEdits, getCitiesUpdateEdits, getCitiesAddEdits, getSitesDeleteEdits, getSitesUpdateEdits,
 	getMapsDeleteEdits, getMapsUpdateEdits, getMapsAddEdits, actionSiteDeleteEdit, actionSiteUpdateEdit,

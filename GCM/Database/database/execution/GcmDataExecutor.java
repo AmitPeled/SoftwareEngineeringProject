@@ -1595,7 +1595,7 @@ public class GcmDataExecutor implements
 	}
 
 	@Override
-	public boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
+	public boolean purchaseSubscriptionToCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
 			throws SQLException {
 		// if seccess -> validate payment (not really can happen)
 
