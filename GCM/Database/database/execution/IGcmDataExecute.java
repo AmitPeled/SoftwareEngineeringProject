@@ -179,4 +179,6 @@ public interface IGcmDataExecute {
 
 	boolean notifyMapView(String username, int mapId) throws SQLException;
 
+	City getCityById(int cityId) throws SQLException;
+
 }

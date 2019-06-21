@@ -6,8 +6,8 @@ import approvalReports.ActionTaken;
 import approvalReports.ObjectsEnum;
 import maps.Site;
 
+@SuppressWarnings("serial")
 public class SiteSubmission implements Serializable {
-	private static final long serialVersionUID = 1L;
 	private Site site;
 	private ActionTaken actionTaken;
 	/**

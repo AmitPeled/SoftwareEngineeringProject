@@ -722,7 +722,7 @@ public class GcmDataExecutor implements
 		else
 			return getCityById((int) lists.get(0).get(0));
 	}
-
+@Override
 	public City getCityById(int cityId) throws SQLException {
 		City city = getCityById(cityId, Status.PUBLISH);
 		if (city == null)
@@ -1387,9 +1387,10 @@ public class GcmDataExecutor implements
 
 	private List<User> getUsersHoldingMap(int id) throws SQLException {
 		List<User> users = new ArrayList<>();
-		List<List<Object>> lists = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "mapId", id, "username");
-		for(List<Object> list : lists) {
-			String username = (String)list.get(0);
+		List<List<Object>> lists = queryExecutor.selectColumnsByValue(
+				DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "mapId", id, "username");
+		for (List<Object> list : lists) {
+			String username = (String) list.get(0);
 			users.add(getUserDetails(username));
 		}
 		return users;
@@ -1531,16 +1532,16 @@ public class GcmDataExecutor implements
 		City city = getCityByMapId(mapId);
 		if (city != null && verifyPurchasedCity(username, city.getId())) {
 			File mapFile = getMapFile(mapId, Status.PUBLISH);
-			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), new ArrayList<Object>() {
-				{
-					add(username);
-					add(mapFile);
-					add(new java.util.Date().toInstant()); 
-				}
-			});
+			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory),
+					new ArrayList<Object>() {
+						{
+							add(username);
+							add(mapFile);
+							add(new java.util.Date().toInstant());
+						}
+					});
 			return mapFile;
-		}
-		else
+		} else
 			return null;
 	}
 
@@ -1947,8 +1948,8 @@ public class GcmDataExecutor implements
 		List<City> cities = getCitiesByStatus(Status.PRICE_UPDATE);
 		for (City city : cities) {
 			City publishedCity = getCityById(city.getId());
-			priceSubmissions
-					.add(new PriceSubmission(publishedCity.getId(), publishedCity.getPrices(), city.getPrices()));
+			priceSubmissions.add(new PriceSubmission(publishedCity.getId(), publishedCity.getName(),
+					publishedCity.getPrices(), city.getPrices()));
 		}
 		return priceSubmissions;
 	}
