@@ -14,6 +14,8 @@ import userManagement.UserManager;
 
 public class ServerThread extends Thread {
 	private Socket socket;
+	private ObjectInputStream in = null;
+	private ObjectOutputStream out = null;
 	private IHandleRequest requestHandler;
 	private String clientUsername, clientPassword;
 
@@ -30,22 +32,28 @@ public class ServerThread extends Thread {
 	}
 
 	public void run() {
-
 //		System.out.println("I'm in thread: " + this.getName());
-		ObjectInputStream in = null;
-		ObjectOutputStream out = null;
 		RequestObject requestObject = null;
-
 		try {
 			in = new ObjectInputStream(socket.getInputStream());
 			out = new ObjectOutputStream(socket.getOutputStream());
-//			System.out.println("Connection is set");
+			requestObject = (RequestObject) in.readObject();
 		} catch (IOException ex) {
-			System.err.println("Unable to get streams from client");
+			System.err.println("Unable to read streams from client");
 			System.err.println(ex.getMessage());
+			ex.printStackTrace();
+			return;
+		} catch (ClassNotFoundException e) {
+			System.err.println("Object sent by client is not of the type RequestObject");
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			return;
 		}
+		manageAccess(requestObject);
 		while (socket.isConnected()) {
 			try {
+				in = new ObjectInputStream(socket.getInputStream());
+				out = new ObjectOutputStream(socket.getOutputStream());
 				requestObject = (RequestObject) in.readObject();
 			} catch (IOException ex) {
 				System.err.println("Unable to read streams from client");
@@ -69,18 +77,41 @@ public class ServerThread extends Thread {
 				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
+			try {
+				in.close();
+				out.close();
+			} catch (IOException ex) {
+				System.err.println("Error closing IO resources");
+				System.err.println(ex.getMessage());
+				ex.printStackTrace();
+			}
 		}
 //		} finally {
 		try {
 			UserManager.removeUser(clientUsername, clientPassword);
-			in.close();
-			out.close();
 			socket.close();
 		} catch (IOException ex) {
 			System.err.println("Error closing resources");
 			System.err.println(ex.getMessage());
+			ex.printStackTrace();
 		}
 
+	}
+
+	private void manageAccess(RequestObject requestObject) {
+		String username = requestObject.getUname();
+		String password = requestObject.getPass();
+		GcmQuery query = requestObject.getQuery();
+		if (query == GcmQuery.verifyUser && !UserManager.addUser(username, password))
+			try {
+				in.close();
+				out.close();
+				socket.close();
+			} catch (IOException ex) {
+				System.err.println("Error closing IO resources");
+				System.err.println(ex.getMessage());
+			}
+		return;
 	}
 
 	public String getClientUsername() {

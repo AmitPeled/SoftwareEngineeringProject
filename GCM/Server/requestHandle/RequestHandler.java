@@ -3,9 +3,11 @@ package requestHandle;
 import request.RequestObject;
 import requestHandle.privilegeVerify.PrivilegeVerifier;
 import response.ResponseObject;
+import userManagement.UserManager;
 import users.User;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +31,25 @@ public class RequestHandler implements IHandleRequest {
 	public RequestHandler(IGcmDataExecute gcmDataExecutor) {
 		this.gcmDataExecutor = gcmDataExecutor;
 	}
-
+//	private void manageAccess(RequestObject requestObject) {
+//		String username = requestObject.getUname();
+//		String password = requestObject.getPass();
+//		GcmQuery query = requestObject.getQuery();
+//		if (query == GcmQuery.verifyUser && !UserManager.addUser(username, password))
+//			try {
+//				in.close();
+//				out.close();
+//				socket.close();
+//			} catch (IOException ex) {
+//				System.err.println("Error closing IO resources");
+//				System.err.println(ex.getMessage());
+//			}
+//		return;
+//	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public ResponseObject handleRequest(String username, String password, GcmQuery query, List<Object> listObjectReceived) {
+	public ResponseObject handleRequest(String username, String password, GcmQuery query,
+			List<Object> listObjectReceived) {
 		List<Object> listToSend = new ArrayList<Object>();
 		RequestState requestState = null;
 		try {
@@ -42,15 +59,19 @@ public class RequestHandler implements IHandleRequest {
 //				if (userType == UserType.notLogged || gcmDataExecutor.verifyUser(/* userType, */username, password)) {
 				switch (query) {
 				case addCustomer:
-					requestState = verifyDetailsConstrains(username, password);
-					if (requestState == RequestState.customer
-							&& !gcmDataExecutor.addUser((String) listObjectReceived.get(0),
-									(String) listObjectReceived.get(1), (User) listObjectReceived.get(2))) {
+					if (!gcmDataExecutor.addUser((String) listObjectReceived.get(0), (String) listObjectReceived.get(1),
+							(User) listObjectReceived.get(2))) {
 						requestState = RequestState.usernameAlreadyExists;
+					} else {
+						requestState = verifyDetailsConstrains(username, password);
+						if (requestState == RequestState.customer)
+							UserManager.addUser(username, password);
 					}
 					break;
 				case verifyUser:
 					requestState = gcmDataExecutor.verifyUser(username, password);
+					if (requestState != RequestState.wrongDetails)
+						UserManager.addUser(username, password);
 					break;
 				case addMap:
 					listToSend.add(gcmDataExecutor.addMapToCity((int) listObjectReceived.get(0),
@@ -295,7 +316,8 @@ public class RequestHandler implements IHandleRequest {
 					listToSend.add(gcmDataExecutor.getCityById((int) listObjectReceived.get(0)));
 					break;
 				case purchaseCityOneTime:
-					listToSend = (List<Object>)(Object)gcmDataExecutor.purchaseCityOneTime((int) listObjectReceived.get(0),(PurchaseDetails) listObjectReceived.get(1), username);
+					listToSend = (List<Object>) (Object) gcmDataExecutor.purchaseCityOneTime(
+							(int) listObjectReceived.get(0), (PurchaseDetails) listObjectReceived.get(1), username);
 					break;
 
 				default:
