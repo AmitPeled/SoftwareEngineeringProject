@@ -297,7 +297,6 @@ public class RequestHandler implements IHandleRequest {
 				case getPurchaseHistory:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchaseHistory(username);
 					break;
-
 				default:
 					break;
 				}
@@ -320,8 +319,9 @@ public class RequestHandler implements IHandleRequest {
 	}
 
 	private boolean verifyPrivilege(RequestState userType, GcmQuery query) {
+    //everyone is privileged for now
 		int a = 0;
-		if (a == 0)
+		if (a == 0) // to eliminate "unreachable code" warning
 			return true;
 //		List<GcmQuery> everyone = Arrays.asList( GcmQuery.addCustomer, GcmQuery.verifyUser, GcmQuery.getMapDetails,
 //				GcmQuery.getMapsByCityName, GcmQuery.getMapsBySiteName, GcmQuery.getMapsByDescription );
