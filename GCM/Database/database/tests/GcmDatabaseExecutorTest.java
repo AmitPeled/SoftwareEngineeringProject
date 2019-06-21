@@ -180,10 +180,11 @@ class GcmDatabaseExecutorTest {
 		mapId = gcmDataExecutor.addMapToCity(cityId, map, mapFile);
 		List<MapSubmission> mapSubmissions = gcmDataExecutor.getMapSubmissions();
 		assertFalse(mapSubmissions.isEmpty());
+		
 		for (MapSubmission submission : gcmDataExecutor.getMapSubmissions()) {
-			System.out.println("approving map. " + submission.getActionTaken() + ", containingCityId="
-					+ submission.getContainingCityID() + ", " + submission.getMap().getDescription());
-			gcmDataExecutor.actionMapEdit(submission, false);
+			System.out.println("map to approve " + submission.getActionTaken() + ", containingCityId="
+					+ submission.getContainingCityID() /*+ ", " + submission.getMap().getDescription()*/);
+//			gcmDataExecutor.actionMapEdit(submission, false);
 		}
 //		gcmDataExecutor.UpdateSite(siteId, new Site("updated name", "updated desc", "type", false, new Coordinates()));
 //		assertEquals(site.getDescription(), siteSubmissions.get(0).getSite().getDescription());
@@ -208,18 +209,29 @@ class GcmDatabaseExecutorTest {
 //		assertNull(gcmDataExecutor.getMapDetails(mapId));
 //		assertNull(gcmDataExecutor.getMapFile(mapId));
 	}
-
-	@Test
-	void pricesTest() throws SQLException {
-//		assertThrows(IllegalArgumentException.class, () -> gcmDataExecutor.changeCityPrices(1, new ArrayList<Double>() {
-//			{
-//				add(12.2);
-//				add(15d);
-//				add(17d);
-//				add(18d);
-//			}
-//		}));
-//		gcmDataExecutor.changeCityPrices(1, new ArrayList<Double>() {
+//
+//	@Test
+//	void pricesTest() throws SQLException {
+////		assertThrows(IllegalArgumentException.class, () -> gcmDataExecutor.changeCityPrices(1, new ArrayList<Double>() {
+////			{
+////				add(12.2);
+////				add(15d);
+////				add(17d);
+////				add(18d);
+////			}
+////		}));
+////		gcmDataExecutor.changeCityPrices(1, new ArrayList<Double>() {
+////			{
+////				add(12.2);
+////				add(15d);
+////				add(17d);
+////				add(18d);
+////				add(18.8d);
+////				add(19.4);
+////				add(19.6d);
+////			}
+////		});
+//		gcmDataExecutor.approveCityPrice(1, new ArrayList<Double>() {
 //			{
 //				add(12.2);
 //				add(15d);
@@ -229,19 +241,8 @@ class GcmDatabaseExecutorTest {
 //				add(19.4);
 //				add(19.6d);
 //			}
-//		});
-		gcmDataExecutor.approveCityPrice(1, new ArrayList<Double>() {
-			{
-				add(12.2);
-				add(15d);
-				add(17d);
-				add(18d);
-				add(18.8d);
-				add(19.4);
-				add(19.6d);
-			}
-		}, true);
-
-	}
+//		}, true);
+//
+//	}
 
 }

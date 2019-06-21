@@ -116,7 +116,12 @@ public class ApprovalReportsController implements Initializable {
 
 	public void initSiteTableView() {
 		System.out.println(siteName);
-		siteName.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSite().getName()));
+		try {
+			siteName.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSite().getName()));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 		siteDescription
 				.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSite().getDescription()));
 		siteType.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSite().getSiteType()));
@@ -259,7 +264,7 @@ public class ApprovalReportsController implements Initializable {
 		mapTable.setVisible(false);
 
 		initCityTableView();
-		initSiteTableView();
+//		initSiteTableView();
 		initTourTableView();
 		initMapTableView();
 

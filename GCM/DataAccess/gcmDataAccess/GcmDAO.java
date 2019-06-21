@@ -718,7 +718,7 @@ public class GcmDAO
 				add(citySubmission);
 				add(action);
 			}
-		}, username, password));
+		}, username, password)).getResponse();
 
 	}
 
