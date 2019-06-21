@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import mainApp.GcmClient;
+import maps.City;
 import utility.TextFieldUtility;
 
 public class EditPriceController implements Initializable
@@ -102,7 +103,8 @@ public class EditPriceController implements Initializable
 	
 	public void initPrices() {
 		List<TextField> textFieldsList = Arrays.asList(oneTime, firstMonth, secondMonth, thirdMonth, fourthMonth, fifthMonth, sixMonth);
-		List<Double> pricesList = Arrays.asList(1.0,2.0,3.0);
+		City currCity = gcmClient.getDataAccessObject().getCity(cityId);
+		List<Double> pricesList = currCity.getPrices();
 		int i = 1;
 		for (TextField textField : textFieldsList) {
 			for (Double currPrice : pricesList) {
