@@ -1,10 +1,7 @@
 package mapViewer;
 
 import java.util.HashSet;
-import java.util.Set;
-
 import gcmDataAccess.GcmDAO;
-import maps.Coordinates;
 import maps.Map;
 import maps.Site;
 
