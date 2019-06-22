@@ -190,6 +190,7 @@ public class GcmDataExecutor implements
 			return objectParser.getSite(siteRows.get(0)); // only one site row correspond to this id
 	}
 
+	@Override
 	public Tour getTour(int tourId) throws SQLException {
 		return getTourByStatus(tourId, Status.PUBLISH);
 	}
