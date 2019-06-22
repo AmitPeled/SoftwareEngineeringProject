@@ -9,10 +9,25 @@ Software engineering course final project.
 - [ ] Showing One-time purchase only for guests
 - [ ] Showing Purchase options for customers
 ### Editing
-#### Approval Requests - **Need to implement for tours/sites as well**
+#### Approval Requests - City
 - [x] DAO methods
 - [x] GUI
-- [x] Server side methods - **Returns "null" references instead of actual Tours** 
+- [x] Server side methods 
+- [x] Client-Server communication
+#### Approval Requests - Sites
+- [x] DAO methods
+- [x] GUI
+- [ ] Server side methods - **Does not show Site applications**
+- [ ] Client-Server communication - **Does not show Site applications**
+#### Approval Requests - Tours
+- [x] DAO methods
+- [x] GUI
+- [x] Server side methods 
+- [x] Client-Server communication
+#### Approval Requests - Map Reports
+- [x] DAO methods
+- [x] GUI
+- [x] Server side methods 
 - [x] Client-Server communication
 #### Map object
 - [x] **Map object doesn't contain all it's sites and tours (works when fetching them through other DAO methods)**
