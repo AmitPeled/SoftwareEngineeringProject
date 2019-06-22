@@ -41,9 +41,9 @@ import users.User;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class GcmDAO
-		implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
+        implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
 	String serverHostname;
-	int serverPortNumber;
+	int    serverPortNumber;
 	String password = null;
 	String username = null;
 
@@ -111,6 +111,41 @@ public class GcmDAO
 			}
 		}, username, password));
 		return responseObject.getRequestState();
+	}
+
+	@Override
+	public RequestState updateUser(User user) {
+		ResponseObject responseObject = send(
+		        new RequestObject(GcmQuery.editUsersWithoutNewPassword, new ArrayList<Object>() {
+			        {
+				        add(user);
+				        add(password);
+			        }
+		        }, username, password));
+		RequestState requestState = responseObject.getRequestState();
+		if (isProperUser(requestState))
+			setDetails(user.getUsername(), password);
+		return requestState;
+	}
+
+	@Override
+	public RequestState updateUser(User user, String password) {
+		ResponseObject responseObject = send(
+		        new RequestObject(GcmQuery.editUsersWithNewPassword, new ArrayList<Object>() {
+			        {
+				        add(user);
+				        add(password);
+			        }
+		        }, username, password));
+		RequestState requestState = responseObject.getRequestState();
+		if (isProperUser(requestState))
+			setDetails(user.getUsername(), password);
+		return requestState;
+	}
+
+	private boolean isProperUser(RequestState requestState) {
+		return requestState == RequestState.customer || requestState == RequestState.editor
+		        || requestState == RequestState.contentManager || requestState == RequestState.generalManager;
 	}
 
 	private ResponseObject send(RequestObject req) { // false for error, true otherwise
@@ -299,14 +334,14 @@ public class GcmDAO
 	@Override
 	public List<City> getActiveCitiesPurchases() {
 		return (List<City>) (Object) send(
-				new RequestObject(GcmQuery.getActiveCitiesPurchases, null, username, password)).getResponse();
+		        new RequestObject(GcmQuery.getActiveCitiesPurchases, null, username, password)).getResponse();
 	}
 
 	@Override
 	public User getUserDetails() {
 		try {
 			return (User) send(new RequestObject(GcmQuery.getUserDetails, null, username, password)).getResponse()
-					.get(0);
+			        .get(0);
 		} catch (Exception e) {
 			return null;
 		}
@@ -450,8 +485,8 @@ public class GcmDAO
 	public String getSavedCreditCard() {
 		try {
 			return (String) send(
-					new RequestObject(GcmQuery.getSavedCreditCard, new ArrayList<Object>(), username, password))
-							.getResponse().get(0);
+			        new RequestObject(GcmQuery.getSavedCreditCard, new ArrayList<Object>(), username, password))
+			                .getResponse().get(0);
 		} catch (Exception e) {
 			return "No credit card saved.";
 		}
@@ -560,91 +595,91 @@ public class GcmDAO
 	@Override
 	public List<Map> getMapsAddEdits() {
 		return (List<Map>) (Object) send(
-				new RequestObject(GcmQuery.getMapsAddEdits, new ArrayList<Object>(), username, password)).getResponse();
+		        new RequestObject(GcmQuery.getMapsAddEdits, new ArrayList<Object>(), username, password)).getResponse();
 	}
 
 	@Override
 	public List<Map> getMapsUpdateEdits() {
 		return (List<Map>) (Object) send(
-				new RequestObject(GcmQuery.getMapsUpdateEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getMapsUpdateEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
 	@Override
 	public List<Map> getMapsDeleteEdits() {
 		return (List<Map>) (Object) send(
-				new RequestObject(GcmQuery.getMapsDeleteEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getMapsDeleteEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
 	@Override
 	public List<Site> getSitesUpdateEdits() {
 		return (List<Site>) (Object) send(
-				new RequestObject(GcmQuery.getSitesUpdateEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getSitesUpdateEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
 	@Override
 	public List<Site> getSitesDeleteEdits() {
 		return (List<Site>) (Object) send(
-				new RequestObject(GcmQuery.getSitesDeleteEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getSitesDeleteEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
 	@Override
 	public List<City> getCitiesAddEdits() {
 		return (List<City>) (Object) send(
-				new RequestObject(GcmQuery.getCitiesAddEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getCitiesAddEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
 	@Override
 	public List<City> getCitiesUpdateEdits() {
 		return (List<City>) (Object) send(
-				new RequestObject(GcmQuery.getCitiesUpdateEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getCitiesUpdateEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
 	@Override
 	public List<City> getCitiesDeleteEdits() {
 		return (List<City>) (Object) send(
-				new RequestObject(GcmQuery.getCitiesDeleteEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getCitiesDeleteEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
 	@Override
 	public List<Site> getSitesAddEdits() {
 		return (List<Site>) (Object) send(
-				new RequestObject(GcmQuery.getSitesAddEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getSitesAddEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 	}
 
 	@Override
 	public List<SiteSubmission> getSiteSubmissions() {
 		return (List<SiteSubmission>) (Object) send(
-				new RequestObject(GcmQuery.getSiteSubmissions, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getSiteSubmissions, new ArrayList<Object>(), username, password))
+		                .getResponse();
 	}
 
 	@Override
 	public List<MapSubmission> getMapSubmissions() {
 		return (List<MapSubmission>) (Object) send(
-				new RequestObject(GcmQuery.getMapSubmissions, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getMapSubmissions, new ArrayList<Object>(), username, password))
+		                .getResponse();
 	}
 
 	@Override
 	public List<TourSubmission> getTourSubmissions() {
 		return (List<TourSubmission>) (Object) send(
-				new RequestObject(GcmQuery.getTourSubmissions, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getTourSubmissions, new ArrayList<Object>(), username, password))
+		                .getResponse();
 	}
 
 	@Override
@@ -680,23 +715,23 @@ public class GcmDAO
 	@Override
 	public List<Tour> getToursAddEdits() {
 		return (List<Tour>) (Object) send(
-				new RequestObject(GcmQuery.getToursAddEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getToursAddEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 	}
 
 	@Override
 	public List<Tour> getToursUpdateEdits() {
 		return (List<Tour>) (Object) send(
-				new RequestObject(GcmQuery.getToursUpdateEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getToursUpdateEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
 	@Override
 	public List<Tour> getToursDeleteEdits() {
 		return (List<Tour>) (Object) send(
-				new RequestObject(GcmQuery.getToursDeleteEdits, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getToursDeleteEdits, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
@@ -846,8 +881,8 @@ public class GcmDAO
 	@Override
 	public List<PriceSubmission> getPriceSubmissions() throws SQLException {
 		return (List<PriceSubmission>) (Object) send(
-				new RequestObject(GcmQuery.getPriceSubmissions, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getPriceSubmissions, new ArrayList<Object>(), username, password))
+		                .getResponse();
 
 	}
 
@@ -865,8 +900,8 @@ public class GcmDAO
 	@Override
 	public List<PurchaseHistory> getPurchaseHistory() {
 		return (List<PurchaseHistory>) (Object) send(
-				new RequestObject(GcmQuery.getPurchaseHistory, new ArrayList<Object>(), username, password))
-						.getResponse();
+		        new RequestObject(GcmQuery.getPurchaseHistory, new ArrayList<Object>(), username, password))
+		                .getResponse();
 	}
 
 	@Override

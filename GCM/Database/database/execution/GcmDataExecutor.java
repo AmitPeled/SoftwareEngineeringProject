@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TreeSet;
+
+import com.mysql.cj.xdevapi.Table;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import approvalReports.ActionTaken;
 import approvalReports.ObjectsEnum;
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -677,6 +681,78 @@ public class GcmDataExecutor implements
 			return null;
 		else
 			return objectParser.getUser(rows.get(0));
+	}
+
+	private boolean userExists(String username) throws SQLException {
+		return !queryExecutor
+		        .selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
+		        .isEmpty()
+		        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
+		                username, "*").isEmpty()
+		        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
+		                "username", username, "*").isEmpty()
+		        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
+		                "username", username, "*").isEmpty();
+	}
+
+	@Override
+	public RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword)
+	        throws SQLException {
+		if (user == null)
+			return null;
+		if (user.getUsername() != oldUsername && userExists(user.getUsername())) // username already exists
+			return RequestState.usernameAlreadyExists;
+
+		RequestState requestState = RequestState.wrongDetails;
+
+		if (updateUserRow(Tables.customerUsers, oldUsername, oldPassword, user, newPassword))
+			requestState = RequestState.customer;
+		else if (updateUserRow(Tables.editorUsers, oldUsername, oldPassword, user, newPassword))
+			requestState = RequestState.editor;
+		else if (updateUserRow(Tables.contentManagerUsers, oldUsername, oldPassword, user, newPassword))
+			requestState = RequestState.contentManager;
+		else if (updateUserRow(Tables.contentManagerUsers, oldUsername, oldPassword, user, newPassword))
+			requestState = RequestState.contentManager;
+		return requestState;
+	}
+
+	private boolean updateUserRow(Tables table, String oldUsername, String oldPassword, User user, String password)
+	        throws SQLException {
+		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(table),
+		        "username, password", new ArrayList<Object>() {
+			        {
+				        add(oldUsername);
+				        add(oldPassword);
+			        }
+		        }, "*");
+		if (!rows.isEmpty()) {
+			updateUser(table, oldUsername, user, password);
+			return true;
+		}
+		return false;
+	}
+
+//	private void updateUserRow(Tables table, String oldUsername, User user) throws SQLException {
+//		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(table), "username",
+//		        oldUsername, "*");
+//		if (!rows.isEmpty()) {
+//			String oldPassword = (String) rows.get(0).get(1);
+//			updateUser(table, oldUsername, user, oldPassword);
+//		}
+//	}
+
+	private void updateUser(Tables table, String oldUsername, User user, String password) throws SQLException {
+		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(table), "username", oldUsername);
+		List<Object> userRow = new ArrayList<>();
+		String newUsername = user.getUsername();
+		userRow.add(newUsername);
+		userRow.add(password);
+		userRow.addAll(objectParser.getUserFieldsList(user));
+		queryExecutor.insertToTable(DatabaseMetaData.getTableName(table), userRow);
+		queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "username",
+		        newUsername, "username", oldUsername);
+		queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.purchaseHistory), "username", newUsername,
+		        "username", oldUsername);
 	}
 
 	@Override
