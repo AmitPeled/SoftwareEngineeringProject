@@ -1,6 +1,7 @@
 package approvalReports;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -153,7 +154,12 @@ public class ApprovalReportsController implements Initializable {
 				}else if(objectType.equals(ObjectsEnum.MAP)) {
 					objectRelatedTo = gcmDAO.getMapDetails(objectRelatedToId).getName();
 				}else {
-					//objectRelatedTo = gcmDAO.getToursObjectAddedTo(objectRelatedToId).getDescription();
+					try {
+						objectRelatedTo = gcmDAO.getTour(objectRelatedToId).getDescription();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
 				}
 			}else if(actionTaken.equals(ActionTaken.UPDATE)){
 				objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
@@ -163,7 +169,12 @@ public class ApprovalReportsController implements Initializable {
 				}else if(objectType.equals(ObjectsEnum.MAP)) {
 					objectRelatedTo = gcmDAO.getMapDetails(objectRelatedToId).getName();
 				}else {
-					//objectRelatedTo = gcmDAO.getToursObjectAddedTo(objectRelatedToId).getDescription();
+					try {
+						objectRelatedTo = gcmDAO.getTour(objectRelatedToId).getDescription();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 			String action = getActionTaken(objectName, actionTaken, objectRelatedTo);

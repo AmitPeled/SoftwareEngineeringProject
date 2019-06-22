@@ -102,6 +102,12 @@ public class ListViewController implements Initializable
 		            		listView.setItems(null);
 		            		addNewMapBtn.setVisible(false);
 		            		buySubscriptionBtn.setVisible(false);
+
+		            		RequestState userState = gcmClient.getUserInfo().getState();
+		            		if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
+		            			addNewMapBtn.setVisible(true);
+		            		}
+		            		
 		            	}else {
 		            		ObservableList<MapItem> data = FXCollections.observableArrayList();
 			            	for (MapItem item : results) 
@@ -181,7 +187,7 @@ public class ListViewController implements Initializable
                 return new CustomListCell(gcmClient.getUserInfo().getState(), permissionsForMap);
             }
         });
-    }
+    } 
     
     @FXML
     public void onBack() {gcmClient.back();}
