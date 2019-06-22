@@ -162,13 +162,13 @@ public interface IGcmDataExecute {
 	void deleteCityEdit(int cityId) throws SQLException; // TOCHECK
 	void UpdateSite(int siteId, Site newSite) throws SQLException; // TOCHECK
 	void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException; // TOCHECK
-	void deleteSiteFromTour(int tourId, int siteId) throws SQLException;// TOCHECK
-	void deleteTourFromMap(int mapId, int tourId) throws SQLException;// TOCHECK
+	void deleteSiteFromTourEdit(int tourId, int siteId) throws SQLException;// TOCHECK
+	void deleteTourFromMapEdit(int mapId, int tourId) throws SQLException;// TOCHECK
 	void deleteTourFromCity(int tourId) throws SQLException;// TOCHECK
 	List<Tour> getCityTours(int cityId) throws SQLException;// TOCHECK
 	void updateTour(int tourId, Tour tour) throws SQLException; // TOCHECK
 	public void deleteSiteFromCity(int siteId) throws SQLException; // TOCHECK
-	void deleteSiteFromMap(int mapId, int siteId) throws SQLException; // TOCHECK
+	void deleteSiteFromMapEdit(int mapId, int siteId) throws SQLException; // TOCHECK
 	void updateMap(int mapId, Map newMap) throws SQLException; // TOCHECK
 
 	void changeCityPrices(int id, List<Double> prices) throws SQLException;// TOCHECK
