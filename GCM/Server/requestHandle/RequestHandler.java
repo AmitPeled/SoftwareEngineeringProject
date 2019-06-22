@@ -55,12 +55,12 @@ public class RequestHandler implements IHandleRequest {
 						requestState = gcmDataExecutor.verifyUser(username, password);
 					break;
 					case editUsersWithNewPassword:
-						listToSend.add(gcmDataExecutor.editUser(username, password, (User) listObjectReceived.get(0),
-						        (String) listObjectReceived.get(1)));
+						requestState = gcmDataExecutor.editUser(username, password, (User) listObjectReceived.get(0),
+						        (String) listObjectReceived.get(1));
 					break;
 					case editUsersWithoutNewPassword:
-						requestState = gcmDataExecutor.editUser(username, password,
-						        (User) listObjectReceived.get(0), password);
+						requestState = gcmDataExecutor.editUser(username, password, (User) listObjectReceived.get(0),
+						        password);
 					break;
 					case addMap:
 						listToSend.add(gcmDataExecutor.addMapToCity((int) listObjectReceived.get(0),

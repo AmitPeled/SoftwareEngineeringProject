@@ -129,17 +129,17 @@ public class GcmDAO
 	}
 
 	@Override
-	public RequestState updateUser(User user, String password) {
+	public RequestState updateUser(User user, String newPassword) {
 		ResponseObject responseObject = send(
 		        new RequestObject(GcmQuery.editUsersWithNewPassword, new ArrayList<Object>() {
 			        {
 				        add(user);
-				        add(password);
+				        add(newPassword);
 			        }
 		        }, username, password));
 		RequestState requestState = responseObject.getRequestState();
 		if (isProperUser(requestState))
-			setDetails(user.getUsername(), password);
+			setDetails(user.getUsername(), newPassword);
 		return requestState;
 	}
 

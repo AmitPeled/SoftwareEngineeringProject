@@ -700,9 +700,10 @@ public class GcmDataExecutor implements
 	        throws SQLException {
 		if (user == null)
 			return null;
-		if (user.getUsername() != oldUsername && userExists(user.getUsername())) // username already exists
+		
+		if ((!user.getUsername().equals(oldUsername)) && userExists(user.getUsername())) { // username already exists
 			return RequestState.usernameAlreadyExists;
-
+		}
 		RequestState requestState = RequestState.wrongDetails;
 
 		if (updateUserRow(Tables.customerUsers, oldUsername, oldPassword, user, newPassword))
@@ -718,8 +719,13 @@ public class GcmDataExecutor implements
 
 	private boolean updateUserRow(Tables table, String oldUsername, String oldPassword, User user, String password)
 	        throws SQLException {
-		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(table),
-		        "username, password", new ArrayList<Object>() {
+		List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(table),
+		        new ArrayList<String>() {
+			        {
+				        add("username");
+				        add("password");
+			        }
+		        }, new ArrayList<Object>() {
 			        {
 				        add(oldUsername);
 				        add(oldPassword);
@@ -746,6 +752,7 @@ public class GcmDataExecutor implements
 		List<Object> userRow = new ArrayList<>();
 		String newUsername = user.getUsername();
 		userRow.add(newUsername);
+		System.out.println("inserting new password: "+password);
 		userRow.add(password);
 		userRow.addAll(objectParser.getUserFieldsList(user));
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(table), userRow);
@@ -753,6 +760,8 @@ public class GcmDataExecutor implements
 		        newUsername, "username", oldUsername);
 		queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.purchaseHistory), "username", newUsername,
 		        "username", oldUsername);
+		queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.customerPurchaseDetails), "username", newUsername,
+				"username", oldUsername);
 	}
 
 	@Override
