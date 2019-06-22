@@ -70,8 +70,6 @@ public class MapViewerSceneController implements Initializable{
 		this.mapId = mapId;
 		this.map = map;
 		
-		
-		
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -100,11 +98,12 @@ public class MapViewerSceneController implements Initializable{
 			double height = mapViewer.getImageHeight() + BOTTOM_PANEL_HEIGHT;
 			
 			scene = new Scene(gridPane, width, height);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
+	private void setVisibility() {
 		RequestState userState = gcmClient.getUserInfo().getState();
 		if(userState.equals(RequestState.editor) || userState.equals(RequestState.contentManager) || userState.equals(RequestState.generalManager) || userState.equals(RequestState.manager)) {
 			addSite.setVisible(true);
