@@ -36,10 +36,14 @@ public class MapViewerSideMenuController implements Initializable {
 		sitesDictionary = new Hashtable<String, Site>();
 		
 		for (Tour tour : tours) {
+			if(tour == null) continue;
+			
 			toursDictionary.put(tour.getDescription(), tour);
 			tourStrings.add(tour.getDescription());
 		}
 		for(Site site: sites) {
+			if(site == null) continue;
+			
 			sitesDictionary.put(site.getName(), site);
 			sitesStrings.add(site.getName());
 		}
