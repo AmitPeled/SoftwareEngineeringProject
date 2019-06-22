@@ -795,7 +795,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public List<Tour> getCityTours(int cityId) throws SQLException {
+	public List<Tour> getCityTours(int cityId) {
 		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getCityTours, new ArrayList<Object>() {
 			{
 				add(cityId);
@@ -814,7 +814,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void deleteSiteFromCity(int siteId) throws SQLException {
+	public void deleteSiteFromCity(int siteId) {
 		send(new RequestObject(GcmQuery.deleteSiteFromCity, new ArrayList<Object>() {
 			{
 				add(siteId);

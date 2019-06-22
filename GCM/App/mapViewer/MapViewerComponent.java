@@ -55,19 +55,6 @@ final class MapViewerComponent implements MapViewer {
 	private double realWorldHeight;
 	
 	/**
-	 * Constructs a MapViewerComponent object with no listeners.
-	 * @param mapPath
-	 */
-	// MapViewerComponent(String mapPath) { this(mapPath,(Set<MapViewerListener>)null,null); }
-	
-	/**
-	 * Constructs a MapViewerComponent object with a single listener
-	 * @param mapPath the path of the map file prefixed by "file:" and using relative path
-	 * @param listener A listener object that will be invoked when a mouse click occurs on the map
-	 */
-	// MapViewerComponent(String mapPath, MapViewerListener listener) { this(mapPath,new HashSet<MapViewerListener>(Arrays.asList(listener)),null); }
-
-	/**
 	 * Constructs a MapViewerComponent object with a several listeners
 	 * @param mapPath the path of the map file prefixed by "file:" and using relative path
 	 * @param A collection of listener objects that will be invoked when a mouse click occurs on the map
