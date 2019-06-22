@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import mainApp.SceneNames;
+import queries.RequestState;
 
 public class LoginSceneController {
 
@@ -16,14 +17,14 @@ public class LoginSceneController {
 
 	@FXML
 	private TextField passwordtxt;
-	
+
 	@FXML
-	private Label wornglbl;
+	private Label wornglbl, logedinlabel;
 
 	public LoginSceneController(LoginModel model) {
-		loginModel = model; 
+		loginModel = model;
 	}
- 
+
 	@FXML
 	public void LogIn(ActionEvent event) throws IOException {
 		// send to data base to confirm that he is in the system
@@ -31,9 +32,15 @@ public class LoginSceneController {
 		if (!loginModel.login(usernametxt.getText(), passwordtxt.getText())) {
 			System.out.println("Log in faild");
 			wornglbl.setVisible(true);
+		}
+		// check i user already loged in in other app screen
+		else if (loginModel.getUserState() == RequestState.usernameAlreadyExists) {
+			logedinlabel.setVisible(true);
+			wornglbl.setVisible(false);
 		} else {
 			System.out.println("Log in success, go to app main scene");
 			wornglbl.setVisible(false);
+			logedinlabel.setVisible(false);
 			clearFields();
 			loginModel.switchScene(SceneNames.MENU);
 		}
@@ -62,11 +69,11 @@ public class LoginSceneController {
 	public void onBackButton() {
 		loginModel.back();
 	}
-	
+
 	public void clearFields() {
 		usernametxt.clear();
 		passwordtxt.clear();
 		return;
-		
+
 	}
 }
