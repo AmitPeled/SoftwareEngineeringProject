@@ -26,7 +26,7 @@ final class SampleMapViewerListener implements MapViewerListener {
 	@Override
 	public void onMapClick(double x, double y) {
 		System.out.printf("Mouse click on [%.3f,%.3f] registered\n",x,y);
-		mapViewer.updateStatusText("Mouse click");
+		//mapViewer.updateStatusText("Mouse click");
 	}
 
 }
