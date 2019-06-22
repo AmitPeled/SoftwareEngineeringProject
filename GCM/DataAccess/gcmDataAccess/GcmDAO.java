@@ -1,13 +1,16 @@
 package gcmDataAccess;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -44,7 +47,7 @@ import users.User;
 @SuppressWarnings({ "serial", "unchecked" })
 public class GcmDAO
         implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
-	private static final String PATH_TO_SOURCE_FOLDER = "import\\resources\\";
+	private static final String PATH_TO_SOURCE_FOLDER = "import\\resources";
 	String                      serverHostname;
 	int                         serverPortNumber;
 	String                      password              = null;
@@ -83,16 +86,19 @@ public class GcmDAO
 				}
 			}, username, password));
 			byte[] fileBytes = (byte[]) responseObject.getResponse().get(0);
-			String filePath = PATH_TO_SOURCE_FOLDER + "mapImage_" + mapID;
-			return download(fileBytes, filePath);
+			String fileName = "mapImage_" + mapID;
+			return downloadImage(fileBytes, fileName);
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	private File download(byte[] fileBytes, String filePath) {
+	private File downloadImage(byte[] imageBytes, String fileName) throws IOException {
+		String imageType = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(imageBytes));
+		String imageExtension = imageType.substring(imageType.indexOf('/') + 1); // Content Type format is [file_type] / [file_extension]
+		String filePath = PATH_TO_SOURCE_FOLDER + "\\" + fileName + "." + imageExtension;
 		try (FileOutputStream stream = new FileOutputStream(filePath)) {
-			stream.write(fileBytes);
+			stream.write(imageBytes);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -428,8 +434,8 @@ public class GcmDAO
 				}
 			}, username, password));
 			byte[] fileBytes = (byte[]) responseObject.getResponse().get(0);
-			String filePath = PATH_TO_SOURCE_FOLDER + "mapImage_" + mapId;
-			return download(fileBytes, filePath);
+			String fileName = "mapImage_" + mapId;
+			return downloadImage(fileBytes, fileName);
 
 		} catch (Exception e) {
 			return null;
