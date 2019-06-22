@@ -85,6 +85,7 @@ public class RequestHandler implements IHandleRequest {
 					break;
 				case getSiteSubmissions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getSiteSubmissions();
+					break;
 				case getMapSubmissions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapSubmissions();
 					break;
