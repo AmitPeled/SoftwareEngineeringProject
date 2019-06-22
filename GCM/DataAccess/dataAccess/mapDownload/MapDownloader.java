@@ -1,43 +1,39 @@
 package dataAccess.mapDownload;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import gcmDataAccess.GcmDAO;
 
-public class MapDownload {
+public class MapDownloader {
 	String mapFile;
 	File file;
 	String FOLDER_DIR;
 	private GcmDAO gcmDAO;
-	public MapDownload(GcmDAO gcmDAO) {
+	
+	public MapDownloader(GcmDAO gcmDAO) {
 		this.gcmDAO = gcmDAO;
 		// make folder
 		FOLDER_DIR = System.getProperty("user.home") + "\\Documents\\mapDownloads\\";
         File folder = new File(FOLDER_DIR);
-		Boolean bool = folder.mkdir();
+		folder.mkdir();
 	}
-	public Boolean DownloadMap(GcmDAO gcmDAO, int cityId, int mapId) throws IOException {
+	public Boolean downloadMap(GcmDAO gcmDAO, int cityId, int mapId){
 		// GET FILE
-		//File file = gcmDAO.downloadMap(mapId);
-		File file = new File("C:\\Users\\gabriel\\Documents\\IMG_5747.jpg");
-		byte[] fileContent = Files.readAllBytes(file.toPath());
-
+		System.out.println("Downloading map #"+mapId);
+		File file = gcmDAO.getMapFile(mapId);
+		System.out.println("Downloaded map #"+mapId);
+		if(file == null) {
+			System.out.println("file returned is null");
+			return false;
+		}
 		
 		// UPDATE DIRECTORY ADDRESS
 		String extension = "";
@@ -79,8 +75,8 @@ public class MapDownload {
 		return false;
 	}
 	
-    public String checkIfFileExist(int cityId, int mapId) {
-    	 List<String> extensions = Arrays.asList(".jpg", ".png", ".tif", ".jpeg");
+    public String getFileExtension(int cityId, int mapId) {
+    	 List<String> extensions = Arrays.asList(".jpg", ".png", ".tif", ".jpeg", "gif");
     	 for (String extension : extensions) {
     		 String directory = FOLDER_DIR + "city" + Integer.toString(cityId) + "_map" + Integer.toString(mapId) + extension;
     		 File tmpDir = new File(directory);
@@ -89,15 +85,16 @@ public class MapDownload {
     			 return extension;
     		 }
 		}
-    	return "no";
+    	return null;
     	 
     }
     
-    public File getMapFile(int cityId, int mapId, String extension) throws IOException {
-   	 	String filePath = FOLDER_DIR + "city" + Integer.toString(cityId) + "_map" + Integer.toString(mapId) + extension;
+    public File getMapFile(int cityId, int mapId) {
+   	 	String filePath = FOLDER_DIR + "city" + Integer.toString(cityId) + "_map" + Integer.toString(mapId) + getFileExtension(cityId, mapId);
+   	 	System.out.println("Using map file: "+filePath);
    	 	File file = new File(filePath);
    	 	if(file.exists()) return file;
-   	 	DownloadMap(gcmDAO, cityId, mapId);
+   	 	downloadMap(gcmDAO, cityId, mapId);
 	 	
    	 	return new File(filePath);
     }

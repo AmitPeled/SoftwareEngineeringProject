@@ -1,6 +1,6 @@
 package mainApp;
 
-import dataAccess.mapDownload.MapDownload;
+import dataAccess.mapDownload.MapDownloader;
 import gcmDataAccess.GcmDAO;
 import userInfo.UserInfo;
 import users.User;
@@ -77,6 +77,6 @@ public interface GcmClient {
 
 	void switchSceneToCustomerReport();
 
-	MapDownload getMapDownloader();
+	MapDownloader getMapDownloader();
 
 }

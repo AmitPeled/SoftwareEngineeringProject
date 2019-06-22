@@ -1,12 +1,15 @@
 package mapViewer;
 
 import java.util.HashSet;
+
+import dataAccess.mapDownload.MapDownloader;
 import gcmDataAccess.GcmDAO;
+import mainApp.GcmClient;
 import maps.Map;
 import maps.Site;
 
 public final class MapViewerFactory {
-	public static MapViewer getMapViewer(GcmDAO gcmDAO, int mapId) {
+	public static MapViewer getMapViewer(GcmDAO gcmDAO, int mapId, MapDownloader mapDownloader) {
 		int cityId = gcmDAO.getCityByMapId(mapId).getId();
 		Map map = gcmDAO.getMapDetails(mapId);
 		float width = map.getWidth();
@@ -14,7 +17,7 @@ public final class MapViewerFactory {
 		
 		System.out.println("Creating map viewer component: cityId-"+cityId+" | width -"+width+" | height-"+height);
 		return new MapViewerComponent(
-				"file:Import/resources/Gta3_map.gif",
+				mapDownloader.getMapFile(cityId, mapId).getAbsolutePath(),
 				new HashSet<MapViewerListener>(),
 				new HashSet<Site>(gcmDAO.getCitySites(cityId)),
 				width,

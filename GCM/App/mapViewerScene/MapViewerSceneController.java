@@ -123,7 +123,7 @@ public class MapViewerSceneController implements Initializable{
 	 */
 	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId, int cityId) {
 		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
-		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId);
+		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId,gcmClient.getMapDownloader());
 		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId, map);
 		mapViewerSceneController.setVisibility();
 		return mapViewerSceneController.getScene();
