@@ -7,7 +7,7 @@ Software engineering course final project.
 - [x] Search by city name
 - [x] Search by description
 - [ ] Showing One-time purchase only for guests
-- [ ] Showing Purchas options for customers
+- [ ] Showing Purchase options for customers
 ### Editing
 #### Approval Requests - **Need to implement for tours/sites as well**
 - [x] DAO methods
@@ -52,6 +52,9 @@ Software engineering course final project.
 - [x] Client-Server communication
 - [x] Creates an approval request
 ### Purchasing maps
+** Note - purchase is for **cities**, and not for maps. 
+if one-time purchase, the user gets all the city's maps at once of their current version (and is not allowed to redownload the maps again). **
+
 #### One-time purchase
 - [x] GUI controls that offer single-purchase
 - [ ] Updates the database
@@ -76,7 +79,7 @@ Software engineering course final project.
 - [x] Server methods
 - [x] Client-Server communication
 ### Notifications
-- [ ] Create a notification thread on the server that sends messages to customers
+- [x] Create a notification thread on the server that sends messages to customers
 
 ## Features
 ### Guests
@@ -98,6 +101,13 @@ Software engineering course final project.
 - [ ] Fetch real sites/tours to the map viewer
 - [ ] Load real maps from the database
 - [x] Allow login in as guests
-## Server
-- [ ] Build the notifications thread
+- [ ] Fix exception in site submission approval 
+- [ ] GUI window notifying the emails sent by server after map submission approval
+- [ ] Allow user to edit its personal details
 
+## Server
+- [x] Build the notifications thread 
+- [ ] Prevent multiple user sessions at once
+
+## Database
+- [ ] Edit user personal details functionality
