@@ -178,7 +178,11 @@ final class MapViewerComponent implements MapViewer {
 	}
 
 	private void drawAllSites() {
+		if(sites == null || sites.isEmpty()) return;
+		
 		for (Site site : sites) {
+			if(site == null) continue;
+			
 			if(site.getCoordinates().x > realWorldWidth || site.getCoordinates().y > realWorldHeight) {
 				System.out.println("site \"" + site.getName() + "\" is out of bounds");
 				continue;

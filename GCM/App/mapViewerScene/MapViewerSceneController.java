@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import gcmDataAccess.GcmDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,11 +16,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import mainApp.GcmClient;
-import mainApp.SceneNames;
 import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
-import maps.Coordinates;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
@@ -106,7 +103,7 @@ public class MapViewerSceneController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	private void setVisibility(GcmClient gcmClient) {
+	private void setVisibility() {
 		RequestState userState = gcmClient.getUserInfo().getState();
 		if(userState.equals(RequestState.editor) || userState.equals(RequestState.contentManager) || userState.equals(RequestState.generalManager) || userState.equals(RequestState.manager)) {
 			addSite.setVisible(true);
@@ -115,14 +112,6 @@ public class MapViewerSceneController implements Initializable{
 			addTour.setVisible(true);
 			editPrice.setVisible(true);
 		}
-	}
-	private List<Tour> fetchTours(List<Site> sitesInTour) {
-		
-		List<Tour> toursList = new ArrayList<Tour>();
-		Tour demoTour = new Tour("SomeDemoTour");
-		demoTour.setSites(sitesInTour);
-		toursList.add(demoTour);
-		return toursList;
 	}
 	
 	public Scene getScene() { return scene; }
@@ -136,6 +125,7 @@ public class MapViewerSceneController implements Initializable{
 		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId);
 		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId, map);
+		mapViewerSceneController.setVisibility();
 		return mapViewerSceneController.getScene();
 	}
 	
