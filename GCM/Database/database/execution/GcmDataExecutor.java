@@ -1654,14 +1654,10 @@ public class GcmDataExecutor implements
 						add(purchaseDetails.getCreditCard());
 						add(purchaseDetails.getCvv());
 						add(purchaseDetails.getCardExpireDate());
+						add(purchaseDetails.getCardOwnerIdString());
 					}
 				};
-				try {
-					queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
-				} catch (SQLException e) {
-					// else give null
-					return false;
-				}
+				queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
 			}
 
 			// update purchaseDeatailsHistory so can know all purchase history
