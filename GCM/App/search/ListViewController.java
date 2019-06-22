@@ -52,16 +52,14 @@ public class ListViewController implements Initializable
 	private RadioButton rDescription;
 	@FXML
 	private Button goTo;
-	
+	Boolean permissionsForMap;
 	String selectedRadioBtn;
 	RadioButton selectRadio;
 	private GcmClient gcmClient;
-	RequestState userState;
 	
 	public ListViewController(GcmClient gcmClient,GcmDAO gcmDAO) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
-		userState = gcmClient.getUserInfo().getState();
 	}
 
 	
@@ -154,15 +152,15 @@ public class ListViewController implements Initializable
 
 	
 	public void permissions() {
-		if(userState == RequestState.customer) {
+		buySubscriptionBtn.setVisible(false);
+		addNewMapBtn.setVisible(false);
+		RequestState userState = gcmClient.getUserInfo().getState();
+		permissionsForMap = true;
+		// permissionsForMap = gcmClient.getDataAccessObject().notifyMapView()
+		if(userState == RequestState.customer && !permissionsForMap) {
 			buySubscriptionBtn.setVisible(true);
-			addNewMapBtn.setVisible(false);
-		}else if(userState == RequestState.guest){
-			addNewMapBtn.setVisible(false);
-			buySubscriptionBtn.setVisible(false);
-		}else {
+		}else if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
 			addNewMapBtn.setVisible(true);
-			buySubscriptionBtn.setVisible(false);
 		}
 	}
 
@@ -180,7 +178,7 @@ public class ListViewController implements Initializable
         listView.setCellFactory(new Callback<ListView<MapItem>, ListCell<MapItem>>() {
             @Override
             public ListCell<MapItem> call(ListView<MapItem> listView) {
-                return new CustomListCell(userState);
+                return new CustomListCell(gcmClient.getUserInfo().getState(), permissionsForMap);
             }
         });
     }

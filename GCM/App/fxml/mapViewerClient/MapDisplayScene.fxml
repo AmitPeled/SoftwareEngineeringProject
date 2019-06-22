@@ -19,27 +19,27 @@
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddSite" text="Add Site">
+            <Button fx:id="addSite" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddSite" text="Add Site">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditSite" text="Edit Site">
+            <Button fx:id="editSite" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditSite" text="Edit Site">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onDeleteSite" text="Delete Site">
+            <Button fx:id="deleteSite" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onDeleteSite" text="Delete Site">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddTour" text="Add Tour">
+            <Button fx:id="addTour" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddTour" text="Add Tour">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditPrice" text="Edit Price">
+            <Button fx:id="editPrice" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditPrice" text="Edit Price">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>

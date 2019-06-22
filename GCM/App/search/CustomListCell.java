@@ -5,15 +5,18 @@ import queries.RequestState;
 
 public class CustomListCell extends ListCell<MapItem> {
 	RequestState userState;
-	public CustomListCell(RequestState userState) {
+	Boolean permissionsForMap;
+	
+	public CustomListCell(RequestState userState, Boolean permissionsForMap) {
 		this.userState = userState;
+		this.permissionsForMap = permissionsForMap;
 	}
     @Override
     protected void updateItem(MapItem item, boolean empty) {
 
         super.updateItem(item, empty);
         if (item != null && !empty) { 
-            Data data = new Data(item.getListViewController(), userState);
+            Data data = new Data(item.getListViewController(), userState, permissionsForMap);
             data.setInfo(item);
             setGraphic(data.getBox());
         } else {
