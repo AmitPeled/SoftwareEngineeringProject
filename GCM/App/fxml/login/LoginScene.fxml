@@ -13,6 +13,7 @@
       <PasswordField fx:id="passwordtxt" promptText="Password" />
       <Button fx:id="loginbtn" mnemonicParsing="false" onAction="#LogIn" text="Log In" />
       <Label fx:id="wornglbl" text="user name or password  are incorrect" textFill="RED" visible="false" />
+      <Label fx:id="logedinlabel" text="This user is already loged in from other device" textFill="RED" visible="false" />
       <Button fx:id="Fpasswordbtn" mnemonicParsing="false" onAction="#forgotPassword" text="Forgot password" />
       <Button mnemonicParsing="false" onAction="#forgotUsername" text="Forgot Username" />
       <Button fx:id="registerbtn" mnemonicParsing="false" onAction="#register" text="Register" />

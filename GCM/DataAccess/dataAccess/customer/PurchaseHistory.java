@@ -47,5 +47,6 @@ public class PurchaseHistory implements Serializable {
 		String cityName = String.format("%-20.20s", city.getName());
 		return ("City name: " + cityName + " Start date: " + this.startDate + "\tEnd date: " + this.endDate);
 	}
-
+	
+	
 }

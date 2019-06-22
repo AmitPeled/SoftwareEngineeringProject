@@ -2,6 +2,7 @@ package login;
 
 import mainApp.GcmClient;
 import mainApp.SceneNames;
+import queries.RequestState;
 
 public class LoginModel {
 
@@ -24,5 +25,11 @@ public class LoginModel {
 	public void back() {
 		gcmClient.back();
 	}
+	
+	public RequestState getUserState() {
+		return gcmClient.getUserInfo().getState();
+		
+	}
+	
 }
  
