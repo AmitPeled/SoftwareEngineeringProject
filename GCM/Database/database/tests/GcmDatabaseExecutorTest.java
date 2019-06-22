@@ -11,9 +11,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import approvalReports.ActionTaken;
+import approvalReports.ObjectsEnum;
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
 import approvalReports.sitesApprovalReports.SiteSubmission;
+import approvalReports.tourApprovalReports.TourSubmission;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
@@ -24,6 +26,7 @@ import maps.City;
 import maps.Coordinates;
 import maps.Map;
 import maps.Site;
+import maps.Tour;
 import queries.RequestState;
 import users.User;
 
@@ -33,17 +36,17 @@ import users.User;
  */
 class GcmDatabaseExecutorTest {
 	static GcmDataExecutor gcmDataExecutor;
-	static int cityId;
-	static int mapId = 2;
-	static int siteId;
-	static Map map;
-	static Site site;
-	static City city;
-	static File mapFile;
-	static float width = 112.1f;
-	static float height = 11.1f;
-	static String description = ".";
-	static String name = ".1";
+	static int             cityId;
+	static int             mapId       = 2;
+	static int             siteId;
+	static Map             map;
+	static Site            site;
+	static City            city;
+	static File            mapFile;
+	static float           width       = 112.1f;
+	static float           height      = 11.1f;
+	static String          description = ".";
+	static String          name        = ".1";
 
 	@BeforeAll
 	static void setAll() throws IllegalArgumentException, SQLException {
@@ -174,18 +177,61 @@ class GcmDatabaseExecutorTest {
 ////		assertNull(gcmDataExecutor.getMapDetails(mapId));
 ////		assertNull(gcmDataExecutor.getMapFile(mapId));
 //	}
+//	@Test
+//	void addMapTest() throws SQLException {
+//		map = new Map("map name", "map", 1, 1, new Coordinates());
+//		mapId = gcmDataExecutor.addMapToCity(cityId, map, mapFile);
+//		List<MapSubmission> mapSubmissions = gcmDataExecutor.getMapSubmissions();
+//		assertFalse(mapSubmissions.isEmpty());
+//
+//		for (MapSubmission submission : gcmDataExecutor.getMapSubmissions()) {
+//			System.out.println("map to approve " + submission.getActionTaken() + ", containingCityId="
+//			        + submission.getContainingCityID() /* + ", " + submission.getMap().getDescription() */);
+////			gcmDataExecutor.actionMapEdit(submission, false);
+//		}
+//	}
+//	@Test
+//	void getMapSitesTest() throws SQLException {
+//		List<Site> sitesAddedToMap = new ArrayList<>();
+//		for (int i = 0; i < 7; i++) {
+//			site = new Site("agami's site", "site number " + i, "museum", false, new Coordinates());
+//			siteId = gcmDataExecutor.addNewSiteToCity(cityId, site);
+//			site = new Site(siteId, "agami's site", "site number " + i, "museum", false, new Coordinates());
+//			gcmDataExecutor.actionSiteEdit(new SiteSubmission(cityId, ObjectsEnum.CITY, site, ActionTaken.ADD), true);
+//			gcmDataExecutor.addExistingSiteToMap(mapId, siteId);
+//			gcmDataExecutor.actionSiteEdit(new SiteSubmission(mapId, ObjectsEnum.MAP, site, ActionTaken.ADD), true);
+//			sitesAddedToMap.add(site);
+//		}
+//		map = gcmDataExecutor.getMapDetails(mapId);
+//		int i = 0;
+//		assertEquals(map.getSites().size(), sitesAddedToMap.size());
+//		for (Site site : map.getSites()) {
+//			assertEquals(site.getDescription(), sitesAddedToMap.get(i).getDescription());
+//			i++;
+//		}
+//	}
 	@Test
-	void addMapTest() throws SQLException {
-		map = new Map("map name", "map", 1, 1, new Coordinates());
-		mapId = gcmDataExecutor.addMapToCity(cityId, map, mapFile);
-		List<MapSubmission> mapSubmissions = gcmDataExecutor.getMapSubmissions();
-		assertFalse(mapSubmissions.isEmpty());
-		
-		for (MapSubmission submission : gcmDataExecutor.getMapSubmissions()) {
-			System.out.println("map to approve " + submission.getActionTaken() + ", containingCityId="
-					+ submission.getContainingCityID() /*+ ", " + submission.getMap().getDescription()*/);
-//			gcmDataExecutor.actionMapEdit(submission, false);
+	void getMasToursTest() throws SQLException {
+		Tour tour;
+		int tourId;
+		List<Tour> toursAddedToMap = new ArrayList<>();
+		for (int i = 0; i < 7; i++) {
+			tour = new Tour("tour number " + i);
+			tourId = gcmDataExecutor.addNewTourToCity(cityId, tour);
+			tour = new Tour(tourId, "tour number " + i, new ArrayList<>(), new ArrayList<>());
+			gcmDataExecutor.actionTourEdit(new TourSubmission(cityId, ObjectsEnum.CITY, tour, ActionTaken.ADD), true);
+			gcmDataExecutor.addExistingTourToMap(mapId, tourId);
+			gcmDataExecutor.actionTourEdit(new TourSubmission(mapId, ObjectsEnum.MAP, tour, ActionTaken.ADD), true);
+			toursAddedToMap.add(tour);
 		}
+		map = gcmDataExecutor.getMapDetails(mapId);
+		int i = 0;
+		assertEquals(map.getTours().size(), toursAddedToMap.size());
+		for (Tour mapTour : map.getTours()) {
+			assertEquals(mapTour.getDescription(), toursAddedToMap.get(i).getDescription());
+			i++;
+		}
+	}
 //		gcmDataExecutor.UpdateSite(siteId, new Site("updated name", "updated desc", "type", false, new Coordinates()));
 //		assertEquals(site.getDescription(), siteSubmissions.get(0).getSite().getDescription());
 //		for (SiteSubmission submission : gcmDataExecutor.getSiteSubmissions()) {
@@ -208,7 +254,7 @@ class GcmDatabaseExecutorTest {
 //		assertNull(city);
 //		assertNull(gcmDataExecutor.getMapDetails(mapId));
 //		assertNull(gcmDataExecutor.getMapFile(mapId));
-	}
+//	}
 //
 //	@Test
 //	void pricesTest() throws SQLException {

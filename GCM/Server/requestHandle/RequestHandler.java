@@ -143,7 +143,7 @@ public class RequestHandler implements IHandleRequest {
 							(int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2), username));
 					break;
 				case deleteSiteFromMap:
-					gcmDataExecutor.deleteSiteFromMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
+					gcmDataExecutor.deleteSiteFromMapEdit((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
 					break;
 				case deleteCity:
 					gcmDataExecutor.deleteCityEdit((int) listObjectReceived.get(0));
@@ -266,7 +266,7 @@ public class RequestHandler implements IHandleRequest {
 					gcmDataExecutor.deleteTourFromCity((int) listObjectReceived.get(0));
 					break;
 				case deleteTourFromMap:
-					gcmDataExecutor.deleteTourFromMap((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
+					gcmDataExecutor.deleteTourFromMapEdit((int) listObjectReceived.get(0), (int) listObjectReceived.get(1));
 					break;
 				case getCityTours:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getCityTours((int) listObjectReceived.get(0));
