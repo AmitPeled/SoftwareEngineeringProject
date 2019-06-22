@@ -264,7 +264,7 @@ public class ApprovalReportsController implements Initializable {
 		mapTable.setVisible(false);
 
 		initCityTableView();
-//		initSiteTableView();
+		initSiteTableView();
 		initTourTableView();
 		initMapTableView();
 

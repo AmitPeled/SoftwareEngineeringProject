@@ -63,16 +63,16 @@ public interface EditorDAO {
 
 	public int tourManager(int cityId, Tour tour);
 	
-	void updateCity(int cityId, City city) throws SQLException; // TODO
-	void deleteCityEdit(int cityId) throws SQLException; // TODO
-	void UpdateSite(int siteId, Site newSite) throws SQLException; // TODO
-	void deleteTourFromMap(int mapId, int tourId) throws SQLException;// TODO
-	void deleteTourFromCity(int tourId) throws SQLException;// TODO
-	List<Tour> getCityTours(int cityId) throws SQLException;// TODO
-	void updateTour(int tourId, Tour tour) throws SQLException; // TODO
-	public void deleteSiteFromCity(int siteId) throws SQLException; // TODO
-	void updateMap(int mapId, Map newMap) throws SQLException; // TODO
-
+	void updateCity(int cityId, City city) throws SQLException; 
+	void deleteCityEdit(int cityId) throws SQLException; 
+	void UpdateSite(int siteId, Site newSite) throws SQLException; 
+	void deleteTourFromMap(int mapId, int tourId) throws SQLException;
+	void deleteTourFromCity(int tourId) throws SQLException;
+	List<Tour> getCityTours(int cityId) throws SQLException;
+	void updateTour(int tourId, Tour tour) throws SQLException; 
+	public void deleteSiteFromCity(int siteId) throws SQLException; 
+	void updateMap(int mapId, Map newMap) throws SQLException; 
+	Tour getTour(int tourId) throws SQLException;
 	City getCity(int cityId);
 
 }

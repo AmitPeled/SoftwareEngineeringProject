@@ -113,41 +113,6 @@ public class GcmDAO
 		return responseObject.getRequestState();
 	}
 
-	@Override
-	public RequestState updateUser(User user) {
-		ResponseObject responseObject = send(
-		        new RequestObject(GcmQuery.editUsersWithoutNewPassword, new ArrayList<Object>() {
-			        {
-				        add(user);
-				        add(password);
-			        }
-		        }, username, password));
-		RequestState requestState = responseObject.getRequestState();
-		if (isProperUser(requestState))
-			setDetails(user.getUsername(), password);
-		return requestState;
-	}
-
-	@Override
-	public RequestState updateUser(User user, String newPassword) {
-		ResponseObject responseObject = send(
-		        new RequestObject(GcmQuery.editUsersWithNewPassword, new ArrayList<Object>() {
-			        {
-				        add(user);
-				        add(newPassword);
-			        }
-		        }, username, password));
-		RequestState requestState = responseObject.getRequestState();
-		if (isProperUser(requestState))
-			setDetails(user.getUsername(), newPassword);
-		return requestState;
-	}
-
-	private boolean isProperUser(RequestState requestState) {
-		return requestState == RequestState.customer || requestState == RequestState.editor
-		        || requestState == RequestState.contentManager || requestState == RequestState.generalManager;
-	}
-
 	private ResponseObject send(RequestObject req) { // false for error, true otherwise
 		System.out.println("Connecting to host " + serverHostname + " on port " + serverPortNumber + ".");
 //		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -503,134 +468,6 @@ public class GcmDAO
 	}
 
 	@Override
-	public void actionMapAddEdit(Map map, boolean action) {
-		send(new RequestObject(GcmQuery.actionMapAddEdit, new ArrayList<Object>() {
-			{
-				add(map);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public void actionMapUpdateEdit(Map map, boolean action) {
-		send(new RequestObject(GcmQuery.actionMapUpdateEdit, new ArrayList<Object>() {
-			{
-				add(map);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public void actionMapDeleteEdit(Map map, boolean action) {
-		send(new RequestObject(GcmQuery.actionMapDeleteEdit, new ArrayList<Object>() {
-			{
-				add(map);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public void actionCityAddEdit(City city, boolean action) {
-		send(new RequestObject(GcmQuery.actionCityAddEdit, new ArrayList<Object>() {
-			{
-				add(city);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public void actionCityUpdateEdit(City city, boolean action) {
-		send(new RequestObject(GcmQuery.actionCityUpdateEdit, new ArrayList<Object>() {
-			{
-				add(city);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public void actionCityDeleteEdit(City city, boolean action) {
-		send(new RequestObject(GcmQuery.actionCityDeleteEdit, new ArrayList<Object>() {
-			{
-				add(city);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public void actionSiteAddEdit(Site site, boolean action) {
-		send(new RequestObject(GcmQuery.actionSiteAddEdit, new ArrayList<Object>() {
-			{
-				add(site);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public void actionSiteUpdateEdit(Site site, boolean action) {
-		send(new RequestObject(GcmQuery.actionSiteUpdateEdit, new ArrayList<Object>() {
-			{
-				add(site);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public void actionSiteDeleteEdit(Site site, boolean action) {
-		send(new RequestObject(GcmQuery.actionSiteDeleteEdit, new ArrayList<Object>() {
-			{
-				add(site);
-				add(action);
-			}
-		}, username, password));
-	}
-
-	@Override
-	public List<Map> getMapsAddEdits() {
-		return (List<Map>) (Object) send(
-		        new RequestObject(GcmQuery.getMapsAddEdits, new ArrayList<Object>(), username, password)).getResponse();
-	}
-
-	@Override
-	public List<Map> getMapsUpdateEdits() {
-		return (List<Map>) (Object) send(
-		        new RequestObject(GcmQuery.getMapsUpdateEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
-
-	}
-
-	@Override
-	public List<Map> getMapsDeleteEdits() {
-		return (List<Map>) (Object) send(
-		        new RequestObject(GcmQuery.getMapsDeleteEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
-
-	}
-
-	@Override
-	public List<Site> getSitesUpdateEdits() {
-		return (List<Site>) (Object) send(
-		        new RequestObject(GcmQuery.getSitesUpdateEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
-
-	}
-
-	@Override
-	public List<Site> getSitesDeleteEdits() {
-		return (List<Site>) (Object) send(
-		        new RequestObject(GcmQuery.getSitesDeleteEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
-
-	}
-
-	@Override
 	public List<City> getCitiesAddEdits() {
 		return (List<City>) (Object) send(
 		        new RequestObject(GcmQuery.getCitiesAddEdits, new ArrayList<Object>(), username, password))
@@ -655,13 +492,6 @@ public class GcmDAO
 	}
 
 	@Override
-	public List<Site> getSitesAddEdits() {
-		return (List<Site>) (Object) send(
-		        new RequestObject(GcmQuery.getSitesAddEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
-	}
-
-	@Override
 	public List<SiteSubmission> getSiteSubmissions() {
 		return (List<SiteSubmission>) (Object) send(
 		        new RequestObject(GcmQuery.getSiteSubmissions, new ArrayList<Object>(), username, password))
@@ -680,59 +510,6 @@ public class GcmDAO
 		return (List<TourSubmission>) (Object) send(
 		        new RequestObject(GcmQuery.getTourSubmissions, new ArrayList<Object>(), username, password))
 		                .getResponse();
-	}
-
-	@Override
-	public List<Map> getMapsObjectAddedTo(int contentId) {
-		return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsObjectAddedTo, new ArrayList<Object>() {
-			{
-				add(contentId);
-			}
-		}, username, password)).getResponse();
-
-	}
-
-	@Override
-	public List<City> getCitiesObjectAddedTo(int contentId) {
-		return (List<City>) (Object) send(new RequestObject(GcmQuery.getCitiesObjectAddedTo, new ArrayList<Object>() {
-			{
-				add(contentId);
-			}
-		}, username, password)).getResponse();
-
-	}
-
-	@Override
-	public List<Tour> getToursObjectAddedTo(int contentId) {
-		return (List<Tour>) (Object) send(new RequestObject(GcmQuery.getToursObjectAddedTo, new ArrayList<Object>() {
-			{
-				add(contentId);
-			}
-		}, username, password)).getResponse();
-
-	}
-
-	@Override
-	public List<Tour> getToursAddEdits() {
-		return (List<Tour>) (Object) send(
-		        new RequestObject(GcmQuery.getToursAddEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
-	}
-
-	@Override
-	public List<Tour> getToursUpdateEdits() {
-		return (List<Tour>) (Object) send(
-		        new RequestObject(GcmQuery.getToursUpdateEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
-
-	}
-
-	@Override
-	public List<Tour> getToursDeleteEdits() {
-		return (List<Tour>) (Object) send(
-		        new RequestObject(GcmQuery.getToursDeleteEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
-
 	}
 
 	@Override
@@ -939,5 +716,19 @@ public class GcmDAO
 	public boolean repurchaseMembershipBySavedDetails() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Tour getTour(int tourId) throws SQLException {
+		try {
+			ResponseObject responseObject = send(new RequestObject(GcmQuery.getTour, new ArrayList<Object>() {
+				{
+					add(tourId);
+				}
+			}, username, password));
+			return (Tour) responseObject.getResponse().get(0);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

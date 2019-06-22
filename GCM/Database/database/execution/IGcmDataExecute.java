@@ -33,6 +33,7 @@ public interface IGcmDataExecute {
 
 	void deleteMapEdit(int mapId) throws SQLException;
 
+
 	Map getMapDetails(int mapId) throws SQLException;
 
 	File getMapFile(int mapId) throws SQLException;
@@ -64,7 +65,7 @@ public interface IGcmDataExecute {
 	double getOneTimePurchasePrice(int cityId) throws SQLException;
 
 	boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
-	        throws SQLException;
+			throws SQLException;
 
 	String getSavedCreditCard(String username) throws SQLException;
 
@@ -131,7 +132,7 @@ public interface IGcmDataExecute {
 	void actionTourDeleteEdit(Site site, boolean action) throws SQLException;
 
 	List<Map> getMapsObjectAddedTo(int contentId) throws SQLException; // gets list of the maps that the object is added
-	                                                                   // to
+																		// to
 
 	List<City> getCitiesObjectAddedTo(int contentId) throws SQLException;
 
@@ -158,27 +159,16 @@ public interface IGcmDataExecute {
 	void actionSiteEdit(SiteSubmission tour, boolean action) throws SQLException;
 
 	void updateCity(int cityId, City city) throws SQLException; // TOCHECK
-
 	void deleteCityEdit(int cityId) throws SQLException; // TOCHECK
-
 	void UpdateSite(int siteId, Site newSite) throws SQLException; // TOCHECK
-
 	void addExistingSiteToTour(int tourId, int siteId, int durnace) throws SQLException; // TOCHECK
-
 	void deleteSiteFromTourEdit(int tourId, int siteId) throws SQLException;// TOCHECK
-
 	void deleteTourFromMapEdit(int mapId, int tourId) throws SQLException;// TOCHECK
-
 	void deleteTourFromCity(int tourId) throws SQLException;// TOCHECK
-
 	List<Tour> getCityTours(int cityId) throws SQLException;// TOCHECK
-
 	void updateTour(int tourId, Tour tour) throws SQLException; // TOCHECK
-
 	public void deleteSiteFromCity(int siteId) throws SQLException; // TOCHECK
-
 	void deleteSiteFromMapEdit(int mapId, int siteId) throws SQLException; // TOCHECK
-
 	void updateMap(int mapId, Map newMap) throws SQLException; // TOCHECK
 
 	void changeCityPrices(int id, List<Double> prices) throws SQLException;// TOCHECK
@@ -191,6 +181,6 @@ public interface IGcmDataExecute {
 
 	City getCityById(int cityId) throws SQLException;
 
-	RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword) throws SQLException;
+	Tour getTour(int tourId) throws SQLException;
 
 }

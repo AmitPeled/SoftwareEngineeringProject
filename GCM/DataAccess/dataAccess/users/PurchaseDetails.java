@@ -1,6 +1,9 @@
 package dataAccess.users;
 
-public class PurchaseDetails {
+import java.io.Serializable;
+
+public class PurchaseDetails implements Serializable{
+	private static final long serialVersionUID = 1L;
 	String creditCard;
 	String cardExpireDate;//-> MM/YY
 	String cvv;

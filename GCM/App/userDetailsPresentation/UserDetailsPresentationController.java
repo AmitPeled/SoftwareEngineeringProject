@@ -18,32 +18,31 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import mainApp.GcmClient;
-import queries.RequestState;
 import users.User;
 import utility.TextFieldUtility;
 
 public class UserDetailsPresentationController implements Initializable {
 
-	private User                  user;
+	private User user;
 	private List<PurchaseHistory> purchaseHistories;
-	private GcmClient             gcmClient;
-	private final int             MAX_PASSWORD_LENGTH = 12;
-	private final int             MIN_PASSWOR_LENGTH  = 6;
-	private final int             MAX_USERNAME_LENGTH = 10;
-	private final int             MIN_USERNAME_LENGTH = 4;
-	private boolean               flag                = true;
+	private GcmClient gcmClient;
+	private final int MAX_PASSWORD_LENGTH = 12;
+	private final int MIN_PASSWOR_LENGTH = 6;
+	private final int MAX_USERNAME_LENGTH = 10;
+	private final int MIN_USERNAME_LENGTH = 4;
+	private boolean flag = true;
 	// private GcmDAO gcmDAO;
 
 	@FXML
-	private TextField        nametf, lastnametf, emailtf, phonenumbertf, usernametf;
+	private TextField nametf, lastnametf, emailtf, phonenumbertf, usernametf;
 	@FXML
-	private PasswordField    passwordtf, confirmpasswordtf;
+	private PasswordField passwordtf, confirmpasswordtf;
 	@FXML
 	private ListView<String> listviewLV;
 	@FXML
-	private Button           editbtn, updatebtn;
+	private Button editbtn, updatebtn;
 	@FXML
-	private Label            passwordlabel, confirmpasswordlabel, changelabel;
+	private Label passwordlabel, confirmpasswordlabel, changelabel;
 
 	public UserDetailsPresentationController(GcmClient gcmClient) {
 		this.gcmClient = gcmClient;
@@ -75,40 +74,41 @@ public class UserDetailsPresentationController implements Initializable {
 	public void onUpdateButton(ActionEvent event) {
 		if (!TextFieldUtility.validEmail(emailtf.getText())) {
 			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
-			        "invalid email address");
+					"invalid email address");
 		} else if (!validpassword(passwordtf.getText())) {
 			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
-			        "password length need to be between 6 to 10 characters");
+					"password length need to be between 6 to 10 characters");
 		} else if (!validConfirmPassword(passwordtf.getText(), confirmpasswordtf.getText())) {
 			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
-			        "password and confirm password dont match");
+					"password and confirm password dont match");
 		} else if (!Validusername(usernametf.getText())) {
 			TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event), "Form Error!",
-			        "username length need to be between 4 to 10 characters");
+					"username length need to be between 4 to 10 characters");
 		} else {
 
 			// build new user and send and the new password
 			User userToUpdate = new User(usernametf.getText(), user.getFirstName(), user.getLastName(),
-			        emailtf.getText(), phonenumbertf.getText());
+					emailtf.getText(), phonenumbertf.getText());
 
 			// after check with amit about this funtions
+
 			// need to send update in dataBase
-			String newPassword = passwordtf.getText();
-			if (!newPassword.equals("")) {
-				if (gcmClient.getDataAccessObject().updateUser(userToUpdate,
-				        newPassword) == RequestState.usernameAlreadyExists) {
-					TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event),
-					        "invalid username", "Sorry, Username already exist plaese chose another one");
-					flag = false;
-				}
-			} else {
-				// need to send update in dataBase
-				if (gcmClient.getDataAccessObject().updateUser(userToUpdate) == RequestState.usernameAlreadyExists) {
-					TextFieldUtility.ShowAlert(AlertType.ERROR, TextFieldUtility.getStageWindow(event),
-					        "invalid username", "Sorry, Username" + " already exist plaese chose another one");
-					flag = false;
-				}
-			}
+			// if(!passwordtf.getText().equals("")) {
+			// if(!gcmClient.updateUser(userToUpdate, passwordtf.getText()) {
+			// TextFieldUtility.ShowAlert(AlertType.ERROR,
+			// TextFieldUtility.getStageWindow(event), "invalid username","Sorry, Username
+			// already exist plaese chose another one");
+			// flag =fale;
+			// }
+			// } else {
+			// // need to send update in dataBase
+			// if(!gcmClient.updateUser(userToUpdate)) {
+			// TextFieldUtility.ShowAlert(AlertType.ERROR,
+			// TextFieldUtility.getStageWindow(event), "invalid username","Sorry, Username
+			// already exist plaese chose another one");
+			// flag = false;
+			// }
+			// }
 			if (flag) {
 				updatebtn.setVisible(false);
 				emailtf.setEditable(false);

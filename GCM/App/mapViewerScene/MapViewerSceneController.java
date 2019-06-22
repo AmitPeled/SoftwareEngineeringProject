@@ -4,23 +4,25 @@
 package mapViewerScene;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-import gcmDataAccess.GcmDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import mainApp.GcmClient;
-import mainApp.SceneNames;
 import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
-import maps.Coordinates;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
+import queries.RequestState;
 
 /**
 * This class is an example class that demonstrates how to implement the MapViewerComponent class.
@@ -28,7 +30,7 @@ import maps.Tour;
  * holding the map.
  *
  */
-public class MapViewerSceneController {
+public class MapViewerSceneController implements Initializable{
 	// Constants
 	static final double LEFT_PANEL_WIDTH = 320.0;
 	static final double BOTTOM_PANEL_HEIGHT = 80.0;
@@ -48,6 +50,17 @@ public class MapViewerSceneController {
 	private MapViewerSideMenuController sideMenuController;
 	private int mapId;
 	private Map map;
+	@FXML
+	Button addSite;
+	@FXML
+	Button editSite;
+	@FXML
+	Button deleteSite;
+	@FXML
+	Button addTour;
+	@FXML
+	Button editPrice;
+	
 	
 	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId, int mapId, Map map) {
 		this.gcmClient = gcmClient;
@@ -55,6 +68,9 @@ public class MapViewerSceneController {
 		this.cityId = cityId;
 		this.mapId = mapId;
 		this.map = map;
+		
+		
+		
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -87,7 +103,17 @@ public class MapViewerSceneController {
 			e.printStackTrace();
 		}
 	}
-
+	private void setVisibility() {
+		RequestState userState = gcmClient.getUserInfo().getState();
+		if(userState.equals(RequestState.editor) || userState.equals(RequestState.contentManager) || userState.equals(RequestState.generalManager) || userState.equals(RequestState.manager)) {
+			addSite.setVisible(true);
+			editSite.setVisible(true);
+			deleteSite.setVisible(true);
+			addTour.setVisible(true);
+			editPrice.setVisible(true);
+		}
+	}
+	
 	public Scene getScene() { return scene; }
 	
 	/**
@@ -98,7 +124,8 @@ public class MapViewerSceneController {
 	public static Scene getMapViewerScene(GcmClient gcmClient, int mapId, int cityId) {
 		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId);
-		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId,map);
+		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId, map);
+		mapViewerSceneController.setVisibility();
 		return mapViewerSceneController.getScene();
 	}
 	
@@ -138,4 +165,12 @@ public class MapViewerSceneController {
 	
 	@FXML
 	public void onBack() {gcmClient.back();}
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		addSite.setVisible(false);
+		editSite.setVisible(false);
+		deleteSite.setVisible(false);
+		addTour.setVisible(false);
+		editPrice.setVisible(false);
+	}
 }
