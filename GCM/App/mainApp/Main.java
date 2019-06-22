@@ -1,6 +1,7 @@
 package mainApp;
 
 import dataAccess.customer.CustomerDAO;
+import dataAccess.mapDownload.MapDownload;
 import dataAccess.users.UserDAO;
 import gcmDataAccess.GcmDAO;
 import init.*;
@@ -18,7 +19,8 @@ public class Main extends Application {
 		UserDAO userDAO = gcmDAO;
 		CustomerDAO customerDAO = gcmDAO;
 		UserInfo userInfo = new UserInfoImpl(userDAO,customerDAO);
-		GcmClient gcm = new GcmClientImpl(primaryStage,userInfo,gcmDAO);
+		MapDownload mapDownload = new MapDownload(gcmDAO);
+		GcmClient gcm = new GcmClientImpl(primaryStage, userInfo, gcmDAO, mapDownload);
 		ScenesInitializer initializer = new ScenesInitializerImpl(gcm);
 		SceneManager manager = new SceneManagerImpl(initializer.getScenes(),initializer.getControllers());
 		gcm.setSceneManager(manager);

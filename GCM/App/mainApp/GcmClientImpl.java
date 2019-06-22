@@ -2,6 +2,7 @@ package mainApp;
 
 import java.util.Stack;
 
+import dataAccess.mapDownload.MapDownload;
 import editor.editPrice.EditPriceController;
 import editor.pointOfInterest.PointOfInterestController;
 import gcmDataAccess.GcmDAO;
@@ -32,11 +33,12 @@ class GcmClientImpl implements GcmClient {
 	 * A reference to the primary stage (used to switch scenes)
 	 */
 	private Stage primaryStage;
-
 	private Stack<Scene> scenesStack;
+	private MapDownload mapDownloader;
 
-	public GcmClientImpl(Stage primaryStage, UserInfo userInfo, GcmDAO dataAccess) {
+	public GcmClientImpl(Stage primaryStage, UserInfo userInfo, GcmDAO dataAccess, MapDownload mapDownloader) {
 		this.primaryStage = primaryStage;
+		this.mapDownloader = mapDownloader;
 		this.scenesStack = new Stack<Scene>();
 		this.userInfo = userInfo;
 		this.dataAccess = dataAccess;
@@ -141,7 +143,10 @@ class GcmClientImpl implements GcmClient {
 
 			e.printStackTrace();
 		}
-
 	}
-
+	
+	@Override
+	public MapDownload getMapDownloader() {
+		return mapDownloader;
+	}
 }
