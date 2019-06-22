@@ -56,7 +56,11 @@ public final class MenuController implements Initializable{
 		approvalReportsBtn.setVisible(false);
 	}
 	public void updateVisiblity() {
+		addanewcityBtn.setVisible(false);
+		reportsBtn.setVisible(false);
+		approvalReportsBtn.setVisible(false);
 		RequestState userState = gcmClient.getUserInfo().getState();
+		System.out.println(userState);
 		if(userState.equals(RequestState.editor) || userState.equals(RequestState.contentManager) || userState.equals(RequestState.generalManager) || userState.equals(RequestState.manager)) {
 			addanewcityBtn.setVisible(true);
 			reportsBtn.setVisible(true);

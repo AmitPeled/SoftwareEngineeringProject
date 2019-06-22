@@ -155,7 +155,7 @@ public class ListViewController implements Initializable
 		buySubscriptionBtn.setVisible(false);
 		addNewMapBtn.setVisible(false);
 		RequestState userState = gcmClient.getUserInfo().getState();
-		permissionsForMap = false;
+		permissionsForMap = true;
 		// permissionsForMap = gcmClient.getDataAccessObject().notifyMapView()
 		if(userState == RequestState.customer && !permissionsForMap) {
 			buySubscriptionBtn.setVisible(true);
