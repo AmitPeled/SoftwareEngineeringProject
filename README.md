@@ -2,22 +2,42 @@
 Software engineering course final project.
 
 # Checklist
-## Requirements
+## Server/DAO
+### Map object
+- [ ] **Map object doesn't contain all it's sites and tours (works when fetching them through other DAO methods)**
+## Client
+### Approvals
+- [ ] Does not show Sites requests approval
+
+# Exercise Requirements
 ### Search
 - [x] Search by city name
 - [x] Search by description
 - [ ] Showing One-time purchase only for guests
-- [ ] Showing Purchas options for customers
+- [ ] Showing Purchase options for customers
 ### Editing
-#### Approval Requests - **Need to implement for tours/sites as well**
+#### Approval Requests - City
 - [x] DAO methods
 - [x] GUI
-- [x] Server side methods - **Returns "null" references instead of actual Tours** 
+- [x] Server side methods 
 - [x] Client-Server communication
-#### Map object
-- [x] **Map object doesn't contain all it's sites and tours (works when fetching them through other DAO methods)**
+#### Approval Requests - Sites
+- [x] DAO methods
+- [ ] GUI - **Does not show Site applications**
+- [x] Server side methods 
+- [x] Client-Server communication
+#### Approval Requests - Tours
+- [x] DAO methods
+- [x] GUI
+- [x] Server side methods 
+- [x] Client-Server communication
+#### Approval Requests - Map Reports
+- [x] DAO methods
+- [x] GUI
+- [x] Server side methods 
+- [x] Client-Server communication
 #### Editing Maps
-- [ ] GUI screen to add a map
+- [x] GUI screen to add a map
 #### Creating a city
 - [x] DAO methods
 - [x] GUI
@@ -52,6 +72,9 @@ Software engineering course final project.
 - [x] Client-Server communication
 - [x] Creates an approval request
 ### Purchasing maps
+** Note - purchase is for **cities**, and not for maps. 
+if one-time purchase, the user gets all the city's maps at once of their current version (and is not allowed to redownload the maps again). **
+
 #### One-time purchase
 - [x] GUI controls that offer single-purchase
 - [ ] Updates the database
@@ -61,7 +84,7 @@ Software engineering course final project.
 - [ ] Updates the database
 - [ ] Allows users to download maps only after subscription has been purchased
 ### Prices
-- [ ] GUI - **Need to edit prices for all subscription/purchase types**
+- [x] GUI - **Need to edit prices for all subscription/purchase types**
 - [x] DAO methods - **Exists, but only with one price without specifications**
 - [x] Client-Server communication
 - [x] Creates an approval request
@@ -76,7 +99,7 @@ Software engineering course final project.
 - [x] Server methods
 - [x] Client-Server communication
 ### Notifications
-- [ ] Create a notification thread on the server that sends messages to customers
+- [x] Create a notification thread on the server that sends messages to customers
 
 ## Features
 ### Guests
@@ -92,12 +115,19 @@ Software engineering course final project.
 - [x] Add methods to change prices per purchase type
 - [x] (If we have time) Change the way reports are stored to support date-range selection
 ## Client
-- [ ] Push MapDownloader class to the master
+- [x] Push MapDownloader class to the master
 - [ ] Hide menu options from non-privileged users
 - [x] Build customer report screen
-- [ ] Fetch real sites/tours to the map viewer
+- [x] Fetch real sites/tours to the map viewer
 - [ ] Load real maps from the database
 - [x] Allow login in as guests
-## Server
-- [ ] Build the notifications thread
+- [x] Fix exception in site submission approval 
+- [ ] GUI window notifying the emails sent by server after map submission approval
+- [ ] Allow user to edit its personal details
 
+## Server
+- [x] Build the notifications thread 
+- [ ] ~Prevent multiple user sessions at once~ (Why?)
+
+## Database
+- [ ] Edit user personal details functionality

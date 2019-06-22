@@ -78,6 +78,7 @@ public class MapViewerSceneController implements Initializable{
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
 			mapViewer.addListener(listener);
+			mapViewer.updateStatusText(map.getName());
 			
 			// Loading the FXML view
 			FXMLLoader loader = new FXMLLoader();
@@ -85,18 +86,11 @@ public class MapViewerSceneController implements Initializable{
 			loader.setController(this);
 			GridPane gridPane = loader.load();
 			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
-			setVisibility(gcmClient);
 			
-			// Demo data
-			List<Site> sitesInTour = new ArrayList<Site>();
-			Site demoSiteA = new Site(1, "Demo site A", new Coordinates(200,300));
-			Site demoSiteB = new Site(2, "Demo site B", new Coordinates(300,400));
-			Site demoSiteC = new Site(3, "Demo site C", new Coordinates(5,5));
-			sitesInTour.add(demoSiteA);
-			sitesInTour.add(demoSiteB);
-			sitesInTour.add(demoSiteC);
-			List<Tour> toursList = fetchTours(sitesInTour);
-			List<Site> sitesList = sitesInTour;
+			List<Tour> toursList = gcmClient.getDataAccessObject().getCityTours(cityId);
+			List<Site> sitesList = gcmClient.getDataAccessObject().getCitySites(cityId);
+			System.out.println("toursList entries: " + toursList.size());
+			System.out.println("sitesList entries: " + sitesList.size());
 			
 			sideMenuController = new MapViewerSideMenuController(sitesList, toursList);
 			loader = new FXMLLoader();
@@ -163,8 +157,10 @@ public class MapViewerSceneController implements Initializable{
 	@FXML
 	public void onDeleteSite() {
 		Site site = sideMenuController.getSelectedSite();
+		if(site == null) return;
+		
 		System.out.println("Deleting site "+ site.getName());	
-		//gcmClient.getDataAccessObject().deleteSiteFromMap(mapId, site.getId());
+		gcmClient.getDataAccessObject().deleteSiteFromCity(site.getId());;
 	}
 	
 	@FXML
