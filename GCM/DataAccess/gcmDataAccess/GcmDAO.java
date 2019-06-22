@@ -121,6 +121,40 @@ public class GcmDAO
 		  }, username, password));
 		  return responseObject.getRequestState();
 	 }
+	 @Override
+		public RequestState updateUser(User user) {
+			ResponseObject responseObject = send(
+			        new RequestObject(GcmQuery.editUsersWithoutNewPassword, new ArrayList<Object>() {
+				        {
+					        add(user);
+					        add(password);
+				        }
+			        }, username, password));
+			RequestState requestState = responseObject.getRequestState();
+			if (isProperUser(requestState))
+				setDetails(user.getUsername(), password);
+			return requestState;
+		}
+
+		@Override
+		public RequestState updateUser(User user, String newPassword) {
+			ResponseObject responseObject = send(
+			        new RequestObject(GcmQuery.editUsersWithNewPassword, new ArrayList<Object>() {
+				        {
+					        add(user);
+					        add(newPassword);
+				        }
+			        }, username, password));
+			RequestState requestState = responseObject.getRequestState();
+			if (isProperUser(requestState))
+				setDetails(user.getUsername(), newPassword);
+			return requestState;
+		}
+
+		private boolean isProperUser(RequestState requestState) {
+			return requestState == RequestState.customer || requestState == RequestState.editor
+			        || requestState == RequestState.contentManager || requestState == RequestState.generalManager;
+		}
 
 	 private ResponseObject send(RequestObject req) { // false for error, true otherwise
 		  System.out.println("Connecting to host " + serverHostname + " on port " + serverPortNumber + ".");

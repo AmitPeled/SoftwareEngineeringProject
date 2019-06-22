@@ -5,6 +5,7 @@ import java.util.List;
 
 import dataAccess.users.PurchaseDetails;
 import maps.City;
+import queries.RequestState;
 import users.User;
 
 public interface CustomerDAO {
@@ -68,5 +69,9 @@ public interface CustomerDAO {
 	 * membership)
 	 */
 	User getUserDetails();
+
+RequestState updateUser(User user, String newPassword);
+
+RequestState updateUser(User user);
 
 }

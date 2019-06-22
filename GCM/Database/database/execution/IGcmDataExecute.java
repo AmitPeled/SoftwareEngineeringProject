@@ -131,4 +131,6 @@ List<Map> getPurchasedMaps(String username) throws SQLException;
 
 List<CitySubmission> getCitySubmissions() throws SQLException;
 
+RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword) throws SQLException;
+
 }
