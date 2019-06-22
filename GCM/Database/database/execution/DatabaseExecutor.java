@@ -63,7 +63,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 			}
 			sqlquery = sqlquery.concat("?);");
 
-			// System.out.println(sqlquery);
+			System.out.println(sqlquery);
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 			for (int i = 0; i < objects.size(); i++) {
@@ -104,7 +104,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object,
-			String columnsToSelect) throws SQLException {
+	        String columnsToSelect) throws SQLException {
 		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE " + objectName + " = ? ;";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setObject(1, object);
@@ -117,7 +117,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames,
-			List<Object> objectsValues, String columnsToSelect) throws SQLException {
+	        List<Object> objectsValues, String columnsToSelect) throws SQLException {
 		if (objectNames.size() > 0) {
 
 			String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE ";
@@ -169,7 +169,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects)
-			throws SQLException {
+	        throws SQLException {
 		String sqlquery = "DELETE from " + tableName + " WHERE ";
 		sqlquery = concatConditionalsSymbols(sqlquery, objectNames);
 		// System.out.println(sqlquery);
@@ -182,7 +182,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
-			String columnsToSelect) throws SQLException {
+	        String columnsToSelect) throws SQLException {
 		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE " + objectName + " like ? ;";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setString(1, "%" + (String) object + "%");
@@ -195,12 +195,12 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public void updateTableColumn(String tableName, String columnToUpdate, Object valueToUpdate, String columnCondition,
-			Object conditonValue) throws SQLException {
+	        Object conditonValue) throws SQLException {
 
 		String sqlquery = "update " + tableName + " set " + columnToUpdate + " = ? WHERE " + columnCondition + " = ? ;";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
-		preparedStatement.setInt(1, (int) valueToUpdate);
-		preparedStatement.setInt(2, (int) conditonValue);
+		preparedStatement.setObject(1, valueToUpdate);
+		preparedStatement.setObject(2, conditonValue);
 		synchronized (dbAccess) {
 			preparedStatement.executeUpdate();
 		}
@@ -223,7 +223,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@SuppressWarnings("serial")
 	@Override
 	public List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object,
-			String columnsToSelect, Status status) throws SQLException {
+	        String columnsToSelect, Status status) throws SQLException {
 		List<Object> objectsValues = new ArrayList<Object>() {
 			{
 				add(object);
@@ -242,9 +242,9 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
-			String columnsToSelect, Status status) throws SQLException {
+	        String columnsToSelect, Status status) throws SQLException {
 		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE " + objectName
-				+ " like ? AND status = " + DatabaseMetaData.getStatus(status) + ";";
+		        + " like ? AND status = " + DatabaseMetaData.getStatus(status) + ";";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setString(1, "%" + (String) object + "%");
 		List<List<Object>> fields = new ArrayList<>();
@@ -256,7 +256,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames,
-			List<Object> objectsValues, String columnsToSelect, Status status) throws SQLException {
+	        List<Object> objectsValues, String columnsToSelect, Status status) throws SQLException {
 		objectNames.add("status");
 		objectsValues.add(DatabaseMetaData.getStatus(status));
 		return selectColumnsByValues(tableName, objectNames, objectsValues, columnsToSelect);
@@ -265,7 +265,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@SuppressWarnings("serial")
 	@Override
 	public void deleteValueFromTable(String tableName, String objectName, Object object, Status status)
-			throws SQLException {
+	        throws SQLException {
 		List<Object> objects = new ArrayList<Object>() {
 			{
 				add(object);
@@ -284,7 +284,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects, Status status)
-			throws SQLException {
+	        throws SQLException {
 		objectNames.add("status");
 		objects.add(DatabaseMetaData.getStatus(status));
 		deleteValuesFromTable(tableName, objectNames, objects);
@@ -305,10 +305,10 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> betweenDates(String tableName, String columnToSelect, Object Date1,
-			String columnCondition, Object Date2) throws SQLException {
+	        String columnCondition, Object Date2) throws SQLException {
 
 		String sqlquery = "Select " + columnToSelect + " From " + tableName + " Where " + columnCondition
-				+ " Between ? " + " And ? ";
+		        + " Between ? " + " And ? ";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setDate(1, (Date) Date1);
 		preparedStatement.setDate(2, (Date) Date2);
@@ -321,10 +321,10 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> betweenDatesAndConditions(String tableName, String columnToSelect, Object Date1,
-			String columnDateCondition, Object Date2, String columnCondition1, String columnCondition2,
-			Object conditon1, Object condition2) throws SQLException {
+	        String columnDateCondition, Object Date2, String columnCondition1, String columnCondition2,
+	        Object conditon1, Object condition2) throws SQLException {
 		String sqlquery = "Select " + columnToSelect + " From " + tableName + " Where " + columnDateCondition
-				+ " Between ? " + " And ? " + " And " + columnCondition1 + " = ?" + " And " + columnCondition2 + " = ?";
+		        + " Between ? " + " And ? " + " And " + columnCondition1 + " = ?" + " And " + columnCondition2 + " = ?";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
 		preparedStatement.setDate(1, (Date) Date1);
 		preparedStatement.setDate(2, (Date) Date2);
