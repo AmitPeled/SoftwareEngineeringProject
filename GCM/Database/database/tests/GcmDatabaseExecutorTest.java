@@ -3,6 +3,8 @@ package database.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
 import database.execution.IGcmDataExecute;
 import database.objectParse.DatabaseParser;
-import database.objectParse.Status;
+import database.objectParse.CurrentEditStatus;
 import maps.City;
 import maps.Coordinates;
 import maps.Map;
@@ -49,7 +51,7 @@ class GcmDatabaseExecutorTest {
 	static String          name        = ".1";
 
 	@BeforeAll
-	static void setAll() throws IllegalArgumentException, SQLException {
+	static void setAll() throws IllegalArgumentException, SQLException, IOException {
 		gcmDataExecutor = new GcmDataExecutor(new DatabaseExecutor(DBConnector.connect()), new DatabaseParser());
 		mapFile = new File("import\\resources\\Gta3_map.gif");
 		city = new City("test name", "test desc");
@@ -57,9 +59,9 @@ class GcmDatabaseExecutorTest {
 		city = new City(cityId, "test name", "test desc");
 		gcmDataExecutor.actionCityEdit(new CitySubmission(city, ActionTaken.ADD), true);
 		map = new Map(12, name, description, width, height, new Coordinates(), 0, null, null);
-		mapId = gcmDataExecutor.addMapToCity(cityId, map, mapFile);
+		mapId = gcmDataExecutor.addMapToCity(cityId, map, Files.readAllBytes(mapFile.toPath()));
 		map = new Map(mapId, name, description, width, height, new Coordinates(), 0, null, null);
-		gcmDataExecutor.actionMapEdit(new MapSubmission(cityId, map, mapFile, ActionTaken.ADD), true);
+		gcmDataExecutor.actionMapEdit(new MapSubmission(cityId, map, Files.readAllBytes(mapFile.toPath()), ActionTaken.ADD), true);
 
 //		map = new Map(mapId, name, description, width, height, new Coordinates(), 0, null, null);
 //		siteId = gcmDataExecutor.addNewSiteToCity(cityId,

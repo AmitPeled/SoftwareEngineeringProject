@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 import database.metadata.DatabaseMetaData;
-import database.objectParse.Status;
+import database.objectParse.CurrentEditStatus;
 
 import java.sql.Statement;
 
@@ -207,13 +207,13 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	}
 
-	public void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException {
+	public void insertToTable(String tableName, List<Object> objects, CurrentEditStatus status) throws SQLException {
 		objects.add(DatabaseMetaData.getStatus(status));
 		insertToTable(tableName, objects);
 	}
 
 	@Override
-	public int insertAndGenerateId(String tableName, List<Object> objects, Status status) throws SQLException {
+	public int insertAndGenerateId(String tableName, List<Object> objects, CurrentEditStatus status) throws SQLException {
 		int id = generateId(tableName);
 		objects.set(0, id);
 		insertToTable(tableName, objects, status);
@@ -223,7 +223,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 	@SuppressWarnings("serial")
 	@Override
 	public List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object,
-			String columnsToSelect, Status status) throws SQLException {
+			String columnsToSelect, CurrentEditStatus status) throws SQLException {
 		List<Object> objectsValues = new ArrayList<Object>() {
 			{
 				add(object);
@@ -242,7 +242,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
-			String columnsToSelect, Status status) throws SQLException {
+			String columnsToSelect, CurrentEditStatus status) throws SQLException {
 		String sqlquery = "Select " + columnsToSelect + " from " + tableName + " WHERE " + objectName
 				+ " like ? AND status = " + DatabaseMetaData.getStatus(status) + ";";
 		PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlquery);
@@ -256,7 +256,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@Override
 	public List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames,
-			List<Object> objectsValues, String columnsToSelect, Status status) throws SQLException {
+			List<Object> objectsValues, String columnsToSelect, CurrentEditStatus status) throws SQLException {
 		objectNames.add("status");
 		objectsValues.add(DatabaseMetaData.getStatus(status));
 		return selectColumnsByValues(tableName, objectNames, objectsValues, columnsToSelect);
@@ -264,7 +264,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 
 	@SuppressWarnings("serial")
 	@Override
-	public void deleteValueFromTable(String tableName, String objectName, Object object, Status status)
+	public void deleteValueFromTable(String tableName, String objectName, Object object, CurrentEditStatus status)
 			throws SQLException {
 		List<Object> objects = new ArrayList<Object>() {
 			{
@@ -283,7 +283,7 @@ public class DatabaseExecutor implements IExecuteQueries {
 	}
 
 	@Override
-	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects, Status status)
+	public void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects, CurrentEditStatus status)
 			throws SQLException {
 		objectNames.add("status");
 		objects.add(DatabaseMetaData.getStatus(status));

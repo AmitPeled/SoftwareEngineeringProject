@@ -13,7 +13,7 @@ import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
 import database.objectParse.DatabaseParser;
-import database.objectParse.Status;
+import database.objectParse.CurrentEditStatus;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -114,14 +114,14 @@ class ComplexGetterTest {
 		List<MapSubmission> maps = gcmDataExecutor.getMapSubmissions();
 		System.out.println(maps);
 //		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toAdd));
-		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.ADD);
+		maps = gcmDataExecutor.getMapSubmissionsByStatus(CurrentEditStatus.ADD);
 		System.out.println(maps);
 		System.out.println("site addition in place 4 is added to city of id="
 				+ maps.get(0).getContainingCityID() + ". map.description() = "
 				+ maps.get(0).getMap().getDescription());
-		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.UPDATE);
+		maps = gcmDataExecutor.getMapSubmissionsByStatus(CurrentEditStatus.UPDATE);
 		System.out.println(maps);
-		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.DELETE);
+		maps = gcmDataExecutor.getMapSubmissionsByStatus(CurrentEditStatus.DELETE);
 		System.out.println(maps);
 //		System.out.println("site addition in place 6 is added to " + maps.get(6).getContainingObjectType()
 //				+ ", of id=" + maps.get(6).getContainingObjectID() + ". site.description() = "

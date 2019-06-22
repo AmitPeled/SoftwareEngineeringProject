@@ -2,40 +2,41 @@ package database.metadata;
 
 import java.util.HashMap;
 
-import database.objectParse.Status;
+import database.objectParse.CurrentEditStatus;
 
 public class DatabaseMetaData {
 	private static final String host = "remotemysql.com";
 	private static final String DBName = "X6SgPM1fb2";
 	private static final String username = "X6SgPM1fb2";
 	@SuppressWarnings("serial")
-	private static HashMap<Tables, String> tablesNames = new HashMap<Tables, String>() {
+	private static HashMap<Table, String> tablesNames = new HashMap<Table, String>() {
 		{
-			put(Tables.customerUsers, "customerUsers");
-			put(Tables.editorUsers, "editorUsers");
-			put(Tables.contentManagerUsers, "contentManagerUsers");
-			put(Tables.generalManagerUsers, "generalManagerUsers");
+			put(Table.customerUsers, "customerUsers");
+			put(Table.editorUsers, "editorUsers");
+			put(Table.contentManagerUsers, "contentManagerUsers");
+			put(Table.generalManagerUsers, "generalManagerUsers");
 
-			put(Tables.mapsMetaDetails, "mapsMetaDetails");
-			put(Tables.mapsFiles, "mapsFiles");
-			put(Tables.mapsSites, "mapsSites");
-			put(Tables.citiesMetaDetails, "citiesMetaDetails");
-			put(Tables.citiesMapsIds, "citiesMaps");
-			put(Tables.citiesSitesIds, "citiesSites");
-			put(Tables.sites, "sites");
-			put(Tables.tourSitesIdsAndDurance, "toursSites");
-			put(Tables.citiesTours, "citiesTours");
-			put(Tables.toursMetaDetails, "toursMetaDetails");
-			put(Tables.mapsTours, "mapsTours");
-			put(Tables.purchaseHistory, "purchaseDeatailsHistory");
-			put(Tables.mapsDownloadHistory, "mapsDownloadHistory");
+			put(Table.mapsMetaDetails, "mapsMetaDetails");
+			put(Table.mapsFiles, "mapsFiles");
+			put(Table.mapsSites, "mapsSites");
+			put(Table.citiesMetaDetails, "citiesMetaDetails");
+			put(Table.citiesMapsIds, "citiesMaps");
+			put(Table.citiesSitesIds, "citiesSites");
+			put(Table.sites, "sites");
+			put(Table.tourSitesIdsAndDurance, "toursSites");
+			put(Table.citiesTours, "citiesTours");
+			put(Table.toursMetaDetails, "toursMetaDetails");
+			put(Table.mapsTours, "mapsTours");
+			put(Table.purchaseHistory, "purchaseDeatailsHistory");
+			put(Table.mapsDownloadHistory, "mapsDownloadHistory");
+			put(Table.mapFilesPath, "mapFilesPath");
 		}
 	};
 
-	public static enum Tables {
+	public static enum Table {
 		customerUsers, editorUsers, contentManagerUsers, generalManagerUsers, mapsMetaDetails, mapsFiles, mapsSites,
 		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapsTours,
-		citiesTours, purchaseHistory, mapsDownloadHistory
+		citiesTours, purchaseHistory, mapsDownloadHistory, mapFilesPath
 	}
 
 	public static String getHostName() {
@@ -50,11 +51,11 @@ public class DatabaseMetaData {
 		return username;
 	}
 
-	public static String getTableName(Tables table) {
+	public static String getTableName(Table table) {
 		return tablesNames.get(table);
 	}
 
-	public static int getStatus(Status status) {
+	public static int getStatus(CurrentEditStatus status) {
 		switch (status) {
 		case PUBLISH:
 			return 0;

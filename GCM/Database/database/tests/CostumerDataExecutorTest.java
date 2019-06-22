@@ -18,7 +18,7 @@ import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
 import database.execution.IExecuteQueries;
 import database.metadata.DatabaseMetaData;
-import database.metadata.DatabaseMetaData.Tables;
+import database.metadata.DatabaseMetaData.Table;
 import database.objectParse.DatabaseParser;
 
 public class CostumerDataExecutorTest {
@@ -32,7 +32,7 @@ public class CostumerDataExecutorTest {
 		dbExecutor = new DatabaseExecutor(DBConnector.connect());
 		gcmDataExecutor = new GcmDataExecutor(dbExecutor, new DatabaseParser());
 
-		tableName = DatabaseMetaData.getTableName(Tables.customerUsers);
+		tableName = DatabaseMetaData.getTableName(Table.customerUsers);
 
 	}
 

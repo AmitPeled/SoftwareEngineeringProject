@@ -1,18 +1,19 @@
 package database.execution;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-import database.objectParse.Status;
+import database.objectParse.CurrentEditStatus;
 
 /**
  * @author amit
  *
  */
 public interface IExecuteQueries {
-	void insertToTable(String tableName, List<Object> objects, Status status) throws SQLException;
+	void insertToTable(String tableName, List<Object> objects, CurrentEditStatus status) throws SQLException;
 
-	int insertAndGenerateId(String tableName, List<Object> objects, Status status) throws SQLException;
+	int insertAndGenerateId(String tableName, List<Object> objects, CurrentEditStatus status) throws SQLException;
 
 	void insertToTable(String tableName, List<Object> objects) throws SQLException;
 
@@ -22,9 +23,9 @@ public interface IExecuteQueries {
 
 	void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects) throws SQLException;
 
-	void deleteValueFromTable(String tableName, String objectName, Object object, Status status) throws SQLException;
+	void deleteValueFromTable(String tableName, String objectName, Object object, CurrentEditStatus status) throws SQLException;
 
-	void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects, Status status)
+	void deleteValuesFromTable(String tableName, List<String> objectNames, List<Object> objects, CurrentEditStatus status)
 			throws SQLException;
 
 	List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object, String columnsToSelect)
@@ -61,13 +62,13 @@ public interface IExecuteQueries {
 			Object conditon1, Object condition2) throws SQLException;
 
 	List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object, String columnsToSelect,
-			Status status) throws SQLException;
+			CurrentEditStatus status) throws SQLException;
 
 	List<List<Object>> selectColumnsByPartialValue(String tableName, String objectName, Object object,
-			String columnsToSelect, Status status) throws SQLException;
+			String columnsToSelect, CurrentEditStatus status) throws SQLException;
 
 	List<List<Object>> selectColumnsByValues(String tableName, List<String> objectNames, List<Object> objectsValues,
-			String columnsToSelect, Status status) throws SQLException;
+			String columnsToSelect, CurrentEditStatus status) throws SQLException;
 
 	List<List<Object>> selectAllColumns(String tableName, String columnsToSelect) throws SQLException;
 

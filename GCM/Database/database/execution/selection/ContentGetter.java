@@ -9,9 +9,9 @@ import java.util.List;
 
 import database.execution.IExecuteQueries;
 import database.metadata.DatabaseMetaData;
-import database.metadata.DatabaseMetaData.Tables;
+import database.metadata.DatabaseMetaData.Table;
 import database.objectParse.IParseObjects;
-import database.objectParse.Status;
+import database.objectParse.CurrentEditStatus;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -28,18 +28,18 @@ public class ContentGetter {
 	}
 
 	public Tour getTour(int tourId) throws SQLException {
-		return getTourByStatus(tourId, Status.PUBLISH);
+		return getTourByStatus(tourId, CurrentEditStatus.PUBLISH);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Tour getTourByStatus(int tourId, Status status) throws SQLException {
+	public Tour getTourByStatus(int tourId, CurrentEditStatus status) throws SQLException {
 		List<List<Object>> tourRows = queryExecutor.selectColumnsByValue(
-				DatabaseMetaData.getTableName(Tables.toursMetaDetails), "tourId", tourId, "*", status);
+				DatabaseMetaData.getTableName(Table.toursMetaDetails), "tourId", tourId, "*", status);
 		if (tourRows.isEmpty())
 			return null;
 		else {
 			List<List<Object>> siteIdsAndDurances = queryExecutor.selectColumnsByValue(
-					DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId", tourId,
+					DatabaseMetaData.getTableName(Table.tourSitesIdsAndDurance), "tourId", tourId,
 					"siteId, siteDurance", status);
 
 			List<Integer> siteIds = (List<Integer>) (Object) toListOfColumnNum(siteIdsAndDurances, 1);
@@ -67,11 +67,11 @@ public class ContentGetter {
 	}
 
 	public Site getSite(int siteId) throws SQLException {
-		return getSiteByStatus(siteId, Status.PUBLISH);
+		return getSiteByStatus(siteId, CurrentEditStatus.PUBLISH);
 	}
 
-	public Site getSiteByStatus(int siteId, Status status) throws SQLException {
-		List<List<Object>> siteRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
+	public Site getSiteByStatus(int siteId, CurrentEditStatus status) throws SQLException {
+		List<List<Object>> siteRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Table.sites),
 				"siteId", siteId, "*", status);
 		if (siteRows.isEmpty())
 			return null;
@@ -80,7 +80,7 @@ public class ContentGetter {
 	}
 
 	public File getMapFile(int mapId) throws SQLException {
-		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsFiles),
+		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Table.mapsFiles),
 				"mapId", mapId, "mapFile");
 		if (rows.isEmpty())
 			return null;
@@ -89,23 +89,23 @@ public class ContentGetter {
 	}
 
 	public Map getMapDetails(int mapId) throws SQLException {
-		return getMapDetailsByStatus(mapId, Status.PUBLISH);
+		return getMapDetailsByStatus(mapId, CurrentEditStatus.PUBLISH);
 	}
 
-	public Map getMapDetailsByStatus(int mapId, Status status) throws SQLException {
+	public Map getMapDetailsByStatus(int mapId, CurrentEditStatus status) throws SQLException {
 		List<List<Object>> metaDetailsRows = queryExecutor.selectColumnsByValue(
-				DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId, "*", status);
+				DatabaseMetaData.getTableName(Table.mapsMetaDetails), "mapId", mapId, "*", status);
 		if (metaDetailsRows.isEmpty())
 			return null;
 		else {
 			List<Integer> mapSitesIds = toIdList(queryExecutor.selectColumnsByValue(
-					DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId", status));
+					DatabaseMetaData.getTableName(Table.mapsSites), "mapId", mapId, "siteId", status));
 			List<Site> mapSites = new ArrayList<>();
 			for (int siteId : mapSitesIds) {
 				mapSites.add(getSite(siteId));
 			}
 			List<Integer> mapToursIds = toIdList(queryExecutor.selectColumnsByValue(
-					DatabaseMetaData.getTableName(Tables.mapsTours), "mapId", mapId, "tourId", status));
+					DatabaseMetaData.getTableName(Table.mapsTours), "mapId", mapId, "tourId", status));
 
 			List<Tour> mapTours = new ArrayList<>();
 			for (int tourId : mapToursIds) {

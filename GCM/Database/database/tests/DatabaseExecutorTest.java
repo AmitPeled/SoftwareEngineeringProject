@@ -13,7 +13,7 @@ import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.IExecuteQueries;
 import database.metadata.DatabaseMetaData;
-import database.metadata.DatabaseMetaData.Tables;
+import database.metadata.DatabaseMetaData.Table;
 
 /**
  * @author amit
@@ -27,7 +27,7 @@ class DatabaseExecutorTest {
 	@BeforeAll
 	static void setAll() {
 		dbExecutor = new DatabaseExecutor(DBConnector.connect());
-		tableName = DatabaseMetaData.getTableName(Tables.customerUsers);
+		tableName = DatabaseMetaData.getTableName(Table.customerUsers);
 	}
 
 	@AfterAll

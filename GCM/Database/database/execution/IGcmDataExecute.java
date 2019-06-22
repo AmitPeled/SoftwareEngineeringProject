@@ -29,14 +29,12 @@ public interface IGcmDataExecute {
 
 	RequestState verifyUser(String username, String password) throws SQLException;
 
-	int addMapToCity(int cityId, Map mapDescription, File mapFile) throws SQLException;
-
 	void deleteMapEdit(int mapId) throws SQLException;
 
 
 	Map getMapDetails(int mapId) throws SQLException;
 
-	File getMapFile(int mapId) throws SQLException;
+	byte[] getMapFile(int mapId) throws SQLException;
 
 	int addCity(City city) throws SQLException;
 
@@ -71,9 +69,9 @@ public interface IGcmDataExecute {
 
 	boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username) throws SQLException;
 
-	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
+	List<byte[]> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
 
-	File downloadMap(int cityId, String username) throws SQLException;
+	byte[] downloadMap(int cityId, String username) throws SQLException;
 
 	List<Map> getPurchasedMaps(String username) throws SQLException;
 
@@ -182,5 +180,7 @@ public interface IGcmDataExecute {
 	City getCityById(int cityId) throws SQLException;
 
 	Tour getTour(int tourId) throws SQLException;
+
+	int addMapToCity(int cityId, Map mapDescription, byte[] mapFile) throws SQLException;
 
 }

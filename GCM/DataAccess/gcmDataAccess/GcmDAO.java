@@ -1,6 +1,8 @@
 package gcmDataAccess;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -42,10 +44,11 @@ import users.User;
 @SuppressWarnings({ "serial", "unchecked" })
 public class GcmDAO
         implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
-	String serverHostname;
-	int    serverPortNumber;
-	String password = null;
-	String username = null;
+	private static final String PATH_TO_SOURCE_FOLDER = "import\\resources\\";
+	String                      serverHostname;
+	int                         serverPortNumber;
+	String                      password              = null;
+	String                      username              = null;
 
 	public GcmDAO(String host, int port) {
 		serverHostname = host;
@@ -76,14 +79,26 @@ public class GcmDAO
 		try {
 			ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
 				{
-
 					add(mapID);
 				}
 			}, username, password));
-			return (File) responseObject.getResponse().get(0);
+			byte[] fileBytes = (byte[]) responseObject.getResponse().get(0);
+			String filePath = PATH_TO_SOURCE_FOLDER + "mapImage_" + mapID;
+			return download(fileBytes, filePath);
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	private File download(byte[] fileBytes, String filePath) {
+		try (FileOutputStream stream = new FileOutputStream(filePath)) {
+			stream.write(fileBytes);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new File(filePath);
 	}
 
 	@Override
@@ -407,11 +422,15 @@ public class GcmDAO
 	@Override
 	public File downloadMap(int mapId) {
 		try {
-			return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
+			ResponseObject responseObject = send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
 				{
 					add(mapId);
 				}
-			}, username, password)).getResponse().get(0);
+			}, username, password));
+			byte[] fileBytes = (byte[]) responseObject.getResponse().get(0);
+			String filePath = PATH_TO_SOURCE_FOLDER + "mapImage_" + mapId;
+			return download(fileBytes, filePath);
+
 		} catch (Exception e) {
 			return null;
 		}

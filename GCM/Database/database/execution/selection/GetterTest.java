@@ -14,7 +14,7 @@ import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
 import database.objectParse.DatabaseParser;
-import database.objectParse.Status;
+import database.objectParse.CurrentEditStatus;
 import maps.City;
 import maps.Map;
 import maps.Tour;
@@ -37,12 +37,12 @@ class GetterTest {
 		assertEquals("siteDescription", map.getSites().get(0).getDescription());
 		assertEquals(1, map.getTours().size());
 		Tour tour = new Tour("d");
-		int tourId = contentGetter.addNewTourToCity(1, tour, Status.ADD);
+		int tourId = contentGetter.addNewTourToCity(1, tour, CurrentEditStatus.ADD);
 		System.err.println(tourId);
 		contentGetter.actionTourEdit(new TourSubmission(1,ObjectsEnum.CITY,new Tour(tourId, "d", null, null), ActionTaken.ADD), true);
 //		contentGetter.addSiteToTourByStatus(tourId, 1, 5, Status.ADD);
 
-		contentGetter.addExistingTourToMap(1, tourId, Status.PUBLISH);
+		contentGetter.addExistingTourToMap(1, tourId, CurrentEditStatus.PUBLISH);
 //		contentGetter.actionTourEdit(new TourSubmission(1,ObjectsEnum.MAP,new Tour(tourId, "d", null, null), ActionTaken.ADD), true);
 
 		map = contentGetter.getMapDetails(1);
