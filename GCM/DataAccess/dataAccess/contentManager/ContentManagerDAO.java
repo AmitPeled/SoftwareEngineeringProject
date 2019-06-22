@@ -12,6 +12,7 @@ import maps.City;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
+import queries.RequestState;
 import users.User;
 
 public interface ContentManagerDAO {
