@@ -217,8 +217,10 @@ public class GcmDataExecutor implements
 
 	private List<Site> getSitesByIds(List<Integer> siteIds, Status status) throws SQLException {
 		List<Site> sites = new ArrayList<>();
-		for (int siteId : siteIds)
+		for (int siteId : siteIds) {
+
 			sites.add(getSiteByStatus(siteId, status));
+		}
 		return sites;
 	}
 
@@ -561,7 +563,7 @@ public class GcmDataExecutor implements
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", id);
 	}
 
-	private void deleteSieFromMap(int mapId, int siteId) throws SQLException {
+	private void deleteSiteFromMap(int mapId, int siteId) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "siteId", siteId);
 	}
 
@@ -631,12 +633,14 @@ public class GcmDataExecutor implements
 		return maps;
 	}
 
-	private List<Integer> toIdList(List<List<Object>> idsRows) {
-		List<Integer> ids = new ArrayList<>();
-		for (List<Object> idRow : idsRows)
-			if (!ids.contains((int) idRow.get(0)))
-				ids.add((int) idRow.get(0));
-		return ids;
+	private List<Integer> toIdList(List<List<Object>> idRows) {
+		List<Integer> idList = new ArrayList<>();
+		for (List<Object> idRow : idRows) {
+			int id = (int) idRow.get(0);
+			if (!idList.contains(id))
+				idList.add(id);
+		}
+		return idList;
 	}
 
 	private List<Object> toListOfColumnNum(List<List<Object>> listRows, int column) {
@@ -686,9 +690,16 @@ public class GcmDataExecutor implements
 	}
 
 	public List<Site> getCitySitesByStatus(int cityId, Status status) throws SQLException {
-		List<Integer> siteIds = toIdList(queryExecutor.selectColumnsByValue(
+		List<Site> sites = new ArrayList<>();
+		List<Integer> sitesId = toIdList(queryExecutor.selectColumnsByValue(
 		        DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
-		return getSitesByIds(siteIds, status);
+		
+		for (int siteId : sitesId) {
+			Site site = getSite(siteId);
+			if (site != null)
+				sites.add(site);
+		}
+		return sites;
 	}
 
 	@Override
