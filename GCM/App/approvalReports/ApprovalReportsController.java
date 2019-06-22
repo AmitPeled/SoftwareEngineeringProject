@@ -12,9 +12,9 @@ import approvalReports.mapApprovalReports.MapSubmission;
 import approvalReports.mapApprovalReports.MapTableCell;
 import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.sitesApprovalReports.SiteTableCell;
-
 import approvalReports.tourApprovalReports.TourSubmission;
 import approvalReports.tourApprovalReports.TourTableCell;
+
 import gcmDataAccess.GcmDAO;
 import init.initializers.Initializer;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -81,8 +81,6 @@ public class ApprovalReportsController implements Initializable {
 	@FXML
 	TableColumn<MapSubmission, String> mapDescription;
 	@FXML
-	TableColumn<MapSubmission, String> mapPrice;
-	@FXML
 	TableColumn<MapSubmission, String> mapActionTaken;
 	@FXML
 	TableColumn<MapSubmission, Button> mapApprovalDisapproval;
@@ -113,21 +111,65 @@ public class ApprovalReportsController implements Initializable {
 		this.mapSubmissions = mapSubmissions == null ? new ArrayList<MapSubmission>() : mapSubmissions;
 
 	}
-
-	public void initSiteTableView() {
-		System.out.println(siteName);
-		try {
-			siteName.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSite().getName()));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+	public String getActionTaken(String objectName, ActionTaken actionTaken, String objectRelatedTo) {
+		String completeAction;
+		String action; 
+		if(actionTaken.equals(ActionTaken.ADD)) {
+			action = "added to ";
+			if(objectRelatedTo.isEmpty()) {
+				action = "added";
+			}
+		}else if(actionTaken.equals(ActionTaken.UPDATE)){
+			action = "updated in ";
+			if(objectRelatedTo.isEmpty()) {
+				action = "updated";
+			}
+		}else {
+			action = "removed from ";
+			if(objectRelatedTo.isEmpty()) {
+				action = "removed";
+			}
 		}
+		completeAction = objectName + " was " + action + objectRelatedTo;
+
+		return completeAction;
+	}
+	
+	public void initSiteTableView() {
+		siteName.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSite().getName()));
 		siteDescription
 				.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSite().getDescription()));
 		siteType.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSite().getSiteType()));
-		siteActionTaken.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
-
-		siteApprovalDisapproval
+		siteActionTaken.setCellValueFactory(data -> {
+			String objectName = data.getValue().getSite().getName();
+			ActionTaken actionTaken = data.getValue().getAction();
+			int objectRelatedToId = data.getValue().getContainingObjectID();
+			ObjectsEnum objectType = data.getValue().getContainingObjectType();
+			String objectRelatedTo = "";
+			
+			if(actionTaken.equals(ActionTaken.ADD)) {
+				if(objectType.equals(ObjectsEnum.CITY)) {
+					objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
+				}else if(objectType.equals(ObjectsEnum.MAP)) {
+					objectRelatedTo = gcmDAO.getMapDetails(objectRelatedToId).getName();
+				}else {
+					//objectRelatedTo = gcmDAO.getToursObjectAddedTo(objectRelatedToId).getDescription();
+				}
+			}else if(actionTaken.equals(ActionTaken.UPDATE)){
+				objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
+			}else {
+				if(objectType.equals(ObjectsEnum.CITY)) {
+					objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
+				}else if(objectType.equals(ObjectsEnum.MAP)) {
+					objectRelatedTo = gcmDAO.getMapDetails(objectRelatedToId).getName();
+				}else {
+					//objectRelatedTo = gcmDAO.getToursObjectAddedTo(objectRelatedToId).getDescription();
+				}
+			}
+			String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
+			return new ReadOnlyStringWrapper(action);
+		});
+		siteApprovalDisapproval 
 				.setCellFactory(new Callback<TableColumn<SiteSubmission, Button>, TableCell<SiteSubmission, Button>>() {
 					@Override
 					public TableCell<SiteSubmission, Button> call(TableColumn<SiteSubmission, Button> param) {
@@ -144,8 +186,14 @@ public class ApprovalReportsController implements Initializable {
 		cityName.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getCity().getName()));
 		cityDescription
 				.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getCity().getDescription()));
-		cityActionTaken.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
-
+		cityActionTaken.setCellValueFactory(data -> {
+			String objectName = data.getValue().getCity().getName();
+			ActionTaken actionTaken = data.getValue().getAction();
+			String objectRelatedTo = "";
+			
+			String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
+			return new ReadOnlyStringWrapper(action);
+		});
 		cityApprovalDisapproval
 				.setCellFactory(new Callback<TableColumn<CitySubmission, Button>, TableCell<CitySubmission, Button>>() {
 					@Override
@@ -160,10 +208,24 @@ public class ApprovalReportsController implements Initializable {
 	}
 
 	public void initTourTableView() {
-
 		tourDescription
 				.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getTour().getDescription()));
-		tourActionTaken.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
+		tourActionTaken.setCellValueFactory(data -> {
+			String objectName = data.getValue().getTour().getDescription();
+			ActionTaken actionTaken = data.getValue().getAction();
+			int objectRelatedToId = data.getValue().getContainingObjectID();
+			ObjectsEnum objectType = data.getValue().getContainingObjectType();
+			String objectRelatedTo = "";
+			
+			if(actionTaken.equals(ActionTaken.ADD) && objectType.equals(ObjectsEnum.MAP)) {
+				objectRelatedTo = gcmDAO.getMapDetails(objectRelatedToId).getName();
+			}else {
+				objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
+			}
+			
+			String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
+			return new ReadOnlyStringWrapper(action);
+		});
 
 		tourApprovalDisapproval
 				.setCellFactory(new Callback<TableColumn<TourSubmission, Button>, TableCell<TourSubmission, Button>>() {
@@ -182,10 +244,16 @@ public class ApprovalReportsController implements Initializable {
 		mapName.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getMap().getName()));
 		mapDescription
 				.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getMap().getDescription()));
-		mapPrice.setCellValueFactory(
-				data -> new ReadOnlyStringWrapper(Double.toString(data.getValue().getMap().getPrice())));
-		mapActionTaken.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
-
+		mapActionTaken.setCellValueFactory(data -> {
+			String objectName = data.getValue().getMap().getName();
+			ActionTaken actionTaken = data.getValue().getAction();
+			int objectRelatedToId = data.getValue().getContainingCityID();
+			String objectRelatedTo = "";
+			objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
+			
+			String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
+			return new ReadOnlyStringWrapper(action);
+		});
 		mapApprovalDisapproval
 				.setCellFactory(new Callback<TableColumn<MapSubmission, Button>, TableCell<MapSubmission, Button>>() {
 					@Override
@@ -264,7 +332,7 @@ public class ApprovalReportsController implements Initializable {
 		mapTable.setVisible(false);
 
 		initCityTableView();
-//		initSiteTableView();
+		initSiteTableView();
 		initTourTableView();
 		initMapTableView();
 

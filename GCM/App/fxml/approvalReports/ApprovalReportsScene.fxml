@@ -99,7 +99,6 @@
          <columns>
             <TableColumn fx:id="mapName" prefWidth="75.0" text="Map name" />
             <TableColumn fx:id="mapDescription" prefWidth="75.0" text="Description" />
-            <TableColumn fx:id="mapPrice" prefWidth="75.0" text="Price" />
             <TableColumn fx:id="mapActionTaken" prefWidth="120.0" text="Action taken" />
             <TableColumn fx:id="mapApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
          </columns>
