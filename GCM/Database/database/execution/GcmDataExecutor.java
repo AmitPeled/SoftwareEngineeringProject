@@ -43,9 +43,9 @@ import users.User;
  */
 @SuppressWarnings({ "serial", "unchecked" })
 public class GcmDataExecutor implements
-        IGcmDataExecute/* , IGcmCustomerExecutor, */ /* IGcmEditorExecutor, *//* IGcmContentManagerExecutor */ {
+		IGcmDataExecute/* , IGcmCustomerExecutor, */ /* IGcmEditorExecutor, *//* IGcmContentManagerExecutor */ {
 	IExecuteQueries queryExecutor;
-	IParseObjects   objectParser;
+	IParseObjects objectParser;
 
 	public GcmDataExecutor(IExecuteQueries queryExecutor, IParseObjects objectParser) {
 		this.queryExecutor = queryExecutor;
@@ -89,19 +89,19 @@ public class GcmDataExecutor implements
 				}
 			};
 			boolean isEditor = !queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.editorUsers),
-			        namesList, valuesList, "username, password").isEmpty();
+					namesList, valuesList, "username, password").isEmpty();
 			boolean isCustomer = !queryExecutor
-			        .selectColumnsByValues(DatabaseMetaData.getTableName(Tables.customerUsers), namesList, valuesList,
-			                "username, password")
-			        .isEmpty();
+					.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.customerUsers), namesList, valuesList,
+							"username, password")
+					.isEmpty();
 			boolean isCManager = !queryExecutor
-			        .selectColumnsByValues(DatabaseMetaData.getTableName(Tables.contentManagerUsers), namesList,
-			                valuesList, "username, password")
-			        .isEmpty();
+					.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.contentManagerUsers), namesList,
+							valuesList, "username, password")
+					.isEmpty();
 			boolean isGManager = !queryExecutor
-			        .selectColumnsByValues(DatabaseMetaData.getTableName(Tables.generalManagerUsers), namesList,
-			                valuesList, "username, password")
-			        .isEmpty();
+					.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.generalManagerUsers), namesList,
+							valuesList, "username, password")
+					.isEmpty();
 
 			if (username.equals("editor") && password.equals("editor") || isEditor) {
 				return RequestState.editor;
@@ -118,7 +118,7 @@ public class GcmDataExecutor implements
 
 	@Override
 	public int addMapToCity(int cityId, Map mapDescription, File mapFile/* , String pathToFilesFolder */)
-	        throws SQLException {
+			throws SQLException {
 		return addMapToCityByStatus(cityId, mapDescription, mapFile, Status.ADD);
 	}
 
@@ -126,10 +126,10 @@ public class GcmDataExecutor implements
 		int id = mapDescription.getId();
 		if (status == Status.ADD) {
 			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
-			        objectParser.getMapMetaFieldsList(mapDescription), status);
+					objectParser.getMapMetaFieldsList(mapDescription), status);
 		} else {
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
-			        objectParser.getMapMetaFieldsList(mapDescription), status);
+					objectParser.getMapMetaFieldsList(mapDescription), status);
 		}
 		int mapId = id;
 		List<Object> mapFileRow = new ArrayList<Object>() {
@@ -157,12 +157,12 @@ public class GcmDataExecutor implements
 
 	public Map getMapDetails(int mapId, Status status) throws SQLException {
 		List<List<Object>> metaDetailsRows = queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId, "*", status);
+				DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId, "*", status);
 		if (metaDetailsRows.isEmpty())
 			return null;
 		else {
 			List<Integer> mapSitesIds = toIdList(queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId", status));
+					DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, "siteId", status));
 			List<Site> mapSites = new ArrayList<>();
 			for (int siteId : mapSitesIds) {
 				Site site = getSite(siteId, status);
@@ -170,7 +170,7 @@ public class GcmDataExecutor implements
 					mapSites.add(site);
 			}
 			List<Integer> mapToursIds = toIdList(queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.mapsTours), "mapId", mapId, "tourId", status));
+					DatabaseMetaData.getTableName(Tables.mapsTours), "mapId", mapId, "tourId", status));
 			List<Tour> mapTours = new ArrayList<>();
 			for (int tourId : mapToursIds) {
 				Tour tour = getTour(tourId, status);
@@ -187,7 +187,7 @@ public class GcmDataExecutor implements
 
 	public Site getSite(int siteId, Status status) throws SQLException {
 		List<List<Object>> siteRows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
-		        "siteId", siteId, "*", status);
+				"siteId", siteId, "*", status);
 		if (siteRows.isEmpty())
 			return null;
 		else
@@ -201,19 +201,19 @@ public class GcmDataExecutor implements
 
 	public Tour getTour(int tourId, Status status) throws SQLException {
 		List<List<Object>> tourRows = queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.toursMetaDetails), "tourId", tourId, "*", status);
+				DatabaseMetaData.getTableName(Tables.toursMetaDetails), "tourId", tourId, "*", status);
 		if (tourRows.isEmpty())
 			return null;
 		else {
 			List<List<Object>> siteIdsAndDurances = queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId", tourId,
-			        "siteId, siteDurance", status);
+					DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId", tourId,
+					"siteId, siteDurance", status);
 
 			List<Integer> siteIds = (List<Integer>) (Object) toListOfColumnNum(siteIdsAndDurances, 1);
 			List<Integer> siteDurances = (List<Integer>) (Object) toListOfColumnNum(siteIdsAndDurances, 2);
 			List<Site> sites = getSitesByIds(siteIds, status);
 			return objectParser.getTour(tourRows.get(0), sites, siteDurances); // only one site row correspond to this
-			                                                                   // id
+																				// id
 		}
 	}
 
@@ -234,7 +234,7 @@ public class GcmDataExecutor implements
 
 	public File getMapFile(int mapId, Status status) throws SQLException {
 		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsFiles),
-		        "mapId", mapId, "mapFile", status);
+				"mapId", mapId, "mapFile", status);
 		if (rows.isEmpty())
 			return null;
 		else {
@@ -274,7 +274,7 @@ public class GcmDataExecutor implements
 
 	public void deleteMapByStatus(int mapId, Status status) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", mapId,
-		        status);
+				status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", mapId, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "mapId", mapId, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMapsIds), "mapId", mapId, status);
@@ -294,7 +294,7 @@ public class GcmDataExecutor implements
 			cityRow = objectParser.getCityFields(city);
 		if (status == Status.ADD)
 			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), cityRow,
-			        status);
+					status);
 		else
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), cityRow, status);
 		// for (Map map : city.getMaps()) {
@@ -426,10 +426,10 @@ public class GcmDataExecutor implements
 		int id = site.getId();
 		if (status == Status.ADD)
 			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.sites),
-			        objectParser.getSiteFieldsList(site), status);
+					objectParser.getSiteFieldsList(site), status);
 		else {
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
-			        objectParser.getSiteFieldsList(site), status);
+					objectParser.getSiteFieldsList(site), status);
 			// system.err.println("!!. site is PUBLISH. id=" + getSite(id).getId());
 		}
 		int siteId = id;
@@ -498,7 +498,7 @@ public class GcmDataExecutor implements
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMapsIds), "mapId", id, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMapsIds), "cityId", id, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId", id,
-		        status);
+				status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesTours), "tourId", id, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesTours), "cityId", id, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", id, status);
@@ -506,11 +506,11 @@ public class GcmDataExecutor implements
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsTours), "mapId", id, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsTours), "tourId", id, status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "siteId", id,
-		        status);
+				status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId", id,
-		        status);
+				status);
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.toursMetaDetails), "tourId", id,
-		        status);
+				status);
 	}
 
 	public void delete(int id) throws SQLException {
@@ -555,7 +555,7 @@ public class GcmDataExecutor implements
 		if (tour != null) {
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.toursMetaDetails), "tourId", id);
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId",
-			        id);
+					id);
 			for (Site site : tour.getSites()) {
 				deleteSite(site.getId());
 			}
@@ -582,28 +582,28 @@ public class GcmDataExecutor implements
 	}
 
 	private List<Map> getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField)
-	        throws SQLException {
+			throws SQLException {
 		return getMapsByCityField(fieldName, fieldVal, withPartialField, Status.PUBLISH);
 	}
 
 	private List<Map> getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField, Status status)
-	        throws SQLException {
+			throws SQLException {
 		List<Integer> cityIds;
 		if (withPartialField) {
 
 			cityIds = toIdList(
-			        queryExecutor.selectColumnsByPartialValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
-			                fieldName, "%" + (String) fieldVal + "%", "cityId", Status.PUBLISH));
+					queryExecutor.selectColumnsByPartialValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+							fieldName, "%" + (String) fieldVal + "%", "cityId", Status.PUBLISH));
 		} else {
 			cityIds = toIdList(
-			        queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
-			                fieldName, fieldVal, "cityId", Status.PUBLISH));
+					queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
+							fieldName, fieldVal, "cityId", Status.PUBLISH));
 		}
 		List<Map> maps = new ArrayList<>();
 		List<List<Object>> mapIdRows = new ArrayList<>();
 		for (int cityId : cityIds) {
 			mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
-			        "cityId", cityId, "mapId", Status.PUBLISH));
+					"cityId", cityId, "mapId", Status.PUBLISH));
 
 		}
 		List<Integer> mapsIds = toIdList(mapIdRows);
@@ -615,20 +615,20 @@ public class GcmDataExecutor implements
 	}
 
 	private List<Map> getMapsBySiteField(String fieldName, Object fieldVal, boolean withPartialField)
-	        throws SQLException {
+			throws SQLException {
 		List<Integer> sitesIds;
 		if (withPartialField)
 			sitesIds = toIdList(queryExecutor.selectColumnsByPartialValue(DatabaseMetaData.getTableName(Tables.sites),
-			        fieldName, "%" + (String) fieldVal + "%", "siteId", Status.PUBLISH));
+					fieldName, "%" + (String) fieldVal + "%", "siteId", Status.PUBLISH));
 		else
 			sitesIds = toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
-			        fieldName, fieldVal, "siteId", Status.PUBLISH));
+					fieldName, fieldVal, "siteId", Status.PUBLISH));
 
 		List<Map> maps = new ArrayList<>();
 		List<List<Object>> mapIdRows = new ArrayList<>();
 		for (int siteId : sitesIds) {
 			mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
-			        "siteId", siteId, "mapId", Status.PUBLISH));
+					"siteId", siteId, "mapId", Status.PUBLISH));
 		}
 		List<Integer> mapsIds = toIdList(mapIdRows);
 		for (int mapId : mapsIds)
@@ -674,13 +674,13 @@ public class GcmDataExecutor implements
 	@Override
 	public User getUserDetails(String username) throws SQLException {
 		List<List<Object>> rows = queryExecutor
-		        .selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*");
+				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*");
 		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
-		        username, "*"));
+				username, "*"));
 		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
-		        "username", username, "*"));
+				"username", username, "*"));
 		rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
-		        "username", username, "*"));
+				"username", username, "*"));
 		if (rows.isEmpty())
 			return null;
 		else
@@ -689,52 +689,30 @@ public class GcmDataExecutor implements
 
 	private boolean userExists(String username) throws SQLException {
 		return !queryExecutor
-		        .selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
-		        .isEmpty()
-		        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
-		                username, "*").isEmpty()
-		        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
-		                "username", username, "*").isEmpty()
-		        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
-		                "username", username, "*").isEmpty();
-	}
-
-	@Override
-	public RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword)
-	        throws SQLException {
-		if (user == null)
-			return null;
-		
-		if ((!user.getUsername().equals(oldUsername)) && userExists(user.getUsername())) { // username already exists
-			return RequestState.usernameAlreadyExists;
-		}
-		RequestState requestState = RequestState.wrongDetails;
-
-		if (updateUserRow(Tables.customerUsers, oldUsername, oldPassword, user, newPassword))
-			requestState = RequestState.customer;
-		else if (updateUserRow(Tables.editorUsers, oldUsername, oldPassword, user, newPassword))
-			requestState = RequestState.editor;
-		else if (updateUserRow(Tables.contentManagerUsers, oldUsername, oldPassword, user, newPassword))
-			requestState = RequestState.contentManager;
-		else if (updateUserRow(Tables.contentManagerUsers, oldUsername, oldPassword, user, newPassword))
-			requestState = RequestState.contentManager;
-		return requestState;
+				.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
+				.isEmpty()
+				|| !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
+						username, "*").isEmpty()
+				|| !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
+						"username", username, "*").isEmpty()
+				|| !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
+						"username", username, "*").isEmpty();
 	}
 
 	private boolean updateUserRow(Tables table, String oldUsername, String oldPassword, User user, String password)
-	        throws SQLException {
+			throws SQLException {
 		List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(table),
-		        new ArrayList<String>() {
-			        {
-				        add("username");
-				        add("password");
-			        }
-		        }, new ArrayList<Object>() {
-			        {
-				        add(oldUsername);
-				        add(oldPassword);
-			        }
-		        }, "*");
+				new ArrayList<String>() {
+					{
+						add("username");
+						add("password");
+					}
+				}, new ArrayList<Object>() {
+					{
+						add(oldUsername);
+						add(oldPassword);
+					}
+				}, "*");
 		if (!rows.isEmpty()) {
 			updateUser(table, oldUsername, user, password);
 			return true;
@@ -742,30 +720,33 @@ public class GcmDataExecutor implements
 		return false;
 	}
 
-//	private void updateUserRow(Tables table, String oldUsername, User user) throws SQLException {
-//		List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(table), "username",
-//		        oldUsername, "*");
-//		if (!rows.isEmpty()) {
-//			String oldPassword = (String) rows.get(0).get(1);
-//			updateUser(table, oldUsername, user, oldPassword);
-//		}
-//	}
+	// private void updateUserRow(Tables table, String oldUsername, User user)
+	// throws SQLException {
+	// List<List<Object>> rows =
+	// queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(table),
+	// "username",
+	// oldUsername, "*");
+	// if (!rows.isEmpty()) {
+	// String oldPassword = (String) rows.get(0).get(1);
+	// updateUser(table, oldUsername, user, oldPassword);
+	// }
+	// }
 
 	private void updateUser(Tables table, String oldUsername, User user, String password) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(table), "username", oldUsername);
 		List<Object> userRow = new ArrayList<>();
 		String newUsername = user.getUsername();
 		userRow.add(newUsername);
-		System.out.println("inserting new password: "+password);
+		System.out.println("inserting new password: " + password);
 		userRow.add(password);
 		userRow.addAll(objectParser.getUserFieldsList(user));
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(table), userRow);
 		queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "username",
-		        newUsername, "username", oldUsername);
+				newUsername, "username", oldUsername);
 		queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.purchaseHistory), "username", newUsername,
-		        "username", oldUsername);
-		queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.customerPurchaseDetails), "username", newUsername,
 				"username", oldUsername);
+		queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.customerPurchaseDetails), "username",
+				newUsername, "username", oldUsername);
 	}
 
 	@Override
@@ -775,7 +756,7 @@ public class GcmDataExecutor implements
 
 	public List<Site> getCitySitesByStatus(int cityId, Status status) throws SQLException {
 		List<Integer> sitesId = toIdList(queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
+				DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
 		return getSitesByIds(sitesId, status);
 	}
 
@@ -809,7 +790,7 @@ public class GcmDataExecutor implements
 
 	public City getCityByMapId(int mapId, Status status) throws SQLException {
 		List<List<Object>> lists = queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.citiesMapsIds), "mapId", mapId, "cityId", status);
+				DatabaseMetaData.getTableName(Tables.citiesMapsIds), "mapId", mapId, "cityId", status);
 		if (lists.isEmpty())
 			return null;
 		else
@@ -826,14 +807,14 @@ public class GcmDataExecutor implements
 
 	private City getCityById(int cityId, Status status) throws SQLException {
 		List<List<Object>> list = queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId", cityId, "*", status);
+				DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId", cityId, "*", status);
 		if (!list.isEmpty()) {
 			List<Integer> maps = toIdList(queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesMapsIds), "cityId", cityId, "mapId", status));
+					DatabaseMetaData.getTableName(Tables.citiesMapsIds), "cityId", cityId, "mapId", status));
 			List<Integer> tours = toIdList(queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesTours), "cityId", cityId, "tourId", status));
+					DatabaseMetaData.getTableName(Tables.citiesTours), "cityId", cityId, "tourId", status));
 			List<Integer> sites = toIdList(queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
+					DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
 			return objectParser.getCity(list.get(0), new TreeSet<>(maps), new TreeSet<>(tours), new TreeSet<>(sites));
 		} else
 			return null;
@@ -851,14 +832,14 @@ public class GcmDataExecutor implements
 			// queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.sites),
 			// objectParser.getSiteFieldsList(site), status);
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance),
-			        new ArrayList<Object>() {
-				        {
-					        add(tourId);
-					        add(siteId);
-					        add(durnace);
+					new ArrayList<Object>() {
+						{
+							add(tourId);
+							add(siteId);
+							add(durnace);
 
-				        }
-			        }, status);
+						}
+					}, status);
 		}
 	}
 
@@ -871,10 +852,10 @@ public class GcmDataExecutor implements
 		int id = tour.getId();
 		if (status == Status.ADD)
 			id = queryExecutor.insertAndGenerateId(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
-			        objectParser.getTourMetaFieldsList(tour), status);
+					objectParser.getTourMetaFieldsList(tour), status);
 		else
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.toursMetaDetails),
-			        objectParser.getTourMetaFieldsList(tour), status);
+					objectParser.getTourMetaFieldsList(tour), status);
 		int tourId = id;
 		queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesTours), new ArrayList<Object>() {
 			{
@@ -921,10 +902,10 @@ public class GcmDataExecutor implements
 	public void actionMapAddEdit(Map map, boolean action) throws SQLException {
 		if (map != null) {
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId",
-			        map.getId(), Status.ADD);
+					map.getId(), Status.ADD);
 			File file = getMapFile(map.getId(), Status.ADD);
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsFiles), "mapId", map.getId(),
-			        Status.ADD);
+					Status.ADD);
 			if (action) {
 				City city = getCitiesObjectAddedTo(map.getId()).get(0);
 				addMapToCityByStatus(city.getId(), map, file, Status.PUBLISH);
@@ -937,19 +918,19 @@ public class GcmDataExecutor implements
 		List<String> objectNames = objectParser.getMapMetaFieldsNames();
 		List<Object> objectValues = objectParser.getMapMetaFieldsList(map);
 		queryExecutor.deleteValuesFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), objectNames,
-		        objectValues, Status.UPDATE);
+				objectValues, Status.UPDATE);
 		if (action) {
 			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId",
-			        map.getId(), Status.PUBLISH);
+					map.getId(), Status.PUBLISH);
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails),
-			        objectParser.getMapMetaFieldsList(map), Status.PUBLISH);
+					objectParser.getMapMetaFieldsList(map), Status.PUBLISH);
 		}
 	}
 
 	@Override
 	public void actionMapDeleteEdit(Map map, boolean action) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "mapId", map.getId(),
-		        Status.DELETE);
+				Status.DELETE);
 		if (action) {
 			deleteMapEdit(map.getId());
 		}
@@ -959,7 +940,7 @@ public class GcmDataExecutor implements
 	@Override
 	public void actionCityDeleteEdit(City city, boolean action) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId",
-		        city.getId(), Status.DELETE);
+				city.getId(), Status.DELETE);
 		if (action) {
 			deleteCityEdit(city.getId());
 			// queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
@@ -971,15 +952,15 @@ public class GcmDataExecutor implements
 
 	List<Map> getMapsByStatus(Status status) throws SQLException {
 		List<Integer> mapIds = toIdList(
-		        queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "status",
-		                DatabaseMetaData.getStatus(status), "*"));
+				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsMetaDetails), "status",
+						DatabaseMetaData.getStatus(status), "*"));
 		return toMapsByIds(mapIds, status);
 	}
 
 	List<City> getCitiesByStatus(Status status) throws SQLException {
 		List<Integer> cityIds = toIdList(
-		        queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "status",
-		                DatabaseMetaData.getStatus(status), "cityId"));
+				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "status",
+						DatabaseMetaData.getStatus(status), "cityId"));
 		List<City> cityObjects = new ArrayList<>();
 		cityIds.forEach((cityId) -> {
 			try {
@@ -996,7 +977,7 @@ public class GcmDataExecutor implements
 
 	List<Site> getSitesByStatus(Status status) throws SQLException {
 		List<Integer> siteIds = toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
-		        "status", DatabaseMetaData.getStatus(status), "*"));
+				"status", DatabaseMetaData.getStatus(status), "*"));
 		List<Site> sites = new ArrayList<>();
 		siteIds.forEach((siteId) -> {
 			try {
@@ -1044,14 +1025,14 @@ public class GcmDataExecutor implements
 		List<SiteSubmission> siteSubmissions = new ArrayList<>();
 		if (actionTaken == ActionTaken.ADD || actionTaken == ActionTaken.DELETE) {
 			List<List<Object>> tourIdsAndSiteIds = queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "status",
-			        DatabaseMetaData.getStatus(status), "tourId, siteId");
+					DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "status",
+					DatabaseMetaData.getStatus(status), "tourId, siteId");
 			List<List<Object>> mapIdsAndSiteIds = queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.mapsSites), "status", DatabaseMetaData.getStatus(status),
-			        "mapId, siteId");
+					DatabaseMetaData.getTableName(Tables.mapsSites), "status", DatabaseMetaData.getStatus(status),
+					"mapId, siteId");
 			List<List<Object>> cityIdsAndSiteIds = queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesSitesIds), "status", DatabaseMetaData.getStatus(status),
-			        "cityId, siteId");
+					DatabaseMetaData.getTableName(Tables.citiesSitesIds), "status", DatabaseMetaData.getStatus(status),
+					"cityId, siteId");
 			for (List<Object> list : tourIdsAndSiteIds) {
 				int tourId = (int) list.get(0);
 				Site site = getSite((int) list.get(1), status);
@@ -1090,11 +1071,11 @@ public class GcmDataExecutor implements
 		List<TourSubmission> tourSubmissions = new ArrayList<>();
 		if (actionTaken == ActionTaken.ADD || actionTaken == ActionTaken.DELETE) {
 			List<List<Object>> mapIdsAndTourIds = queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.mapsTours), "status", DatabaseMetaData.getStatus(status),
-			        "mapId, tourId");
+					DatabaseMetaData.getTableName(Tables.mapsTours), "status", DatabaseMetaData.getStatus(status),
+					"mapId, tourId");
 			List<List<Object>> cityIdsAndTourIds = queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesTours), "status", DatabaseMetaData.getStatus(status),
-			        "cityId, tourId");
+					DatabaseMetaData.getTableName(Tables.citiesTours), "status", DatabaseMetaData.getStatus(status),
+					"cityId, tourId");
 			for (List<Object> list : mapIdsAndTourIds) {
 				int tourId = (int) list.get(0);
 				Tour site = getTour((int) list.get(1), status);
@@ -1124,8 +1105,8 @@ public class GcmDataExecutor implements
 		List<MapSubmission> mapSubmissions = new ArrayList<>();
 		if (actionTaken == ActionTaken.ADD || actionTaken == ActionTaken.DELETE || actionTaken == ActionTaken.UPDATE) {
 			List<List<Object>> cityIdsAndMapIds = queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesMapsIds), "status", DatabaseMetaData.getStatus(status),
-			        "cityId, mapId");
+					DatabaseMetaData.getTableName(Tables.citiesMapsIds), "status", DatabaseMetaData.getStatus(status),
+					"cityId, mapId");
 			for (List<Object> list : cityIdsAndMapIds) {
 				int cityId = (int) list.get(0);
 				int mapId = (int) list.get(1);
@@ -1140,34 +1121,34 @@ public class GcmDataExecutor implements
 
 	private ActionTaken toAction(Status status) {
 		switch (status) {
-			case ADD:
-				return ActionTaken.ADD;
-			case DELETE:
-				return ActionTaken.DELETE;
-			case UPDATE:
-				return ActionTaken.UPDATE;
-			default:
-				return null;
+		case ADD:
+			return ActionTaken.ADD;
+		case DELETE:
+			return ActionTaken.DELETE;
+		case UPDATE:
+			return ActionTaken.UPDATE;
+		default:
+			return null;
 		}
 	}
 
 	private Status toStatus(ActionTaken actionTaken) {
 		switch (actionTaken) {
-			case ADD:
-				return Status.ADD;
-			case DELETE:
-				return Status.DELETE;
-			case UPDATE:
-				return Status.UPDATE;
-			default:
-				return null;
+		case ADD:
+			return Status.ADD;
+		case DELETE:
+			return Status.DELETE;
+		case UPDATE:
+			return Status.UPDATE;
+		default:
+			return null;
 		}
 	}
 
 	private List<Tour> getToursByStatus(Status status) throws SQLException {
 		List<Integer> tourIds = toIdList(
-		        queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.toursMetaDetails), "status",
-		                DatabaseMetaData.getStatus(status), "*"));
+				queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.toursMetaDetails), "status",
+						DatabaseMetaData.getStatus(status), "*"));
 		List<Tour> tours = new ArrayList<>();
 		tourIds.forEach((tourId) -> {
 			try {
@@ -1303,9 +1284,9 @@ public class GcmDataExecutor implements
 	public List<Map> getMapsObjectAddedTo(int contentId) throws SQLException {
 		List<Integer> mapIds = new ArrayList<>();
 		mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsTours),
-		        "tourId", contentId, "mapId", Status.ADD)));
+				"tourId", contentId, "mapId", Status.ADD)));
 		mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
-		        "siteId", contentId, "mapId", Status.ADD)));
+				"siteId", contentId, "mapId", Status.ADD)));
 		return toMapsByIds(mapIds, Status.ADD);
 	}
 
@@ -1314,11 +1295,11 @@ public class GcmDataExecutor implements
 		try {
 			List<Integer> citiesIds = new ArrayList<>();
 			citiesIds.addAll(toIdList(queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesMapsIds), "mapId", contentId, "cityId", Status.ADD)));
+					DatabaseMetaData.getTableName(Tables.citiesMapsIds), "mapId", contentId, "cityId", Status.ADD)));
 			citiesIds.addAll(toIdList(queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesTours), "tourId", contentId, "cityId", Status.ADD)));
+					DatabaseMetaData.getTableName(Tables.citiesTours), "tourId", contentId, "cityId", Status.ADD)));
 			citiesIds.addAll(toIdList(queryExecutor.selectColumnsByValue(
-			        DatabaseMetaData.getTableName(Tables.citiesSitesIds), "siteId", contentId, "cityId", Status.ADD)));
+					DatabaseMetaData.getTableName(Tables.citiesSitesIds), "siteId", contentId, "cityId", Status.ADD)));
 			return toCities(citiesIds, Status.ADD);
 		} catch (Exception e) {
 			// system.err.println("error in getCitiesObjectAddedTo. id=" + contentId);
@@ -1341,8 +1322,8 @@ public class GcmDataExecutor implements
 	@Override
 	public List<Tour> getToursObjectAddedTo(int contentId) throws SQLException {
 		List<List<Object>> toursIds = queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "siteId", contentId, "tourId",
-		        Status.ADD);
+				DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "siteId", contentId, "tourId",
+				Status.ADD);
 		if (toursIds.isEmpty())
 			return new ArrayList<>();
 		else
@@ -1408,13 +1389,13 @@ public class GcmDataExecutor implements
 
 	private int getSiteDurance(int tourId, int siteId) throws SQLException {
 		List<List<Object>> list = queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId, siteId",
-		        new ArrayList<Object>() {
-			        {
-				        add(tourId);
-				        add(siteId);
-			        }
-		        }, "siteDurance");
+				DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "tourId, siteId",
+				new ArrayList<Object>() {
+					{
+						add(tourId);
+						add(siteId);
+					}
+				}, "siteDurance");
 		if (list.isEmpty())
 			return -1;
 		else
@@ -1455,10 +1436,10 @@ public class GcmDataExecutor implements
 			Status publish = Status.PUBLISH;
 			if (actionTaken == ActionTaken.ADD) {
 				if (objectsEnum == ObjectsEnum.MAP) {
-//					deleteTourFromMap(containingId, tourId);
+					// deleteTourFromMap(containingId, tourId);
 					addExistingTourToMap(containingId, tourId, publish);
 				} else if (objectsEnum == ObjectsEnum.CITY) {
-//					deleteTour(tourId);
+					// deleteTour(tourId);
 					addNewTourToCity(containingId, tour, publish);
 				}
 			} else if (actionTaken == ActionTaken.UPDATE) {
@@ -1489,7 +1470,7 @@ public class GcmDataExecutor implements
 			usersHoldingMap = getUsersHoldingMap(id);
 			Status publish = Status.PUBLISH;
 			if (actionTaken == ActionTaken.ADD) {
-//				delete(id);
+				// delete(id);
 				addMapToCityByStatus(containingId, map, file, publish);
 			} else if (actionTaken == ActionTaken.UPDATE) {
 				updateMapDetails(id);
@@ -1508,7 +1489,7 @@ public class GcmDataExecutor implements
 	private List<User> getUsersHoldingMap(int id) throws SQLException {
 		List<User> users = new ArrayList<>();
 		List<List<Object>> lists = queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "mapId", id, "username");
+				DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "mapId", id, "username");
 		for (List<Object> list : lists) {
 			String username = (String) list.get(0);
 			users.add(getUserDetails(username));
@@ -1547,13 +1528,13 @@ public class GcmDataExecutor implements
 			Status publish = Status.PUBLISH;
 			if (actionTaken == ActionTaken.ADD) {
 				if (objectsEnum == ObjectsEnum.TOUR) {
-//					deleteSiteFromTour(containingId, siteId);
+					// deleteSiteFromTour(containingId, siteId);
 					addSiteToTourByStatus(containingId, siteId, getSiteDurance(containingId, siteId), publish);
 				} else if (objectsEnum == ObjectsEnum.MAP) {
-//					deleteSiteFromMap(containingId, siteId);
+					// deleteSiteFromMap(containingId, siteId);
 					addSiteToMapByStatus(containingId, siteId, publish);
 				} else if (objectsEnum == ObjectsEnum.CITY) {
-//					deleteSite(siteId);
+					// deleteSite(siteId);
 					addNewSiteToCityByStatus(containingId, site, publish);
 				}
 			} else if (actionTaken == ActionTaken.UPDATE) {
@@ -1581,9 +1562,9 @@ public class GcmDataExecutor implements
 		// need to check if he buy that map befor -> 10% disscount
 
 		List<List<Object>> checkForDisscount = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username",
-		        username, "purchaseDate");
+				username, "purchaseDate");
 		List<List<Object>> list = queryExecutor.selectColumnsByValue("citysesPrices", "cityId", cityId,
-		        "Month" + timeInterval);
+				"Month" + timeInterval);
 		if (list.isEmpty()) {
 			return -1;
 		}
@@ -1597,7 +1578,7 @@ public class GcmDataExecutor implements
 
 	@Override
 	public boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username)
-	        throws SQLException {
+			throws SQLException {
 
 		// need to check if patment is good -> nevr happen
 
@@ -1664,13 +1645,13 @@ public class GcmDataExecutor implements
 		if (city != null && verifyPurchasedCity(username, city.getId())) {
 			File mapFile = getMapFile(mapId, Status.PUBLISH);
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory),
-			        new ArrayList<Object>() {
-				        {
-					        add(username);
-					        add(mapFile);
-					        add(new java.util.Date().toInstant());
-				        }
-			        });
+					new ArrayList<Object>() {
+						{
+							add(username);
+							add(mapFile);
+							add(new java.util.Date().toInstant());
+						}
+					});
 			return mapFile;
 		} else
 			return null;
@@ -1680,7 +1661,7 @@ public class GcmDataExecutor implements
 	public List<Map> getPurchasedMaps(String username) throws SQLException {
 		// having list of all the purchase cityId that the user bought
 		List<List<Object>> cityIdList = queryExecutor.selectColumnsByValue("purchaseDeatails", "cityId", username,
-		        "cityId");
+				"cityId");
 		List<Integer> cityId = toIdList(cityIdList);
 
 		String tableUPDATE = "downloads";
@@ -1705,7 +1686,7 @@ public class GcmDataExecutor implements
 	public double getOneTimePurchasePrice(int cityId) throws SQLException {
 
 		List<List<Object>> list = queryExecutor.selectColumnsByValue("citysesPrices", "cityId", cityId,
-		        "oneTimePurchase");
+				"oneTimePurchase");
 		if (list.isEmpty()) {
 			return -1;
 		}
@@ -1716,7 +1697,7 @@ public class GcmDataExecutor implements
 	@Override
 	public String getSavedCreditCard(String username) throws SQLException {
 		List<List<Object>> list = queryExecutor.selectColumnsByValue("costumerPurchaseDeatils", "username", username,
-		        "creditCard");
+				"creditCard");
 		if (list.isEmpty()) {
 			return "";
 		}
@@ -1727,7 +1708,7 @@ public class GcmDataExecutor implements
 
 	@Override
 	public boolean purchaseCity(int cityId, int timeInterval, PurchaseDetails purchaseDetails, String username)
-	        throws SQLException {
+			throws SQLException {
 		// if seccess -> validate payment (not really can happen)
 
 		// update user purchaseDetails in his table , update report table
@@ -1735,7 +1716,7 @@ public class GcmDataExecutor implements
 			purchaseCityOneTime(cityId, purchaseDetails, username);
 		} else {
 			List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
-			        "username", username, "purchaseDate");
+					"username", username, "purchaseDate");
 			if (checkIfAlreadyExistUser.isEmpty()) {
 				List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
 					{
@@ -1812,13 +1793,13 @@ public class GcmDataExecutor implements
 
 	@Override
 	public List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username)
-	        throws SQLException {
+			throws SQLException {
 
 		int timeInterval = 0;
 
 		// validate details and insert to costumerpurchasedtails table
 		List<List<Object>> checkIfAlreadyExistUser = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory",
-		        "username", username, "purchaseDate");
+				"username", username, "purchaseDate");
 		if (checkIfAlreadyExistUser.isEmpty()) {
 			List<Object> cotumerPurchaseDetails = new ArrayList<Object>() {
 				{
@@ -1891,17 +1872,17 @@ public class GcmDataExecutor implements
 
 	private boolean verifyPurchasedCity(String username, int cityId) throws SQLException {
 		List<List<Object>> rows = queryExecutor
-		        .selectColumnsByValues(DatabaseMetaData.getTableName(Tables.purchaseHistory), new ArrayList<String>() {
-			        {
-				        add("username");
-				        add("cityId");
-			        }
-		        }, new ArrayList<Object>() {
-			        {
-				        add(username);
-				        add(cityId);
-			        }
-		        }, "*");
+				.selectColumnsByValues(DatabaseMetaData.getTableName(Tables.purchaseHistory), new ArrayList<String>() {
+					{
+						add("username");
+						add("cityId");
+					}
+				}, new ArrayList<Object>() {
+					{
+						add(username);
+						add(cityId);
+					}
+				}, "*");
 		return !rows.isEmpty();
 	}
 
@@ -1909,14 +1890,14 @@ public class GcmDataExecutor implements
 	public List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException {
 		// getting username purchase history
 		List<List<Object>> history = queryExecutor.selectColumnsByValue("purchaseDeatailsHistory", "username", username,
-		        "*");
+				"*");
 
 		List<PurchaseHistory> purchases = new ArrayList<>();
 		// converting it to PurchaseHistory objects that contains - city id, start date
 		// , end date
 		for (int i = 0; i < history.size(); i++) {
 			PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
-			        (Date) history.get(i).get(5), getCityById((int) history.get(i).get(1)));
+					(Date) history.get(i).get(5), getCityById((int) history.get(i).get(1)));
 			purchases.add(purchaseHistory);
 		}
 
@@ -2011,7 +1992,7 @@ public class GcmDataExecutor implements
 
 	public List<Tour> getCityTours(int cityId, Status status) throws SQLException {
 		List<Integer> tourIds = toIdList(queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.citiesTours), "cityId", cityId, "tourId", status));
+				DatabaseMetaData.getTableName(Tables.citiesTours), "cityId", cityId, "tourId", status));
 		return getToursByIds(tourIds, status);
 	}
 
@@ -2024,7 +2005,7 @@ public class GcmDataExecutor implements
 
 	public City getCityByTourId(int tourId, Status status) throws SQLException {
 		List<List<Object>> lists = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesTours),
-		        "tourId", tourId, "cityId", status);
+				"tourId", tourId, "cityId", status);
 		if (lists.isEmpty())
 			return null;
 		else
@@ -2040,7 +2021,7 @@ public class GcmDataExecutor implements
 
 	public City getCityBySite(int siteId, Status status) throws SQLException {
 		List<List<Object>> lists = queryExecutor.selectColumnsByValue(
-		        DatabaseMetaData.getTableName(Tables.citiesSitesIds), "siteId", siteId, "cityId", status);
+				DatabaseMetaData.getTableName(Tables.citiesSitesIds), "siteId", siteId, "cityId", status);
 		if (lists.isEmpty())
 			return null;
 		else
@@ -2065,7 +2046,7 @@ public class GcmDataExecutor implements
 		if (prices.size() == 7) {
 			publishedCity.setPrices(prices);
 			queryExecutor.insertToTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
-			        objectParser.getCityFields(publishedCity), status);
+					objectParser.getCityFields(publishedCity), status);
 		}
 	}
 
@@ -2076,7 +2057,7 @@ public class GcmDataExecutor implements
 		for (City city : cities) {
 			City publishedCity = getCityById(city.getId());
 			priceSubmissions.add(new PriceSubmission(publishedCity.getId(), publishedCity.getName(),
-			        publishedCity.getPrices(), city.getPrices()));
+					publishedCity.getPrices(), city.getPrices()));
 		}
 		return priceSubmissions;
 	}
@@ -2148,7 +2129,7 @@ public class GcmDataExecutor implements
 		for (int i = 0; i < tableNames.size(); i++) {
 
 			List<List<Object>> list = queryExecutor.betweenDatesAndConditions("mangerReports", "*", date1,
-			        "occurrenceDate", date2, "cityId", tableNames.get(i), cityId, 1);
+					"occurrenceDate", date2, "cityId", tableNames.get(i), cityId, 1);
 			if (!list.isEmpty()) {
 
 				if (tableNames.get(i).equals("oneTimePurchase")) {
@@ -2179,7 +2160,7 @@ public class GcmDataExecutor implements
 	private boolean emptyfields(Report report) {
 
 		if (report.getDownloads() == 0 && report.getOneTimePurchase() == 0 && report.getResubscribers() == 0
-		        && report.getSubscribes() == 0 && report.getViewsNum() == 0) {
+				&& report.getSubscribes() == 0 && report.getViewsNum() == 0) {
 			return false;
 		}
 		return true;

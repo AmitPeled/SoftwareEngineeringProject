@@ -34,7 +34,5 @@ public interface ContentManagerDAO {
 	void changeCityPrices(int cityId, List<Double> prices) throws SQLException; //TODO
 	List<PurchaseHistory> getPurchaseHistory();
 	City getCity(int cityId);
-	RequestState updateUser(User user);
-	RequestState updateUser(User user, String password);
 	
 }

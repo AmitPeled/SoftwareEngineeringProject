@@ -41,9 +41,9 @@ import users.User;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class GcmDAO
-        implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
+		implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
 	String serverHostname;
-	int    serverPortNumber;
+	int serverPortNumber;
 	String password = null;
 	String username = null;
 
@@ -115,8 +115,8 @@ public class GcmDAO
 
 	private ResponseObject send(RequestObject req) { // false for error, true otherwise
 		System.out.println("Connecting to host " + serverHostname + " on port " + serverPortNumber + ".");
-//		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-//		SSLSocket serverSocket = null;
+		// SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+		// SSLSocket serverSocket = null;
 		Socket serverSocket = null;
 		ObjectInputStream in = null;
 		ObjectOutputStream out = null;
@@ -125,11 +125,11 @@ public class GcmDAO
 			return null;
 		}
 		try {
-//			System.out.println("connecting to server: ");
+			// System.out.println("connecting to server: ");
 			serverSocket = new Socket(serverHostname, serverPortNumber);
-//			factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-//			serverSocket = (SSLSocket) factory.createSocket(serverHostname, port);
-//			serverSocket.startHandshake();
+			// factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			// serverSocket = (SSLSocket) factory.createSocket(serverHostname, port);
+			// serverSocket.startHandshake();
 			out = new ObjectOutputStream(serverSocket.getOutputStream());
 			in = new ObjectInputStream(serverSocket.getInputStream());
 
@@ -143,14 +143,14 @@ public class GcmDAO
 			System.exit(1);
 		}
 
-//		System.out.println("Sending data to server..");
+		// System.out.println("Sending data to server..");
 		try {
 			out.writeObject(req);
 		} catch (IOException e1) {
 			System.err.println("error in sending data to server");
 			System.err.println(e1.getMessage());
 		}
-//		System.out.println("data sent. receiving data:");
+		// System.out.println("data sent. receiving data:");
 		Object res = null;
 		try {
 			res = in.readObject();
@@ -282,31 +282,33 @@ public class GcmDAO
 		return 0;
 	}
 
-//	@Override
-//	public boolean purchaseCityOneTime(int mapId, PurchaseDetails purchaseDetails) {
-//		try {
-//			return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new ArrayList<Object>() {
-//				{
-//					add(mapId);
-//					add(purchaseDetails);
-//				}
-//			}, username, password)).getResponse().get(0);
-//		} catch (Exception e) {
-//			return false;
-//		}
-//	}
+	// @Override
+	// public boolean purchaseCityOneTime(int mapId, PurchaseDetails
+	// purchaseDetails) {
+	// try {
+	// return (boolean) send(new RequestObject(GcmQuery.purchaseCity, new
+	// ArrayList<Object>() {
+	// {
+	// add(mapId);
+	// add(purchaseDetails);
+	// }
+	// }, username, password)).getResponse().get(0);
+	// } catch (Exception e) {
+	// return false;
+	// }
+	// }
 
 	@Override
 	public List<City> getActiveCitiesPurchases() {
 		return (List<City>) (Object) send(
-		        new RequestObject(GcmQuery.getActiveCitiesPurchases, null, username, password)).getResponse();
+				new RequestObject(GcmQuery.getActiveCitiesPurchases, null, username, password)).getResponse();
 	}
 
 	@Override
 	public User getUserDetails() {
 		try {
 			return (User) send(new RequestObject(GcmQuery.getUserDetails, null, username, password)).getResponse()
-			        .get(0);
+					.get(0);
 		} catch (Exception e) {
 			return null;
 		}
@@ -450,8 +452,8 @@ public class GcmDAO
 	public String getSavedCreditCard() {
 		try {
 			return (String) send(
-			        new RequestObject(GcmQuery.getSavedCreditCard, new ArrayList<Object>(), username, password))
-			                .getResponse().get(0);
+					new RequestObject(GcmQuery.getSavedCreditCard, new ArrayList<Object>(), username, password))
+							.getResponse().get(0);
 		} catch (Exception e) {
 			return "No credit card saved.";
 		}
@@ -470,46 +472,46 @@ public class GcmDAO
 	@Override
 	public List<City> getCitiesAddEdits() {
 		return (List<City>) (Object) send(
-		        new RequestObject(GcmQuery.getCitiesAddEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
+				new RequestObject(GcmQuery.getCitiesAddEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
 
 	}
 
 	@Override
 	public List<City> getCitiesUpdateEdits() {
 		return (List<City>) (Object) send(
-		        new RequestObject(GcmQuery.getCitiesUpdateEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
+				new RequestObject(GcmQuery.getCitiesUpdateEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
 
 	}
 
 	@Override
 	public List<City> getCitiesDeleteEdits() {
 		return (List<City>) (Object) send(
-		        new RequestObject(GcmQuery.getCitiesDeleteEdits, new ArrayList<Object>(), username, password))
-		                .getResponse();
+				new RequestObject(GcmQuery.getCitiesDeleteEdits, new ArrayList<Object>(), username, password))
+						.getResponse();
 
 	}
 
 	@Override
 	public List<SiteSubmission> getSiteSubmissions() {
 		return (List<SiteSubmission>) (Object) send(
-		        new RequestObject(GcmQuery.getSiteSubmissions, new ArrayList<Object>(), username, password))
-		                .getResponse();
+				new RequestObject(GcmQuery.getSiteSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
 	}
 
 	@Override
 	public List<MapSubmission> getMapSubmissions() {
 		return (List<MapSubmission>) (Object) send(
-		        new RequestObject(GcmQuery.getMapSubmissions, new ArrayList<Object>(), username, password))
-		                .getResponse();
+				new RequestObject(GcmQuery.getMapSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
 	}
 
 	@Override
 	public List<TourSubmission> getTourSubmissions() {
 		return (List<TourSubmission>) (Object) send(
-		        new RequestObject(GcmQuery.getTourSubmissions, new ArrayList<Object>(), username, password))
-		                .getResponse();
+				new RequestObject(GcmQuery.getTourSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
 	}
 
 	@Override
@@ -658,8 +660,8 @@ public class GcmDAO
 	@Override
 	public List<PriceSubmission> getPriceSubmissions() throws SQLException {
 		return (List<PriceSubmission>) (Object) send(
-		        new RequestObject(GcmQuery.getPriceSubmissions, new ArrayList<Object>(), username, password))
-		                .getResponse();
+				new RequestObject(GcmQuery.getPriceSubmissions, new ArrayList<Object>(), username, password))
+						.getResponse();
 
 	}
 
@@ -677,8 +679,8 @@ public class GcmDAO
 	@Override
 	public List<PurchaseHistory> getPurchaseHistory() {
 		return (List<PurchaseHistory>) (Object) send(
-		        new RequestObject(GcmQuery.getPurchaseHistory, new ArrayList<Object>(), username, password))
-		                .getResponse();
+				new RequestObject(GcmQuery.getPurchaseHistory, new ArrayList<Object>(), username, password))
+						.getResponse();
 	}
 
 	@Override
@@ -731,4 +733,5 @@ public class GcmDAO
 			return null;
 		}
 	}
+
 }
