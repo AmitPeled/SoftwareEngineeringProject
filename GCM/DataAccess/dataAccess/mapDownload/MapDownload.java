@@ -24,7 +24,9 @@ public class MapDownload {
 	String mapFile;
 	File file;
 	String FOLDER_DIR;
-	public MapDownload() {
+	private GcmDAO gcmDAO;
+	public MapDownload(GcmDAO gcmDAO) {
+		this.gcmDAO = gcmDAO;
 		// make folder
 		FOLDER_DIR = System.getProperty("user.home") + "\\Documents\\mapDownloads\\";
         File folder = new File(FOLDER_DIR);
@@ -77,51 +79,6 @@ public class MapDownload {
 		return false;
 	}
 	
-    //Classic, < JDK7
-    private static void writeBytesToFileClassic(byte[] bFile, String fileDest) {
-
-        FileOutputStream fileOuputStream = null;
-
-        try {
-            fileOuputStream = new FileOutputStream(fileDest);
-            fileOuputStream.write(bFile);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fileOuputStream != null) {
-                try {
-                    fileOuputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    //Since JDK 7 - try resources
-    private static void writeBytesToFile(byte[] bFile, String fileDest) {
-
-        try (FileOutputStream fileOuputStream = new FileOutputStream(fileDest)) {
-            fileOuputStream.write(bFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    //Since JDK 7, NIO
-    private static void writeBytesToFileNio(byte[] bFile, String fileDest) {
-
-        try {
-            Path path = Paths.get(fileDest);
-            Files.write(path, bFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
     public String checkIfFileExist(int cityId, int mapId) {
     	 List<String> extensions = Arrays.asList(".jpg", ".png", ".tif", ".jpeg");
     	 for (String extension : extensions) {
@@ -135,10 +92,54 @@ public class MapDownload {
     	return "no";
     	 
     }
-    public File getFileFromDirectory(int cityId, int mapId, String extension) throws IOException {
-   	 	String directory = FOLDER_DIR + "city" + Integer.toString(cityId) + "_map" + Integer.toString(mapId) + extension;
-   	 	File file = new File(directory);
-   	 	return file;
+    
+    public File getMapFile(int cityId, int mapId, String extension) throws IOException {
+   	 	String filePath = FOLDER_DIR + "city" + Integer.toString(cityId) + "_map" + Integer.toString(mapId) + extension;
+   	 	File file = new File(filePath);
+   	 	if(file.exists()) return file;
+   	 	DownloadMap(gcmDAO, cityId, mapId);
+	 	
+   	 	return new File(filePath);
+    }
+    
+    //Classic, < JDK7
+    private static void writeBytesToFileClassic(byte[] bFile, String fileDest) {
+        FileOutputStream fileOuputStream = null;
+        
+        try {
+            fileOuputStream = new FileOutputStream(fileDest);
+            fileOuputStream.write(bFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileOuputStream != null) {
+                try {
+                    fileOuputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //Since JDK 7 - try resources
+    private static void writeBytesToFile(byte[] bFile, String fileDest) {
+        try (FileOutputStream fileOuputStream = new FileOutputStream(fileDest)) {
+            fileOuputStream.write(bFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Since JDK 7, NIO
+    private static void writeBytesToFileNio(byte[] bFile, String fileDest) {
+
+        try {
+            Path path = Paths.get(fileDest);
+            Files.write(path, bFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
