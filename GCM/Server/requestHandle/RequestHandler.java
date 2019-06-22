@@ -85,11 +85,15 @@ public class RequestHandler implements IHandleRequest {
 					break;
 				case getSiteSubmissions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getSiteSubmissions();
+					break;
 				case getMapSubmissions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getMapSubmissions();
 					break;
 				case getTourSubmissions:
 					listToSend = (List<Object>) (Object) gcmDataExecutor.getTourSubmissions();
+					break;
+				case getTour:
+					listToSend.add(gcmDataExecutor.getTour((int) listObjectReceived.get(0)));
 					break;
 //				case addCityWithInitialMap:
 //					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),

@@ -181,4 +181,6 @@ public interface IGcmDataExecute {
 
 	City getCityById(int cityId) throws SQLException;
 
+	Tour getTour(int tourId) throws SQLException;
+
 }

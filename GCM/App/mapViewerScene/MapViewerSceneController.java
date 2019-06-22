@@ -17,11 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import mainApp.GcmClient;
-import mainApp.SceneNames;
 import mapViewer.MapViewer;
 import mapViewer.MapViewerFactory;
 import mapViewer.MapViewerListener;
-import maps.Coordinates;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
@@ -106,7 +104,7 @@ public class MapViewerSceneController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	private void setVisibility(GcmClient gcmClient) {
+
 		RequestState userState = gcmClient.getUserInfo().getState();
 		if(userState.equals(RequestState.editor) || userState.equals(RequestState.contentManager) || userState.equals(RequestState.generalManager) || userState.equals(RequestState.manager)) {
 			addSite.setVisible(true);
@@ -136,6 +134,7 @@ public class MapViewerSceneController implements Initializable{
 		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId);
 		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId, map);
+		mapViewerSceneController.setVisibility();
 		return mapViewerSceneController.getScene();
 	}
 	

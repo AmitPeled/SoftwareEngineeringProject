@@ -190,6 +190,7 @@ public class GcmDataExecutor implements
 			return objectParser.getSite(siteRows.get(0)); // only one site row correspond to this id
 	}
 
+	@Override
 	public Tour getTour(int tourId) throws SQLException {
 		return getTourByStatus(tourId, Status.PUBLISH);
 	}
@@ -216,8 +217,10 @@ public class GcmDataExecutor implements
 
 	private List<Site> getSitesByIds(List<Integer> siteIds, Status status) throws SQLException {
 		List<Site> sites = new ArrayList<>();
-		for (int siteId : siteIds)
+		for (int siteId : siteIds) {
+
 			sites.add(getSiteByStatus(siteId, status));
+		}
 		return sites;
 	}
 
@@ -560,7 +563,7 @@ public class GcmDataExecutor implements
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", id);
 	}
 
-	private void deleteSieFromMap(int mapId, int siteId) throws SQLException {
+	private void deleteSiteFromMap(int mapId, int siteId) throws SQLException {
 		queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.mapsSites), "siteId", siteId);
 	}
 
@@ -630,12 +633,14 @@ public class GcmDataExecutor implements
 		return maps;
 	}
 
-	private List<Integer> toIdList(List<List<Object>> idsRows) {
-		List<Integer> ids = new ArrayList<>();
-		for (List<Object> idRow : idsRows)
-			if (!ids.contains((int) idRow.get(0)))
-				ids.add((int) idRow.get(0));
-		return ids;
+	private List<Integer> toIdList(List<List<Object>> idRows) {
+		List<Integer> idList = new ArrayList<>();
+		for (List<Object> idRow : idRows) {
+			int id = (int) idRow.get(0);
+			if (!idList.contains(id))
+				idList.add(id);
+		}
+		return idList;
 	}
 
 	private List<Object> toListOfColumnNum(List<List<Object>> listRows, int column) {
@@ -685,9 +690,16 @@ public class GcmDataExecutor implements
 	}
 
 	public List<Site> getCitySitesByStatus(int cityId, Status status) throws SQLException {
-		List<Integer> siteIds = toIdList(queryExecutor.selectColumnsByValue(
+		List<Site> sites = new ArrayList<>();
+		List<Integer> sitesId = toIdList(queryExecutor.selectColumnsByValue(
 		        DatabaseMetaData.getTableName(Tables.citiesSitesIds), "cityId", cityId, "siteId", status));
-		return getSitesByIds(siteIds, status);
+		
+		for (int siteId : sitesId) {
+			Site site = getSite(siteId);
+			if (site != null)
+				sites.add(site);
+		}
+		return sites;
 	}
 
 	@Override
@@ -1653,14 +1665,10 @@ public class GcmDataExecutor implements
 						add(purchaseDetails.getCreditCard());
 						add(purchaseDetails.getCvv());
 						add(purchaseDetails.getCardExpireDate());
+						add(purchaseDetails.getCardOwnerIdString());
 					}
 				};
-				try {
-					queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
-				} catch (SQLException e) {
-					// else give null
-					return false;
-				}
+				queryExecutor.insertToTable("costumerPurchaseDetails", cotumerPurchaseDetails);
 			}
 
 			// update purchaseDeatailsHistory so can know all purchase history
