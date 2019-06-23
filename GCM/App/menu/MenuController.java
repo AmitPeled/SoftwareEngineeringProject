@@ -77,12 +77,13 @@ public final class MenuController implements Initializable {
 		customerreportbtn.setVisible(true);
 
 		RequestState userState = gcmClient.getUserInfo().getState();
-		System.out.println(userState);
+		
 		if (userState.equals(RequestState.editor) || userState.equals(RequestState.contentManager)
 				|| userState.equals(RequestState.generalManager) || userState.equals(RequestState.manager)) {
 			addanewcityBtn.setVisible(true);
 			reportsBtn.setVisible(true);
 			approvalReportsBtn.setVisible(true);
+			customerreportbtn.setVisible(false);
 		} else {
 			// i know it stupid to do it like this but for now that what happens
 			List<PurchaseHistory> purchaseHistories = gcmClient.getDataAccessObject().getPurchaseHistory();
