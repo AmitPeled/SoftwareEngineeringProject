@@ -39,6 +39,7 @@ import maps.City;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
+import users.User;
 
 public class ApprovalReportsController implements Initializable {
 	private GcmDAO gcmDAO;
@@ -87,6 +88,13 @@ public class ApprovalReportsController implements Initializable {
 	TableColumn<MapSubmission, Button> mapApprovalDisapproval;
 
 	@FXML
+	TableView<User> notifyUsersList; 
+	@FXML
+	TableColumn<User, String> email;
+	@FXML
+	TableColumn<User, String> username;
+	
+	@FXML
 	Button cityReports;
 	@FXML
 	Button siteReports;
@@ -100,8 +108,9 @@ public class ApprovalReportsController implements Initializable {
 	private List<TourSubmission> tourSubmissions;
 	private List<MapSubmission> mapSubmissions;
 	private GcmClient gcmClient;
-
-	private ApprovalReportsController(GcmClient gcmClient, GcmDAO gcmDAO, List<CitySubmission> citySubmissions,
+	
+	
+	public ApprovalReportsController(GcmClient gcmClient, GcmDAO gcmDAO, List<CitySubmission> citySubmissions,
 			List<SiteSubmission> siteSubmissions, List<TourSubmission> tourSubmissions,
 			List<MapSubmission> mapSubmissions) {
 		this.gcmClient = gcmClient;
@@ -188,9 +197,6 @@ public class ApprovalReportsController implements Initializable {
 					}
 				});
 
-		ObservableList<SiteSubmission> details = siteSubmissions.isEmpty() ? FXCollections.observableArrayList()
-				: FXCollections.observableArrayList(siteSubmissions);
-		siteTable.setItems(details);
 	}
 
 	public void initCityTableView() {
@@ -213,11 +219,9 @@ public class ApprovalReportsController implements Initializable {
 					}
 				});
 
-		ObservableList<CitySubmission> details = citySubmissions.isEmpty() ? FXCollections.observableArrayList()
-				: FXCollections.observableArrayList(citySubmissions);
-		cityTable.setItems(details);
+		
 	}
-
+	
 	public void initTourTableView() {
 		tourDescription
 				.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getTour().getDescription()));
@@ -246,9 +250,6 @@ public class ApprovalReportsController implements Initializable {
 					}
 				});
 
-		ObservableList<TourSubmission> details = tourSubmissions.isEmpty() ? FXCollections.observableArrayList()
-				: FXCollections.observableArrayList(tourSubmissions);
-		tourTable.setItems(details);
 	}
 
 	public void initMapTableView() {
@@ -269,19 +270,54 @@ public class ApprovalReportsController implements Initializable {
 				.setCellFactory(new Callback<TableColumn<MapSubmission, Button>, TableCell<MapSubmission, Button>>() {
 					@Override
 					public TableCell<MapSubmission, Button> call(TableColumn<MapSubmission, Button> param) {
-						return new MapTableCell(gcmDAO);
+						return new MapTableCell(gcmDAO, notifyUsersList);
 					}
 				});
 
+	}
+	
+	public void initUsersTableView() {
+		username.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getUsername()));
+		email.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getEmail()));
+	}
+
+	public void getDataForCityTableView() {
+		citySubmissions = fetchCitySubmissions(gcmDAO);
+		ObservableList<CitySubmission> details = citySubmissions.isEmpty() ? FXCollections.observableArrayList()
+				: FXCollections.observableArrayList(citySubmissions);
+		cityTable.setItems(details);
+	}
+	public void getDataForMapTableView() {
+		mapSubmissions = fetchMapSubmissions(gcmDAO);
 		ObservableList<MapSubmission> details = FXCollections.observableArrayList(mapSubmissions);
 		mapTable.setItems(details);
 	}
-
+	public void getDataForTourTableView() {
+		tourSubmissions = fetchTourSubmissions(gcmDAO);
+		ObservableList<TourSubmission> details = tourSubmissions.isEmpty() ? FXCollections.observableArrayList()
+				: FXCollections.observableArrayList(tourSubmissions);
+		tourTable.setItems(details);
+	}
+	public void getDataForSiteTableView() {
+		siteSubmissions = fetchSiteSubmissions(gcmDAO);
+		ObservableList<SiteSubmission> details = siteSubmissions.isEmpty() ? FXCollections.observableArrayList()
+				: FXCollections.observableArrayList(siteSubmissions);
+		siteTable.setItems(details);
+	}
+	
+	
+	public void setUsersTableView(List<User> users) {
+		notifyUsersList.setVisible(true);
+		ObservableList<User> details = FXCollections.observableArrayList(users);
+		notifyUsersList.setItems(details);
+	}
+	
 	public void cityBtnListener() {
 		cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				getDataForCityTableView();
 				cityTable.setVisible(true);
 				siteTable.setVisible(false);
 				tourTable.setVisible(false);
@@ -297,6 +333,7 @@ public class ApprovalReportsController implements Initializable {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				getDataForSiteTableView();
 				siteTable.setVisible(true);
 				cityTable.setVisible(false);
 				tourTable.setVisible(false);
@@ -312,6 +349,7 @@ public class ApprovalReportsController implements Initializable {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				getDataForTourTableView();
 				siteTable.setVisible(false);
 				cityTable.setVisible(false);
 				tourTable.setVisible(true);
@@ -327,6 +365,7 @@ public class ApprovalReportsController implements Initializable {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				getDataForMapTableView();
 				siteTable.setVisible(false);
 				cityTable.setVisible(false);
 				tourTable.setVisible(false);
@@ -341,12 +380,13 @@ public class ApprovalReportsController implements Initializable {
 		siteTable.setVisible(false);
 		tourTable.setVisible(false);
 		mapTable.setVisible(false);
-
+		notifyUsersList.setVisible(false);
+		
 		initCityTableView();
 		initSiteTableView();
 		initTourTableView();
 		initMapTableView();
-
+		initUsersTableView();
 	}
 
 	@Override
@@ -361,11 +401,7 @@ public class ApprovalReportsController implements Initializable {
 
 	public void initialize() {
 		System.out.println("Initializing approval screen");
-		citySubmissions = fetchCitySubmissions(gcmDAO);
-		siteSubmissions = fetchSiteSubmissions(gcmDAO);
-
-		mapSubmissions = fetchMapSubmissions(gcmDAO);
-		tourSubmissions = fetchTourSubmissions(gcmDAO);
+		
 		initialize(null, null);
 	}
 

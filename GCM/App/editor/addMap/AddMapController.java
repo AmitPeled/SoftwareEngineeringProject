@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import mainApp.GcmClient;
 import maps.Coordinates;
 import maps.Map;
 import utility.TextFieldUtility;
@@ -54,9 +55,11 @@ public class AddMapController implements Initializable
 	private FileChooser fileChooser;
 	BufferedImage bufferedImage;
 	TextFieldUtility utilities;
+	GcmClient gcmClient;
 	
-	public AddMapController(GcmDAO gcmDAO, int cityId, TextFieldUtility utilities) {
-		this.gcmDAO = gcmDAO;
+	public AddMapController(GcmClient gcmClient, int cityId, TextFieldUtility utilities) {
+		this.gcmClient = gcmClient;
+		this.gcmDAO = gcmClient.getDataAccessObject();
 		fileChooser = new FileChooserInit().getFileChooser();
 		this.cityId = cityId;
 		this.utilities = utilities;
@@ -118,7 +121,10 @@ public class AddMapController implements Initializable
 			})
 		);
 	}
-	
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
     /**
 	* @param url
 	* @param rb

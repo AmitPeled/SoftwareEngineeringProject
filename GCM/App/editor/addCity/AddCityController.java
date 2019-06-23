@@ -33,13 +33,14 @@ public class AddCityController implements Initializable
 	TextField errors;
 	@FXML
 	Button addCity; 
+
 	
 	File file;
 	Image image; 
 	TextFieldUtility utilities;
 
 	private GcmClient gcmClient;
-	
+	 
 	public AddCityController(GcmClient gcmClient, GcmDAO gcmDAO, TextFieldUtility utilities) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
@@ -68,7 +69,10 @@ public class AddCityController implements Initializable
 		);
 	}
 
-
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
     /**
 	* @param url
 	* @param rb
