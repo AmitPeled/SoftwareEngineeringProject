@@ -40,10 +40,6 @@ import users.User;
  * @author amit
  *
  */
-/**
- * @author amit
- *
- */
 @SuppressWarnings({ "serial", "unchecked" })
 public class GcmDataExecutor implements
           IGcmDataExecute/* , IGcmCustomerExecutor, */ /* IGcmEditorExecutor, *//* IGcmContentManagerExecutor */ {
@@ -1046,31 +1042,29 @@ public class GcmDataExecutor implements
 	 @Override
 	 public List<SiteSubmission> getSiteSubmissions() throws SQLException {
 		  List<SiteSubmission> siteSubmissions = new ArrayList<>();
-		  siteSubmissions.addAll(getSiteSubmissionsByStatus(Status.ADD));
-		  siteSubmissions.addAll(getSiteSubmissionsByStatus(Status.UPDATE));
-		  siteSubmissions.addAll(getSiteSubmissionsByStatus(Status.DELETE));
+		  for (ActionTaken actionTaken : ActionTaken.values())
+			   siteSubmissions.addAll(getSiteSubmissionsByAction(actionTaken));
 		  return siteSubmissions;
 	 }
 
 	 @Override
 	 public List<TourSubmission> getTourSubmissions() throws SQLException {
-		  List<TourSubmission> siteSubmissions = new ArrayList<>();
-		  siteSubmissions.addAll(getTourSubmissionsByStatus(Status.ADD));
-		  siteSubmissions.addAll(getTourSubmissionsByStatus(Status.UPDATE));
-		  siteSubmissions.addAll(getTourSubmissionsByStatus(Status.DELETE));
-		  return siteSubmissions;
+		  List<TourSubmission> tourSubmissions = new ArrayList<>();
+		  for (ActionTaken actionTaken : ActionTaken.values())
+			   tourSubmissions.addAll(getTourSubmissionsByAction(actionTaken));
+		  return tourSubmissions;
 	 }
 
 	 @Override
 	 public List<MapSubmission> getMapSubmissions() throws SQLException {
 		  List<MapSubmission> mapSubmissions = new ArrayList<>();
 		  for (ActionTaken actionTaken : ActionTaken.values())
-			   mapSubmissions.addAll(getMapSubmissionsByStatus(actionTaken));
+			   mapSubmissions.addAll(getMapSubmissionsByAction(actionTaken));
 		  return mapSubmissions;
 	 }
 
-	 public List<SiteSubmission> getSiteSubmissionsByStatus(Status status) throws SQLException {
-		  ActionTaken actionTaken = toAction(status);
+	 public List<SiteSubmission> getSiteSubmissionsByAction(ActionTaken actionTaken) throws SQLException {
+		  Status status = toStatus(actionTaken);
 		  List<SiteSubmission> siteSubmissions = new ArrayList<>();
 		  if (actionTaken == ActionTaken.ADD || actionTaken == ActionTaken.DELETE) {
 			   List<List<Object>> tourIdsAndSiteIds = queryExecutor.selectColumnsByValue(
@@ -1114,9 +1108,9 @@ public class GcmDataExecutor implements
 
 	 }
 
-	 public List<TourSubmission> getTourSubmissionsByStatus(Status status) throws SQLException {
+	 public List<TourSubmission> getTourSubmissionsByAction(ActionTaken actionTaken) throws SQLException {
 		  // citiesSites, mapSites, tourSites
-		  ActionTaken actionTaken = toAction(status);
+		  Status status = toStatus(actionTaken);
 		  List<TourSubmission> tourSubmissions = new ArrayList<>();
 		  if (actionTaken == ActionTaken.ADD || actionTaken == ActionTaken.DELETE) {
 			   List<List<Object>> mapIdsAndTourIds = queryExecutor.selectColumnsByValue(
@@ -1125,15 +1119,18 @@ public class GcmDataExecutor implements
 			   List<List<Object>> cityIdsAndTourIds = queryExecutor.selectColumnsByValue(
 			             DatabaseMetaData.getTableName(Tables.citiesTours), "status",
 			             DatabaseMetaData.getStatus(status), "cityId, tourId");
+
+			   Status statusToFetchBy = actionTaken == ActionTaken.ADD ? Status.ADD : Status.PUBLISH;
+
 			   for (List<Object> list : mapIdsAndTourIds) {
 					int tourId = (int) list.get(0);
-					Tour site = getTour((int) list.get(1), status);
+					Tour site = getTour((int) list.get(1), statusToFetchBy);
 					if (site != null)
 						 tourSubmissions.add(new TourSubmission(tourId, ObjectsEnum.MAP, site, actionTaken));
 			   }
 			   for (List<Object> list : cityIdsAndTourIds) {
 					int tourId = (int) list.get(0);
-					Tour site = getTour((int) list.get(1), status);
+					Tour site = getTour((int) list.get(1), statusToFetchBy);
 					if (site != null)
 						 tourSubmissions.add(new TourSubmission(tourId, ObjectsEnum.CITY, site, actionTaken));
 			   }
@@ -1149,8 +1146,11 @@ public class GcmDataExecutor implements
 
 	 }
 
-// TODO : for each DELETE action, fetch version. for each delete edit action: add relevant row in db. for each discardment/approval - delete the specific row/delete the whole object existance.
-	 public List<MapSubmission> getMapSubmissionsByStatus(ActionTaken actionTaken) throws SQLException {
+// TODO : for retrieval each DELETE edit, fetch published. for each delete edit action: add relevant row in db. 
+//	 for each discardment/approval - delete the specific row/delete the whole
+//	  object existance.
+
+	 public List<MapSubmission> getMapSubmissionsByAction(ActionTaken actionTaken) throws SQLException {
 		  Status status = toStatus(actionTaken);
 		  List<MapSubmission> mapSubmissions = new ArrayList<>();
 		  if (actionTaken != ActionTaken.UPDATE) {
