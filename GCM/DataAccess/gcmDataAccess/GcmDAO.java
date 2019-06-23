@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -559,7 +558,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void updateCity(int cityId, City city) throws SQLException {
+	public void updateCity(int cityId, City city) {
 		send(new RequestObject(GcmQuery.updateCity, new ArrayList<Object>() {
 			{
 				add(cityId);
@@ -570,7 +569,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void deleteCityEdit(int cityId) throws SQLException {
+	public void deleteCityEdit(int cityId) {
 		send(new RequestObject(GcmQuery.deleteCityEdit, new ArrayList<Object>() {
 			{
 				add(cityId);
@@ -580,7 +579,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void UpdateSite(int siteId, Site newSite) throws SQLException {
+	public void UpdateSite(int siteId, Site newSite) {
 		send(new RequestObject(GcmQuery.UpdateSite, new ArrayList<Object>() {
 			{
 				add(siteId);
@@ -590,7 +589,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void deleteTourFromMap(int mapId, int tourId) throws SQLException {
+	public void deleteTourFromMap(int mapId, int tourId) {
 		send(new RequestObject(GcmQuery.deleteTourFromMap, new ArrayList<Object>() {
 			{
 				add(mapId);
@@ -600,7 +599,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void deleteTourFromCity(int tourId) throws SQLException {
+	public void deleteTourFromCity(int tourId) {
 		send(new RequestObject(GcmQuery.deleteTourFromCity, new ArrayList<Object>() {
 			{
 				add(tourId);
@@ -618,7 +617,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void updateTour(int tourId, Tour tour) throws SQLException {
+	public void updateTour(int tourId, Tour tour) {
 		send(new RequestObject(GcmQuery.updateTour, new ArrayList<Object>() {
 			{
 				add(tourId);
@@ -637,7 +636,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void updateMap(int mapId, Map newMap) throws SQLException {
+	public void updateMap(int mapId, Map newMap) {
 		send(new RequestObject(GcmQuery.updateMap, new ArrayList<Object>() {
 			{
 				add(mapId);
@@ -647,7 +646,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void changeCityPrices(int cityId, List<Double> prices) throws SQLException {
+	public void changeCityPrices(int cityId, List<Double> prices) {
 		send(new RequestObject(GcmQuery.changeCityPrices, new ArrayList<Object>() {
 			{
 				add(cityId);
@@ -658,7 +657,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public List<PriceSubmission> getPriceSubmissions() throws SQLException {
+	public List<PriceSubmission> getPriceSubmissions() {
 		return (List<PriceSubmission>) (Object) send(
 				new RequestObject(GcmQuery.getPriceSubmissions, new ArrayList<Object>(), username, password))
 						.getResponse();
@@ -666,7 +665,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public void approveCityPrice(int cityId, List<Double> prices, boolean approve) throws SQLException {
+	public void approveCityPrice(int cityId, List<Double> prices, boolean approve) {
 		send(new RequestObject(GcmQuery.approveCityPrice, new ArrayList<Object>() {
 			{
 				add(cityId);
@@ -721,7 +720,7 @@ public class GcmDAO
 	}
 
 	@Override
-	public Tour getTour(int tourId) throws SQLException {
+	public Tour getTour(int tourId) {
 		try {
 			ResponseObject responseObject = send(new RequestObject(GcmQuery.getTour, new ArrayList<Object>() {
 				{

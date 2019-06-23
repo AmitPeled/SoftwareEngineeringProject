@@ -183,4 +183,6 @@ public interface IGcmDataExecute {
 
 	Tour getTour(int tourId) throws SQLException;
 
+	void updateSite(int siteId, Site site) throws SQLException;
+
 }

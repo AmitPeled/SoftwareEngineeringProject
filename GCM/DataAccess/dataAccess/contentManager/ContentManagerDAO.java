@@ -1,6 +1,5 @@
 package dataAccess.contentManager;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -9,10 +8,6 @@ import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
 import maps.City;
-import maps.Map;
-import maps.Site;
-import maps.Tour;
-import queries.RequestState;
 import users.User;
 
 public interface ContentManagerDAO {
@@ -31,7 +26,7 @@ public interface ContentManagerDAO {
 	void actionTourEdit(TourSubmission tourSubmission, boolean action);
 	void actionSiteEdit(SiteSubmission siteSubmission, boolean action);
 	
-	void changeCityPrices(int cityId, List<Double> prices) throws SQLException; //TODO
+	void changeCityPrices(int cityId, List<Double> prices);
 	List<PurchaseHistory> getPurchaseHistory();
 	City getCity(int cityId);
 	

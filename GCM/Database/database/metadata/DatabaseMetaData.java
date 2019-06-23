@@ -57,7 +57,7 @@ public class DatabaseMetaData {
 
 	public static int getStatus(Status status) {
 		switch (status) {
-		case PUBLISH:
+		case PUBLISH: 
 			return 0;
 		case ADD:
 			return 1;

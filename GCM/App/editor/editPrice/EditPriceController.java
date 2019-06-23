@@ -1,14 +1,12 @@
 package editor.editPrice;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import dataAccess.contentManager.ContentManagerDAO;
-import gcmDataAccess.GcmDAO;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -82,12 +80,7 @@ public class EditPriceController implements Initializable
 		            			double newPrice = Double.parseDouble(price);
 		            			listPricesDouble.add(newPrice);
 							}
-			            	try {
-								contentManagerDAO.changeCityPrices(cityId, listPricesDouble);
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							contentManagerDAO.changeCityPrices(cityId, listPricesDouble);	
 			            	gcmClient.back();
 	            		}else {
 	            			utilities.setErrors("Price should be numeric value!", errors);

@@ -14,21 +14,17 @@ import approvalReports.ActionTaken;
 import approvalReports.ObjectsEnum;
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
-import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
-import database.execution.IGcmDataExecute;
 import database.objectParse.DatabaseParser;
-import database.objectParse.Status;
 import maps.City;
 import maps.Coordinates;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
-import queries.RequestState;
-import users.User;
+
 
 /**
  * @author amit

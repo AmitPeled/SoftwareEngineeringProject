@@ -3,6 +3,7 @@ package queries;
 import java.io.Serializable;
 
 public enum GcmQuery implements Serializable {
+	
 	addCustomer, verifyUser, addMap, deleteMap, getMapDetails, getMapFile, addCity, deleteCity, addNewSiteToCity,
 	addExistingSiteToMap, deleteSiteFromMap, getMapsByCityName, getMapsBySiteName, getMapsByDescription, getUserDetails,
 	getCityByMapId, purchaseCity, getActiveCitiesPurchases, downloadMap, addNewTourToCity, addExistingTourToMap,
@@ -14,5 +15,5 @@ public enum GcmQuery implements Serializable {
 	actionMapUpdateEdit, actionMapDeleteEdit, getSavedCreditCard, notifyMapView, editCityPrice, getSiteSubmissions,
 	getTourSubmissions, getMapSubmissions, actionSiteEdit, actionMapEdit, actionTourEdit, actionCityEdit, updateMap,
 	deleteSiteFromCity, updateTour, getCityTours, deleteTourFromCity, deleteTourFromMap, UpdateSite, deleteCityEdit,
-	updateCity, changeCityPrices, getPriceSubmissions, approveCityPrice, getPurchaseHistory, getCity, getTour
+	updateCity, changeCityPrices, getPriceSubmissions, approveCityPrice, getPurchaseHistory, getCity, logout, getTour
 }

@@ -3,7 +3,6 @@ package database.execution;
 import java.sql.SQLException;
 import java.util.List;
 
-import dataAccess.generalManager.Report;
 import maps.City;
 import maps.Map;
 import maps.Site;

@@ -1,23 +1,16 @@
 package database.execution.selection;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import approvalReports.mapApprovalReports.MapSubmission;
-import approvalReports.sitesApprovalReports.SiteSubmission;
 import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
 import database.objectParse.DatabaseParser;
-import database.objectParse.Status;
-import maps.City;
-import maps.Map;
-import maps.Site;
-import maps.Tour;
+
 
 // the tests are based on the database content according to the moment tested.
 class ComplexGetterTest {
@@ -114,15 +107,15 @@ class ComplexGetterTest {
 		List<MapSubmission> maps = gcmDataExecutor.getMapSubmissions();
 		System.out.println(maps);
 //		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toAdd));
-		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.ADD);
-		System.out.println(maps);
-		System.out.println("site addition in place 4 is added to city of id="
-				+ maps.get(0).getContainingCityID() + ". map.description() = "
-				+ maps.get(0).getMap().getDescription());
-		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.UPDATE);
-		System.out.println(maps);
-		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.DELETE);
-		System.out.println(maps);
+//		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.ADD);
+//		System.out.println(maps);
+//		System.out.println("site addition in place 4 is added to city of id="
+//				+ maps.get(0).getContainingCityID() + ". map.description() = "
+//				+ maps.get(0).getMap().getDescription());
+//		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.UPDATE);
+//		System.out.println(maps);
+//		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.DELETE);
+//		System.out.println(maps);
 //		System.out.println("site addition in place 6 is added to " + maps.get(6).getContainingObjectType()
 //				+ ", of id=" + maps.get(6).getContainingObjectID() + ". site.description() = "
 //				+ maps.get(6).getSite().getDescription());

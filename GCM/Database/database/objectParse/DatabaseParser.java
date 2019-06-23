@@ -24,16 +24,16 @@ public class DatabaseParser implements IParseObjects, Serializable {
 	@Override
 	public Map getMap(List<Object> objectList, List<Site> mapSites, List<Tour> mapTours) {
 		return new Map((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
-				(float) objectList.get(3), (float) objectList.get(4),
-				new Coordinates((float) objectList.get(5), (float) objectList.get(6)), (double) objectList.get(7),
-				mapSites, mapTours);
+		        (float) objectList.get(3), (float) objectList.get(4),
+		        new Coordinates((float) objectList.get(5), (float) objectList.get(6)), (double) objectList.get(7),
+		        mapSites, mapTours);
 	}
 
 	@Override
 	public Site getSite(List<Object> objectList) {
 		return new Site((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
-				(String) objectList.get(3), (boolean) objectList.get(4),
-				new Coordinates((float) objectList.get(5), (float) objectList.get(6)));
+		        (String) objectList.get(3), (boolean) objectList.get(4),
+		        new Coordinates((float) objectList.get(5), (float) objectList.get(6)));
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class DatabaseParser implements IParseObjects, Serializable {
 		System.out.println((String) objectList.get(1));
 		System.out.println((String) objectList.get(2));
 		return new User((String) objectList.get(0), (String) objectList.get(2), (String) objectList.get(3),
-				(String) objectList.get(4), (String) objectList.get(5));
+		        (String) objectList.get(4), (String) objectList.get(5));
 	}
 
 //	@Override
@@ -119,13 +119,24 @@ public class DatabaseParser implements IParseObjects, Serializable {
 				add(city.getId());
 				add(city.getName());
 				add(city.getDescription());
-				add(60);
-				add(10);
-				add(18);
-				add(26);
-				add(34);
-				add(42);
-				add(50);
+				addAll(defaultPrice());
+			}
+
+			/**
+			 * @return default city price
+			 */
+			private List<Object> defaultPrice() { // suppose to handle in a separate class PriceManager.getDefaultPrice
+				return new ArrayList<Object>() {
+					{
+						add(7);
+						add(10);
+						add(15);
+						add(19.5);
+						add(23.5);
+						add(27);
+						add(30);
+					}
+				};
 			}
 		};
 	}
@@ -183,19 +194,19 @@ public class DatabaseParser implements IParseObjects, Serializable {
 
 	@Override
 	public City getCity(List<Object> objectList, SortedSet<Integer> mapsId, SortedSet<Integer> toursId,
-			SortedSet<Integer> sitesId) {
+	        SortedSet<Integer> sitesId) {
 		return new City((int) objectList.get(0), (String) objectList.get(1), (String) objectList.get(2),
-				new ArrayList<Double>() {
-					{
-						add((Double) objectList.get(3));
-						add((Double) objectList.get(4));
-						add((Double) objectList.get(5));
-						add((Double) objectList.get(6));
-						add((Double) objectList.get(7));
-						add((Double) objectList.get(8));
-						add((Double) objectList.get(9));
-					}
-				}, mapsId, toursId, sitesId);
+		        new ArrayList<Double>() {
+			        {
+				        add((Double) objectList.get(3));
+				        add((Double) objectList.get(4));
+				        add((Double) objectList.get(5));
+				        add((Double) objectList.get(6));
+				        add((Double) objectList.get(7));
+				        add((Double) objectList.get(8));
+				        add((Double) objectList.get(9));
+			        }
+		        }, mapsId, toursId, sitesId);
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
 import database.objectParse.IParseObjects;
 import database.objectParse.Status;
-import maps.City;
 import maps.Map;
 import maps.Site;
 import maps.Tour;

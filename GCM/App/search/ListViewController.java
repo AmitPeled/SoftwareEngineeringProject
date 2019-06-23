@@ -22,7 +22,6 @@ import javafx.util.Callback;
 import mainApp.GcmClient;
 import maps.Map;
 import queries.RequestState;
-import userInfo.UserInfoImpl;
 
 public class ListViewController implements Initializable
 {

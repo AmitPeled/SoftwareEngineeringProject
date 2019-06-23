@@ -4,7 +4,6 @@ import gcmDataAccess.GcmDAO;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
-import maps.Tour;
 
 public class TourTableCell extends TableCell<TourSubmission, Button> {
             Button approve = new Button("Approve!");

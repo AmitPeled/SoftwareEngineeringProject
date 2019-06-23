@@ -2,7 +2,6 @@ package approvalReports;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -16,7 +15,6 @@ import approvalReports.sitesApprovalReports.SiteTableCell;
 import approvalReports.tourApprovalReports.TourSubmission;
 import approvalReports.tourApprovalReports.TourTableCell;
 import gcmDataAccess.GcmDAO;
-import init.initializers.Initializer;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,9 +23,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,9 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import mainApp.GcmClient;
 import maps.City;
-import maps.Map;
-import maps.Site;
-import maps.Tour;
+
 
 public class ApprovalReportsController implements Initializable {
 	private GcmDAO gcmDAO;
