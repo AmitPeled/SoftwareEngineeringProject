@@ -29,13 +29,14 @@ public class DatabaseMetaData {
 			put(Tables.mapsTours, "mapsTours");
 			put(Tables.purchaseHistory, "purchaseDeatailsHistory");
 			put(Tables.mapsDownloadHistory, "mapsDownloadHistory");
+			put(Tables.customerPurchaseDetails, "costumerPurchaseDetails");
 		}
 	};
 
 	public static enum Tables {
 		customerUsers, editorUsers, contentManagerUsers, generalManagerUsers, mapsMetaDetails, mapsFiles, mapsSites,
 		citiesMetaDetails, citiesMapsIds, citiesSitesIds, sites, toursMetaDetails, tourSitesIdsAndDurance, mapsTours,
-		citiesTours, purchaseHistory, mapsDownloadHistory
+		citiesTours, purchaseHistory, mapsDownloadHistory, customerPurchaseDetails
 	}
 
 	public static String getHostName() {
