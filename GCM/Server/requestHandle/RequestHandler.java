@@ -264,7 +264,7 @@ public class RequestHandler implements IHandleRequest {
 					gcmDataExecutor.deleteCityEdit((int) listObjectReceived.get(0));
 					break;
 				case deleteSiteFromCity:
-					gcmDataExecutor.deleteSiteFromCity((int) listObjectReceived.get(0));
+					gcmDataExecutor.deleteSiteFromCityEdit((int) listObjectReceived.get(0));
 					break;
 				case deleteTourFromCity:
 					gcmDataExecutor.deleteTourFromCity((int) listObjectReceived.get(0));

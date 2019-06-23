@@ -50,7 +50,7 @@ class EditorTest {
 	@BeforeEach
 	void contentInsertion() {
 		gcmDAO.actionCityEdit(new CitySubmission(new City(cityId, "CITY NAME", "CITY DESC"), ActionTaken.ADD), true);
-		gcmDAO.updateMap(512, new Map("new name","new DESC",100.1f, 18.2f, new Coordinates()));
+		gcmDAO.updateMap(481, new Map("new","new",100.1f, 18.2f, new Coordinates()));
 		List<MapSubmission> mapSubmissions = gcmDAO.getMapSubmissions();
 		for(MapSubmission mapSubmission: mapSubmissions) {
 			System.out.println(mapSubmission.getActionTaken());
