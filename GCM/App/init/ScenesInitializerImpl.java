@@ -75,7 +75,6 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		Scene scene = null;
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			System.out.println(targetScene);
 			loader.setLocation(getClass().getResource(initializers.get(targetScene).getFxmlPath()));
 			loader.setController(initializers.get(targetScene).getController());
 			Parent root = loader.load();
