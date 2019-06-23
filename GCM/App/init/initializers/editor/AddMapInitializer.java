@@ -1,6 +1,5 @@
 package init.initializers.editor;
 
-import editor.addCity.AddCityController;
 import editor.addMap.AddMapController;
 import init.initializers.Initializer;
 import mainApp.GcmClient;
@@ -20,5 +19,5 @@ public final class AddMapInitializer implements Initializer {
 	}
 
 	@Override
-	public String getFxmlPath() { return "/fxml/editor/addCity.fxml"; }
+	public String getFxmlPath() { return "/fxml/editor/addMap.fxml"; }
 }

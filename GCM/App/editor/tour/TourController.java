@@ -18,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import mainApp.GcmClient;
 import maps.Site;
 import maps.Tour;
 import utility.TextFieldUtility;
@@ -48,9 +49,11 @@ public class TourController  implements Initializable {
 	Tour tour;
 	int mapId;
 	TextFieldUtility utilities;
+	GcmClient gcmClient;
 	
-	public TourController(GcmDAO gcmDAO, int cityId, int mapId, Tour tour, TextFieldUtility utilities) {
-		this.gcmDAO = gcmDAO;
+	public TourController(GcmClient gcmClient, int cityId, int mapId, Tour tour, TextFieldUtility utilities) {
+		this.gcmClient = gcmClient;
+		this.gcmDAO = gcmClient.getDataAccessObject();
 		this.mapId = mapId;
 		this.tour = tour;
 		this.tourId = tour.getId();
@@ -163,7 +166,11 @@ public class TourController  implements Initializable {
 		}
 		
 	}
-	
+
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		init();

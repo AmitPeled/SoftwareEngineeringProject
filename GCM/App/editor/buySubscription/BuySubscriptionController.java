@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import mainApp.GcmClient;
 import utility.TextFieldUtility;
 
 
@@ -31,9 +32,11 @@ public class BuySubscriptionController implements Initializable
 	
 	int cityId;
 	TextFieldUtility utilities;
+	GcmClient gcmClient;
 	
-	public BuySubscriptionController(GcmDAO gcmDAO, int cityId) {
-		this.gcmDAO = gcmDAO;
+	public BuySubscriptionController(GcmClient gcmClient, int cityId) {
+		this.gcmClient = gcmClient;
+		this.gcmDAO = gcmClient.getDataAccessObject();
 		this.cityId = cityId;
 	}
 	 
@@ -85,7 +88,10 @@ public class BuySubscriptionController implements Initializable
 			} 
 		});
 	}
-		
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
 	public void initMonthsPicker() {
 		monthsPicker.setItems(FXCollections.observableArrayList("1","2","3","4","5","6"));
 	}

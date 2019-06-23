@@ -132,26 +132,28 @@ public class ListViewController implements Initializable
 
 		for (Map item : resultSet) 
     	{ 
-			String id = Integer.toString(item.getId());
-			String mapName = item.getName();
-			String description = item.getDescription();
-			String pointOfInterest;
-			
-			if(item.getSites() != null) {
-				pointOfInterest = Integer.toString(item.getSites().size());
-			}else {
-				pointOfInterest = "0";
+			if(item != null) {
+				String id = Integer.toString(item.getId());
+				String mapName = item.getName();
+				String description = item.getDescription();
+				String pointOfInterest;
+				
+				if(item.getSites() != null) {
+					pointOfInterest = Integer.toString(item.getSites().size());
+				}else {
+					pointOfInterest = "0";
+				}
+				String tours;
+				if(item.getTours() != null) {
+					tours = Integer.toString(item.getTours().size());
+				}else {
+					tours = "0";
+				}
+				double price = item.getPrice();
+				
+				MapItem currentMapItem = new MapItem(this,id, mapName, description, pointOfInterest, tours, price);
+				resultList.add(currentMapItem);
 			}
-			String tours;
-			if(item.getTours() != null) {
-				tours = Integer.toString(item.getTours().size());
-			}else {
-				tours = "0";
-			}
-			double price = item.getPrice();
-			
-			MapItem currentMapItem = new MapItem(this,id, mapName, description, pointOfInterest, tours, price);
-			resultList.add(currentMapItem);
     	}
 		return resultList;
 	}

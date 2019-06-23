@@ -95,7 +95,10 @@ public class PointOfInterestController implements Initializable{
 			})
 		);
 	}
-
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		errors.setVisible(false);
