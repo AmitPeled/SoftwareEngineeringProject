@@ -46,6 +46,8 @@ public class GcmDAO
 	 String password = null;
 	 String username = null;
 
+	 private static final String PATH_TO_SOURCE_FOLDER = "import\\resources";
+	 
 	 public GcmDAO(String host, int port) {
 		  serverHostname = host;
 		  serverPortNumber = port;
