@@ -7,11 +7,11 @@ import approvalReports.priceApprovalReports.PriceSubmission;
 
 public interface GeneralManagerDAO {
 
-	 Report getCityReport(Date startDate, Date endDate, String cityName);
+	 Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName);
 
-	 List<Report> getSystemReport(Date startDate, Date endDate);
+	 List<Report> getSystemReport(java.util.Date startDate, java.util.Date endDate);
 	 
-	 List<Report> getReportsOnUser(Date startDate, Date endDate, String username);
+	 List<Report> getReportsOnUser(java.util.Date startDate, java.util.Date endDate, String username);
 
 	 List<PriceSubmission> getPriceSubmissions();
 

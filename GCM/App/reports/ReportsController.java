@@ -3,6 +3,8 @@ package reports;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -185,8 +187,9 @@ public class ReportsController implements Initializable{
 		cityResults.setVisible(true);
 		customerResults.setVisible(false);
 		workerResults.setVisible(false);
-		Date sDate = java.sql.Date.valueOf( startDate );
-		Date eDate = java.sql.Date.valueOf( endDate );
+		java.util.Date sDate = java.util.Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		java.util.Date eDate = java.util.Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
 		Report report = gcmDAO.getCityReport(sDate, eDate, searchText);
 		if(report != null){
 			CityItem item = new CityItem(report.getCityId(), Integer.toString(report.getViewsNum()), Integer.toString(report.getOneTimePurchase()), Integer.toString(report.getSubscribes()), Integer.toString(report.getResubscribers()), Integer.toString(report.getDownloads()));
@@ -210,7 +213,7 @@ public class ReportsController implements Initializable{
 		WorkerItem worker = new WorkerItem(1, user.getFirstName(), user.getLastName(), 
 				user.getUsername(), user.getEmail(), workerReport.getUserType());
 		ObservableList<WorkerItem> data = FXCollections.observableArrayList();
-		data.add(worker);
+		data.add(worker); 
 		workerResults.setItems(data);
 	}
 	

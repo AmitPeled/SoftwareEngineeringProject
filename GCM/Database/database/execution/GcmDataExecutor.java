@@ -2110,7 +2110,7 @@ public class GcmDataExecutor implements
 		            columnsToSelect);
 
 		  if (!list.isEmpty()) {
-			   cityId = (int) list.get(0).get(1);
+			   cityId = (int) list.get(0).get(0);
 		  }
 		  return cityId;
 	 }

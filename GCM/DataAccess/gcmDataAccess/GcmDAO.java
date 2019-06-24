@@ -765,7 +765,7 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public Report getCityReport(Date startDate, Date endDate, String cityName) {
+	 public Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName) {
 		  try {
 			   return (Report) send(new RequestObject(GcmQuery.getCityReport, new ArrayList<Object>() {
 					{
@@ -780,7 +780,7 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public List<Report> getSystemReport(Date startDate, Date endDate) {
+	 public List<Report> getSystemReport(java.util.Date startDate, java.util.Date endDate) {
 		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getSystemReport, new ArrayList<Object>() {
 			   {
 					add(startDate);
@@ -790,7 +790,7 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public List<Report> getReportsOnUser(Date startDate, Date endDate, String username) {
+	 public List<Report> getReportsOnUser(java.util.Date startDate, java.util.Date endDate, String username) {
 		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getUserReports, new ArrayList<Object>() {
 			   {
 					add(startDate);
