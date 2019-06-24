@@ -139,6 +139,9 @@ public class RequestHandler implements IHandleRequest {
 						 case getCityByMapId:
 							  listToSend.add(gcmDataExecutor.getCityByMapId((int) listObjectReceived.get(0)));
 							  break;
+						 case getSiteById:
+							  listToSend.add(gcmDataExecutor.getSite((int) listObjectReceived.get(0)));
+							  break;
 						 case getActiveCitiesPurchases:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 							  break;
