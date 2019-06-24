@@ -61,7 +61,7 @@ public class ListViewController implements Initializable
 	String selectedRadioBtn;
 	RadioButton selectRadio;
 	private GcmClient gcmClient;
-	int cityId = 1;
+	int cityId = 357;
 	City currentCity = new City("haifa", "bad city");
 	//City currentCity = null;
 	
@@ -221,12 +221,14 @@ public class ListViewController implements Initializable
     @FXML
     public void onAddNewMap() {
     	if (currentCity == null) return; 
-    	gcmClient.switchSceneToAddMap(currentCity.getId());
+    		gcmClient.switchSceneToAddMap(cityId);
+    		//gcmClient.switchSceneToAddMap(currentCity.getId());
     }
     @FXML
     public void onBuySubscription() {
     	if (currentCity == null) return; 
-    	gcmClient.switchSceneToBuySubscription(currentCity.getId());
+    		gcmClient.switchSceneToAddMap(cityId);
+    		//gcmClient.switchSceneToBuySubscription(currentCity.getId());
     }
     @FXML
     public void onBack() {gcmClient.back();}
