@@ -29,7 +29,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import mainApp.GcmClient;
-import maps.City;
 
 
 public class ApprovalReportsController implements Initializable {
@@ -361,33 +360,34 @@ public class ApprovalReportsController implements Initializable {
 	}
 
 	private static List<CitySubmission> fetchCitySubmissions(GcmDAO gcmDAO) {
-		List<CitySubmission> citySubmissions = new ArrayList<CitySubmission>();
-		List<City> citiesAdded = gcmDAO.getCitiesAddEdits();
-		List<City> citiesModified = gcmDAO.getCitiesUpdateEdits();
-		List<City> citiesDeleted = gcmDAO.getCitiesDeleteEdits();
-
-		try {
-			if (citiesAdded != null && !citiesAdded.isEmpty()) {
-				for (City city : citiesAdded) {
-					citySubmissions.add(new CitySubmission(city, ActionTaken.ADD));
-				}
-			}
-			if (citiesModified != null && !citiesModified.isEmpty()) {
-				for (City city : citiesModified) {
-					citySubmissions.add(new CitySubmission(city, ActionTaken.UPDATE));
-				}
-			}
-			if (citiesDeleted != null && !citiesDeleted.isEmpty()) {
-				for (City city : citiesDeleted) {
-					citySubmissions.add(new CitySubmission(city, ActionTaken.DELETE));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ArrayList<CitySubmission>();
-		}
-
-		return citySubmissions;
+		 return gcmDAO.getCitySubmissions();
+//		List<CitySubmission> citySubmissions = new ArrayList<CitySubmission>();
+//		List<City> citiesAdded = gcmDAO.getCitiesAddEdits();
+//		List<City> citiesModified = gcmDAO.getCitiesUpdateEdits();
+//		List<City> citiesDeleted = gcmDAO.getCitiesDeleteEdits();
+//
+//		try {
+//			if (citiesAdded != null && !citiesAdded.isEmpty()) {
+//				for (City city : citiesAdded) {
+//					citySubmissions.add(new CitySubmission(city, ActionTaken.ADD));
+//				}
+//			}
+//			if (citiesModified != null && !citiesModified.isEmpty()) {
+//				for (City city : citiesModified) {
+//					citySubmissions.add(new CitySubmission(city, ActionTaken.UPDATE));
+//				}
+//			}
+//			if (citiesDeleted != null && !citiesDeleted.isEmpty()) {
+//				for (City city : citiesDeleted) {
+//					citySubmissions.add(new CitySubmission(city, ActionTaken.DELETE));
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new ArrayList<CitySubmission>();
+//		}
+//
+//		return citySubmissions;
 	}
 
 	private static List<SiteSubmission> fetchSiteSubmissions(GcmDAO gcmDAO) {

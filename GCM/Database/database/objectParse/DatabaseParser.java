@@ -81,8 +81,8 @@ public class DatabaseParser implements IParseObjects, Serializable {
 		return new ArrayList<String>() {
 			{
 				add("mapId");
+				add("mapName");
 				add("mapDescription");
-				add("mapHeight");
 				add("mapWidth");
 				add("mapHeight");
 				add("map_x_offset");

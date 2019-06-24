@@ -128,4 +128,6 @@ public interface IGcmDataExecute {
 
 List<Map> getPurchasedMaps(String username) throws SQLException;
 
+List<CitySubmission> getCitySubmissions() throws SQLException;
+
 }

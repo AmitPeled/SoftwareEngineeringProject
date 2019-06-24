@@ -15,5 +15,5 @@ public enum GcmQuery implements Serializable {
 	actionMapUpdateEdit, actionMapDeleteEdit, getSavedCreditCard, notifyMapView, editCityPrice, getSiteSubmissions,
 	getTourSubmissions, getMapSubmissions, actionSiteEdit, actionMapEdit, actionTourEdit, actionCityEdit, updateMap,
 	deleteSiteFromCity, updateTour, getCityTours, deleteTourFromCity, deleteTourFromMap, UpdateSite, deleteCityEdit,
-	updateCity, changeCityPrices, getPriceSubmissions, approveCityPrice, getPurchaseHistory, getCity, logout, getTour
+	updateCity, changeCityPrices, getPriceSubmissions, approveCityPrice, getPurchaseHistory, getCity, logout, getTour, getCitySubmissions
 }

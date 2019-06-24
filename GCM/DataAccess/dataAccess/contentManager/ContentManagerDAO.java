@@ -11,15 +11,11 @@ import maps.City;
 import users.User;
 
 public interface ContentManagerDAO {
-
-	List<City> getCitiesAddEdits();
-	List<City> getCitiesUpdateEdits();
-	List<City> getCitiesDeleteEdits();
-
 	void editCityPrice(int cityId, double newPrice);
-	List<SiteSubmission> getSiteSubmissions();
+	List<CitySubmission> getCitySubmissions();
 	List<MapSubmission> getMapSubmissions();
 	List<TourSubmission> getTourSubmissions();
+	List<SiteSubmission> getSiteSubmissions();
 
 	void actionCityEdit(CitySubmission citySubmission, boolean action);
 	List<User> actionMapEdit(MapSubmission mapSubmission, boolean action);
