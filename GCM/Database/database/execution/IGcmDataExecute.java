@@ -147,4 +147,6 @@ public interface IGcmDataExecute {
 
 	 Report getCityReport(Date startDate, Date endDate, String cityName) throws SQLException;
 
+	 Site getSite(int siteId) throws SQLException;
+
 }

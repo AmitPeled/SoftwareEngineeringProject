@@ -82,6 +82,20 @@ public class GcmDAO
 	 }
 
 	 @Override
+	 public Site getSiteById(int siteId) {
+		  try {
+			   ResponseObject responseObject = send(new RequestObject(GcmQuery.getSiteById, new ArrayList<Object>() {
+					{
+						 add(siteId);
+					}
+			   }, username, password));
+			   return (Site) responseObject.getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
+	 }
+
+	 @Override
 	 public File getMapFile(int mapID) {
 		  try {
 			   byte[] fileBytes = (byte[]) send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {

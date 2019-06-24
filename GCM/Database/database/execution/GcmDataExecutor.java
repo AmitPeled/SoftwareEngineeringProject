@@ -334,6 +334,7 @@ public class GcmDataExecutor implements
 		  }
 	 }
 
+	 @Override
 	 public Site getSite(int siteId) throws SQLException {
 		  return getSite(siteId, Status.PUBLISH);
 	 }
