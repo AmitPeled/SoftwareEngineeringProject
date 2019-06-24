@@ -5,6 +5,7 @@ package mapViewerScene;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -114,7 +115,7 @@ public class MapViewerSceneController implements Initializable{
 	}
 	private List<Tour> fetchTours(List<Site> sitesInTour) {
 		
-		List<Tour> toursList = new ArrayList<Tour>();
+		List<Tour> toursList = new ArrayList<Tour>(); 
 		Tour demoTour = new Tour("SomeDemoTour");
 		demoTour.setSites(sitesInTour);
 		toursList.add(demoTour);
