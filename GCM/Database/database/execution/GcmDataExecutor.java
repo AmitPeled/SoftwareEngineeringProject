@@ -1295,36 +1295,6 @@ public class GcmDataExecutor implements
 		  return mapsObjects;
 	 }
 
-	 @Override
-	 public List<Map> getMapsObjectAddedTo(int contentId) throws SQLException {
-		  List<Integer> mapIds = new ArrayList<>();
-		  mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsTours),
-		            "tourId", contentId, "mapId", Status.ADD)));
-		  mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
-		            "siteId", contentId, "mapId", Status.ADD)));
-		  return toMapsByIds(mapIds, Status.ADD);
-	 }
-
-	 @Override
-	 public List<City> getCitiesObjectAddedTo(int contentId) throws SQLException {
-		  try {
-			   List<Integer> citiesIds = new ArrayList<>();
-			   citiesIds.addAll(toIdList(
-			             queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
-			                       "mapId", contentId, "cityId", Status.ADD)));
-			   citiesIds.addAll(
-			             toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesTours),
-			                       "tourId", contentId, "cityId", Status.ADD)));
-			   citiesIds.addAll(toIdList(
-			             queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesSitesIds),
-			                       "siteId", contentId, "cityId", Status.ADD)));
-			   return toCities(citiesIds, Status.ADD);
-		  } catch (Exception e) {
-			   // system.err.println("error in getCitiesObjectAddedTo. id=" + contentId);
-			   return new ArrayList<>();
-		  }
-	 }
-
 	 private List<City> toCities(List<Integer> citiesIds, Status status) {
 		  List<City> cities = new ArrayList<>();
 		  citiesIds.forEach((cityId) -> {
@@ -1335,17 +1305,6 @@ public class GcmDataExecutor implements
 			   }
 		  });
 		  return cities;
-	 }
-
-	 @Override
-	 public List<Tour> getToursObjectAddedTo(int contentId) throws SQLException {
-		  List<List<Object>> toursIds = queryExecutor.selectColumnsByValue(
-		            DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "siteId", contentId, "tourId",
-		            Status.ADD);
-		  if (toursIds.isEmpty())
-			   return new ArrayList<>();
-		  else
-			   return getToursByIds(toIdList(toursIds), Status.ADD);
 	 }
 
 	 private List<Tour> getToursByIds(List<Integer> tourIds, Status status) {
@@ -2010,7 +1969,9 @@ public class GcmDataExecutor implements
 	 }
 
 	 @Override
-	 public Report getCityReport(java.util.Date startDate, java.util.Date endDate, int cityId) throws SQLException {
+	 public Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName)
+	           throws SQLException {
+		  int cityId = getCityIdByName(cityName);
 		  return createMangerReportOnOneCity(cityId, dateToSqlDate(startDate), dateToSqlDate(endDate));
 	 }
 
@@ -2044,6 +2005,27 @@ public class GcmDataExecutor implements
 		  return allCitiesreports;
 	 }
 
+	 public List<Report> getUserReprts(java.util.Date startDate, java.util.Date endDate, String username)
+	           throws SQLException {
+		  // TODO get
+		  List<Report> reportsOnUser = new ArrayList<>();
+		  java.sql.Date sqlStartDate = dateToSqlDate(startDate);
+		  java.sql.Date sqlEndDate = dateToSqlDate(endDate);
+		  List<List<Object>> list = queryExecutor.betweenDatesAndCondition("mangerReports", "*", startDate,
+		            "occuranceDate", endDate, "username", username);
+
+		  List<Integer> cityIdList = toIdList(list);
+
+		  cityIdList.forEach((cityId) -> {
+			   try {
+					reportsOnUser.add(createManagerReportOnOneCity(cityId, username, sqlStartDate, sqlEndDate));
+			   } catch (SQLException e) {
+					e.printStackTrace();
+			   }
+		  });
+		  return reportsOnUser;
+	 }
+
 	 private void updateMangerReports(int cityId, String tableUPDATE) throws SQLException {
 
 		  queryExecutor.updateTableColumn("mangerReports", tableUPDATE, 1, "cityId", cityId);
@@ -2052,7 +2034,7 @@ public class GcmDataExecutor implements
 
 	 private void notifyManagerReportColumn(int cityId, String tableToUpdate) throws SQLException {
 
-		  String cityName = getCityNameToMe(cityId);
+		  String cityName = getCityName(cityId);
 
 		  List<Object> objects = new ArrayList<Object>() {
 			   {
@@ -2074,7 +2056,7 @@ public class GcmDataExecutor implements
 
 	 }
 
-	 private String getCityNameToMe(int cityId) throws SQLException {
+	 private String getCityName(int cityId) throws SQLException {
 
 		  String tableName = "citiesMetaDetails";
 		  String columnsToSelect = "*";
@@ -2089,6 +2071,22 @@ public class GcmDataExecutor implements
 			   cityName = (String) list.get(0).get(1);
 			   return cityName;
 		  }
+	 }
+
+	 private int getCityIdByName(String cityName) throws SQLException {
+
+		  String tableName = "citiesMetaDetails";
+		  String columnsToSelect = "cityId";
+		  String objectName = "cityName";
+		  int cityId = -1;
+
+		  List<List<Object>> list = queryExecutor.selectColumnsByValue(tableName, objectName, cityName,
+		            columnsToSelect);
+
+		  if (!list.isEmpty()) {
+			   cityId = (int) list.get(0).get(1);
+		  }
+		  return cityId;
 	 }
 
 	 private Date addDays(Date date, int days) {
@@ -2184,12 +2182,10 @@ public class GcmDataExecutor implements
 	 }
 
 	 private Report createMangerReportOnOneCity(int cityId, Date date1, Date date2) throws SQLException {
-		  String cityName = getCityNameToMe(cityId);
-
+		  String cityName = getCityName(cityId);
 		  Report report = new Report();
 		  report.setCityId(cityId);
 		  report.setCityName(cityName);
-
 		  List<String> tableNames = new ArrayList<>();
 		  tableNames.add("oneTimePurchase");
 		  tableNames.add("subscribes");
@@ -2197,13 +2193,10 @@ public class GcmDataExecutor implements
 		  tableNames.add("viewsNum");
 		  tableNames.add("downloads");
 		  int oneTimePurchase = 0, subscribes = 0, resubscribers = 0, viewsNum = 0, downloads = 0;
-
 		  for (int i = 0; i < tableNames.size(); i++) {
-
-			   List<List<Object>> list = queryExecutor.betweenDatesAndConditions("mangerReports", "*", date1,
+			   List<List<Object>> list = queryExecutor.betweenDatesAnd2Conditions("mangerReports", "*", date1,
 			             "occurrenceDate", date2, "cityId", tableNames.get(i), cityId, 1);
 			   if (!list.isEmpty()) {
-
 					if (tableNames.get(i).equals("oneTimePurchase")) {
 						 oneTimePurchase = list.size();
 					} else if (tableNames.get(i).equals("subscribes")) {
@@ -2216,15 +2209,51 @@ public class GcmDataExecutor implements
 						 downloads = list.size();
 					}
 			   }
-
 		  }
-
 		  report.setOneTimePurchase(oneTimePurchase);
 		  report.setSubscribes(subscribes);
 		  report.setResubscribers(resubscribers);
 		  report.setViewsNum(viewsNum);
 		  report.setDownloads(downloads);
+		  return report;
 
+	 }
+
+	 private Report createManagerReportOnOneCity(int cityId, String username, Date date1, Date date2)
+	           throws SQLException {
+		  String cityName = getCityName(cityId);
+		  Report report = new Report();
+		  report.setCityId(cityId);
+		  report.setCityName(cityName);
+		  List<String> tableNames = new ArrayList<>();
+		  tableNames.add("oneTimePurchase");
+		  tableNames.add("subscribes");
+		  tableNames.add("resubscribers");
+		  tableNames.add("viewsNum");
+		  tableNames.add("downloads");
+		  int oneTimePurchase = 0, subscribes = 0, resubscribers = 0, viewsNum = 0, downloads = 0;
+		  for (int i = 0; i < tableNames.size(); i++) {
+			   List<List<Object>> list = queryExecutor.betweenDatesAnd3Conditions("mangerReports", "*", date1,
+			             "occurrenceDate", date2, "cityId", tableNames.get(i), "username", cityId, 1, username);
+			   if (!list.isEmpty()) {
+					if (tableNames.get(i).equals("oneTimePurchase")) {
+						 oneTimePurchase = list.size();
+					} else if (tableNames.get(i).equals("subscribes")) {
+						 subscribes = list.size();
+					} else if (tableNames.get(i).equals("resubscribers")) {
+						 resubscribers = list.size();
+					} else if (tableNames.get(i).equals("viewsNum")) {
+						 viewsNum = list.size();
+					} else if (tableNames.get(i).equals("downloads")) {
+						 downloads = list.size();
+					}
+			   }
+		  }
+		  report.setOneTimePurchase(oneTimePurchase);
+		  report.setSubscribes(subscribes);
+		  report.setResubscribers(resubscribers);
+		  report.setViewsNum(viewsNum);
+		  report.setDownloads(downloads);
 		  return report;
 
 	 }

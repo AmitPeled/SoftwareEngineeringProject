@@ -56,9 +56,12 @@ public interface IExecuteQueries {
 	List<List<Object>> betweenDates(String tableName, String columnToSelect, Object Date1, String columnCondition,
 			Object Date2) throws SQLException;
 
-	List<List<Object>> betweenDatesAndConditions(String tableName, String columnToSelect, Object Date1,
+	List<List<Object>> betweenDatesAnd2Conditions(String tableName, String columnToSelect, Object Date1,
 			String columnDateCondition, Object Date2, String columnCondition1, String columnCondition2,
 			Object conditon1, Object condition2) throws SQLException;
+
+	List<List<Object>> betweenDatesAndCondition(String tableName, String columnToSelect, Object Date1,
+	          String columnDateCondition, Object Date2, String columnCondition1, Object conditon1) throws SQLException;
 
 	List<List<Object>> selectColumnsByValue(String tableName, String objectName, Object object, String columnsToSelect,
 			Status status) throws SQLException;
@@ -70,5 +73,10 @@ public interface IExecuteQueries {
 			String columnsToSelect, Status status) throws SQLException;
 
 	List<List<Object>> selectAllColumns(String tableName, String columnsToSelect) throws SQLException;
+
+List<List<Object>> betweenDatesAnd3Conditions(String tableName, String columnToSelect, Object Date1,
+          String columnDateCondition, Object Date2, String columnCondition1, String columnCondition2,
+          String columnCondition3, Object conditon1, Object condition2, Object condition3) throws SQLException;
+
 
 }
