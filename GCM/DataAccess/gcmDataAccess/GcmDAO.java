@@ -58,7 +58,7 @@ public class GcmDAO
 	 public static void main(String[] args) {
 		  GcmDAO gcmDAO = new GcmDAO();
 		  gcmDAO.login("editor", "editor");
-		gcmDAO.getMapFile(497);
+		  gcmDAO.getMapFile(497);
 	 }
 
 	 public GcmDAO() {
@@ -121,40 +121,41 @@ public class GcmDAO
 		  }, username, password));
 		  return responseObject.getRequestState();
 	 }
+
 	 @Override
-		public RequestState updateUser(User user) {
-			ResponseObject responseObject = send(
-			        new RequestObject(GcmQuery.editUsersWithoutNewPassword, new ArrayList<Object>() {
-				        {
-					        add(user);
-					        add(password);
-				        }
-			        }, username, password));
-			RequestState requestState = responseObject.getRequestState();
-			if (isProperUser(requestState))
-				setDetails(user.getUsername(), password);
-			return requestState;
-		}
+	 public RequestState updateUser(User user) {
+		  ResponseObject responseObject = send(
+		            new RequestObject(GcmQuery.editUsersWithoutNewPassword, new ArrayList<Object>() {
+			             {
+					          add(user);
+					          add(password);
+			             }
+		            }, username, password));
+		  RequestState requestState = responseObject.getRequestState();
+		  if (isProperUser(requestState))
+			   setDetails(user.getUsername(), password);
+		  return requestState;
+	 }
 
-		@Override
-		public RequestState updateUser(User user, String newPassword) {
-			ResponseObject responseObject = send(
-			        new RequestObject(GcmQuery.editUsersWithNewPassword, new ArrayList<Object>() {
-				        {
-					        add(user);
-					        add(newPassword);
-				        }
-			        }, username, password));
-			RequestState requestState = responseObject.getRequestState();
-			if (isProperUser(requestState))
-				setDetails(user.getUsername(), newPassword);
-			return requestState;
-		}
+	 @Override
+	 public RequestState updateUser(User user, String newPassword) {
+		  ResponseObject responseObject = send(
+		            new RequestObject(GcmQuery.editUsersWithNewPassword, new ArrayList<Object>() {
+			             {
+					          add(user);
+					          add(newPassword);
+			             }
+		            }, username, password));
+		  RequestState requestState = responseObject.getRequestState();
+		  if (isProperUser(requestState))
+			   setDetails(user.getUsername(), newPassword);
+		  return requestState;
+	 }
 
-		private boolean isProperUser(RequestState requestState) {
-			return requestState == RequestState.customer || requestState == RequestState.editor
-			        || requestState == RequestState.contentManager || requestState == RequestState.generalManager;
-		}
+	 private boolean isProperUser(RequestState requestState) {
+		  return requestState == RequestState.customer || requestState == RequestState.editor
+		            || requestState == RequestState.contentManager || requestState == RequestState.generalManager;
+	 }
 
 	 private ResponseObject send(RequestObject req) { // false for error, true otherwise
 		  System.out.println("Connecting to host " + serverHostname + " on port " + serverPortNumber + ".");
@@ -737,14 +738,27 @@ public class GcmDAO
 
 	 @Override
 	 public Report getCityReport(Date startDate, Date endDate, int cityId) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  try {
+			   return (Report) send(new RequestObject(GcmQuery.getCityReport, new ArrayList<Object>() {
+					{
+						 add(startDate);
+						 add(endDate);
+						 add(cityId);
+					}
+			   }, username, password)).getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 @Override
 	 public List<Report> getSystemReport(Date startDate, Date endDate) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getSystemReport, new ArrayList<Object>() {
+			   {
+					add(startDate);
+					add(endDate);
+			   }
+		  }, username, password)).getResponse();
 	 }
 
 	 @Override
