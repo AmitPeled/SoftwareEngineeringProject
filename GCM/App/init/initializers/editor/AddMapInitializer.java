@@ -10,7 +10,7 @@ public final class AddMapInitializer implements Initializer {
 	private final AddMapController controller;
 	public AddMapInitializer(GcmClient gcmClient) {
 		// There should never be an instance of "TextFieldUtility" and all the methods should be static (pure functions)
-		controller = new AddMapController(gcmClient, 1, new TextFieldUtility());
+		controller = new AddMapController(gcmClient, 1, 1, new TextFieldUtility());
 	}
 
 	@Override

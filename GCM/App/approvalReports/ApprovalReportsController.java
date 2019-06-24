@@ -370,7 +370,7 @@ public class ApprovalReportsController implements Initializable {
 		mapTable.setVisible(false);
 		notifyUsersList.setVisible(false);
 		
-		initCityTableView();
+		initCityTableView(); 
 		initSiteTableView();
 		initTourTableView();
 		initMapTableView();
@@ -400,10 +400,10 @@ public class ApprovalReportsController implements Initializable {
 
 	public static ApprovalReportsController getConrollerObject(GcmClient gcmClient) {
 		GcmDAO gcmDAO = gcmClient.getDataAccessObject();
-		List<CitySubmission> citySubmissions = fetchCitySubmissions(gcmDAO);
-		List<SiteSubmission> siteSubmissions = fetchSiteSubmissions(gcmDAO);
-		List<MapSubmission> mapSubmissions = fetchMapSubmissions(gcmDAO);
-		List<TourSubmission> tourSubmissions = fetchTourSubmissions(gcmDAO);
+		List<CitySubmission> citySubmissions = null;
+		List<SiteSubmission> siteSubmissions = null;
+		List<MapSubmission> mapSubmissions = null;
+		List<TourSubmission> tourSubmissions = null;
 
 		return new ApprovalReportsController(gcmClient, gcmDAO, citySubmissions, siteSubmissions, tourSubmissions,
 				mapSubmissions);

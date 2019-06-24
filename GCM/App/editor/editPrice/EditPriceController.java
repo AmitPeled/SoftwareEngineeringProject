@@ -99,12 +99,11 @@ public class EditPriceController implements Initializable
 		City currCity = gcmClient.getDataAccessObject().getCity(cityId);
 		if(currCity != null) {
 			List<Double> pricesList = currCity.getPrices();
-			//List<Double> pricesList = Arrays.asList(1.0,2.0);
 			int i = 1;
 			for (TextField textField : textFieldsList) {
 				for (Double currPrice : pricesList) {
-					//now all relevant prices can be retrieved by cityObject.getPrices()
-					String price = Double.toString(currPrice);//Double.toString(gcmClient.getDataAccessObject().getCityPrice(cityId, 1));
+					//now all relevant prices can be retrieved by 
+					String price = Double.toString(currPrice);
 					textField.setText(price);
 					i++;
 				}

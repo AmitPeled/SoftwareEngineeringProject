@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import mainApp.GcmClient;
+import maps.City;
 import maps.Coordinates;
 import maps.Map;
 import utility.TextFieldUtility;
@@ -51,21 +52,23 @@ public class AddMapController implements Initializable
 	
 	File file;
 	int cityId;
+	int mapId;
 	Image image;
 	private FileChooser fileChooser;
 	BufferedImage bufferedImage;
 	TextFieldUtility utilities;
 	GcmClient gcmClient;
 	
-	public AddMapController(GcmClient gcmClient, int cityId, TextFieldUtility utilities) {
+	public AddMapController(GcmClient gcmClient, int cityId, int mapId, TextFieldUtility utilities) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmClient.getDataAccessObject();
 		fileChooser = new FileChooserInit().getFileChooser();
 		this.cityId = cityId;
+		this.mapId = mapId;
 		this.utilities = utilities;
 	}
 	
-	public void addMapListener() {	
+	public void addMapListener() {	 
 		addMap.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) {
@@ -125,6 +128,21 @@ public class AddMapController implements Initializable
 	public void onBackButton() {
 		gcmClient.back();
 	}
+	 
+	public void initializeFields() {
+		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
+		System.out.println(map);
+		if(map != null) {
+			mapName.setText(map.getName());
+			mapDescription.setText(map.getName());
+			height.setText(Float.toString(map.getHeight()));
+			width.setText(Float.toString(map.getWidth()));
+			xOffset.setText(Float.toString(map.getOffset().getX()));
+			yOffset.setText(Float.toString(map.getOffset().getY()));
+		}
+
+	}
+	
     /**
 	* @param url
 	* @param rb
@@ -132,6 +150,7 @@ public class AddMapController implements Initializable
     @Override 
 	public void initialize(URL url, ResourceBundle rb) {
     	errors.setVisible(false);
+    	initializeFields();
     	addMapListener();
     	uploadMapListener();
     }

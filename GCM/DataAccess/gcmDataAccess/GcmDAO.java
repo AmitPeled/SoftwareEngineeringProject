@@ -60,7 +60,7 @@ public class GcmDAO
 	 public static void main(String[] args) {
 		  GcmDAO gcmDAO = new GcmDAO();
 		  gcmDAO.login("editor", "editor");
-		  gcmDAO.getMapFile(497);
+		  gcmDAO.getMapFile(497); 
 	 }
 
 	 public GcmDAO() {

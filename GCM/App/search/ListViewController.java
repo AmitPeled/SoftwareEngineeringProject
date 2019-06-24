@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import mainApp.GcmClient;
 import mainApp.SceneNames;
@@ -63,8 +64,12 @@ public class ListViewController implements Initializable
 	String selectedRadioBtn;
 	RadioButton selectRadio;
 	private GcmClient gcmClient;
-	int cityId = 357;
+	int cityId;
 	CityMaps currentCity = null;
+	@FXML 
+    private Button editPrice;
+	@FXML 
+    private Text cityInfo;
 	
 	public ListViewController(GcmClient gcmClient,GcmDAO gcmDAO) {
 		this.gcmClient = gcmClient;
@@ -96,13 +101,25 @@ public class ListViewController implements Initializable
 		    }
 		});
 	}
+	
+	public void editPriceListener() {	
+		editPrice.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				gcmClient.switchSceneToEditPrice(cityId);
+			}
+			
+		}));
+	}
+		
 	public void searchListener() {	
 		searchBtn.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) { 
 	            	
 	            	String searchText = searchBar.getText();
-	            	
+	            	listView.setItems(null);
 	            	if(searchText != null && !searchText.isEmpty()) {
 	            		selectRadio = (RadioButton) searchOptions.getSelectedToggle();
 		            	selectedRadioBtn = selectRadio.getText();
@@ -110,41 +127,45 @@ public class ListViewController implements Initializable
 		            	if(selectedRadioBtn.equals("City name")) {
 		            		currentCity = gcmDAO.getMapsByCityName(searchText);
 		            	}else if(selectedRadioBtn.equals("Point of interest")) {
-		            		currentCity = gcmDAO.getMapsByDescription(searchText);
+		            		currentCity = gcmDAO.getMapsBySiteName(searchText);
 		            	}else{
 		            		String siteText = siteBar.getText();
 		            		currentCity = gcmDAO.getMapsBySiteAndCityNames(searchText, siteText);
 		            	} 
-		        		List<Map> resultList = currentCity.getMaps();
-		            	List<MapItem> mapItemsListResults = parseResultSet(resultList);
-		            	
-		            	if(mapItemsListResults.isEmpty()) {
-		            		System.out.println("NO MAPS FOUND");
+			            	if(currentCity != null) {
+				        		List<Map> resultList = currentCity.getMaps();
+				            	List<MapItem> mapItemsListResults = parseResultSet(resultList);
+				            	
+				            	if(mapItemsListResults.isEmpty()) {
+				            		System.out.println("NO MAPS FOUND");
+				            		listView.setItems(null);
+				            		addNewMapBtn.setVisible(false);
+				            		buySubscriptionBtn.setVisible(false);
+		
+				            		RequestState userState = gcmClient.getUserInfo().getState();
+				            		if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
+				            			addNewMapBtn.setVisible(true);
+				            		}
+				            		
+				            	}else {
+				            		cityInfo.setText("City name: " + currentCity.getName() + "    Description: "+ currentCity.getDescription());
+				                	cityId = currentCity.getId();
+		
+				            		ObservableList<MapItem> data = FXCollections.observableArrayList();
+					            	for (MapItem item : mapItemsListResults) 
+					            	{ 
+					            		 data.add(item);
+					            	}
+					                listView.setItems(data);
+					                permissions();
+				            	}
+			            	}
+		            	}else {
 		            		listView.setItems(null);
 		            		addNewMapBtn.setVisible(false);
 		            		buySubscriptionBtn.setVisible(false);
-
-		            		RequestState userState = gcmClient.getUserInfo().getState();
-		            		if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
-		            			addNewMapBtn.setVisible(true);
-		            		}
-		            		
-		            	}else {
-		                	cityId = currentCity.getId();
-
-		            		ObservableList<MapItem> data = FXCollections.observableArrayList();
-			            	for (MapItem item : mapItemsListResults) 
-			            	{ 
-			            		 data.add(item);
-			            	}
-			                listView.setItems(data);
-			                permissions();
 		            	}
-	            	}else {
-	            		listView.setItems(null);
-	            		addNewMapBtn.setVisible(false);
-	            		buySubscriptionBtn.setVisible(false);
-	            	}
+	            	
 	            }
 			})
 		);
@@ -184,6 +205,7 @@ public class ListViewController implements Initializable
 	public void permissions() {
 		buySubscriptionBtn.setVisible(false);
 		addNewMapBtn.setVisible(false);
+		editPrice.setVisible(false);
 		RequestState userState = gcmClient.getUserInfo().getState();
 		permissionsForMap = false;
 		// permissionsForMap = gcmClient.getDataAccessObject().notifyMapView()
@@ -191,6 +213,7 @@ public class ListViewController implements Initializable
 			buySubscriptionBtn.setVisible(true);
 		}else if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
 			addNewMapBtn.setVisible(true);
+			editPrice.setVisible(true);
 		}
 	}
 
@@ -203,7 +226,9 @@ public class ListViewController implements Initializable
     	initRadioButtons();
     	searchListener();
     	radioButtonListener();
+    	editPriceListener();
     	siteBar.setVisible(false);
+    	editPrice.setVisible(false);
     	
         assert mapItem != null : "fx:id=\"anchr\" was not injected: check your FXML file 'AxisFxml.fxml'.";
 
@@ -217,14 +242,12 @@ public class ListViewController implements Initializable
     @FXML
     public void onAddNewMap() {
     	if (currentCity == null) return; 
-    		gcmClient.switchSceneToAddMap(cityId);
-    		//gcmClient.switchSceneToAddMap(currentCity.getId());
+    		gcmClient.switchSceneToAddMap(currentCity.getId());
     }
     @FXML
     public void onBuySubscription() {
     	if (currentCity == null) return; 
-    		gcmClient.switchSceneToAddMap(cityId);
-    		//gcmClient.switchSceneToBuySubscription(currentCity.getId());
+    		gcmClient.switchSceneToAddMap(currentCity.getId());
     }
     @FXML
     public void onBack() {gcmClient.back();}

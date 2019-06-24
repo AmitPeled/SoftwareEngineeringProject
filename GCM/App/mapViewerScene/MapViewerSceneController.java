@@ -14,7 +14,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
 import mainApp.GcmClient;
 import mapViewer.MapViewer;
@@ -60,8 +63,14 @@ public class MapViewerSceneController implements Initializable{
 	@FXML
 	Button addTour;
 	@FXML
-	Button editPrice;
-	
+	Button deleteTour;
+	@FXML
+	Button editTour;
+	@FXML
+	Button editMap;
+	@FXML
+	Button deleteMap;
+	Alert alert;
 	
 	private MapViewerSceneController(GcmClient gcmClient, MapViewer mapViewer, int cityId, int mapId, Map map) {
 		this.gcmClient = gcmClient;
@@ -82,7 +91,7 @@ public class MapViewerSceneController implements Initializable{
 			loader.setController(this);
 			GridPane gridPane = loader.load();
 			gridPane.add(mapViewer.getScene().getRoot(), MAP_VIEWER_GRID_COL_INDEX , MAP_VIEWER_GRID_ROW_INDEX);
-			
+			setVisibility();
 			List<Tour> toursList = gcmClient.getDataAccessObject().getCityTours(cityId);
 			List<Site> sitesList = gcmClient.getDataAccessObject().getCitySites(cityId);
 			System.out.println("toursList entries: " + toursList.size());
@@ -110,7 +119,10 @@ public class MapViewerSceneController implements Initializable{
 			editSite.setVisible(true);
 			deleteSite.setVisible(true);
 			addTour.setVisible(true);
-			editPrice.setVisible(true);
+			editTour.setVisible(true);
+			deleteTour.setVisible(true);
+			editMap.setVisible(true);
+			deleteMap.setVisible(true);
 		}
 	}
 	private List<Tour> fetchTours(List<Site> sitesInTour) {
@@ -133,7 +145,7 @@ public class MapViewerSceneController implements Initializable{
 		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
 		MapViewer mapViewerComponent = MapViewerFactory.getMapViewer(gcmClient.getDataAccessObject(),mapId);
 		MapViewerSceneController mapViewerSceneController = new MapViewerSceneController(gcmClient, mapViewerComponent, cityId, mapId, map);
-		mapViewerSceneController.setVisibility();
+
 		return mapViewerSceneController.getScene();
 	}
 	
@@ -150,6 +162,7 @@ public class MapViewerSceneController implements Initializable{
 	@FXML
 	public void onEditSite() {
 		Site site = sideMenuController.getSelectedSite();
+
 		if(site == null) return;
 		gcmClient.switchSceneToAddSite(cityId,
 				site.getCoordinates().getX(),
@@ -159,10 +172,10 @@ public class MapViewerSceneController implements Initializable{
 	@FXML
 	public void onDeleteSite() {
 		Site site = sideMenuController.getSelectedSite();
+
 		if(site == null) return;
-		
-		System.out.println("Deleting site "+ site.getName());	
-		gcmClient.getDataAccessObject().deleteSiteFromCity(site.getId());;
+
+		showAlertBox("site", 0, site.getId());
 	}
 	
 	@FXML
@@ -178,10 +191,41 @@ public class MapViewerSceneController implements Initializable{
 		gcmClient.switchSceneToTour(cityId, mapId, tour);
 	}
 	@FXML
-	public void onEditPrice() {
-		gcmClient.switchSceneToEditPrice(cityId);
+	public void onDeleteTour() {
+		Tour tour = sideMenuController.getSelectedTour();
+
+		if(tour == null) return;
+
+		showAlertBox("tour", tour.getId(), 0);
 	}
 	
+	@FXML
+	public void onEditMap() {
+		gcmClient.switchSceneToAddMap(cityId);
+	}
+	@FXML
+	public void onDeleteMap() {
+		showAlertBox("map", 0, 0);
+	}
+	public void showAlertBox(String type, int tourId, int siteId) {
+		alert = new Alert(AlertType.CONFIRMATION, "delete " + type + "?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.YES) {
+			switch(type) {
+			case "map":
+				gcmClient.getDataAccessObject().deleteContent(mapId);
+				break;
+			case "tour":
+				gcmClient.getDataAccessObject().deleteTourFromMap(mapId, tourId);
+				break;
+			case "site":
+				gcmClient.getDataAccessObject().deleteSiteFromCity(siteId);
+				break;
+			}
+		}
+		alert.close();
+	}
 	@FXML
 	public void onBack() {gcmClient.back();}
 	@Override
@@ -190,6 +234,9 @@ public class MapViewerSceneController implements Initializable{
 		editSite.setVisible(false);
 		deleteSite.setVisible(false);
 		addTour.setVisible(false);
-		editPrice.setVisible(false);
+		editTour.setVisible(false);
+		deleteTour.setVisible(false);
+		editMap.setVisible(false);
+		deleteMap.setVisible(false);
 	}
 }

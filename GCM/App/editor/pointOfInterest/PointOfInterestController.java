@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import mainApp.GcmClient;
+import maps.City;
 import maps.Coordinates;
 import maps.Site;
 import utility.TextFieldUtility;
@@ -45,13 +46,15 @@ public class PointOfInterestController implements Initializable{
 	private RadioButton selectRadio;
 	private Coordinates coordinates;
 	private int cityId;
+	private int siteId;
 	private boolean disable;
 
 	private GcmClient gcmClient;
 	
-	public PointOfInterestController(GcmClient gcmClient, GcmDAO gcmDAO, int cityId, Coordinates coordinates, TextFieldUtility utilities) {
+	public PointOfInterestController(GcmClient gcmClient, GcmDAO gcmDAO, int siteId, int cityId, Coordinates coordinates, TextFieldUtility utilities) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmDAO;
+		this.siteId = siteId;
 		this.cityId = cityId;
 		this.utilities = utilities;
 		this.coordinates = coordinates;
@@ -97,10 +100,29 @@ public class PointOfInterestController implements Initializable{
 	}
 	@FXML
 	public void onBackButton() {
-		gcmClient.back();
+		gcmClient.back(); 
+	}
+	public void init() {
+		System.out.println(cityId);
+		System.out.println(siteId);
+
+//		if(cityId != -1) {
+//			Site site = gcmDAO.getSite(siteId);
+//			name.setText(site.getName());
+//			type.setText(site.getSiteType());
+//			description.setText(site.getDescription());
+//			if(site.isAccessibleForDisabled()) {
+//				disableYes.setSelected(true);
+//				disableNo.setSelected(false);
+//			}else {
+//				disableYes.setSelected(false);
+//				disableNo.setSelected(true);
+//			}
+//		}
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		init();
 		errors.setVisible(false);
 		pointOfInterestListener();		
 	}

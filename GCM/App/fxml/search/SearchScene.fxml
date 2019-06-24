@@ -44,9 +44,11 @@
       <Group />
       <Button fx:id="addNewMapBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" onAction="#onAddNewMap" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" visible="false" />
       <Button fx:id="buySubscriptionBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" onAction="#onBuySubscription" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" visible="false" />
-   	<ListView fx:id="listView" layoutX="46.0" layoutY="354.0" prefHeight="444.0" prefWidth="435.0" />
+   	<ListView fx:id="listView" layoutX="46.0" layoutY="400.0" prefHeight="444.0" prefWidth="435.0" />
       <Button fx:id="backBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBack" prefHeight="35.0" prefWidth="63.0" text="Back" />
       <Button fx:id="searchBtn" layoutX="184.0" layoutY="233.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0" text="Search" />
       <TextField fx:id="siteBar" layoutX="345.0" layoutY="75.0" onAction="#searchListener" prefHeight="25.0" prefWidth="106.0" promptText="site name" />
+      <Button fx:id="editPrice" layoutX="398.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="106.0" text="Edit Map Prices" />
+      <Text fx:id="cityInfo" layoutX="184.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="149.0" />
    </children>
 </AnchorPane>

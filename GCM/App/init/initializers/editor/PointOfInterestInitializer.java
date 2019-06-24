@@ -13,6 +13,7 @@ public class PointOfInterestInitializer implements Initializer {
 		// There should never be an instance of "TextFieldUtility" and all the methods should be static (pure functions)
 		controller = new PointOfInterestController(gcmClient,
 				gcmClient.getDataAccessObject(), 
+				0,
 				0, 
 				new Coordinates(), 
 				new TextFieldUtility());
