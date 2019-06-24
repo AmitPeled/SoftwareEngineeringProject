@@ -415,7 +415,7 @@ public class CostumerDataExecutorTest {
 
 		for (int i = 0; i < tableNames.size(); i++) {
 
-			List<List<Object>> list = dbExecutor.betweenDatesAndConditions("mangerReports", "*", date1,
+			List<List<Object>> list = dbExecutor.betweenDatesAnd2Conditions("mangerReports", "*", date1,
 					"occurrenceDate", date2, "cityId", tableNames.get(i), cityId, 1);
 			if (!list.isEmpty()) {
 
@@ -481,7 +481,7 @@ public class CostumerDataExecutorTest {
 
 		for (int i = 0; i < tableNames.size(); i++) {
 
-			List<List<Object>> list = dbExecutor.betweenDatesAndConditions("mangerReports", "*", date1,
+			List<List<Object>> list = dbExecutor.betweenDatesAnd2Conditions("mangerReports", "*", date1,
 					"occurrenceDate", date2, "cityId", tableNames.get(i), cityId, 1);
 			if (!list.isEmpty()) {
 

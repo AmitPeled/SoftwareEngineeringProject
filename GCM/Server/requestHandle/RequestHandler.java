@@ -111,11 +111,16 @@ public class RequestHandler implements IHandleRequest {
 							  break;
 						 case getCityReport:
 							  listToSend.add(gcmDataExecutor.getCityReport((Date) listObjectReceived.get(0),
-							            (Date) listObjectReceived.get(1), (int) listObjectReceived.get(2)));
+							            (Date) listObjectReceived.get(1), (String) listObjectReceived.get(2)));
 							  break;
 						 case getSystemReport:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor.getAllcitiesReport(
 							            (Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1));
+							  break;
+						 case getUserReports:
+							  listToSend = (List<Object>) (Object) gcmDataExecutor.getUserReprts(
+							            (Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1),
+							            (String) listObjectReceived.get(2));
 							  break;
 						 case getMapsBySiteName:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor
@@ -173,21 +178,6 @@ public class RequestHandler implements IHandleRequest {
 						 case editCityPrice:
 							  gcmDataExecutor.editCityPrice((int) listObjectReceived.get(0),
 							            (double) listObjectReceived.get(1));
-							  break;
-						 case getMapsObjectAddedTo:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsObjectAddedTo((int) listObjectReceived.get(0));
-							  break;
-						 case getMapsUpdateEdits:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsObjectAddedTo((int) listObjectReceived.get(0));
-							  break;
-						 case getSavedCreditCard:
-							  listToSend.add(gcmDataExecutor.getSavedCreditCard(username));
-							  break;
-						 case getToursObjectAddedTo:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getToursObjectAddedTo((int) listObjectReceived.get(0));
 							  break;
 						 case actionTourEdit:
 							  gcmDataExecutor.actionTourEdit((TourSubmission) listObjectReceived.get(0),
