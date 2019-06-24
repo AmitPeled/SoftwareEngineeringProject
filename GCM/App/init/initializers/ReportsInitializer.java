@@ -8,7 +8,7 @@ public final class ReportsInitializer implements Initializer{
 	private final ReportsController reportsController;
 	
 	public ReportsInitializer(GcmClient gcmClient) {
-		reportsController = new ReportsController(gcmClient.getDataAccessObject());
+		reportsController = new ReportsController(gcmClient);
 	}
 	
 	@Override

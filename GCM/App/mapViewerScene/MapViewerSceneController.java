@@ -149,7 +149,11 @@ public class MapViewerSceneController implements Initializable{
 	
 	@FXML
 	public void onEditSite() {
-
+		Site site = sideMenuController.getSelectedSite();
+		if(site == null) return;
+		gcmClient.switchSceneToAddSite(cityId,
+				site.getCoordinates().getX(),
+				site.getCoordinates().getY()); 
 	}
 
 	@FXML
@@ -163,9 +167,16 @@ public class MapViewerSceneController implements Initializable{
 	
 	@FXML
 	public void onAddTour() {
-		
+		Tour tour = new Tour(null);
+		if(tour == null) return;
+		gcmClient.switchSceneToTour(cityId, mapId, tour);
 	}
-	
+	@FXML
+	public void onEditTour() {
+		Tour tour = sideMenuController.getSelectedTour();
+		if(tour == null) return;
+		gcmClient.switchSceneToTour(cityId, mapId, tour);
+	}
 	@FXML
 	public void onEditPrice() {
 		gcmClient.switchSceneToEditPrice(cityId);

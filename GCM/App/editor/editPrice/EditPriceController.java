@@ -53,7 +53,7 @@ public class EditPriceController implements Initializable
 			TextFieldUtility utilities) {
 		this.gcmClient = gcmClient;
 		this.contentManagerDAO = contentManagerDAO;
-		this.cityId = 271;
+		this.cityId = 1;
 		this.utilities = utilities;
 	}
 	 

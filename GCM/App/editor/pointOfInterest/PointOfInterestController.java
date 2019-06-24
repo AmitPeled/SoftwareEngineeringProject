@@ -65,7 +65,7 @@ public class PointOfInterestController implements Initializable{
 		disableNo.setToggleGroup(disableOptions);
 		disableNo.setSelected(true);
 	}
-	public void pointOfInterestListener() {	
+	public void pointOfInterestListener() {	 
 		addEdit.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) {

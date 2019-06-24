@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import mainApp.GcmClient;
 import reports.cells.CityListCell;
 import reports.cells.CustomerListCell;
 import reports.cells.WorkerListCell;
@@ -58,9 +59,11 @@ public class ReportsController implements Initializable{
 	public ToggleGroup searchOptions;
 	String selectedRadioValue;
 	RadioButton selectRadio;
+	GcmClient gcmClient;
 	
-	public ReportsController(GcmDAO gcmDAO) { 
-		this.gcmDAO = gcmDAO;
+	public ReportsController(GcmClient gcmClient) { 
+		this.gcmClient = gcmClient;
+		this.gcmDAO = gcmClient.getDataAccessObject();
 	}
 	
 	public void initRadioButtons() {
@@ -205,7 +208,10 @@ public class ReportsController implements Initializable{
 		}
 		workerResults.setItems(data);
 	}
-
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
 	private void reportsByCustomer() {
 		cityResults.setVisible(false);
 		customerResults.setVisible(true);

@@ -86,7 +86,7 @@ public class AddMapController implements Initializable
 		            			errors.setVisible(false);
 			            		Map newMap = new Map(name, description, Float.parseFloat(mapWidth), Float.parseFloat(mapHeight), new Coordinates(Float.parseFloat(xCoordinates), Float.parseFloat(yCoordinates)));
 			            		gcmDAO.addMapToCity(cityId, newMap, file);
-		            		
+			            		gcmClient.back();
 		            		}else {
 		            			utilities.setErrors("No file added", errors);
 		            		}
@@ -134,5 +134,9 @@ public class AddMapController implements Initializable
     	errors.setVisible(false);
     	addMapListener();
     	uploadMapListener();
+    }
+    
+    public void initalizeControl(int cityId) {
+    	this.cityId = cityId;
     }
 }

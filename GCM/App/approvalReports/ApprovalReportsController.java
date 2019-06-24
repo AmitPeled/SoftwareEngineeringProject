@@ -261,8 +261,9 @@ public class ApprovalReportsController implements Initializable {
 			ActionTaken actionTaken = data.getValue().getAction();
 			int objectRelatedToId = data.getValue().getContainingCityID();
 			String objectRelatedTo = "";
-			objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
-			
+			if(gcmDAO.getCity(objectRelatedToId) != null) {
+				objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
+			}
 			String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
 			return new ReadOnlyStringWrapper(action);
 		});
