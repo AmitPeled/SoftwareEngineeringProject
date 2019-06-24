@@ -1,4 +1,4 @@
-package database.objectParse;
+package database.serverObjects;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,9 +6,10 @@ import java.io.Serializable;
 
 import approvalReports.ActionTaken;
 import approvalReports.mapApprovalReports.MapSubmission;
+import dataAccess.imageDownload.ImageDownloader;
 import maps.Map;
 
-public class ServerMapSubmission implements Serializable {
+public class MapSubmissionContent implements Serializable {
 	 private static final long serialVersionUID = 1L;
 	 private Map               map;
 	 private byte[]            rawMapFileBytes;
@@ -19,7 +20,7 @@ public class ServerMapSubmission implements Serializable {
 	  */
 	 private int               containingCityID;
 
-	 public ServerMapSubmission(int containingCityID, Map map, byte[] mapFile, ActionTaken actionTaken) {
+	 public MapSubmissionContent(int containingCityID, Map map, byte[] mapFile, ActionTaken actionTaken) {
 		  this.containingCityID = containingCityID;
 		  this.map = map;
 		  this.rawMapFileBytes = mapFile;

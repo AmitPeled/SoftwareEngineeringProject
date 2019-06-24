@@ -25,7 +25,7 @@ import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
 import database.objectParse.IParseObjects;
-import database.objectParse.ServerMapSubmission;
+import database.serverObjects.MapSubmissionContent;
 import database.objectParse.Status;
 import maps.City;
 import maps.Map;
@@ -1041,8 +1041,8 @@ public class GcmDataExecutor implements
 	 }
 
 	 @Override
-	 public List<ServerMapSubmission> getMapSubmissions() throws SQLException {
-		  List<ServerMapSubmission> mapSubmissions = new ArrayList<>();
+	 public List<MapSubmissionContent> getMapSubmissions() throws SQLException {
+		  List<MapSubmissionContent> mapSubmissions = new ArrayList<>();
 		  for (ActionTaken actionTaken : ActionTaken.values())
 			   mapSubmissions.addAll(getMapSubmissionsByAction(actionTaken));
 		  return mapSubmissions;
@@ -1170,9 +1170,9 @@ public class GcmDataExecutor implements
 		  return citySubmissions;
 	 }
 
-	 public List<ServerMapSubmission> getMapSubmissionsByAction(ActionTaken actionTaken) throws SQLException {
+	 public List<MapSubmissionContent> getMapSubmissionsByAction(ActionTaken actionTaken) throws SQLException {
 		  Status status = toStatus(actionTaken);
-		  List<ServerMapSubmission> mapSubmissions = new ArrayList<>();
+		  List<MapSubmissionContent> mapSubmissions = new ArrayList<>();
 		  if (actionTaken != ActionTaken.UPDATE) {
 			   List<List<Object>> cityIdsAndMapIds = queryExecutor.selectColumnsByValue(
 			             DatabaseMetaData.getTableName(Tables.citiesMapsIds), "status",
@@ -1185,7 +1185,7 @@ public class GcmDataExecutor implements
 					Map map = getMapDetails(mapId, statusToFetchBy);
 					byte[] file = getMapFile(mapId);
 					if (map != null && file != null)
-						 mapSubmissions.add(new ServerMapSubmission(cityId, map, file, actionTaken));
+						 mapSubmissions.add(new MapSubmissionContent(cityId, map, file, actionTaken));
 			   }
 		  } else {
 			   List<Map> updatedMaps = getMapsByStatus(status);
@@ -1193,7 +1193,7 @@ public class GcmDataExecutor implements
 					City city = getCityByMapId(map.getId());
 					byte[] mapFile = getMapFile(map.getId());
 					if (city != null && mapFile != null)
-						 mapSubmissions.add(new ServerMapSubmission(city.getId(), map, mapFile, actionTaken));
+						 mapSubmissions.add(new MapSubmissionContent(city.getId(), map, mapFile, actionTaken));
 			   }
 		  }
 		  return mapSubmissions;

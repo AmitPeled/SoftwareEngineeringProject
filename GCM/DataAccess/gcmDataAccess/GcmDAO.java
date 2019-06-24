@@ -25,6 +25,8 @@ import dataAccess.generalManager.Report;
 import dataAccess.search.SearchDAO;
 import dataAccess.users.PurchaseDetails;
 import dataAccess.users.UserDAO;
+import dataAccess.imageDownload.ImageDownloader;
+import database.serverObjects.MapSubmissionContent;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -41,16 +43,22 @@ import users.User;
 @SuppressWarnings({ "serial", "unchecked" })
 public class GcmDAO
           implements UserDAO, CustomerDAO, EditorDAO, ContentManagerDAO, GeneralManagerDAO, SearchDAO, Serializable {
-	 String serverHostname;
-	 int    serverPortNumber;
-	 String password = null;
-	 String username = null;
+	 private String serverHostname;
+	 private int    serverPortNumber;
+	 private String password = null;
+	 private String username = null;
 
 	 private static final String PATH_TO_SOURCE_FOLDER = "import\\resources";
-	 
+
 	 public GcmDAO(String host, int port) {
 		  serverHostname = host;
 		  serverPortNumber = port;
+	 }
+
+	 public static void main(String[] args) {
+		  GcmDAO gcmDAO = new GcmDAO();
+		  gcmDAO.login("editor", "editor");
+		gcmDAO.getMapFile(497);
 	 }
 
 	 public GcmDAO() {
@@ -75,13 +83,13 @@ public class GcmDAO
 	 @Override
 	 public File getMapFile(int mapID) {
 		  try {
-			   ResponseObject responseObject = send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
+			   byte[] fileBytes = (byte[]) send(new RequestObject(GcmQuery.getMapFile, new ArrayList<Object>() {
 					{
-
 						 add(mapID);
 					}
-			   }, username, password));
-			   return (File) responseObject.getResponse().get(0);
+			   }, username, password)).getResponse().get(0);
+			   String filePath = PATH_TO_SOURCE_FOLDER + "\\mapImage_" + mapID;
+			   return ImageDownloader.downloadImage(fileBytes, filePath);
 		  } catch (Exception e) {
 			   return null;
 		  }
@@ -410,11 +418,13 @@ public class GcmDAO
 	 @Override
 	 public File downloadMap(int mapId) {
 		  try {
-			   return (File) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
+			   byte[] fileBytes = (byte[]) send(new RequestObject(GcmQuery.downloadMap, new ArrayList<Object>() {
 					{
 						 add(mapId);
 					}
 			   }, username, password)).getResponse().get(0);
+			   String filePath = PATH_TO_SOURCE_FOLDER + "\\mapImage_" + mapId;
+			   return ImageDownloader.downloadImage(fileBytes, filePath);
 		  } catch (Exception e) {
 			   return null;
 		  }
@@ -486,9 +496,20 @@ public class GcmDAO
 
 	 @Override
 	 public List<MapSubmission> getMapSubmissions() {
-		  return (List<MapSubmission>) (Object) send(
+		  List<MapSubmissionContent> serverMapSubmissions = (List<MapSubmissionContent>) (Object) send(
 		            new RequestObject(GcmQuery.getMapSubmissions, new ArrayList<Object>(), username, password))
 		                      .getResponse();
+		  List<MapSubmission> mapSubmissions = new ArrayList<>();
+		  String basePath = PATH_TO_SOURCE_FOLDER + "\\mapImage_";
+		  serverMapSubmissions.forEach((serverMapSubmission) -> {
+			   try {
+					String filePath = basePath + serverMapSubmission.getMap().getId();
+					mapSubmissions.add(serverMapSubmission.getMapSubmission(filePath));
+			   } catch (Exception e) {
+					e.printStackTrace();
+			   }
+		  });
+		  return mapSubmissions;
 	 }
 
 	 @Override

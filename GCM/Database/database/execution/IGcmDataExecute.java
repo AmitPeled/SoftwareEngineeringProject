@@ -13,7 +13,7 @@ import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
-import database.objectParse.ServerMapSubmission;
+import database.serverObjects.MapSubmissionContent;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -88,7 +88,7 @@ public interface IGcmDataExecute {
 
 	List<SiteSubmission> getSiteSubmissions() throws SQLException;
 
-	List<ServerMapSubmission> getMapSubmissions() throws SQLException;
+	List<MapSubmissionContent> getMapSubmissions() throws SQLException;
 
 	List<TourSubmission> getTourSubmissions() throws SQLException;
 

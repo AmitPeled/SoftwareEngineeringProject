@@ -1,4 +1,4 @@
-package database.objectParse;
+package dataAccess.imageDownload;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
