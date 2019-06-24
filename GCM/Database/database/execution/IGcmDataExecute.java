@@ -12,6 +12,7 @@ import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
+import dataAccess.search.CityMaps;
 import dataAccess.users.PurchaseDetails;
 import database.serverObjects.MapSubmissionContent;
 import maps.City;
@@ -44,11 +45,13 @@ public interface IGcmDataExecute {
 
 	void addExistingSiteToMap(int mapId, int siteId) throws SQLException;
 
-	List<Map> getMapsByCityName(String cityName) throws SQLException;
+	CityMaps getMapsByCityName(String cityName) throws SQLException;
 
-	List<Map> getMapsBySiteName(String siteName) throws SQLException;
+	CityMaps getMapsBySiteName(String siteName) throws SQLException;
 
-	List<Map> getMapsByDescription(String description) throws SQLException;
+	CityMaps getMapsByDescription(String description) throws SQLException;
+	
+	CityMaps getMapsBySiteAndCityNames(String string, String string2) throws SQLException;
 
 	User getUserDetails(String username) throws SQLException;
 
@@ -72,13 +75,6 @@ public interface IGcmDataExecute {
 	byte[] downloadMap(int cityId, String username) throws SQLException;
 
 	void editCityPrice(int cityId, double newPrice) throws SQLException;
-
-	List<Map> getMapsObjectAddedTo(int contentId) throws SQLException; // gets list of the maps that the object is added
-																		// to
-
-	List<City> getCitiesObjectAddedTo(int contentId) throws SQLException;
-
-	List<Tour> getToursObjectAddedTo(int contentId) throws SQLException;
 
 	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
@@ -132,5 +128,6 @@ List<Map> getPurchasedMaps(String username) throws SQLException;
 List<CitySubmission> getCitySubmissions() throws SQLException;
 
 RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword) throws SQLException;
+
 
 }

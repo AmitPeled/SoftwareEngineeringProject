@@ -21,6 +21,7 @@ import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
+import dataAccess.search.CityMaps;
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
@@ -115,102 +116,103 @@ public class GcmDataExecutor implements
 
 	 }
 
-		@Override
-		public User getUserDetails(String username) throws SQLException {
-			List<List<Object>> rows = queryExecutor
-			        .selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*");
-			rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
-			        username, "*"));
-			rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
-			        "username", username, "*"));
-			rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
-			        "username", username, "*"));
-			if (rows.isEmpty())
-				return null;
-			else
-				return objectParser.getUser(rows.get(0));
-		}
+	 @Override
+	 public User getUserDetails(String username) throws SQLException {
+		  List<List<Object>> rows = queryExecutor.selectColumnsByValue(
+		            DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*");
+		  rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
+		            username, "*"));
+		  rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
+		            "username", username, "*"));
+		  rows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
+		            "username", username, "*"));
+		  if (rows.isEmpty())
+			   return null;
+		  else
+			   return objectParser.getUser(rows.get(0));
+	 }
 
-		private boolean userExists(String username) throws SQLException {
-			return !queryExecutor
-			        .selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username", username, "*")
-			        .isEmpty()
-			        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username",
-			                username, "*").isEmpty()
-			        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
-			                "username", username, "*").isEmpty()
-			        || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
-			                "username", username, "*").isEmpty();
-		}
+	 private boolean userExists(String username) throws SQLException {
+		  return !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username",
+		            username, "*").isEmpty()
+		            || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers),
+		                      "username", username, "*").isEmpty()
+		            || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
+		                      "username", username, "*").isEmpty()
+		            || !queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
+		                      "username", username, "*").isEmpty();
+	 }
 
-		@Override
-		public RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword)
-		        throws SQLException {
-			if (user == null)
-				return null;
-			
-			if ((!user.getUsername().equals(oldUsername)) && userExists(user.getUsername())) { // username already exists
-				return RequestState.usernameAlreadyExists;
-			}
-			RequestState requestState = RequestState.wrongDetails;
+	 @Override
+	 public RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword)
+	           throws SQLException {
+		  if (user == null)
+			   return null;
 
-			if (updateUserRow(Tables.customerUsers, oldUsername, oldPassword, user, newPassword))
-				requestState = RequestState.customer;
-			else if (updateUserRow(Tables.editorUsers, oldUsername, oldPassword, user, newPassword))
-				requestState = RequestState.editor;
-			else if (updateUserRow(Tables.contentManagerUsers, oldUsername, oldPassword, user, newPassword))
-				requestState = RequestState.contentManager;
-			else if (updateUserRow(Tables.contentManagerUsers, oldUsername, oldPassword, user, newPassword))
-				requestState = RequestState.contentManager;
-			return requestState;
-		}
+		  if ((!user.getUsername().equals(oldUsername)) && userExists(user.getUsername())) { // username already exists
+			   return RequestState.usernameAlreadyExists;
+		  }
+		  RequestState requestState = RequestState.wrongDetails;
 
-		private boolean updateUserRow(Tables table, String oldUsername, String oldPassword, User user, String password)
-		        throws SQLException {
-			List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(table),
-			        new ArrayList<String>() {
-				        {
-					        add("username");
-					        add("password");
-				        }
-			        }, new ArrayList<Object>() {
-				        {
-					        add(oldUsername);
-					        add(oldPassword);
-				        }
-			        }, "*");
-			if (!rows.isEmpty()) {
-				updateUser(table, oldUsername, user, password);
-				return true;
-			}
-			return false;
-		}
+		  if (updateUserRow(Tables.customerUsers, oldUsername, oldPassword, user, newPassword))
+			   requestState = RequestState.customer;
+		  else if (updateUserRow(Tables.editorUsers, oldUsername, oldPassword, user, newPassword))
+			   requestState = RequestState.editor;
+		  else if (updateUserRow(Tables.contentManagerUsers, oldUsername, oldPassword, user, newPassword))
+			   requestState = RequestState.contentManager;
+		  else if (updateUserRow(Tables.contentManagerUsers, oldUsername, oldPassword, user, newPassword))
+			   requestState = RequestState.contentManager;
+		  return requestState;
+	 }
 
-	//	private void updateUserRow(Tables table, String oldUsername, User user) throws SQLException {
+	 private boolean updateUserRow(Tables table, String oldUsername, String oldPassword, User user, String password)
+	           throws SQLException {
+		  List<List<Object>> rows = queryExecutor.selectColumnsByValues(DatabaseMetaData.getTableName(table),
+		            new ArrayList<String>() {
+			             {
+					          add("username");
+					          add("password");
+			             }
+		            }, new ArrayList<Object>() {
+			             {
+					          add(oldUsername);
+					          add(oldPassword);
+			             }
+		            }, "*");
+		  if (!rows.isEmpty()) {
+			   updateUser(table, oldUsername, user, password);
+			   return true;
+		  }
+		  return false;
+	 }
+
+	 // private void updateUserRow(Tables table, String oldUsername, User user)
+	 // throws SQLException {
 //			List<List<Object>> rows = queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(table), "username",
 //			        oldUsername, "*");
 //			if (!rows.isEmpty()) {
 //				String oldPassword = (String) rows.get(0).get(1);
 //				updateUser(table, oldUsername, user, oldPassword);
 //			}
-	//	}
+	 // }
 
-		private void updateUser(Tables table, String oldUsername, User user, String password) throws SQLException {
-			queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(table), "username", oldUsername);
-			List<Object> userRow = new ArrayList<>();
-			String newUsername = user.getUsername();
-			userRow.add(newUsername);
-			System.out.println("inserting new password: "+password);
-			userRow.add(password);
-			userRow.addAll(objectParser.getUserFieldsList(user));
-			queryExecutor.insertToTable(DatabaseMetaData.getTableName(table), userRow);
-			queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "username",
-			        newUsername, "username", oldUsername);
-			queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.purchaseHistory), "username", newUsername,
-			        "username", oldUsername);
-			queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.customerPurchaseDetails), "username", newUsername,
-					"username", oldUsername);
-		}
+	 private void updateUser(Tables table, String oldUsername, User user, String password) throws SQLException {
+		  queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(table), "username", oldUsername);
+		  List<Object> userRow = new ArrayList<>();
+		  String newUsername = user.getUsername();
+		  userRow.add(newUsername);
+		  System.out.println("inserting new password: " + password);
+		  userRow.add(password);
+		  userRow.addAll(objectParser.getUserFieldsList(user));
+		  queryExecutor.insertToTable(DatabaseMetaData.getTableName(table), userRow);
+		  queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.mapsDownloadHistory), "username",
+		            newUsername, "username", oldUsername);
+		  queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.purchaseHistory), "username",
+		            newUsername, "username", oldUsername);
+		  queryExecutor.updateTableColumn(DatabaseMetaData.getTableName(Tables.customerPurchaseDetails), "username",
+		            newUsername, "username", oldUsername);
+	 }
+
 	 @Override
 	 public int addMapToCity(int cityId, Map mapDescription, File mapFile/* , String pathToFilesFolder */)
 	           throws SQLException {
@@ -746,12 +748,12 @@ public class GcmDataExecutor implements
 		  queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", siteId);
 	 }
 
-	 private List<Map> getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField)
+	 private CityMaps getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField)
 	           throws SQLException {
 		  return getMapsByCityField(fieldName, fieldVal, withPartialField, Status.PUBLISH);
 	 }
 
-	 private List<Map> getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField, Status status)
+	 private CityMaps getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField, Status status)
 	           throws SQLException {
 		  List<Integer> cityIds;
 		  if (withPartialField) {
@@ -764,23 +766,29 @@ public class GcmDataExecutor implements
 			             queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
 			                       fieldName, fieldVal, "cityId", Status.PUBLISH));
 		  }
-		  List<Map> maps = new ArrayList<>();
-		  List<List<Object>> mapIdRows = new ArrayList<>();
-		  for (int cityId : cityIds) {
-			   mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
-			             "cityId", cityId, "mapId", Status.PUBLISH));
+		  if (!cityIds.isEmpty()) {
+			   City city = getCityById(cityIds.get(0));
+			   List<Map> maps = new ArrayList<>();
+			   List<List<Object>> mapIdRows = new ArrayList<>();
+			   for (int cityId : cityIds) {
+					mapIdRows.addAll(
+					          queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
+					                    "cityId", cityId, "mapId", Status.PUBLISH));
 
-		  }
-		  List<Integer> mapsIds = toIdList(mapIdRows);
-		  for (int mapId : mapsIds) {
-			   maps.add(getMapDetails(mapId, Status.PUBLISH));
+			   }
+			   List<Integer> mapsIds = toIdList(mapIdRows);
+			   for (int mapId : mapsIds) {
+					maps.add(getMapDetails(mapId, Status.PUBLISH));
+			   }
+			   return new CityMaps(city.getId(), city.getName(), city.getDescription(), city.getPrices(), maps);
 
-		  }
-		  return maps;
+		  } else
+			   return null;
 	 }
 
-	 private List<Map> getMapsBySiteField(String fieldName, Object fieldVal, boolean withPartialField)
+	 private CityMaps getMapsBySiteField(String fieldName, Object fieldVal, boolean withPartialField)
 	           throws SQLException {
+
 		  List<Integer> sitesIds;
 		  if (withPartialField)
 			   sitesIds = toIdList(
@@ -790,16 +798,23 @@ public class GcmDataExecutor implements
 			   sitesIds = toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
 			             fieldName, fieldVal, "siteId", Status.PUBLISH));
 
-		  List<Map> maps = new ArrayList<>();
-		  List<List<Object>> mapIdRows = new ArrayList<>();
-		  for (int siteId : sitesIds) {
-			   mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
-			             "siteId", siteId, "mapId", Status.PUBLISH));
-		  }
-		  List<Integer> mapsIds = toIdList(mapIdRows);
-		  for (int mapId : mapsIds)
-			   maps.add(getMapDetails(mapId));
-		  return maps;
+		  if (!sitesIds.isEmpty()) {
+			   City city = getCityBySite(sitesIds.get(0));
+
+			   List<Map> maps = new ArrayList<>();
+			   List<List<Object>> mapIdRows = new ArrayList<>();
+			   for (int siteId : sitesIds) {
+					mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
+					          "siteId", siteId, "mapId", Status.PUBLISH));
+			   }
+			   List<Integer> mapsIds = toIdList(mapIdRows);
+			   for (int mapId : mapsIds) {
+					maps.add(getMapDetails(mapId));
+			   }
+			   return new CityMaps(city.getId(), city.getName(), city.getDescription(), city.getPrices(), maps);
+		  } else
+			   return null;
+
 	 }
 
 	 private List<Integer> toIdList(List<List<Object>> idRows) {
@@ -820,24 +835,30 @@ public class GcmDataExecutor implements
 	 }
 
 	 @Override
-	 public List<Map> getMapsByCityName(String cityName) throws SQLException {
-		  List<Map> maps = getMapsByCityField("cityName", cityName, false);
-		  return maps;
+	 public CityMaps getMapsByCityName(String cityName) throws SQLException {
+		  return getMapsByCityField("cityName", cityName, false);
 	 }
 
 	 @Override
-	 public List<Map> getMapsBySiteName(String siteName) throws SQLException {
+	 public CityMaps getMapsBySiteName(String siteName) throws SQLException {
 		  return getMapsBySiteField("siteName", siteName, false);
 	 }
 
 	 @Override
-	 public List<Map> getMapsByDescription(String description) throws SQLException {
-		  List<Map> mapsByDescription = getMapsByCityField("cityDescription", description, true);
-		  mapsByDescription.addAll(getMapsBySiteField("siteDescription", description, true));
-		  return mapsByDescription;
+	 public CityMaps getMapsByDescription(String description) throws SQLException {
+		  CityMaps cityMaps = getMapsByCityField("cityDescription", description, true);
+		  if (cityMaps == null)
+			   cityMaps = getMapsBySiteField("siteDescription", description, true);
+		  return cityMaps;
 	 }
 
-	 
+	 @Override
+	 public CityMaps getMapsBySiteAndCityNames(String cityName, String siteName) throws SQLException {
+		  CityMaps cityMaps = getMapsByCityField("cityName", cityName, false);
+		  if (cityMaps == null)
+			   cityMaps = getMapsBySiteField("siteName", siteName, false);
+		  return cityMaps;
+	 }
 
 	 @Override
 	 public List<Site> getCitySites(int cityId) throws SQLException {
@@ -1294,58 +1315,17 @@ public class GcmDataExecutor implements
 		  return mapsObjects;
 	 }
 
-	 @Override
-	 public List<Map> getMapsObjectAddedTo(int contentId) throws SQLException {
-		  List<Integer> mapIds = new ArrayList<>();
-		  mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsTours),
-		            "tourId", contentId, "mapId", Status.ADD)));
-		  mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
-		            "siteId", contentId, "mapId", Status.ADD)));
-		  return toMapsByIds(mapIds, Status.ADD);
-	 }
-
-	 @Override
-	 public List<City> getCitiesObjectAddedTo(int contentId) throws SQLException {
-		  try {
-			   List<Integer> citiesIds = new ArrayList<>();
-			   citiesIds.addAll(toIdList(
-			             queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
-			                       "mapId", contentId, "cityId", Status.ADD)));
-			   citiesIds.addAll(
-			             toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesTours),
-			                       "tourId", contentId, "cityId", Status.ADD)));
-			   citiesIds.addAll(toIdList(
-			             queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesSitesIds),
-			                       "siteId", contentId, "cityId", Status.ADD)));
-			   return toCities(citiesIds, Status.ADD);
-		  } catch (Exception e) {
-			   // system.err.println("error in getCitiesObjectAddedTo. id=" + contentId);
-			   return new ArrayList<>();
-		  }
-	 }
-
-	 private List<City> toCities(List<Integer> citiesIds, Status status) {
-		  List<City> cities = new ArrayList<>();
-		  citiesIds.forEach((cityId) -> {
-			   try {
-					cities.add(getCityById(cityId));
-			   } catch (SQLException e) {
-					e.printStackTrace();
-			   }
-		  });
-		  return cities;
-	 }
-
-	 @Override
-	 public List<Tour> getToursObjectAddedTo(int contentId) throws SQLException {
-		  List<List<Object>> toursIds = queryExecutor.selectColumnsByValue(
-		            DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "siteId", contentId, "tourId",
-		            Status.ADD);
-		  if (toursIds.isEmpty())
-			   return new ArrayList<>();
-		  else
-			   return getToursByIds(toIdList(toursIds), Status.ADD);
-	 }
+//	 private List<City> toCities(List<Integer> citiesIds, Status status) {
+//		  List<City> cities = new ArrayList<>();
+//		  citiesIds.forEach((cityId) -> {
+//			   try {
+//					cities.add(getCityById(cityId));
+//			   } catch (SQLException e) {
+//					e.printStackTrace();
+//			   }
+//		  });
+//		  return cities;
+//	 }
 
 	 private List<Tour> getToursByIds(List<Integer> tourIds, Status status) {
 		  List<Tour> tours = new ArrayList<>();

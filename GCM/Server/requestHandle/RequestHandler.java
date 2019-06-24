@@ -60,13 +60,13 @@ public class RequestHandler implements IHandleRequest {
 							            (Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
 							  break;
 						 case editUsersWithNewPassword:
-								requestState = gcmDataExecutor.editUser(username, password, (User) listObjectReceived.get(0),
-								        (String) listObjectReceived.get(1));
-							break;
-							case editUsersWithoutNewPassword:
-								requestState = gcmDataExecutor.editUser(username, password, (User) listObjectReceived.get(0),
-								        password);
-							break;
+							  requestState = gcmDataExecutor.editUser(username, password,
+							            (User) listObjectReceived.get(0), (String) listObjectReceived.get(1));
+							  break;
+						 case editUsersWithoutNewPassword:
+							  requestState = gcmDataExecutor.editUser(username, password,
+							            (User) listObjectReceived.get(0), password);
+							  break;
 
 						 case addNewSiteToCity:
 							  listToSend.add(gcmDataExecutor.addNewSiteToCity((int) listObjectReceived.get(0),
@@ -104,21 +104,18 @@ public class RequestHandler implements IHandleRequest {
 						 case getTour:
 							  listToSend.add(gcmDataExecutor.getTour((int) listObjectReceived.get(0)));
 							  break;
-//				case addCityWithInitialMap:
-//					listToSend.add(gcmDataExecutor.addCityWithInitialMap((City) listObjectReceived.get(0),
-//							(Map) listObjectReceived.get(1), (File) listObjectReceived.get(2)));
-//					break;
 						 case getMapsByCityName:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsByCityName((String) listObjectReceived.get(0));
+							  listToSend.add(gcmDataExecutor.getMapsByCityName((String) listObjectReceived.get(0)));
 							  break;
 						 case getMapsBySiteName:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsBySiteName((String) listObjectReceived.get(0));
+							  listToSend.add(gcmDataExecutor.getMapsBySiteName((String) listObjectReceived.get(0)));
 							  break;
 						 case getMapsByDescription:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsByDescription((String) listObjectReceived.get(0));
+							  listToSend.add(gcmDataExecutor.getMapsByDescription((String) listObjectReceived.get(0)));
+							  break;
+						 case getMapsBySiteAndCityNames:
+							  listToSend.add(gcmDataExecutor.getMapsBySiteAndCityNames(
+							            (String) listObjectReceived.get(0), (String) listObjectReceived.get(1)));
 							  break;
 						 case downloadMap:
 							  listToSend.add(gcmDataExecutor.downloadMap((int) listObjectReceived.get(0), username));
@@ -168,21 +165,6 @@ public class RequestHandler implements IHandleRequest {
 						 case editCityPrice:
 							  gcmDataExecutor.editCityPrice((int) listObjectReceived.get(0),
 							            (double) listObjectReceived.get(1));
-							  break;
-						 case getMapsObjectAddedTo:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsObjectAddedTo((int) listObjectReceived.get(0));
-							  break;
-						 case getMapsUpdateEdits:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsObjectAddedTo((int) listObjectReceived.get(0));
-							  break;
-						 case getSavedCreditCard:
-							  listToSend.add(gcmDataExecutor.getSavedCreditCard(username));
-							  break;
-						 case getToursObjectAddedTo:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getToursObjectAddedTo((int) listObjectReceived.get(0));
 							  break;
 						 case actionTourEdit:
 							  gcmDataExecutor.actionTourEdit((TourSubmission) listObjectReceived.get(0),

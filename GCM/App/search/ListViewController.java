@@ -86,13 +86,13 @@ public class ListViewController implements Initializable
 	            		selectRadio = (RadioButton) searchOptions.getSelectedToggle();
 		            	selectedRadioBtn = selectRadio.getText();
 		            	
-		            	List<Map> resultSet;
+		            	List<Map> resultSet = new ArrayList<>();
 		            	if(selectedRadioBtn.equals("City name")) {
-		            		resultSet = gcmDAO.getMapsByCityName(searchText);
+//		            		resultSet = gcmDAO.getMapsByCityName(searchText); TODO
 		            	}else if(selectedRadioBtn.equals("Description")) {
-		            		resultSet = gcmDAO.getMapsByDescription(searchText);
+//		            		resultSet = gcmDAO.getMapsByDescription(searchText); TODO
 		            	}else{
-		            		resultSet = gcmDAO.getMapsBySiteName(searchText);
+//		            		resultSet = gcmDAO.getMapsBySiteName(searchText); TODO
 		            	}
 		            	List<MapItem> results = parseResultSet(resultSet);
 		            	

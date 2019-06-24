@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -22,6 +23,7 @@ import dataAccess.customer.PurchaseHistory;
 import dataAccess.editor.EditorDAO;
 import dataAccess.generalManager.GeneralManagerDAO;
 import dataAccess.generalManager.Report;
+import dataAccess.search.CityMaps;
 import dataAccess.search.SearchDAO;
 import dataAccess.users.PurchaseDetails;
 import dataAccess.users.UserDAO;
@@ -58,7 +60,7 @@ public class GcmDAO
 	 public static void main(String[] args) {
 		  GcmDAO gcmDAO = new GcmDAO();
 		  gcmDAO.login("editor", "editor");
-		gcmDAO.getMapFile(497);
+		  gcmDAO.getMapFile(497);
 	 }
 
 	 public GcmDAO() {
@@ -121,40 +123,41 @@ public class GcmDAO
 		  }, username, password));
 		  return responseObject.getRequestState();
 	 }
+
 	 @Override
-		public RequestState updateUser(User user) {
-			ResponseObject responseObject = send(
-			        new RequestObject(GcmQuery.editUsersWithoutNewPassword, new ArrayList<Object>() {
-				        {
-					        add(user);
-					        add(password);
-				        }
-			        }, username, password));
-			RequestState requestState = responseObject.getRequestState();
-			if (isProperUser(requestState))
-				setDetails(user.getUsername(), password);
-			return requestState;
-		}
+	 public RequestState updateUser(User user) {
+		  ResponseObject responseObject = send(
+		            new RequestObject(GcmQuery.editUsersWithoutNewPassword, new ArrayList<Object>() {
+			             {
+					          add(user);
+					          add(password);
+			             }
+		            }, username, password));
+		  RequestState requestState = responseObject.getRequestState();
+		  if (isProperUser(requestState))
+			   setDetails(user.getUsername(), password);
+		  return requestState;
+	 }
 
-		@Override
-		public RequestState updateUser(User user, String newPassword) {
-			ResponseObject responseObject = send(
-			        new RequestObject(GcmQuery.editUsersWithNewPassword, new ArrayList<Object>() {
-				        {
-					        add(user);
-					        add(newPassword);
-				        }
-			        }, username, password));
-			RequestState requestState = responseObject.getRequestState();
-			if (isProperUser(requestState))
-				setDetails(user.getUsername(), newPassword);
-			return requestState;
-		}
+	 @Override
+	 public RequestState updateUser(User user, String newPassword) {
+		  ResponseObject responseObject = send(
+		            new RequestObject(GcmQuery.editUsersWithNewPassword, new ArrayList<Object>() {
+			             {
+					          add(user);
+					          add(newPassword);
+			             }
+		            }, username, password));
+		  RequestState requestState = responseObject.getRequestState();
+		  if (isProperUser(requestState))
+			   setDetails(user.getUsername(), newPassword);
+		  return requestState;
+	 }
 
-		private boolean isProperUser(RequestState requestState) {
-			return requestState == RequestState.customer || requestState == RequestState.editor
-			        || requestState == RequestState.contentManager || requestState == RequestState.generalManager;
-		}
+	 private boolean isProperUser(RequestState requestState) {
+		  return requestState == RequestState.customer || requestState == RequestState.editor
+		            || requestState == RequestState.contentManager || requestState == RequestState.generalManager;
+	 }
 
 	 private ResponseObject send(RequestObject req) { // false for error, true otherwise
 		  System.out.println("Connecting to host " + serverHostname + " on port " + serverPortNumber + ".");
@@ -253,30 +256,56 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public List<Map> getMapsByCityName(String cityName) {
-		  return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByCityName, new ArrayList<Object>() {
-			   {
-					add(cityName);
-			   }
-		  }, username, password)).getResponse();
+	 public CityMaps getMapsByCityName(String cityName) {
+		  try {
+			   return (CityMaps) send(new RequestObject(GcmQuery.getMapsByCityName, new ArrayList<Object>() {
+					{
+						 add(cityName);
+					}
+			   }, username, password)).getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 @Override
-	 public List<Map> getMapsBySiteName(String siteName) {
-		  return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
-			   {
-					add(siteName);
-			   }
-		  }, username, password)).getResponse();
+	 public CityMaps getMapsBySiteName(String siteName) {
+		  try {
+			   return (CityMaps) send(new RequestObject(GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
+					{
+						 add(siteName);
+					}
+			   }, username, password)).getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 @Override
-	 public List<Map> getMapsByDescription(String description) {
-		  return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByDescription, new ArrayList<Object>() {
-			   {
-					add(description);
-			   }
-		  }, username, password)).getResponse();
+	 public CityMaps getMapsByDescription(String description) {
+		  try {
+			   return (CityMaps) send(new RequestObject(GcmQuery.getMapsByDescription, new ArrayList<Object>() {
+					{
+						 add(description);
+					}
+			   }, username, password)).getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
+	 }
+
+	 @Override
+	 public CityMaps getMapsBySiteAndCityNames(String cityName, String siteName) {
+		  try {
+			   return (CityMaps) send(new RequestObject(GcmQuery.getMapsBySiteAndCityNames, new ArrayList<Object>() {
+					{
+						 add(cityName);
+						 add(siteName);
+					}
+			   }, username, password)).getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 @Override
