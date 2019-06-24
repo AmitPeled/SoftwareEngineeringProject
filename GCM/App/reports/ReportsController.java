@@ -1,11 +1,13 @@
 package reports;
 
 import java.net.URL;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import dataAccess.generalManager.Report;
 import gcmDataAccess.GcmDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,8 +62,10 @@ public class ReportsController implements Initializable{
 	String selectedRadioValue;
 	RadioButton selectRadio;
 	GcmClient gcmClient;
+	LocalDate startDate;
+	LocalDate endDate;
 	
-	public ReportsController(GcmClient gcmClient) { 
+	public ReportsController(GcmClient gcmClient) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmClient.getDataAccessObject();
 	}
@@ -102,16 +106,16 @@ public class ReportsController implements Initializable{
 	public void searchListener() {	
 		search.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
-	            public void handle(MouseEvent event) { 
+	            public void handle(MouseEvent event) {  
 	            	String searchText = searchBar.getText();
 	            	selectRadio = (RadioButton) searchOptions.getSelectedToggle();
 	            	selectedRadioValue = selectRadio.getText();
-	            	LocalDate datefrom = dateFrom.getValue();
-	            	LocalDate dateuntil = dateUntil.getValue();
+	            	startDate = dateFrom.getValue();
+	            	endDate = dateUntil.getValue();
 	            	
 	            	List<String> list = Arrays.asList(searchText);
 	            	
-	            	if(checkFilledFields(list) && datefrom != null && dateuntil != null) {
+	            	if(checkFilledFields(list) && startDate != null && endDate != null) {
 	            		errors.setVisible(false);
 	            		cityResults.setItems(null);
 	            		customerResults.setItems(null);
@@ -176,18 +180,17 @@ public class ReportsController implements Initializable{
 		cityResults.setVisible(true);
 		customerResults.setVisible(false);
 		workerResults.setVisible(false);
-		//List<Map> resultSet;
-		//resultSet = gcmDAO.getMapsByCityName(searchText);
-		CityItem city1 = new CityItem(1, "1", "2", "3", "4", "5");
-		CityItem city2 = new CityItem(1, "5", "6", "7", "8", "9");
-		CityItem city3 = new CityItem(1, "10", "11", "12", "13", "14");
-		List<CityItem> result = Arrays.asList(city1, city2, city3);
-		ObservableList<CityItem> data = FXCollections.observableArrayList();
-		for (CityItem item : result) 
-		{ 
-			 data.add(item);
+		int cityId = 357;
+		Date sDate = java.sql.Date.valueOf( startDate );
+		Date eDate = java.sql.Date.valueOf( endDate );
+		Report report = gcmDAO.getCityReport(sDate, eDate, cityId);
+		if(report != null){
+			CityItem item = new CityItem(report.getCityId(), Integer.toString(report.getViewsNum()), Integer.toString(report.getOneTimePurchase()), Integer.toString(report.getSubscribes()), Integer.toString(report.getResubscribers()), Integer.toString(report.getDownloads()));
+
+			ObservableList<CityItem> data = FXCollections.observableArrayList();
+			data.add(item);
+			cityResults.setItems(data);
 		}
-		cityResults.setItems(data);
 	}
 	
 
@@ -208,10 +211,7 @@ public class ReportsController implements Initializable{
 		}
 		workerResults.setItems(data);
 	}
-	@FXML
-	public void onBackButton() {
-		gcmClient.back();
-	}
+	
 	private void reportsByCustomer() {
 		cityResults.setVisible(false);
 		customerResults.setVisible(true);
@@ -229,5 +229,10 @@ public class ReportsController implements Initializable{
 			 data.add(item);
 		}
 		customerResults.setItems(data);
+	}
+	
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
 	}
 }

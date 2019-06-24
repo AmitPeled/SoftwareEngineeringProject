@@ -19,7 +19,7 @@ public class Report {
 		this.resubscribers = resubscribers;
 		this.viewsNum = viewsNum;
 		this.downloads = downloads;
-	}
+	} 
 
 	public Report() {
 	}
