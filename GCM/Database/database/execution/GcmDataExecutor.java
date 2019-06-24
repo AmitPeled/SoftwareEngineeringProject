@@ -1969,7 +1969,9 @@ public class GcmDataExecutor implements
 	 }
 
 	 @Override
-	 public Report getCityReport(java.util.Date startDate, java.util.Date endDate, int cityId) throws SQLException {
+	 public Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName)
+	           throws SQLException {
+		  int cityId = getCityIdByName(cityName);
 		  return createMangerReportOnOneCity(cityId, dateToSqlDate(startDate), dateToSqlDate(endDate));
 	 }
 
@@ -2032,7 +2034,7 @@ public class GcmDataExecutor implements
 
 	 private void notifyManagerReportColumn(int cityId, String tableToUpdate) throws SQLException {
 
-		  String cityName = getCityNameToMe(cityId);
+		  String cityName = getCityName(cityId);
 
 		  List<Object> objects = new ArrayList<Object>() {
 			   {
@@ -2054,7 +2056,7 @@ public class GcmDataExecutor implements
 
 	 }
 
-	 private String getCityNameToMe(int cityId) throws SQLException {
+	 private String getCityName(int cityId) throws SQLException {
 
 		  String tableName = "citiesMetaDetails";
 		  String columnsToSelect = "*";
@@ -2069,6 +2071,22 @@ public class GcmDataExecutor implements
 			   cityName = (String) list.get(0).get(1);
 			   return cityName;
 		  }
+	 }
+
+	 private int getCityIdByName(String cityName) throws SQLException {
+
+		  String tableName = "citiesMetaDetails";
+		  String columnsToSelect = "cityId";
+		  String objectName = "cityName";
+		  int cityId = -1;
+
+		  List<List<Object>> list = queryExecutor.selectColumnsByValue(tableName, objectName, cityName,
+		            columnsToSelect);
+
+		  if (!list.isEmpty()) {
+			   cityId = (int) list.get(0).get(1);
+		  }
+		  return cityId;
 	 }
 
 	 private Date addDays(Date date, int days) {
@@ -2164,7 +2182,7 @@ public class GcmDataExecutor implements
 	 }
 
 	 private Report createMangerReportOnOneCity(int cityId, Date date1, Date date2) throws SQLException {
-		  String cityName = getCityNameToMe(cityId);
+		  String cityName = getCityName(cityId);
 		  Report report = new Report();
 		  report.setCityId(cityId);
 		  report.setCityName(cityName);
@@ -2203,7 +2221,7 @@ public class GcmDataExecutor implements
 
 	 private Report createManagerReportOnOneCity(int cityId, String username, Date date1, Date date2)
 	           throws SQLException {
-		  String cityName = getCityNameToMe(cityId);
+		  String cityName = getCityName(cityId);
 		  Report report = new Report();
 		  report.setCityId(cityId);
 		  report.setCityName(cityName);

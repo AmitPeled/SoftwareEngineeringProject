@@ -75,8 +75,8 @@ public interface IGcmDataExecute {
 
 	 List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
-	 Report getCityReport(java.util.Date date, java.util.Date date2, int cityId) throws SQLException;
-
+	 Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName) throws SQLException;
+	 
 	 List<Report> getAllcitiesReport(java.util.Date date, java.util.Date date2) throws SQLException;
 
 	 List<SiteSubmission> getSiteSubmissions() throws SQLException;
@@ -138,5 +138,6 @@ public interface IGcmDataExecute {
 	 RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword) throws SQLException;
 
 	 List<Report> getUserReprts(java.util.Date date, java.util.Date date2, String string) throws SQLException;
+
 
 }

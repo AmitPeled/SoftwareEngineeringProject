@@ -111,7 +111,7 @@ public class RequestHandler implements IHandleRequest {
 							  break;
 						 case getCityReport:
 							  listToSend.add(gcmDataExecutor.getCityReport((Date) listObjectReceived.get(0),
-							            (Date) listObjectReceived.get(1), (int) listObjectReceived.get(2)));
+							            (Date) listObjectReceived.get(1), (String) listObjectReceived.get(2)));
 							  break;
 						 case getSystemReport:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor.getAllcitiesReport(
@@ -119,7 +119,8 @@ public class RequestHandler implements IHandleRequest {
 							  break;
 						 case getUserReports:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor.getUserReprts(
-										(Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1), (String) listObjectReceived.get(2));
+							            (Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1),
+							            (String) listObjectReceived.get(2));
 							  break;
 						 case getMapsBySiteName:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor
