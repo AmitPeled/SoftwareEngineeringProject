@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
 
-import maps.Site;
 
 public class SiteTableCell extends TableCell<SiteSubmission, Button> {
             Button approve = new Button("Approve!");

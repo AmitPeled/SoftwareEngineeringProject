@@ -3,7 +3,6 @@ package mainApp;
 import gcmDataAccess.GcmDAO;
 import maps.Tour;
 import userInfo.UserInfo;
-import users.User;
 
 /**
  * The GcmClient class's responsibility is encapsulating all the high-level

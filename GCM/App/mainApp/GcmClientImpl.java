@@ -15,7 +15,6 @@ import mapViewerScene.MapViewerSceneController;
 import maps.Tour;
 import userDetailsPresentation.UserDetailsPresentationController;
 import userInfo.UserInfo;
-import users.User;
 
 /**
  * The GcmClient class's responsibility is encapsulating all the high-level

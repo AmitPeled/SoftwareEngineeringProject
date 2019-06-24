@@ -2,7 +2,6 @@ package database.execution.selection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
 import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
 import database.objectParse.DatabaseParser;
 import database.objectParse.Status;
-import maps.City;
 import maps.Map;
 import maps.Tour;
 
@@ -67,7 +65,7 @@ class GetterTest {
 
 	@Test
 	void getTour() throws SQLException {
-		Tour tour = contentGetter.getTour(1);
+//		Tour tour = contentGetter.getTour(1);
 //		assertEquals("tourDescription", tour.getDescription());
 //		tour = contentGetter.getTour(-1);
 //		assertNull(tour);

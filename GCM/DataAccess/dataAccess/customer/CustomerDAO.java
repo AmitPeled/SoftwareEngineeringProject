@@ -5,7 +5,6 @@ import java.util.List;
 
 import dataAccess.users.PurchaseDetails;
 import maps.City;
-import maps.Map;
 import users.User;
 
 public interface CustomerDAO {

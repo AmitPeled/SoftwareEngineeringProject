@@ -26,7 +26,6 @@ import mainApp.SceneNames;
 import maps.City;
 import maps.Map;
 import queries.RequestState;
-import userInfo.UserInfoImpl;
 
 public class ListViewController implements Initializable
 {

@@ -21,6 +21,7 @@ import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
 import database.objectParse.DatabaseParser;
 
+@SuppressWarnings("serial")
 public class CostumerDataExecutorTest {
 
 	static IExecuteQueries dbExecutor;
