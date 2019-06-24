@@ -10,6 +10,7 @@ import database.connection.DBConnector;
 import database.execution.DatabaseExecutor;
 import database.execution.GcmDataExecutor;
 import database.objectParse.DatabaseParser;
+import database.serverObjects.MapSubmissionContent;
 
 
 // the tests are based on the database content according to the moment tested.
@@ -104,7 +105,7 @@ class ComplexGetterTest {
 //	}
 	@Test
 	void getMapSubmissions() throws SQLException {
-		List<MapSubmission> maps = gcmDataExecutor.getMapSubmissions();
+		List<MapSubmissionContent> maps = gcmDataExecutor.getMapSubmissions();
 		System.out.println(maps);
 //		System.out.println(gcmDataExecutor.getSiteSubmissionsByStatus(Status.toAdd));
 //		maps = gcmDataExecutor.getMapSubmissionsByStatus(Status.ADD);
