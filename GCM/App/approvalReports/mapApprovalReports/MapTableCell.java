@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
 
-import maps.Map;
 import users.User;
 
 public class MapTableCell extends TableCell<MapSubmission, Button> {

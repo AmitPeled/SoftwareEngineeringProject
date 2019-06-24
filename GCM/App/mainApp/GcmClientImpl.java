@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import mapViewerScene.MapViewerSceneController;
 import userDetailsPresentation.UserDetailsPresentationController;
 import userInfo.UserInfo;
-import users.User;
 
 /**
  * The GcmClient class's responsibility is encapsulating all the high-level

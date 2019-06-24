@@ -4,8 +4,7 @@ import gcmDataAccess.GcmDAO;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
-import maps.City;
-import maps.Site;
+
 
 public class CityTableCell extends TableCell<CitySubmission, Button> {
             Button approve = new Button("Approve!");

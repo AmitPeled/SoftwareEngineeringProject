@@ -2,7 +2,6 @@ package mainApp;
 
 import gcmDataAccess.GcmDAO;
 import userInfo.UserInfo;
-import users.User;
 
 /**
  * The GcmClient class's responsibility is encapsulating all the high-level
