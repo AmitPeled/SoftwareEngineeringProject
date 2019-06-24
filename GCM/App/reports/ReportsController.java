@@ -3,10 +3,12 @@ package reports;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
 import gcmDataAccess.GcmDAO;
 import javafx.collections.FXCollections;
@@ -30,6 +32,8 @@ import reports.cells.WorkerListCell;
 import reports.resultItems.CityItem;
 import reports.resultItems.CustomerItem;
 import reports.resultItems.WorkerItem;
+import users.User;
+import users.UserReport;
 
 public class ReportsController implements Initializable{
 	private GcmDAO gcmDAO;
@@ -64,6 +68,7 @@ public class ReportsController implements Initializable{
 	GcmClient gcmClient;
 	LocalDate startDate;
 	LocalDate endDate;
+	String searchText;
 	
 	public ReportsController(GcmClient gcmClient) {
 		this.gcmClient = gcmClient;
@@ -107,7 +112,7 @@ public class ReportsController implements Initializable{
 		search.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) {  
-	            	String searchText = searchBar.getText();
+	            	searchText = searchBar.getText();
 	            	selectRadio = (RadioButton) searchOptions.getSelectedToggle();
 	            	selectedRadioValue = selectRadio.getText();
 	            	startDate = dateFrom.getValue();
@@ -180,10 +185,9 @@ public class ReportsController implements Initializable{
 		cityResults.setVisible(true);
 		customerResults.setVisible(false);
 		workerResults.setVisible(false);
-		int cityId = 357;
 		Date sDate = java.sql.Date.valueOf( startDate );
 		Date eDate = java.sql.Date.valueOf( endDate );
-		Report report = gcmDAO.getCityReport(sDate, eDate, cityId);
+		Report report = gcmDAO.getCityReport(sDate, eDate, searchText);
 		if(report != null){
 			CityItem item = new CityItem(report.getCityId(), Integer.toString(report.getViewsNum()), Integer.toString(report.getOneTimePurchase()), Integer.toString(report.getSubscribes()), Integer.toString(report.getResubscribers()), Integer.toString(report.getDownloads()));
 
@@ -198,17 +202,15 @@ public class ReportsController implements Initializable{
 		cityResults.setVisible(false);
 		customerResults.setVisible(false);
 		workerResults.setVisible(true);
-		//List<Map> resultSet;
-		//resultSet = gcmDAO.getMapsByDescription(searchText);
-		WorkerItem city1 = new WorkerItem(1, "1", "2", "3", "4", "5");
-		WorkerItem city2 = new WorkerItem(1, "5", "6", "7", "8", "9");
-		WorkerItem city3 = new WorkerItem(1, "10", "11", "12", "13", "14");
-		List<WorkerItem> result = Arrays.asList(city1, city2, city3);
+		//UserReport workerReport = gcmDAO.getWorkerReport(searchText);
+		UserReport workerReport = new UserReport(null, null, null);
+
+		User user = workerReport.getUser();
+
+		WorkerItem worker = new WorkerItem(1, user.getFirstName(), user.getLastName(), 
+				user.getUsername(), user.getEmail(), workerReport.getUserType());
 		ObservableList<WorkerItem> data = FXCollections.observableArrayList();
-		for (WorkerItem item : result) 
-		{ 
-			 data.add(item);
-		}
+		data.add(worker);
 		workerResults.setItems(data);
 	}
 	
@@ -216,18 +218,17 @@ public class ReportsController implements Initializable{
 		cityResults.setVisible(false);
 		customerResults.setVisible(true);
 		workerResults.setVisible(false);
-		//List<Map> resultSet;
-		//resultSet = gcmDAO.getMapsByDescription(searchText);
-		List<String> purchaseHistory = Arrays.asList("haifa", "tel aviv");
-		CustomerItem city1 = new CustomerItem(1, "1", "2", "3", purchaseHistory);
-		CustomerItem city2 = new CustomerItem(1, "5", "6", "7", purchaseHistory);
-		CustomerItem city3 = new CustomerItem(1, "10", "11", "12", purchaseHistory);
-		List<CustomerItem> result = Arrays.asList(city1, city2, city3);
-		ObservableList<CustomerItem> data = FXCollections.observableArrayList();
-		for (CustomerItem item : result) 
-		{ 
-			 data.add(item);
+		//UserReport customerReport = gcmDAO.getCustomerReport(searchText);
+		UserReport customerReport = new UserReport(null, null, null);
+		List<String> purchaseHistory = new ArrayList<String>();
+		for (PurchaseHistory purchaseItem : customerReport.getPurchaseHistory()) {
+			purchaseHistory.add(purchaseItem.getCityId().getName());
 		}
+		User user = customerReport.getUser();
+		CustomerItem customer = new CustomerItem(1, user.getUsername(), user.getPhoneNumber(), 
+				user.getEmail(), purchaseHistory);
+		ObservableList<CustomerItem> data = FXCollections.observableArrayList();
+		data.add(customer);
 		customerResults.setItems(data);
 	}
 	
