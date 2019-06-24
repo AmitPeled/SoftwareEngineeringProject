@@ -25,5 +25,6 @@
       <Text layoutX="243.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4 month" />
       <Text layoutX="315.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5 month" />
       <Text layoutX="382.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6 month" />
+      <Button fx:id="backBtn" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
    </children>
 </AnchorPane>

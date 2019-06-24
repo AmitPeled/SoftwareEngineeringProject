@@ -21,7 +21,7 @@ public class Report implements Serializable{
 		this.resubscribers = resubscribers;
 		this.viewsNum = viewsNum;
 		this.downloads = downloads;
-	}
+	} 
 
 	public Report() {
 	}

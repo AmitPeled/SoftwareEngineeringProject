@@ -23,11 +23,11 @@
                <toggleGroup>
                   <ToggleGroup fx:id="searchOptions" />
                </toggleGroup></RadioButton>
-            <RadioButton fx:id="rDescription" layoutX="189.0" layoutY="193.0" mnemonicParsing="false" text="Description">
+            <RadioButton fx:id="rBoth" layoutX="189.0" layoutY="193.0" mnemonicParsing="false" text="Both">
                <toggleGroup>
                   <ToggleGroup fx:id="options" />
                </toggleGroup></RadioButton>
-            <TextField fx:id="searchBar" layoutX="180.0" layoutY="75.0" onAction="#searchListener" prefHeight="25.0" prefWidth="157.0" />
+            <TextField fx:id="searchBar" layoutX="180.0" layoutY="75.0" onAction="#searchListener" prefHeight="25.0" prefWidth="157.0" promptText="city name" />
             <Text fx:id="subtitle" layoutX="189.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by:" underline="true">
                <font>
                   <Font size="14.0" />
@@ -42,10 +42,11 @@
          </children>
       </Group>
       <Group />
-      <Button fx:id="addNewMapBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" visible="false" />
-      <Button fx:id="buySubscriptionBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" visible="false" />
+      <Button fx:id="addNewMapBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" onAction="#onAddNewMap" prefHeight="35.0" prefWidth="242.0" text="Add a new map to current city" visible="false" />
+      <Button fx:id="buySubscriptionBtn" layoutX="138.0" layoutY="286.0" mnemonicParsing="false" onAction="#onBuySubscription" prefHeight="35.0" prefWidth="242.0" text="Buy subscription" visible="false" />
    	<ListView fx:id="listView" layoutX="46.0" layoutY="354.0" prefHeight="444.0" prefWidth="435.0" />
-      <Button fx:id="backBtn" layoutX="103.0" layoutY="222.0" mnemonicParsing="false" onAction="#onBack" prefHeight="35.0" prefWidth="149.0" text="Back" />
-      <Button fx:id="searchBtn" layoutX="283.0" layoutY="221.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0" text="Search" />
+      <Button fx:id="backBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBack" prefHeight="35.0" prefWidth="63.0" text="Back" />
+      <Button fx:id="searchBtn" layoutX="184.0" layoutY="233.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0" text="Search" />
+      <TextField fx:id="siteBar" layoutX="345.0" layoutY="75.0" onAction="#searchListener" prefHeight="25.0" prefWidth="106.0" promptText="site name" />
    </children>
 </AnchorPane>

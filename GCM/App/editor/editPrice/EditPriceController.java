@@ -51,7 +51,7 @@ public class EditPriceController implements Initializable
 			TextFieldUtility utilities) {
 		this.gcmClient = gcmClient;
 		this.contentManagerDAO = contentManagerDAO;
-		this.cityId = 271;
+		this.cityId = 1;
 		this.utilities = utilities;
 	}
 	 
@@ -111,7 +111,10 @@ public class EditPriceController implements Initializable
 			}
 		}
 	}
-	
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		errors.setVisible(false);

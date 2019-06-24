@@ -4,7 +4,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import dataAccess.search.CityMaps;
 import gcmDataAccess.GcmDAO;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -20,6 +24,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import mainApp.GcmClient;
+import mainApp.SceneNames;
+import maps.City;
 import maps.Map;
 import queries.RequestState;
 
@@ -40,6 +46,8 @@ public class ListViewController implements Initializable
     private Button searchBtn;
 	@FXML
 	private TextField searchBar;
+	@FXML
+	private TextField siteBar;
 	
 	@FXML
 	public ToggleGroup searchOptions;
@@ -48,13 +56,15 @@ public class ListViewController implements Initializable
 	@FXML
 	private RadioButton rPointofinterest;
 	@FXML
-	private RadioButton rDescription;
+	private RadioButton rBoth;
 	@FXML
 	private Button goTo;
 	Boolean permissionsForMap;
 	String selectedRadioBtn;
 	RadioButton selectRadio;
 	private GcmClient gcmClient;
+	int cityId = 357;
+	CityMaps currentCity = null;
 	
 	public ListViewController(GcmClient gcmClient,GcmDAO gcmDAO) {
 		this.gcmClient = gcmClient;
@@ -71,10 +81,21 @@ public class ListViewController implements Initializable
 		rPointofinterest.setToggleGroup(searchOptions);
 		
 		// Radio 3: description.
-		rDescription.setToggleGroup(searchOptions);
+		rBoth.setToggleGroup(searchOptions);
 	}
-
 	
+	public void radioButtonListener() {
+		rBoth.selectedProperty().addListener(new ChangeListener<Boolean>() {
+		    @Override
+		    public void changed(ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) {
+		        if (isNowSelected) { 
+		            siteBar.setVisible(true);
+		        } else {
+		        	siteBar.setVisible(false);
+		        }
+		    }
+		});
+	}
 	public void searchListener() {	
 		searchBtn.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
@@ -86,24 +107,33 @@ public class ListViewController implements Initializable
 	            		selectRadio = (RadioButton) searchOptions.getSelectedToggle();
 		            	selectedRadioBtn = selectRadio.getText();
 		            	
-		            	List<Map> resultSet;
 		            	if(selectedRadioBtn.equals("City name")) {
-		            		resultSet = gcmDAO.getMapsByCityName(searchText);
-		            	}else if(selectedRadioBtn.equals("Description")) {
-		            		resultSet = gcmDAO.getMapsByDescription(searchText);
+		            		currentCity = gcmDAO.getMapsByCityName(searchText);
+		            	}else if(selectedRadioBtn.equals("Point of interest")) {
+		            		currentCity = gcmDAO.getMapsByDescription(searchText);
 		            	}else{
-		            		resultSet = gcmDAO.getMapsBySiteName(searchText);
-		            	}
-		            	List<MapItem> results = parseResultSet(resultSet);
+		            		String siteText = siteBar.getText();
+		            		currentCity = gcmDAO.getMapsBySiteAndCityNames(searchText, siteText);
+		            	} 
+		        		List<Map> resultList = currentCity.getMaps();
+		            	List<MapItem> mapItemsListResults = parseResultSet(resultList);
 		            	
-		            	if(results.isEmpty()) {
+		            	if(mapItemsListResults.isEmpty()) {
 		            		System.out.println("NO MAPS FOUND");
 		            		listView.setItems(null);
 		            		addNewMapBtn.setVisible(false);
 		            		buySubscriptionBtn.setVisible(false);
+
+		            		RequestState userState = gcmClient.getUserInfo().getState();
+		            		if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
+		            			addNewMapBtn.setVisible(true);
+		            		}
+		            		
 		            	}else {
+		                	cityId = currentCity.getId();
+
 		            		ObservableList<MapItem> data = FXCollections.observableArrayList();
-			            	for (MapItem item : results) 
+			            	for (MapItem item : mapItemsListResults) 
 			            	{ 
 			            		 data.add(item);
 			            	}
@@ -120,31 +150,32 @@ public class ListViewController implements Initializable
 		);
 	}
 	
-	public ArrayList<MapItem> parseResultSet(List<Map> resultSet){
+	public ArrayList<MapItem> parseResultSet(List<Map> resultCityMaps){
 		ArrayList<MapItem> resultList = new ArrayList<MapItem>();
-
-		for (Map item : resultSet) 
+		for (Map item : resultCityMaps) 
     	{ 
-			String id = Integer.toString(item.getId());
-			String mapName = item.getName();
-			String description = item.getDescription();
-			String pointOfInterest;
-			
-			if(item.getSites() != null) {
-				pointOfInterest = Integer.toString(item.getSites().size());
-			}else {
-				pointOfInterest = "0";
+			if(item != null) {
+				String id = Integer.toString(item.getId());
+				String mapName = item.getName();
+				String description = item.getDescription();
+				String pointOfInterest;
+				
+				if(item.getSites() != null) {
+					pointOfInterest = Integer.toString(item.getSites().size());
+				}else {
+					pointOfInterest = "0";
+				}
+				String tours;
+				if(item.getTours() != null) {
+					tours = Integer.toString(item.getTours().size());
+				}else {
+					tours = "0";
+				}
+				double price = item.getPrice();
+				
+				MapItem currentMapItem = new MapItem(this,id, mapName, description, pointOfInterest, tours, price);
+				resultList.add(currentMapItem);
 			}
-			String tours;
-			if(item.getTours() != null) {
-				tours = Integer.toString(item.getTours().size());
-			}else {
-				tours = "0";
-			}
-			double price = item.getPrice();
-			
-			MapItem currentMapItem = new MapItem(this,id, mapName, description, pointOfInterest, tours, price);
-			resultList.add(currentMapItem);
     	}
 		return resultList;
 	}
@@ -154,7 +185,7 @@ public class ListViewController implements Initializable
 		buySubscriptionBtn.setVisible(false);
 		addNewMapBtn.setVisible(false);
 		RequestState userState = gcmClient.getUserInfo().getState();
-		permissionsForMap = true;
+		permissionsForMap = false;
 		// permissionsForMap = gcmClient.getDataAccessObject().notifyMapView()
 		if(userState == RequestState.customer && !permissionsForMap) {
 			buySubscriptionBtn.setVisible(true);
@@ -171,6 +202,8 @@ public class ListViewController implements Initializable
 	public void initialize(URL url, ResourceBundle rb) {
     	initRadioButtons();
     	searchListener();
+    	radioButtonListener();
+    	siteBar.setVisible(false);
     	
         assert mapItem != null : "fx:id=\"anchr\" was not injected: check your FXML file 'AxisFxml.fxml'.";
 
@@ -180,8 +213,19 @@ public class ListViewController implements Initializable
                 return new CustomListCell(gcmClient.getUserInfo().getState(), permissionsForMap);
             }
         });
+    } 
+    @FXML
+    public void onAddNewMap() {
+    	if (currentCity == null) return; 
+    		gcmClient.switchSceneToAddMap(cityId);
+    		//gcmClient.switchSceneToAddMap(currentCity.getId());
     }
-    
+    @FXML
+    public void onBuySubscription() {
+    	if (currentCity == null) return; 
+    		gcmClient.switchSceneToAddMap(cityId);
+    		//gcmClient.switchSceneToBuySubscription(currentCity.getId());
+    }
     @FXML
     public void onBack() {gcmClient.back();}
 

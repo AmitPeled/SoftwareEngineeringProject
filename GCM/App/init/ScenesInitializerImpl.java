@@ -5,7 +5,10 @@ import java.util.EnumMap;
 
 import init.initializers.*;
 import init.initializers.editor.AddCityInitializer;
-import init.initializers.editor.AddSiteInitializer;
+import init.initializers.editor.AddMapInitializer;
+import init.initializers.editor.BuySubscriptionInitializer;
+import init.initializers.editor.PointOfInterestInitializer;
+import init.initializers.editor.TourInitializer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,7 +50,10 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 		initializers.put(SceneNames.SEARCH, new SearchInitializar(gcmClient));
 		initializers.put(SceneNames.REPORTS, new ReportsInitializer(gcmClient));
 		initializers.put(SceneNames.ADD_CITY, new AddCityInitializer(gcmClient));
-		initializers.put(SceneNames.ADD_SITE, new AddSiteInitializer(gcmClient));
+		initializers.put(SceneNames.ADD_MAP, new AddMapInitializer(gcmClient)); 
+		initializers.put(SceneNames.BUY_SUBSCRIPTION, new BuySubscriptionInitializer(gcmClient));
+		initializers.put(SceneNames.ADD_SITE, new PointOfInterestInitializer(gcmClient));
+		initializers.put(SceneNames.ADD_EDIT_TOUR, new TourInitializer(gcmClient));
 		initializers.put(SceneNames.EDIT_PRICE, new EditPriceInitializer(gcmClient));
 		initializers.put(SceneNames.APPROVAL_REPORTS, new ApprovalReportsInitializer(gcmClient));
 		initializers.put(SceneNames.CUSTOMER_REPORT, new CustomerReportInitializer(gcmClient));
@@ -61,7 +67,7 @@ public final class ScenesInitializerImpl implements ScenesInitializer{
 	
 	private void populateScenesMap() {
 		for (SceneNames scene : SceneNames.values()) {
-			scenes.put(scene, loadScene(scene));
+			scenes.put(scene, loadScene(scene)); 
 		}
 	}
 	

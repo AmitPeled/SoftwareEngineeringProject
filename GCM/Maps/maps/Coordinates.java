@@ -42,4 +42,11 @@ public final class Coordinates implements Serializable {
 	public Boolean equals(Coordinates other) {
 		return Math.abs(this.x - other.x) < EPSILON && Math.abs(this.y - other.y) < EPSILON;
 	}
+	
+	public float getX() {
+		return x;
+	}
+	public float getY() {
+		return y;
+	}
 }
