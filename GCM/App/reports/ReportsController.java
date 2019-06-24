@@ -136,13 +136,15 @@ public class ReportsController implements Initializable {
 
 		  }));
 	 }
+
 	 private void readInputFromTextFields() {
-			searchText = searchBar.getText();
-			selectRadio = (RadioButton) searchOptions.getSelectedToggle();
-			selectedRadioValue = selectRadio.getText();
-			startDate = dateFrom.getValue();
-			endDate = dateUntil.getValue();				
-	   }
+		  searchText = searchBar.getText();
+		  selectRadio = (RadioButton) searchOptions.getSelectedToggle();
+		  selectedRadioValue = selectRadio.getText();
+		  startDate = dateFrom.getValue();
+		  endDate = dateUntil.getValue();
+	 }
+
 	 public void setErrors(String error) {
 		  errors.setVisible(true);
 		  errors.setText(error);
@@ -191,8 +193,6 @@ public class ReportsController implements Initializable {
 		  cityResults.setVisible(true);
 		  customerResults.setVisible(false);
 		  workerResults.setVisible(false);
-//		java.util.Date sDate = java.util.Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-//		java.util.Date eDate = java.util.Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		  Date sDate = Date.valueOf(startDate);
 		  Date eDate = Date.valueOf(endDate);
 		  Report report = gcmDAO.getCityReport(sDate, eDate, searchText);
@@ -215,34 +215,54 @@ public class ReportsController implements Initializable {
 		  cityResults.setVisible(false);
 		  customerResults.setVisible(false);
 		  workerResults.setVisible(true);
-		  // UserReport workerReport = gcmDAO.getWorkerReport(searchText);
-		  UserReport workerReport = new UserReport(null, null, null);
+		  readInputFromTextFields();
+		  Date sDate = Date.valueOf(startDate);
+		  Date eDate = Date.valueOf(endDate);
+		  UserReport workerReport = gcmDAO.getReportOnUser(sDate, eDate, searchText);
 
-		  User user = workerReport.getUser();
-
-		  WorkerItem worker = new WorkerItem(1, user.getFirstName(), user.getLastName(), user.getUsername(),
-		            user.getEmail(), workerReport.getUserType());
+		  WorkerItem worker = userReportToWorkerItem(workerReport);
 		  ObservableList<WorkerItem> data = FXCollections.observableArrayList();
 		  data.add(worker);
 		  workerResults.setItems(data);
+	 }
+
+	 private WorkerItem userReportToWorkerItem(UserReport workerReport) {
+		  User user = workerReport.getUser();
+		  try {
+			   return new WorkerItem(1, user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(),
+			             workerReport.getUserType());
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 private void reportsByCustomer() {
 		  cityResults.setVisible(false);
 		  customerResults.setVisible(true);
 		  workerResults.setVisible(false);
+		  readInputFromTextFields();
 		  // UserReport customerReport = gcmDAO.getCustomerReport(searchText);
-		  UserReport customerReport = new UserReport(null, null, null);
-		  List<String> purchaseHistory = new ArrayList<String>();
-		  for (PurchaseHistory purchaseItem : customerReport.getPurchaseHistory()) {
-			   purchaseHistory.add(purchaseItem.getCityId().getName());
-		  }
-		  User user = customerReport.getUser();
-		  CustomerItem customer = new CustomerItem(1, user.getUsername(), user.getPhoneNumber(), user.getEmail(),
-		            purchaseHistory);
+
+		  Date sDate = Date.valueOf(startDate);
+		  Date eDate = Date.valueOf(endDate);
+		  UserReport customerReport = gcmDAO.getReportOnUser(sDate, eDate, searchText);
+		  CustomerItem customer = userReportToCustomerItem(customerReport);
 		  ObservableList<CustomerItem> data = FXCollections.observableArrayList();
 		  data.add(customer);
 		  customerResults.setItems(data);
+	 }
+
+	 private CustomerItem userReportToCustomerItem(UserReport customerReport) {
+		  try {
+			   User user = customerReport.getUser();
+			   List<String> purchaseHistory = new ArrayList<>();
+			   customerReport.getPurchaseHistory().forEach((purchase) -> purchaseHistory.add(purchase.toString()));
+			   ;
+
+			   return new CustomerItem(1, user.getUsername(), user.getPhoneNumber(), user.getEmail(), purchaseHistory);
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 @FXML

@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -37,6 +35,7 @@ import maps.Tour;
 import queries.RequestState;
 import users.User;
 import users.UserReport;
+import users.UserType;
 
 /**
  * @author amit
@@ -1983,9 +1982,12 @@ public class GcmDataExecutor implements
 		  // converting it to PurchaseHistory objects that contains - city id, start date
 		  // , end date
 		  for (int i = 0; i < history.size(); i++) {
-			   PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
-			             (Date) history.get(i).get(5), getCityById((int) history.get(i).get(1)));
-			   purchases.add(purchaseHistory);
+			   try {
+					PurchaseHistory purchaseHistory = new PurchaseHistory((Date) history.get(i).get(2),
+					          (Date) history.get(i).get(5), getCityById((int) history.get(i).get(1)));
+					purchases.add(purchaseHistory);
+			   } catch (Exception e) {
+			   }
 		  }
 
 		  return purchases;
