@@ -1,7 +1,9 @@
 package dataAccess.generalManager;
 
-public class Report {
+import java.io.Serializable;
 
+public class Report implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private int cityId;
 	private String cityName;
 	private int oneTimePurchase;
