@@ -78,9 +78,9 @@ public interface IGcmDataExecute {
 
 	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
-	Report getCityReport(Date startDate, Date endDate, int cityId) throws SQLException;
+	Report getCityReport(java.util.Date date, java.util.Date date2, int cityId) throws SQLException;
 
-	List<Report> getAllcitiesReport(Date startDate, Date endDate) throws SQLException;
+	List<Report> getAllcitiesReport(java.util.Date date, java.util.Date date2) throws SQLException;
 
 	List<SiteSubmission> getSiteSubmissions() throws SQLException;
 

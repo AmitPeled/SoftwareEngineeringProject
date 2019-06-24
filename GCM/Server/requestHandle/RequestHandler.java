@@ -7,6 +7,7 @@ import users.User;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -106,6 +107,14 @@ public class RequestHandler implements IHandleRequest {
 							  break;
 						 case getMapsByCityName:
 							  listToSend.add(gcmDataExecutor.getMapsByCityName((String) listObjectReceived.get(0)));
+							  break;
+						 case getCityReport:
+							  listToSend.add(gcmDataExecutor.getCityReport((Date) listObjectReceived.get(0),
+							            (Date) listObjectReceived.get(1), (int) listObjectReceived.get(2)));
+							  break;
+						 case getSystemReport:
+							  listToSend = (List<Object>) (Object) gcmDataExecutor.getAllcitiesReport(
+							            (Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1));
 							  break;
 						 case getMapsBySiteName:
 							  listToSend.add(gcmDataExecutor.getMapsBySiteName((String) listObjectReceived.get(0)));

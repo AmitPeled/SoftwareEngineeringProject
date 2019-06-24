@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -21,7 +23,6 @@ import approvalReports.sitesApprovalReports.SiteSubmission;
 import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
-import dataAccess.search.CityMaps;
 import dataAccess.users.PurchaseDetails;
 import database.metadata.DatabaseMetaData;
 import database.metadata.DatabaseMetaData.Tables;
@@ -748,12 +749,12 @@ public class GcmDataExecutor implements
 		  queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.sites), "siteId", siteId);
 	 }
 
-	 private CityMaps getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField)
+	 private List<Map> getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField)
 	           throws SQLException {
 		  return getMapsByCityField(fieldName, fieldVal, withPartialField, Status.PUBLISH);
 	 }
 
-	 private CityMaps getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField, Status status)
+	 private List<Map> getMapsByCityField(String fieldName, Object fieldVal, boolean withPartialField, Status status)
 	           throws SQLException {
 		  List<Integer> cityIds;
 		  if (withPartialField) {
@@ -766,29 +767,23 @@ public class GcmDataExecutor implements
 			             queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMetaDetails),
 			                       fieldName, fieldVal, "cityId", Status.PUBLISH));
 		  }
-		  if (!cityIds.isEmpty()) {
-			   City city = getCityById(cityIds.get(0));
-			   List<Map> maps = new ArrayList<>();
-			   List<List<Object>> mapIdRows = new ArrayList<>();
-			   for (int cityId : cityIds) {
-					mapIdRows.addAll(
-					          queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
-					                    "cityId", cityId, "mapId", Status.PUBLISH));
+		  List<Map> maps = new ArrayList<>();
+		  List<List<Object>> mapIdRows = new ArrayList<>();
+		  for (int cityId : cityIds) {
+			   mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
+			             "cityId", cityId, "mapId", Status.PUBLISH));
 
-			   }
-			   List<Integer> mapsIds = toIdList(mapIdRows);
-			   for (int mapId : mapsIds) {
-					maps.add(getMapDetails(mapId, Status.PUBLISH));
-			   }
-			   return new CityMaps(city.getId(), city.getName(), city.getDescription(), city.getPrices(), maps);
+		  }
+		  List<Integer> mapsIds = toIdList(mapIdRows);
+		  for (int mapId : mapsIds) {
+			   maps.add(getMapDetails(mapId, Status.PUBLISH));
 
-		  } else
-			   return null;
+		  }
+		  return maps;
 	 }
 
-	 private CityMaps getMapsBySiteField(String fieldName, Object fieldVal, boolean withPartialField)
+	 private List<Map> getMapsBySiteField(String fieldName, Object fieldVal, boolean withPartialField)
 	           throws SQLException {
-
 		  List<Integer> sitesIds;
 		  if (withPartialField)
 			   sitesIds = toIdList(
@@ -798,23 +793,16 @@ public class GcmDataExecutor implements
 			   sitesIds = toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.sites),
 			             fieldName, fieldVal, "siteId", Status.PUBLISH));
 
-		  if (!sitesIds.isEmpty()) {
-			   City city = getCityBySite(sitesIds.get(0));
-
-			   List<Map> maps = new ArrayList<>();
-			   List<List<Object>> mapIdRows = new ArrayList<>();
-			   for (int siteId : sitesIds) {
-					mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
-					          "siteId", siteId, "mapId", Status.PUBLISH));
-			   }
-			   List<Integer> mapsIds = toIdList(mapIdRows);
-			   for (int mapId : mapsIds) {
-					maps.add(getMapDetails(mapId));
-			   }
-			   return new CityMaps(city.getId(), city.getName(), city.getDescription(), city.getPrices(), maps);
-		  } else
-			   return null;
-
+		  List<Map> maps = new ArrayList<>();
+		  List<List<Object>> mapIdRows = new ArrayList<>();
+		  for (int siteId : sitesIds) {
+			   mapIdRows.addAll(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
+			             "siteId", siteId, "mapId", Status.PUBLISH));
+		  }
+		  List<Integer> mapsIds = toIdList(mapIdRows);
+		  for (int mapId : mapsIds)
+			   maps.add(getMapDetails(mapId));
+		  return maps;
 	 }
 
 	 private List<Integer> toIdList(List<List<Object>> idRows) {
@@ -835,29 +823,21 @@ public class GcmDataExecutor implements
 	 }
 
 	 @Override
-	 public CityMaps getMapsByCityName(String cityName) throws SQLException {
-		  return getMapsByCityField("cityName", cityName, false);
+	 public List<Map> getMapsByCityName(String cityName) throws SQLException {
+		  List<Map> maps = getMapsByCityField("cityName", cityName, false);
+		  return maps;
 	 }
 
 	 @Override
-	 public CityMaps getMapsBySiteName(String siteName) throws SQLException {
+	 public List<Map> getMapsBySiteName(String siteName) throws SQLException {
 		  return getMapsBySiteField("siteName", siteName, false);
 	 }
 
 	 @Override
-	 public CityMaps getMapsByDescription(String description) throws SQLException {
-		  CityMaps cityMaps = getMapsByCityField("cityDescription", description, true);
-		  if (cityMaps == null)
-			   cityMaps = getMapsBySiteField("siteDescription", description, true);
-		  return cityMaps;
-	 }
-
-	 @Override
-	 public CityMaps getMapsBySiteAndCityNames(String cityName, String siteName) throws SQLException {
-		  CityMaps cityMaps = getMapsByCityField("cityName", cityName, false);
-		  if (cityMaps == null)
-			   cityMaps = getMapsBySiteField("siteName", siteName, false);
-		  return cityMaps;
+	 public List<Map> getMapsByDescription(String description) throws SQLException {
+		  List<Map> mapsByDescription = getMapsByCityField("cityDescription", description, true);
+		  mapsByDescription.addAll(getMapsBySiteField("siteDescription", description, true));
+		  return mapsByDescription;
 	 }
 
 	 @Override
@@ -1315,17 +1295,58 @@ public class GcmDataExecutor implements
 		  return mapsObjects;
 	 }
 
-//	 private List<City> toCities(List<Integer> citiesIds, Status status) {
-//		  List<City> cities = new ArrayList<>();
-//		  citiesIds.forEach((cityId) -> {
-//			   try {
-//					cities.add(getCityById(cityId));
-//			   } catch (SQLException e) {
-//					e.printStackTrace();
-//			   }
-//		  });
-//		  return cities;
-//	 }
+	 @Override
+	 public List<Map> getMapsObjectAddedTo(int contentId) throws SQLException {
+		  List<Integer> mapIds = new ArrayList<>();
+		  mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsTours),
+		            "tourId", contentId, "mapId", Status.ADD)));
+		  mapIds.addAll(toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.mapsSites),
+		            "siteId", contentId, "mapId", Status.ADD)));
+		  return toMapsByIds(mapIds, Status.ADD);
+	 }
+
+	 @Override
+	 public List<City> getCitiesObjectAddedTo(int contentId) throws SQLException {
+		  try {
+			   List<Integer> citiesIds = new ArrayList<>();
+			   citiesIds.addAll(toIdList(
+			             queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesMapsIds),
+			                       "mapId", contentId, "cityId", Status.ADD)));
+			   citiesIds.addAll(
+			             toIdList(queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesTours),
+			                       "tourId", contentId, "cityId", Status.ADD)));
+			   citiesIds.addAll(toIdList(
+			             queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.citiesSitesIds),
+			                       "siteId", contentId, "cityId", Status.ADD)));
+			   return toCities(citiesIds, Status.ADD);
+		  } catch (Exception e) {
+			   // system.err.println("error in getCitiesObjectAddedTo. id=" + contentId);
+			   return new ArrayList<>();
+		  }
+	 }
+
+	 private List<City> toCities(List<Integer> citiesIds, Status status) {
+		  List<City> cities = new ArrayList<>();
+		  citiesIds.forEach((cityId) -> {
+			   try {
+					cities.add(getCityById(cityId));
+			   } catch (SQLException e) {
+					e.printStackTrace();
+			   }
+		  });
+		  return cities;
+	 }
+
+	 @Override
+	 public List<Tour> getToursObjectAddedTo(int contentId) throws SQLException {
+		  List<List<Object>> toursIds = queryExecutor.selectColumnsByValue(
+		            DatabaseMetaData.getTableName(Tables.tourSitesIdsAndDurance), "siteId", contentId, "tourId",
+		            Status.ADD);
+		  if (toursIds.isEmpty())
+			   return new ArrayList<>();
+		  else
+			   return getToursByIds(toIdList(toursIds), Status.ADD);
+	 }
 
 	 private List<Tour> getToursByIds(List<Integer> tourIds, Status status) {
 		  List<Tour> tours = new ArrayList<>();
@@ -1989,13 +2010,19 @@ public class GcmDataExecutor implements
 	 }
 
 	 @Override
-	 public Report getCityReport(Date startDate, Date endDate, int cityId) throws SQLException {
+	 public Report getCityReport(java.util.Date startDate, java.util.Date endDate, int cityId) throws SQLException {
+		  return createMangerReportOnOneCity(cityId, dateToSqlDate(startDate), dateToSqlDate(endDate));
+	 }
 
-		  return createMangerReportOnOneCity(cityId, startDate, endDate);
+	 private java.sql.Date dateToSqlDate(java.util.Date date) {
+		  date = Calendar.getInstance().getTime();
+		  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+		  String strDate = dateFormat.format(date);
+		  return Date.valueOf(strDate);
 	 }
 
 	 @Override
-	 public List<Report> getAllcitiesReport(Date startDate, Date endDate) throws SQLException {
+	 public List<Report> getAllcitiesReport(java.util.Date startDate, java.util.Date endDate) throws SQLException {
 
 		  String tableName = "mangerReports";
 		  String columnCondition = "occurrenceDate";
@@ -2006,7 +2033,8 @@ public class GcmDataExecutor implements
 			             endDate);
 
 			   if (!list.isEmpty()) {
-					Report report = createMangerReportOnOneCity((int) cityIdList.get(i).get(0), startDate, endDate);
+					Report report = createMangerReportOnOneCity((int) cityIdList.get(i).get(0),
+					          dateToSqlDate(startDate), dateToSqlDate(endDate));
 					if (emptyfields(report)) {
 						 allCitiesreports.add(report);
 					}

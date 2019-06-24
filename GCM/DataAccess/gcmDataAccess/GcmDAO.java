@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -23,7 +22,6 @@ import dataAccess.customer.PurchaseHistory;
 import dataAccess.editor.EditorDAO;
 import dataAccess.generalManager.GeneralManagerDAO;
 import dataAccess.generalManager.Report;
-import dataAccess.search.CityMaps;
 import dataAccess.search.SearchDAO;
 import dataAccess.users.PurchaseDetails;
 import dataAccess.users.UserDAO;
@@ -256,56 +254,30 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public CityMaps getMapsByCityName(String cityName) {
-		  try {
-			   return (CityMaps) send(new RequestObject(GcmQuery.getMapsByCityName, new ArrayList<Object>() {
-					{
-						 add(cityName);
-					}
-			   }, username, password)).getResponse().get(0);
-		  } catch (Exception e) {
-			   return null;
-		  }
+	 public List<Map> getMapsByCityName(String cityName) {
+		  return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByCityName, new ArrayList<Object>() {
+			   {
+					add(cityName);
+			   }
+		  }, username, password)).getResponse();
 	 }
 
 	 @Override
-	 public CityMaps getMapsBySiteName(String siteName) {
-		  try {
-			   return (CityMaps) send(new RequestObject(GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
-					{
-						 add(siteName);
-					}
-			   }, username, password)).getResponse().get(0);
-		  } catch (Exception e) {
-			   return null;
-		  }
+	 public List<Map> getMapsBySiteName(String siteName) {
+		  return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsBySiteName, new ArrayList<Object>() {
+			   {
+					add(siteName);
+			   }
+		  }, username, password)).getResponse();
 	 }
 
 	 @Override
-	 public CityMaps getMapsByDescription(String description) {
-		  try {
-			   return (CityMaps) send(new RequestObject(GcmQuery.getMapsByDescription, new ArrayList<Object>() {
-					{
-						 add(description);
-					}
-			   }, username, password)).getResponse().get(0);
-		  } catch (Exception e) {
-			   return null;
-		  }
-	 }
-
-	 @Override
-	 public CityMaps getMapsBySiteAndCityNames(String cityName, String siteName) {
-		  try {
-			   return (CityMaps) send(new RequestObject(GcmQuery.getMapsBySiteAndCityNames, new ArrayList<Object>() {
-					{
-						 add(cityName);
-						 add(siteName);
-					}
-			   }, username, password)).getResponse().get(0);
-		  } catch (Exception e) {
-			   return null;
-		  }
+	 public List<Map> getMapsByDescription(String description) {
+		  return (List<Map>) (Object) send(new RequestObject(GcmQuery.getMapsByDescription, new ArrayList<Object>() {
+			   {
+					add(description);
+			   }
+		  }, username, password)).getResponse();
 	 }
 
 	 @Override
@@ -766,14 +738,27 @@ public class GcmDAO
 
 	 @Override
 	 public Report getCityReport(Date startDate, Date endDate, int cityId) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  try {
+			   return (Report) send(new RequestObject(GcmQuery.getCityReport, new ArrayList<Object>() {
+					{
+						 add(startDate);
+						 add(endDate);
+						 add(cityId);
+					}
+			   }, username, password)).getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 @Override
 	 public List<Report> getSystemReport(Date startDate, Date endDate) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getSystemReport, new ArrayList<Object>() {
+			   {
+					add(startDate);
+					add(endDate);
+			   }
+		  }, username, password)).getResponse();
 	 }
 
 	 @Override
