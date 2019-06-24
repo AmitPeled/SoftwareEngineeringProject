@@ -117,6 +117,10 @@ public class RequestHandler implements IHandleRequest {
 							  listToSend = (List<Object>) (Object) gcmDataExecutor.getAllcitiesReport(
 							            (Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1));
 							  break;
+						 case getUserReports:
+							  listToSend = (List<Object>) (Object) gcmDataExecutor.getUserReprts(
+										(Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1), (String) listObjectReceived.get(2));
+							  break;
 						 case getMapsBySiteName:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor
 							            .getMapsBySiteName((String) listObjectReceived.get(0));
@@ -173,21 +177,6 @@ public class RequestHandler implements IHandleRequest {
 						 case editCityPrice:
 							  gcmDataExecutor.editCityPrice((int) listObjectReceived.get(0),
 							            (double) listObjectReceived.get(1));
-							  break;
-						 case getMapsObjectAddedTo:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsObjectAddedTo((int) listObjectReceived.get(0));
-							  break;
-						 case getMapsUpdateEdits:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getMapsObjectAddedTo((int) listObjectReceived.get(0));
-							  break;
-						 case getSavedCreditCard:
-							  listToSend.add(gcmDataExecutor.getSavedCreditCard(username));
-							  break;
-						 case getToursObjectAddedTo:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor
-							            .getToursObjectAddedTo((int) listObjectReceived.get(0));
 							  break;
 						 case actionTourEdit:
 							  gcmDataExecutor.actionTourEdit((TourSubmission) listObjectReceived.get(0),
