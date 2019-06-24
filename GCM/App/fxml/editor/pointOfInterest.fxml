@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="296.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="296.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="54.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit  a new point of interest" />
       <TextField fx:id="name" layoutX="66.0" layoutY="55.0" promptText="Name" />
@@ -20,5 +20,6 @@
       <Text layoutX="66.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipped for disabled?" />
       <RadioButton fx:id="disableYes" layoutX="69.0" layoutY="176.0" mnemonicParsing="false" text="Yes" toggleGroup="$disableOptions" />
       <TextField fx:id="errors" disable="true" editable="false" layoutX="45.0" layoutY="228.0" prefHeight="25.0" prefWidth="191.0" />
+      <Button fx:id="backBtn" layoutY="10.0" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
    </children>
 </AnchorPane>

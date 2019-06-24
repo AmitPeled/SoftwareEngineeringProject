@@ -34,7 +34,7 @@ public class MapViewerSideMenuController implements Initializable {
 		tourStrings = new ArrayList<String>();
 		toursDictionary = new Hashtable<String, Tour>();
 		sitesDictionary = new Hashtable<String, Site>();
-		
+		 
 		for (Tour tour : tours) {
 			toursDictionary.put(tour.getDescription(), tour);
 			tourStrings.add(tour.getDescription());
@@ -46,10 +46,26 @@ public class MapViewerSideMenuController implements Initializable {
 		
 
 	}
+	public Tour getSelectedTour() {
+		String selected = toursListView.getSelectionModel().getSelectedItem();
+		if (toursDictionary.get(selected) != null) {
+			return toursDictionary.get(selected);
+		}else {
+			return null;
+		}
+	}
 	
 	public Site getSelectedSite() {
 		String selected = sitesListView.getSelectionModel().getSelectedItem();
-		return sitesDictionary.get(selected);
+		if(!sitesDictionary.isEmpty()) {
+			if (sitesDictionary.get(selected) != null) {
+				return sitesDictionary.get(selected);
+			}else {
+				return null;
+			}
+		}else {
+			return null;
+		}
 	}
 
 	@Override

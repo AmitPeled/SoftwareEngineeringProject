@@ -44,7 +44,7 @@ public class CityMaps implements Serializable {
 		  return this.cityDescription;
 	 }
 
-	 public List<Map> getMapsId() {
+	 public List<Map> getMaps() {
 		  return this.cityMaps;
 	 }
 

@@ -18,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import mainApp.GcmClient;
 import maps.Site;
 import maps.Tour;
 import utility.TextFieldUtility;
@@ -48,9 +49,11 @@ public class TourController  implements Initializable {
 	Tour tour;
 	int mapId;
 	TextFieldUtility utilities;
+	GcmClient gcmClient;
 	
-	public TourController(GcmDAO gcmDAO, int cityId, int mapId, Tour tour, TextFieldUtility utilities) {
-		this.gcmDAO = gcmDAO;
+	public TourController(GcmClient gcmClient, int cityId, int mapId, Tour tour, TextFieldUtility utilities) {
+		this.gcmClient = gcmClient;
+		this.gcmDAO = gcmClient.getDataAccessObject();
 		this.mapId = mapId;
 		this.tour = tour;
 		this.tourId = tour.getId();
@@ -64,10 +67,10 @@ public class TourController  implements Initializable {
 	            @Override
 	            public void handle(MouseEvent event) {
 	            	Site sitesPickerValue = sitesPicker.getSelectionModel().getSelectedItem();
-	            	int id = sitesPickerValue.getId();
-	            	String time = timeEstimation.getText();
-	            	
+
 	            	if(sitesPickerValue != null) {
+	            		 int id = sitesPickerValue.getId();
+		            	 String time = timeEstimation.getText();
 	            		 if(time != null && !time.isEmpty()){
 	            			 
 	 	            			if(!tour.checkIfSiteExist(sitesPickerValue)) {
@@ -88,7 +91,9 @@ public class TourController  implements Initializable {
 		            			utilities.setErrors("Please fill the time estimation!", errors);
 		            			timeEstimation.setText("");	
 		            		}
-	            	} 
+	            	} else {
+	            		utilities.setErrors("No site selected!", errors);
+	            	}
 	            }
 			})
 		);
@@ -109,7 +114,7 @@ public class TourController  implements Initializable {
 	            		newTour.setNumberOfLastAddedPlaces(counterOfAddedPlaces);
 	            		
 	            		gcmDAO.tourManager(cityId, newTour);
-	            			            		
+	            		gcmClient.back();
 	            	}else{
             			utilities.setErrors("Please add a tour description!", errors);
 	            	}
@@ -163,12 +168,24 @@ public class TourController  implements Initializable {
 		}
 		
 	}
-	
+
+	@FXML
+	public void onBackButton() {
+		gcmClient.back();
+	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		init();
 		addTourListener();
 		addPlaceListener();
 	}
-
+	public void initalizeControl(int cityId, int mapId, Tour tour) {
+	    this.cityId = cityId;
+	    this.mapId = mapId;
+	    this.tour = tour;
+	    this.tourId = tour.getId();
+		this.cityId = cityId;
+		tourSites = tour.getSites();
+		sitesTimeToVisit = tour.getSitesTimeToVisit();
+	}
 }

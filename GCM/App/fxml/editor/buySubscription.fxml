@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="217.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="217.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="109.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buy subscription" />
       <Text layoutX="65.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscription period:" />
@@ -15,5 +15,6 @@
       <Text layoutX="64.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" />
       <TextField fx:id="price" layoutX="64.0" layoutY="141.0" prefHeight="25.0" prefWidth="50.0" />
       <Text layoutX="126.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Months" />
+      <Button fx:id="backBtn" layoutX="12.0" layoutY="10.0" mnemonicParsing="false" onAction="#onBackButton" text="Back" />
    </children>
 </AnchorPane>

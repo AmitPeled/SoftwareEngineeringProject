@@ -1,7 +1,9 @@
 package dataAccess.generalManager;
 
-public class Report {
+import java.io.Serializable;
 
+public class Report implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private int cityId;
 	private String cityName;
 	private int oneTimePurchase;
@@ -19,7 +21,7 @@ public class Report {
 		this.resubscribers = resubscribers;
 		this.viewsNum = viewsNum;
 		this.downloads = downloads;
-	}
+	} 
 
 	public Report() {
 	}

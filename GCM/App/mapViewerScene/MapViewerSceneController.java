@@ -5,9 +5,11 @@ package mapViewerScene;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import gcmDataAccess.GcmDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -68,8 +70,6 @@ public class MapViewerSceneController implements Initializable{
 		this.mapId = mapId;
 		this.map = map;
 		
-		
-		
 		try {
 			// Adding the listener
 			listener = new SampleMapViewerListener(mapViewer);
@@ -98,6 +98,7 @@ public class MapViewerSceneController implements Initializable{
 			double height = mapViewer.getImageHeight() + BOTTOM_PANEL_HEIGHT;
 			
 			scene = new Scene(gridPane, width, height);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -111,6 +112,14 @@ public class MapViewerSceneController implements Initializable{
 			addTour.setVisible(true);
 			editPrice.setVisible(true);
 		}
+	}
+	private List<Tour> fetchTours(List<Site> sitesInTour) {
+		
+		List<Tour> toursList = new ArrayList<Tour>(); 
+		Tour demoTour = new Tour("SomeDemoTour");
+		demoTour.setSites(sitesInTour);
+		toursList.add(demoTour);
+		return toursList;
 	}
 	
 	public Scene getScene() { return scene; }
@@ -140,7 +149,11 @@ public class MapViewerSceneController implements Initializable{
 	
 	@FXML
 	public void onEditSite() {
-
+		Site site = sideMenuController.getSelectedSite();
+		if(site == null) return;
+		gcmClient.switchSceneToAddSite(cityId,
+				site.getCoordinates().getX(),
+				site.getCoordinates().getY()); 
 	}
 
 	@FXML
@@ -154,9 +167,16 @@ public class MapViewerSceneController implements Initializable{
 	
 	@FXML
 	public void onAddTour() {
-		
+		Tour tour = new Tour(null);
+		if(tour == null) return;
+		gcmClient.switchSceneToTour(cityId, mapId, tour);
 	}
-	
+	@FXML
+	public void onEditTour() {
+		Tour tour = sideMenuController.getSelectedTour();
+		if(tour == null) return;
+		gcmClient.switchSceneToTour(cityId, mapId, tour);
+	}
 	@FXML
 	public void onEditPrice() {
 		gcmClient.switchSceneToEditPrice(cityId);

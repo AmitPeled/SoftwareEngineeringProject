@@ -765,15 +765,39 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public Report getCityReport(Date startDate, Date endDate, int cityId) {
-		  // TODO Auto-generated method stub
-		  return null;
+	 public Report getCityReport(Date startDate, Date endDate, String cityName) {
+		  try {
+			   return (Report) send(new RequestObject(GcmQuery.getCityReport, new ArrayList<Object>() {
+					{
+						 add(startDate);
+						 add(endDate);
+						 add(cityName);
+					}
+			   }, username, password)).getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 @Override
 	 public List<Report> getSystemReport(Date startDate, Date endDate) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getSystemReport, new ArrayList<Object>() {
+			   {
+					add(startDate);
+					add(endDate);
+			   }
+		  }, username, password)).getResponse();
+	 }
+
+	 @Override
+	 public List<Report> getReportsOnUser(Date startDate, Date endDate, String username) {
+		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getUserReports, new ArrayList<Object>() {
+			   {
+					add(startDate);
+					add(endDate);
+					add(username);
+			   }
+		  }, username, password)).getResponse();
 	 }
 
 	 @Override

@@ -1,6 +1,7 @@
 package mainApp;
 
 import gcmDataAccess.GcmDAO;
+import maps.Tour;
 import userInfo.UserInfo;
 
 /**
@@ -74,5 +75,10 @@ public interface GcmClient {
 	void switchSceneToEditPrice(int cityId);
 
 	void switchSceneToCustomerReport();
-
+	
+	void switchSceneToAddMap(int cityId);
+	
+	void switchSceneToBuySubscription(int cityId);
+	
+	void switchSceneToTour(int cityId, int mapId, Tour tour);
 }
