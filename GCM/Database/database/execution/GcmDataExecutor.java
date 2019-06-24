@@ -36,6 +36,7 @@ import maps.Site;
 import maps.Tour;
 import queries.RequestState;
 import users.User;
+import users.UserReport;
 
 /**
  * @author amit
@@ -670,7 +671,7 @@ public class GcmDataExecutor implements
 	 }
 
 	 private void deleteCity(int id, Status status) throws SQLException {
-		  City city = getCityById(id);
+		  City city = getCityById(id, status);
 		  if (city != null) {
 			   queryExecutor.deleteValueFromTable(DatabaseMetaData.getTableName(Tables.citiesMetaDetails), "cityId", id,
 			             status);
@@ -854,7 +855,6 @@ public class GcmDataExecutor implements
 		  return cityMaps;
 	 }
 
-
 	 @Override
 	 public CityMaps getMapsBySiteAndCityNames(String cityName, String siteName) throws SQLException {
 		  CityMaps cityMaps = getMapsByCityField("cityName", cityName, false);
@@ -862,7 +862,6 @@ public class GcmDataExecutor implements
 			   cityMaps = getMapsBySiteField("siteName", siteName, false);
 		  return cityMaps;
 	 }
-
 
 	 @Override
 	 public List<Site> getCitySites(int cityId) throws SQLException {
@@ -1229,7 +1228,7 @@ public class GcmDataExecutor implements
 					int cityId = (int) list.get(0);
 					int mapId = (int) list.get(1);
 					Map map = getMapDetails(mapId, statusToFetchBy);
-					byte[] file = getMapFile(mapId);
+					byte[] file = getMapFile(mapId, statusToFetchBy);
 					if (map != null && file != null)
 						 mapSubmissions.add(new MapSubmissionContent(cityId, map, file, actionTaken));
 			   }
@@ -1330,8 +1329,6 @@ public class GcmDataExecutor implements
 //		  });
 //		  return cities;
 //	 }
-
-
 
 	 private List<Tour> getToursByIds(List<Integer> tourIds, Status status) {
 		  List<Tour> tours = new ArrayList<>();
@@ -1995,21 +1992,21 @@ public class GcmDataExecutor implements
 	 }
 
 	 @Override
-	 public Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName)
-	           throws SQLException {
+	 public Report getCityReport(java.sql.Date startDate, java.sql.Date endDate, String cityName) throws SQLException {
 		  int cityId = getCityIdByName(cityName);
-		  return createMangerReportOnOneCity(cityId, dateToSqlDate(startDate), dateToSqlDate(endDate));
+//		  return createMangerReportOnOneCity(cityId, dateToSqlDate(startDate), dateToSqlDate(endDate));
+		  return createMangerReportOnOneCity(cityId, startDate, endDate);
 	 }
 
-	 private java.sql.Date dateToSqlDate(java.util.Date date) {
-		  date = Calendar.getInstance().getTime();
-		  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-		  String strDate = dateFormat.format(date);
-		  return Date.valueOf(strDate);
-	 }
+//	 private java.sql.Date dateToSqlDate(java.util.Date date) {
+//		  date = Calendar.getInstance().getTime();
+//		  DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//		  String strDate = dateFormat.format(date);
+//		  return Date.valueOf(strDate);
+//	 }
 
 	 @Override
-	 public List<Report> getAllcitiesReport(java.util.Date startDate, java.util.Date endDate) throws SQLException {
+	 public List<Report> getAllcitiesReport(java.sql.Date startDate, java.sql.Date endDate) throws SQLException {
 
 		  String tableName = "mangerReports";
 		  String columnCondition = "occurrenceDate";
@@ -2020,8 +2017,9 @@ public class GcmDataExecutor implements
 			             endDate);
 
 			   if (!list.isEmpty()) {
-					Report report = createMangerReportOnOneCity((int) cityIdList.get(i).get(0),
-					          dateToSqlDate(startDate), dateToSqlDate(endDate));
+//					Report report = createMangerReportOnOneCity((int) cityIdList.get(i).get(0),
+//					          dateToSqlDate(startDate), dateToSqlDate(endDate));
+					Report report = createMangerReportOnOneCity((int) cityIdList.get(i).get(0), startDate, endDate);
 					if (emptyfields(report)) {
 						 allCitiesreports.add(report);
 					}
@@ -2031,12 +2029,14 @@ public class GcmDataExecutor implements
 		  return allCitiesreports;
 	 }
 
-	 public List<Report> getUserReprts(java.util.Date startDate, java.util.Date endDate, String username)
+	 @Override
+	 public List<Report> getUserReports(java.sql.Date startDate, java.sql.Date endDate, String username)
 	           throws SQLException {
-		  // TODO get
 		  List<Report> reportsOnUser = new ArrayList<>();
-		  java.sql.Date sqlStartDate = dateToSqlDate(startDate);
-		  java.sql.Date sqlEndDate = dateToSqlDate(endDate);
+//		  java.sql.Date sqlStartDate = dateToSqlDate(startDate);
+//		  java.sql.Date sqlEndDate = dateToSqlDate(endDate);
+		  java.sql.Date sqlStartDate = startDate;
+		  java.sql.Date sqlEndDate = endDate;
 		  List<List<Object>> list = queryExecutor.betweenDatesAndCondition("mangerReports", "*", startDate,
 		            "occuranceDate", endDate, "username", username);
 
@@ -2050,6 +2050,33 @@ public class GcmDataExecutor implements
 			   }
 		  });
 		  return reportsOnUser;
+	 }
+
+	 @Override
+	 public UserReport getUserReport(java.sql.Date startDate, java.sql.Date endDate, String username)
+	           throws SQLException {
+		  User user = getUserDetails(username);
+		  List<PurchaseHistory> purchaseHistory = getPurchaseHistory(username);
+		  UserType userType = getUserType(username);
+		  return new UserReport(user, userType, purchaseHistory);
+	 }
+
+	 private UserType getUserType(String username) throws SQLException {
+		  if (!queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.customerUsers), "username",
+		            username, "*").isEmpty())
+			   return UserType.CUSTOMER;
+		  else if (!queryExecutor
+		            .selectColumnsByValue(DatabaseMetaData.getTableName(Tables.editorUsers), "username", username, "*")
+		            .isEmpty())
+			   return UserType.EDITOR;
+		  else if (!queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.contentManagerUsers),
+		            "username", username, "*").isEmpty())
+			   return UserType.CONTENT_MANAGER;
+		  else if (!queryExecutor.selectColumnsByValue(DatabaseMetaData.getTableName(Tables.generalManagerUsers),
+		            "username", username, "*").isEmpty())
+			   return UserType.GENERAL_MANAGER;
+		  else
+			   return null;
 	 }
 
 	 private void updateMangerReports(int cityId, String tableUPDATE) throws SQLException {

@@ -21,6 +21,7 @@ import maps.Site;
 import maps.Tour;
 import queries.RequestState;
 import users.User;
+import users.UserReport;
 
 /**
  * @author amit
@@ -45,14 +46,13 @@ public interface IGcmDataExecute {
 
 	 void addExistingSiteToMap(int mapId, int siteId) throws SQLException;
 
-	CityMaps getMapsByCityName(String cityName) throws SQLException;
+	 CityMaps getMapsByCityName(String cityName) throws SQLException;
 
-	CityMaps getMapsBySiteName(String siteName) throws SQLException;
+	 CityMaps getMapsBySiteName(String siteName) throws SQLException;
 
-	CityMaps getMapsByDescription(String description) throws SQLException;
-	
-	CityMaps getMapsBySiteAndCityNames(String string, String string2) throws SQLException;
+	 CityMaps getMapsByDescription(String description) throws SQLException;
 
+	 CityMaps getMapsBySiteAndCityNames(String string, String string2) throws SQLException;
 
 	 User getUserDetails(String username) throws SQLException;
 
@@ -77,11 +77,11 @@ public interface IGcmDataExecute {
 
 	 void editCityPrice(int cityId, double newPrice) throws SQLException;
 
-	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
+	 List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
-	 Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName) throws SQLException;
-	 
-	 List<Report> getAllcitiesReport(java.util.Date date, java.util.Date date2) throws SQLException;
+//	 Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName) throws SQLException;
+
+	 List<Report> getAllcitiesReport(java.sql.Date date, java.sql.Date date2) throws SQLException;
 
 	 List<SiteSubmission> getSiteSubmissions() throws SQLException;
 
@@ -141,8 +141,10 @@ public interface IGcmDataExecute {
 
 	 RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword) throws SQLException;
 
-	 List<Report> getUserReprts(java.util.Date date, java.util.Date date2, String string) throws SQLException;
+	 List<Report> getUserReports(java.sql.Date date, java.sql.Date date2, String string) throws SQLException;
 
+	UserReport getUserReport(java.sql.Date date, java.sql.Date date2, String string) throws SQLException;
 
+	 Report getCityReport(Date startDate, Date endDate, String cityName) throws SQLException;
 
 }

@@ -3,14 +3,15 @@ package users;
 import java.util.List;
 
 import dataAccess.customer.PurchaseHistory;
+import database.execution.UserType;
 import queries.RequestState;
 
 public class UserReport {
 	private User user;
-	private RequestState userType;
+	private UserType userType;
 	private List<PurchaseHistory> purchaseHistory;
 	
-	public UserReport(User user, RequestState userType, List<PurchaseHistory> purchaseHistory){
+	public UserReport(User user, UserType userType, List<PurchaseHistory> purchaseHistory){
 		this.user = user;
 		this.userType = userType;
 		this.purchaseHistory = purchaseHistory;
@@ -28,7 +29,7 @@ public class UserReport {
 		return userType.toString();
 	}
 
-	public void setUserType(RequestState userType) {
+	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
 
