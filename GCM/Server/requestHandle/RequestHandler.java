@@ -109,17 +109,19 @@ public class RequestHandler implements IHandleRequest {
 							  listToSend.add(gcmDataExecutor.getMapsByCityName((String) listObjectReceived.get(0)));
 							  break;
 						 case getCityReport:
-							  listToSend.add(gcmDataExecutor.getCityReport((Date) listObjectReceived.get(0),
-							            (Date) listObjectReceived.get(1), (String) listObjectReceived.get(2)));
+//							  listToSend.add(gcmDataExecutor.getCityReport((Date) listObjectReceived.get(0),
+//							            (Date) listObjectReceived.get(1), (String) listObjectReceived.get(2)));
+							  listToSend.add(gcmDataExecutor.getCityReport((java.sql.Date) listObjectReceived.get(0),
+							            (java.sql.Date) listObjectReceived.get(1), (String) listObjectReceived.get(2)));
 							  break;
 						 case getSystemReport:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor.getAllcitiesReport(
-							            (Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1));
+							            (java.sql.Date) listObjectReceived.get(0),
+							            (java.sql.Date) listObjectReceived.get(1));
 							  break;
-						 case getUserReports:
-							  listToSend = (List<Object>) (Object) gcmDataExecutor.getUserReprts(
-							            (Date) listObjectReceived.get(0), (Date) listObjectReceived.get(1),
-							            (String) listObjectReceived.get(2));
+						 case getUserReport:
+							  listToSend.add(gcmDataExecutor.getUserReport((java.sql.Date) listObjectReceived.get(0),
+							            (java.sql.Date) listObjectReceived.get(1), (String) listObjectReceived.get(2)));
 							  break;
 						 case getMapsBySiteName:
 							  listToSend.add(gcmDataExecutor.getMapsBySiteName((String) listObjectReceived.get(0)));

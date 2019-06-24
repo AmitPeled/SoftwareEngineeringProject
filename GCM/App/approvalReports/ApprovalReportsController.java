@@ -39,47 +39,47 @@ import maps.Tour;
 import users.User;
 
 public class ApprovalReportsController implements Initializable {
-	private GcmDAO gcmDAO;
-	@FXML
-	TableView<SiteSubmission> siteTable;
-	@FXML
-	TableColumn<SiteSubmission, String> siteName;
-	@FXML
-	TableColumn<SiteSubmission, String> siteDescription;
-	@FXML
-	TableColumn<SiteSubmission, String> siteType;
-	@FXML
-	TableColumn<SiteSubmission, String> siteActionTaken;
-	@FXML
-	TableColumn<SiteSubmission, Button> siteApprovalDisapproval;
+	 private GcmDAO                      gcmDAO;
+	 @FXML
+	 TableView<SiteSubmission>           siteTable;
+	 @FXML
+	 TableColumn<SiteSubmission, String> siteName;
+	 @FXML
+	 TableColumn<SiteSubmission, String> siteDescription;
+	 @FXML
+	 TableColumn<SiteSubmission, String> siteType;
+	 @FXML
+	 TableColumn<SiteSubmission, String> siteActionTaken;
+	 @FXML
+	 TableColumn<SiteSubmission, Button> siteApprovalDisapproval;
 
-	@FXML
-	TableView<CitySubmission> cityTable;
-	@FXML
-	TableColumn<CitySubmission, String> cityName;
-	@FXML
-	TableColumn<CitySubmission, String> cityDescription;
-	@FXML
-	TableColumn<CitySubmission, String> cityActionTaken;
-	@FXML
-	TableColumn<CitySubmission, Button> cityApprovalDisapproval;
+	 @FXML
+	 TableView<CitySubmission>           cityTable;
+	 @FXML
+	 TableColumn<CitySubmission, String> cityName;
+	 @FXML
+	 TableColumn<CitySubmission, String> cityDescription;
+	 @FXML
+	 TableColumn<CitySubmission, String> cityActionTaken;
+	 @FXML
+	 TableColumn<CitySubmission, Button> cityApprovalDisapproval;
 
-	@FXML
-	TableView<TourSubmission> tourTable;
-	@FXML
-	TableColumn<TourSubmission, String> tourDescription;
-	@FXML
-	TableColumn<TourSubmission, String> tourActionTaken;
-	@FXML
-	TableColumn<TourSubmission, Button> tourApprovalDisapproval;
+	 @FXML
+	 TableView<TourSubmission>           tourTable;
+	 @FXML
+	 TableColumn<TourSubmission, String> tourDescription;
+	 @FXML
+	 TableColumn<TourSubmission, String> tourActionTaken;
+	 @FXML
+	 TableColumn<TourSubmission, Button> tourApprovalDisapproval;
 
-	@FXML
-	TableView<MapSubmission> mapTable;
-	@FXML
-	TableColumn<MapSubmission, String> mapName;
-	@FXML
-	TableColumn<MapSubmission, String> mapDescription;
-	@FXML
+	 @FXML
+	 TableView<MapSubmission>           mapTable;
+	 @FXML
+	 TableColumn<MapSubmission, String> mapName;
+	 @FXML
+	 TableColumn<MapSubmission, String> mapDescription;
+	 @FXML
 	TableColumn<MapSubmission, String> mapActionTaken;
 	@FXML
 	TableColumn<MapSubmission, Button> mapApprovalDisapproval;
@@ -209,11 +209,16 @@ public class ApprovalReportsController implements Initializable {
 		
 	}
 	
-	public void initTourTableView() {
-		tourDescription
-				.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getTour().getDescription()));
+	 public void initTourTableView() {
+		  tourDescription
+		            .setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getTour().getDescription()));
 		tourActionTaken.setCellValueFactory(data -> {
-			String objectName = data.getValue().getTour().getDescription();
+			   String objectName = data.getValue().getTour().getDescription();
+			   ActionTaken actionTaken = data.getValue().getAction();
+			   int objectRelatedToId = data.getValue().getContainingObjectID();
+			   ObjectsEnum objectType = data.getValue().getContainingObjectType();
+			   String objectRelatedTo = "";
+		tourActionTaken.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getActionTaken()));
 			ActionTaken actionTaken = data.getValue().getAction();
 			int objectRelatedToId = data.getValue().getContainingObjectID();
 			ObjectsEnum objectType = data.getValue().getContainingObjectType();
@@ -229,308 +234,201 @@ public class ApprovalReportsController implements Initializable {
 			return new ReadOnlyStringWrapper(action);
 		});
 
-		tourApprovalDisapproval
-				.setCellFactory(new Callback<TableColumn<TourSubmission, Button>, TableCell<TourSubmission, Button>>() {
-					@Override
-					public TableCell<TourSubmission, Button> call(TableColumn<TourSubmission, Button> param) {
-						return new TourTableCell(gcmDAO);
-					}
-				});
+			   String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
+			   return new ReadOnlyStringWrapper(action);
+		  });
+
+		  tourApprovalDisapproval.setCellFactory(
+		            new Callback<TableColumn<TourSubmission, Button>, TableCell<TourSubmission, Button>>() {
+			             @Override
+			             public TableCell<TourSubmission, Button> call(TableColumn<TourSubmission, Button> param) {
+					          return new TourTableCell(gcmDAO);
+			             }
+		            });
 
 	}
 
-	public void initMapTableView() {
-		mapName.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getMap().getName()));
-		mapDescription
-				.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getMap().getDescription()));
-		mapActionTaken.setCellValueFactory(data -> {
-			String objectName = data.getValue().getMap().getName();
-			ActionTaken actionTaken = data.getValue().getAction();
-			int objectRelatedToId = data.getValue().getContainingCityID();
-			String objectRelatedTo = "";
-			if(gcmDAO.getCity(objectRelatedToId) != null) {
-				objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
-			}
-			String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
-			return new ReadOnlyStringWrapper(action);
-		});
-		mapApprovalDisapproval
-				.setCellFactory(new Callback<TableColumn<MapSubmission, Button>, TableCell<MapSubmission, Button>>() {
-					@Override
-					public TableCell<MapSubmission, Button> call(TableColumn<MapSubmission, Button> param) {
-						return new MapTableCell(gcmDAO, notifyUsersList);
-					}
-				});
+	 public void initMapTableView() {
+		  mapName.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getMap().getName()));
+		  mapDescription
+		            .setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getMap().getDescription()));
+		  mapActionTaken.setCellValueFactory(data -> {
+			   String objectName = data.getValue().getMap().getName();
+			   ActionTaken actionTaken = data.getValue().getAction();
+			   int objectRelatedToId = data.getValue().getContainingCityID();
+			   String objectRelatedTo = "";
+			   if (gcmDAO.getCity(objectRelatedToId) != null) {
+					objectRelatedTo = gcmDAO.getCity(objectRelatedToId).getName();
+			   }
+			   String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
+			   return new ReadOnlyStringWrapper(action);
+		  });
+		  mapApprovalDisapproval.setCellFactory(
+		            new Callback<TableColumn<MapSubmission, Button>, TableCell<MapSubmission, Button>>() {
+			             @Override
+			             public TableCell<MapSubmission, Button> call(TableColumn<MapSubmission, Button> param) {
+					          return new MapTableCell(gcmDAO, notifyUsersList);
+			             }
+		            });
 
-	}
-	
-	public void initUsersTableView() {
-		username.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getUsername()));
-		email.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getEmail()));
-	}
+	 }
 
-	public void getDataForCityTableView() {
-		citySubmissions = fetchCitySubmissions(gcmDAO);
-		ObservableList<CitySubmission> details = citySubmissions.isEmpty() ? FXCollections.observableArrayList()
-				: FXCollections.observableArrayList(citySubmissions);
-		cityTable.setItems(details);
-	}
-	public void getDataForMapTableView() {
-		mapSubmissions = fetchMapSubmissions(gcmDAO);
-		ObservableList<MapSubmission> details = FXCollections.observableArrayList(mapSubmissions);
-		mapTable.setItems(details);
-	}
-	public void getDataForTourTableView() {
-		tourSubmissions = fetchTourSubmissions(gcmDAO);
-		ObservableList<TourSubmission> details = tourSubmissions.isEmpty() ? FXCollections.observableArrayList()
-				: FXCollections.observableArrayList(tourSubmissions);
-		tourTable.setItems(details);
-	}
-	public void getDataForSiteTableView() {
-		siteSubmissions = fetchSiteSubmissions(gcmDAO);
-		ObservableList<SiteSubmission> details = siteSubmissions.isEmpty() ? FXCollections.observableArrayList()
-				: FXCollections.observableArrayList(siteSubmissions);
-		siteTable.setItems(details);
-	}
-	
-	
-	public void setUsersTableView(List<User> users) {
-		notifyUsersList.setVisible(true);
-		ObservableList<User> details = FXCollections.observableArrayList(users);
-		notifyUsersList.setItems(details);
-	}
-	
-	public void cityBtnListener() {
-		cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+	 public void initUsersTableView() {
+		  username.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getUsername()));
+		  email.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getEmail()));
+	 }
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				getDataForCityTableView();
-				cityTable.setVisible(true);
-				siteTable.setVisible(false);
-				tourTable.setVisible(false);
-				mapTable.setVisible(false);
+	 public void getDataForCityTableView() {
+		  citySubmissions = fetchCitySubmissions(gcmDAO);
+		  ObservableList<CitySubmission> details = citySubmissions.isEmpty() ? FXCollections.observableArrayList()
+		            : FXCollections.observableArrayList(citySubmissions);
+		  cityTable.setItems(details);
+	 }
 
-			}
+	 public void getDataForMapTableView() {
+		  mapSubmissions = fetchMapSubmissions(gcmDAO);
+		  ObservableList<MapSubmission> details = FXCollections.observableArrayList(mapSubmissions);
+		  mapTable.setItems(details);
+	 }
 
-		}));
-	}
+	 public void getDataForTourTableView() {
+		  tourSubmissions = fetchTourSubmissions(gcmDAO);
+		  ObservableList<TourSubmission> details = tourSubmissions.isEmpty() ? FXCollections.observableArrayList()
+		            : FXCollections.observableArrayList(tourSubmissions);
+		  tourTable.setItems(details);
+	 }
 
-	public void siteBtnListener() {
-		siteReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+	 public void getDataForSiteTableView() {
+		  siteSubmissions = fetchSiteSubmissions(gcmDAO);
+		  ObservableList<SiteSubmission> details = siteSubmissions.isEmpty() ? FXCollections.observableArrayList()
+		            : FXCollections.observableArrayList(siteSubmissions);
+		  siteTable.setItems(details);
+	 }
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				getDataForSiteTableView();
-				siteTable.setVisible(true);
-				cityTable.setVisible(false);
-				tourTable.setVisible(false);
-				mapTable.setVisible(false);
+	 public void setUsersTableView(List<User> users) {
+		  notifyUsersList.setVisible(true);
+		  ObservableList<User> details = FXCollections.observableArrayList(users);
+		  notifyUsersList.setItems(details);
+	 }
 
-			}
+	 public void cityBtnListener() {
+		  cityReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
-		}));
-	}
+			   @Override
+			   public void handle(MouseEvent arg0) {
+					getDataForCityTableView();
+					cityTable.setVisible(true);
+					siteTable.setVisible(false);
+					tourTable.setVisible(false);
+					mapTable.setVisible(false);
 
-	public void tourBtnListener() {
-		tourReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+			   }
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				getDataForTourTableView();
-				siteTable.setVisible(false);
-				cityTable.setVisible(false);
-				tourTable.setVisible(true);
-				mapTable.setVisible(false);
+		  }));
+	 }
 
-			}
+	 public void siteBtnListener() {
+		  siteReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
-		}));
-	}
+			   @Override
+			   public void handle(MouseEvent arg0) {
+					getDataForSiteTableView();
+					siteTable.setVisible(true);
+					cityTable.setVisible(false);
+					tourTable.setVisible(false);
+					mapTable.setVisible(false);
 
-	public void mapBtnListener() {
-		mapReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+			   }
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				getDataForMapTableView();
-				siteTable.setVisible(false);
-				cityTable.setVisible(false);
-				tourTable.setVisible(false);
-				mapTable.setVisible(true);
-			}
+		  }));
+	 }
 
-		}));
-	}
+	 public void tourBtnListener() {
+		  tourReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+			   @Override
+			   public void handle(MouseEvent arg0) {
+					getDataForTourTableView();
+					siteTable.setVisible(false);
+					cityTable.setVisible(false);
+					tourTable.setVisible(true);
+					mapTable.setVisible(false);
+			   }
+		  }));
+	 }
 
-	public void initTables() {
-		cityTable.setVisible(false);
-		siteTable.setVisible(false);
-		tourTable.setVisible(false);
-		mapTable.setVisible(false);
-		notifyUsersList.setVisible(false);
+	 public void mapBtnListener() {
+		  mapReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+			   @Override
+			   public void handle(MouseEvent arg0) {
+					getDataForMapTableView();
+					siteTable.setVisible(false);
+					cityTable.setVisible(false);
+					tourTable.setVisible(false);
+					mapTable.setVisible(true);
+			   }
+
+		  }));
+	 }
+
+	 public void initTables() {
+		  cityTable.setVisible(false);
+		  siteTable.setVisible(false);
+		  tourTable.setVisible(false);
+		  mapTable.setVisible(false);
+		  notifyUsersList.setVisible(false);
+
+		  initCityTableView();
+		  initSiteTableView();
+		  initTourTableView();
+		  initMapTableView();
+		  initUsersTableView();
+	 }
+
+	 @Override
+	 public void initialize(URL location, ResourceBundle resources) {
+		  initTables();
+
+		  siteBtnListener();
+		  cityBtnListener();
+		  tourBtnListener();
+		  mapBtnListener();
+	 }
+
+	 public void initialize() {
+		  System.out.println("Initializing approval screen");
 		
-		initCityTableView(); 
-		initSiteTableView();
-		initTourTableView();
-		initMapTableView();
-		initUsersTableView();
-	}
+		  initialize(null, null);
+	 }
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		initTables();
+	 @FXML
+	 public void onBackButton() {
+		  gcmClient.back();
+	 }
 
-		siteBtnListener();
-		cityBtnListener();
-		tourBtnListener();
-		mapBtnListener();
-	}
+	 public static ApprovalReportsController getConrollerObject(GcmClient gcmClient) {
+		  GcmDAO gcmDAO = gcmClient.getDataAccessObject();
+		List<CitySubmission> citySubmissions = fetchCitySubmissions(gcmDAO);
+		List<SiteSubmission> siteSubmissions = fetchSiteSubmissions(gcmDAO);
+		List<MapSubmission> mapSubmissions = fetchMapSubmissions(gcmDAO);
+		List<TourSubmission> tourSubmissions = fetchTourSubmissions(gcmDAO);
+		  return new ApprovalReportsController(gcmClient, gcmDAO);
+	 }
 
-	public void initialize() {
-		System.out.println("Initializing approval screen");
-		
-		initialize(null, null);
-	}
+	 private static List<TourSubmission> fetchTourSubmissions(GcmDAO gcmDAO) {
+		  return gcmDAO.getTourSubmissions();
+	 }
 
-	@FXML
-	public void onBackButton() {
-		gcmClient.back();
-	}
+	 private static List<MapSubmission> fetchMapSubmissions(GcmDAO gcmDAO) {
+		  return gcmDAO.getMapSubmissions();
+	 }
 
-	public static ApprovalReportsController getConrollerObject(GcmClient gcmClient) {
-		GcmDAO gcmDAO = gcmClient.getDataAccessObject();
-		List<CitySubmission> citySubmissions = null;
-		List<SiteSubmission> siteSubmissions = null;
-		List<MapSubmission> mapSubmissions = null;
-		List<TourSubmission> tourSubmissions = null;
+	 private static List<CitySubmission> fetchCitySubmissions(GcmDAO gcmDAO) {
+		  return gcmDAO.getCitySubmissions();
+	 }
 
-		return new ApprovalReportsController(gcmClient, gcmDAO, citySubmissions, siteSubmissions, tourSubmissions,
-				mapSubmissions);
-	}
-
-	private static List<TourSubmission> fetchTourSubmissions(GcmDAO gcmDAO) {
-		return gcmDAO.getTourSubmissions();
-//		List<TourSubmission> mapSubmissions = new ArrayList<TourSubmission>();
-//		List<Tour> tourAdded = gcmDAO.getToursAddEdits();
-//		List<Tour> tourModified = gcmDAO.getToursUpdateEdits();
-//		List<Tour> tourDeleted = gcmDAO.getToursDeleteEdits();
-//
-//		try {
-//			if(tourAdded != null && !tourAdded.isEmpty()) {
-//				for (Tour tour : tourAdded) {
-//					mapSubmissions.add(new TourSubmission(tour, ActionTaken.ADD));
-//				}
-//			}
-//			if(tourModified!= null && !tourModified.isEmpty()) {
-//				for (Tour tour : tourModified) {
-//					mapSubmissions.add(new TourSubmission(tour, ActionTaken.UPDATE));
-//				}
-//			} 
-//			if(tourDeleted!= null && !tourDeleted.isEmpty()) {
-//				for (Tour tour : tourDeleted) {
-//					mapSubmissions.add(new TourSubmission(tour, ActionTaken.DELETE));
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new ArrayList<TourSubmission>();
-//		}
-//		
-//		return mapSubmissions;
-	}
-
-	private static List<MapSubmission> fetchMapSubmissions(GcmDAO gcmDAO) {
-		return gcmDAO.getMapSubmissions();
-//		List<MapSubmission> mapSubmissions = new ArrayList<MapSubmission>();
-//		List<Map> mapsAdded = gcmDAO.getMapsAddEdits();
-//		List<Map> mapsModified = gcmDAO.getMapsUpdateEdits();
-//		List<Map> mapsDeleted = gcmDAO.getMapsDeleteEdits();
-//
-//		try {
-//			if(mapsAdded != null && !mapsAdded.isEmpty()) {
-//				for (Map map : mapsAdded) {
-//					mapSubmissions.add(new MapSubmission(map, ActionTaken.ADD));
-//				}
-//			}
-//			if(mapsModified!= null && !mapsModified.isEmpty()) {
-//				for (Map map : mapsModified) {
-//					mapSubmissions.add(new MapSubmission(map, ActionTaken.UPDATE));
-//				}
-//			} 
-//			if(mapsDeleted!= null && !mapsDeleted.isEmpty()) {
-//				for (Map map : mapsDeleted) {
-//					mapSubmissions.add(new MapSubmission(map, ActionTaken.DELETE));
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new ArrayList<MapSubmission>();
-//		}
-//		return mapSubmissions;
-	}
-
-	private static List<CitySubmission> fetchCitySubmissions(GcmDAO gcmDAO) {
-		 return gcmDAO.getCitySubmissions();
-//		List<CitySubmission> citySubmissions = new ArrayList<CitySubmission>();
-//		List<City> citiesAdded = gcmDAO.getCitiesAddEdits();
-//		List<City> citiesModified = gcmDAO.getCitiesUpdateEdits();
-//		List<City> citiesDeleted = gcmDAO.getCitiesDeleteEdits();
-//
-//		try {
-//			if (citiesAdded != null && !citiesAdded.isEmpty()) {
-//				for (City city : citiesAdded) {
-//					citySubmissions.add(new CitySubmission(city, ActionTaken.ADD));
-//				}
-//			}
-//			if (citiesModified != null && !citiesModified.isEmpty()) {
-//				for (City city : citiesModified) {
-//					citySubmissions.add(new CitySubmission(city, ActionTaken.UPDATE));
-//				}
-//			}
-//			if (citiesDeleted != null && !citiesDeleted.isEmpty()) {
-//				for (City city : citiesDeleted) {
-//					citySubmissions.add(new CitySubmission(city, ActionTaken.DELETE));
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new ArrayList<CitySubmission>();
-//		}
-//
-//		return citySubmissions;
-	}
-
-	private static List<SiteSubmission> fetchSiteSubmissions(GcmDAO gcmDAO) {
-		List<SiteSubmission> siteSubmissions = gcmDAO.getSiteSubmissions();
-		return siteSubmissions;
-//		List<SiteSubmission> siteSubmissions = new ArrayList<SiteSubmission>();
-//		List<Site> sitesAdded = gcmDAO.getSitesAddEdits();
-//		List<Site> sitesModified = gcmDAO.getSitesUpdateEdits();
-//		List<Site> sitesDeleted = gcmDAO.getSitesDeleteEdits();
-//		
-//		try {
-//			if(sitesAdded != null && !sitesAdded.isEmpty()) {
-//				for (Site site : sitesAdded) {
-//					System.out.println(site);
-//					siteSubmissions.add(new SiteSubmission(site, ActionTaken.ADD));
-//				}
-//			}
-//			if(sitesModified!= null && !sitesModified.isEmpty()) {
-//				for (Site site : sitesModified) {
-//					siteSubmissions.add(new SiteSubmission(site, ActionTaken.UPDATE));
-//				}
-//			} 
-//			if(sitesDeleted!= null && !sitesDeleted.isEmpty()) {
-//				for (Site site : sitesDeleted) {
-//					siteSubmissions.add(new SiteSubmission(site, ActionTaken.DELETE));
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new ArrayList<SiteSubmission>();
-//		}
-//		
-//		return siteSubmissions;
-	}
+	 private static List<SiteSubmission> fetchSiteSubmissions(GcmDAO gcmDAO) {
+		  List<SiteSubmission> siteSubmissions = gcmDAO.getSiteSubmissions();
+		  return siteSubmissions;
+	 }
 }
