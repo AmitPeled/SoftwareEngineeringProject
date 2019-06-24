@@ -13,6 +13,7 @@ import approvalReports.tourApprovalReports.TourSubmission;
 import dataAccess.customer.PurchaseHistory;
 import dataAccess.generalManager.Report;
 import dataAccess.users.PurchaseDetails;
+import database.serverObjects.MapSubmissionContent;
 import maps.City;
 import maps.Map;
 import maps.Site;
@@ -35,7 +36,7 @@ public interface IGcmDataExecute {
 
 	Map getMapDetails(int mapId) throws SQLException;
 
-	File getMapFile(int mapId) throws SQLException;
+	byte[] getMapFile(int mapId) throws SQLException;
 
 	int addCity(City city) throws SQLException;
 
@@ -66,9 +67,9 @@ public interface IGcmDataExecute {
 
 	boolean repurchaseMembershipBySavedDetails(int cityId, int timeInterval, String username) throws SQLException;
 
-	List<File> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
+	List<byte[]> purchaseCityOneTime(int cityId, PurchaseDetails purchaseDetails, String username) throws SQLException;
 
-	File downloadMap(int cityId, String username) throws SQLException;
+	byte[] downloadMap(int cityId, String username) throws SQLException;
 
 	void editCityPrice(int cityId, double newPrice) throws SQLException;
 
@@ -81,13 +82,13 @@ public interface IGcmDataExecute {
 
 	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
-	Report getCityReport(Date startDate, Date endDate, int cityId) throws SQLException;
+	Report getCityReport(java.util.Date date, java.util.Date date2, int cityId) throws SQLException;
 
-	List<Report> getAllcitiesReport(Date startDate, Date endDate) throws SQLException;
+	List<Report> getAllcitiesReport(java.util.Date date, java.util.Date date2) throws SQLException;
 
 	List<SiteSubmission> getSiteSubmissions() throws SQLException;
 
-	List<MapSubmission> getMapSubmissions() throws SQLException;
+	List<MapSubmissionContent> getMapSubmissions() throws SQLException;
 
 	List<TourSubmission> getTourSubmissions() throws SQLException;
 
@@ -129,5 +130,7 @@ public interface IGcmDataExecute {
 List<Map> getPurchasedMaps(String username) throws SQLException;
 
 List<CitySubmission> getCitySubmissions() throws SQLException;
+
+RequestState editUser(String oldUsername, String oldPassword, User user, String newPassword) throws SQLException;
 
 }
