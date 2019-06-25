@@ -339,6 +339,12 @@ public class GcmDataExecutor implements
 		            Arrays.asList("username", "cityId"), Arrays.asList(cityId, username), "*").isEmpty();
 	 }
 
+	 public boolean hadPurchasedCityInPast(int cityId, String username) throws SQLException {
+		 return  queryExecutor.betweenDatesAnd2Conditions(
+		            DatabaseMetaData.getTableName(Tables.purchaseHistory), "*", new Date(0), "occurrenceDate",
+		                      new java.sql.Date(Calendar.getInstance().getTime().getTime()),"cityId", "username",cityId,username).isEmpty();
+	 }
+
 	 @Override
 	 public Site getSite(int siteId) throws SQLException {
 		  return getSite(siteId, Status.PUBLISH);

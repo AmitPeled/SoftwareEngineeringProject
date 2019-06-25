@@ -2,132 +2,33 @@
 Software engineering course final project.
 
 # Checklist
-## Server/DAO
-### Map object
-- [ ] **Map object doesn't contain all it's sites and tours (works when fetching them through other DAO methods)**
-## Client
-### Approvals
-- [ ] Does not show Sites requests approval
-
-# Exercise Requirements
-### Search
+## Search 
 - [x] Search by city name
 - [x] Search by description
-- [ ] Showing One-time purchase only for guests
-- [ ] Showing Purchase options for customers
-### Editing
-#### Approval Requests - City
-- [x] DAO methods
-- [x] GUI
-- [x] Server side methods 
-- [x] Client-Server communication
-#### Approval Requests - Sites
-- [x] DAO methods
-- [ ] GUI - **Does not show Site applications**
-- [x] Server side methods 
-- [x] Client-Server communication
-#### Approval Requests - Tours
-- [x] DAO methods
-- [x] GUI
-- [x] Server side methods 
-- [x] Client-Server communication
-#### Approval Requests - Map Reports
-- [x] DAO methods
-- [x] GUI
-- [x] Server side methods 
-- [x] Client-Server communication
-#### Editing Maps
-- [x] GUI screen to add a map
-#### Creating a city
-- [x] DAO methods
-- [x] GUI
-- [x] Client-Server communication
-- [x] Creates an approval request
-#### Adding maps
-- [x] GUI
-- [ ] Link to mapviewer
-- [x] DAO methods
-- [x] Client-Server communication
-- [x] Creates an approval request
-#### Adding sites
-- [x] DAO methods
-- [x] GUI
-- [x] Client-Server communication
-- [x] Creates an approval request
-#### Deleting sites
-- [x] GUI
-- [x] DAO methods - **There's no method to delete a site completely**
-- [x] Client-Server communication - **No method to delete site completely**
-- [x] Creates an approval request - **There are methods to approve deletion, but none to create a removal request**
-#### Tours
-##### Creating a new tour
-- [x] GUI
-- [x] DAO methods 
-- [x] Client-Server communication
-- [x] Creates an approval request
-- [x] Appear in Map object - **Not all tours appear in Map object**
-##### Adding sites to tour (editing an existing tour)
-- [x] GUI
-- [x] DAO methods
-- [x] Client-Server communication
-- [x] Creates an approval request
-### Purchasing maps
-** Note - purchase is for **cities**, and not for maps. 
-if one-time purchase, the user gets all the city's maps at once of their current version (and is not allowed to redownload the maps again). **
+- [ ] Buy subscription button to lead to the correct scene
+- [ ] Hide buy subscription button from managers
+- [ ] Fix the bug where logging out and entering as guest shows you wrong maps/buttons
 
-#### One-time purchase
-- [x] GUI controls that offer single-purchase
-- [ ] Updates the database
-- [ ] Allows users to download maps only after subscription has been purchased
-#### Full subscription
-- [ ] GUI controls that offer single-purchase
-- [ ] Updates the database
-- [ ] Allows users to download maps only after subscription has been purchased
-### Prices
-- [x] GUI - **Need to edit prices for all subscription/purchase types**
-- [x] DAO methods - **Exists, but only with one price without specifications**
-- [x] Client-Server communication
-- [x] Creates an approval request
-- [ ] only privileged users can edit price
-### Managers Reports
-- [ ] Report on a single city works with real DB data
-- [ ] Report on all cities works with real DB data
-- [ ] Only admins can view reports
-### Customer Reports
-- [x] GUI
-- [x] DAO methods
-- [x] Server methods
-- [x] Client-Server communication
-### Notifications
-- [x] Create a notification thread on the server that sends messages to customers
+## Editing
+- [ ] **Adding a map to the city - DB exception**
+- [x] Adding a site to a city 
+- [ ] **Editing a site to a city - Not working. Simply adding another site and not removing the older one**
+- [x] Deleting a site to a city
+- [ ] Creating a tour - **Not working. Not showing the available sites**
+- [ ] Editing a tour - **Not working**
+- [ ] Editing prices - **Not showing current prices**
 
-## Features
-### Guests
-- [x] Allow guests to use the system
+## Purchasing - Not working
+- [ ] Allow one-time purchasing of maps - **Not working. Doesn't show the purchase button**
+- [ ] Allow subscription purchasing - **Not working. Takes you to the add map screen(?!)**
 
 # Tasks
-## Database/DAO
-- **Fix `getToursAddEdits` returning null references** // amit's comment: not relevant anymore, replaced by getTourSubmissions
-- [x] **Fix `getUserDetails` throwing null reference exception**
-- [x] Verify that no other `get*Edits` returns null references // amit's comment: applied for get*Submissions
-- [x] Fix `Map` objects not having all the sites/tours (compared to what's printed on the map/fetched by `getSitesByMapId`) // amit's comment: no such method `getSitesByMapId` exists, though fetching by map works
-- [x] Add option to delete sites
-- [x] Add methods to change prices per purchase type
-- [x] (If we have time) Change the way reports are stored to support date-range selection
-## Client
-- [x] Push MapDownloader class to the master
-- [ ] Hide menu options from non-privileged users
-- [x] Build customer report screen
-- [x] Fetch real sites/tours to the map viewer
-- [ ] Load real maps from the database
-- [x] Allow login in as guests
-- [x] Fix exception in site submission approval 
-- [ ] GUI window notifying the emails sent by server after map submission approval
-- [ ] Allow user to edit its personal details
+## Search
+- [ ] Fix the "Purhcase Subscription" button
 
-## Server
-- [x] Build the notifications thread 
-- [ ] ~Prevent multiple user sessions at once~ (Why?)
-
-## Database
-- [ ] Edit user personal details functionality
+## Editing
+- [ ] Remove "Edit Site"
+- [ ] Remove "Add Map" 
+- [ ] Add existing values to price editing screen
+- [ ] Fix the margin between buttons in the map viewer
+- [ ] Change colors in the map viewer

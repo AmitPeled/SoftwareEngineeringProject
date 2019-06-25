@@ -106,7 +106,7 @@
             <TableColumn fx:id="mapApprovalDisapproval" prefWidth="179.0" text="Approve/Disapprove" />
          </columns>
       </TableView>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Users that will be notify by email of the new changes:" underline="true" GridPane.rowIndex="4" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Users that will be notified by email about the new changes:" underline="true" GridPane.rowIndex="4" />
       <TableView fx:id="notifyUsersList" prefHeight="307.0" prefWidth="700.0" GridPane.rowIndex="5">
         <columns>
           <TableColumn fx:id="username" prefWidth="75.0" text="Username" />
