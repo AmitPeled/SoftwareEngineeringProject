@@ -60,7 +60,7 @@ public class GcmDAO
 	 public static void main(String[] args) {
 		  GcmDAO gcmDAO = new GcmDAO();
 		  gcmDAO.login("editor", "editor");
-		  gcmDAO.getMapFile(497); 
+		  gcmDAO.getMapFile(497);
 	 }
 
 	 public GcmDAO() {
@@ -347,8 +347,7 @@ public class GcmDAO
 		  return 0;
 	 }
 
-	 public int deleteContent(int contentId) {
-		  // by now delete map only
+	 public int deleteMap(int contentId) {
 		  send(new RequestObject(GcmQuery.deleteMap, new ArrayList<Object>() {
 			   {
 					add(contentId);
@@ -451,12 +450,12 @@ public class GcmDAO
 
 	 @Override
 	 public void deleteSiteFromTour(int mapId, int siteId) {
-		  send(new RequestObject(GcmQuery.addExistingSiteToTour, new ArrayList<Object>() {
+		  send(new RequestObject(GcmQuery.deleteSiteFromTour, new ArrayList<Object>() {
 			   {
 					add(mapId);
 					add(siteId);
 			   }
-		  }, username, password)).getResponse().get(0);
+		  }, username, password)).getResponse();
 	 }
 
 	 @Override
