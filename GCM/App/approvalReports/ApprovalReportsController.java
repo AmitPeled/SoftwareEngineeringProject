@@ -268,8 +268,7 @@ public class ApprovalReportsController implements Initializable {
 		  ObservableList<MapSubmission> details = FXCollections.observableArrayList(mapSubmissions);
 		  mapTable.setItems(details);
 	 }
-	public void getDataForTourTableView() {
-	 public void getDataForTourTableView() {
+	public void getDataForTourTableView() { 
 		tourSubmissions = fetchTourSubmissions(gcmDAO);
 		ObservableList<TourSubmission> details = tourSubmissions.isEmpty() ? FXCollections.observableArrayList()
 				: FXCollections.observableArrayList(tourSubmissions);

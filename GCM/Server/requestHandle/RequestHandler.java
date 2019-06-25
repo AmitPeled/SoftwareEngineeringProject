@@ -119,7 +119,7 @@ public class RequestHandler implements IHandleRequest {
 							            (java.sql.Date) listObjectReceived.get(0),
 							            (java.sql.Date) listObjectReceived.get(1));
 							  break;
-						 case getUserReport:
+						 case getUserReport: 
 							  listToSend.add(gcmDataExecutor.getUserReport((java.sql.Date) listObjectReceived.get(0),
 							            (java.sql.Date) listObjectReceived.get(1), (String) listObjectReceived.get(2)));
 							  break;
