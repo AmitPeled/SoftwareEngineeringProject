@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mapViewerScene.MapViewerSceneController;
 import maps.Tour;
+import search.ListViewController;
 import userDetailsPresentation.UserDetailsPresentationController;
 import userInfo.UserInfo;
 
@@ -104,19 +105,30 @@ class GcmClientImpl implements GcmClient {
 	}
 
 	@Override
-	public void switchSceneToAddSite(int mapId, double widthLocation, double heightLocation) {
+	public void switchSceneToAddSite(int mapId, int siteId, double widthLocation, double heightLocation) {
 		Scene scene = manager.getScene(SceneNames.ADD_SITE);
-		try {
+		try { 
 			PointOfInterestController controller = (PointOfInterestController) manager
 					.getController(SceneNames.ADD_SITE);
-			controller.initalizeControl(mapId, widthLocation, heightLocation);
+			controller.initalizeControl(mapId, siteId, widthLocation, heightLocation);
 			primaryStage.setScene(scene);
 			scenesStack.push(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	@Override
+	public void switchSceneToSearch(){
+		Scene scene = manager.getScene(SceneNames.SEARCH);
+		try {
+			ListViewController controller = (ListViewController) manager.getController(SceneNames.SEARCH);
+			controller.initalizeControl();
+			primaryStage.setScene(scene);
+			scenesStack.push(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	@Override
 	public void switchSceneToEditPrice(int cityId) {
 		Scene scene = manager.getScene(SceneNames.EDIT_PRICE);
@@ -148,13 +160,13 @@ class GcmClientImpl implements GcmClient {
 	}
 	
 	@Override
-	public void switchSceneToAddMap(int cityId) {
+	public void switchSceneToAddMap(int cityId, int mapId) {
 
 		Scene scene = manager.getScene(SceneNames.ADD_MAP);
 		try {
 			AddMapController controller = (AddMapController) manager
 					.getController(SceneNames.ADD_MAP);
-			controller.initalizeControl(cityId);
+			controller.initalizeControl(cityId, mapId);
 			primaryStage.setScene(scene);
 			scenesStack.push(scene);
 		} catch (Exception e) {

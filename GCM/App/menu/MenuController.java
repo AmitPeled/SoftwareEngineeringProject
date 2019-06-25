@@ -36,7 +36,7 @@ public final class MenuController implements Initializable {
 
 	@FXML
 	public void onSearchButton() {
-		gcmClient.switchScene(SceneNames.SEARCH);
+		gcmClient.switchSceneToSearch();
 	}
 
 	@FXML

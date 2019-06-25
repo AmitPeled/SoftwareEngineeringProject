@@ -187,7 +187,7 @@ public class ApprovalReportsController implements Initializable {
 			   String action = getActionTaken(objectName, actionTaken, objectRelatedTo);
 			   return new ReadOnlyStringWrapper(action);
 		  });
-		  cityApprovalDisapproval.setCellFactory(
+		  cityApprovalDisapproval.setCellFactory( 
 		            new Callback<TableColumn<CitySubmission, Button>, TableCell<CitySubmission, Button>>() {
 			             @Override
 			             public TableCell<CitySubmission, Button> call(TableColumn<CitySubmission, Button> param) {
@@ -323,7 +323,7 @@ public class ApprovalReportsController implements Initializable {
 		  tourReports.setOnMouseClicked((new EventHandler<MouseEvent>() {
 			   @Override
 			   public void handle(MouseEvent arg0) {
-				getDataForTourTableView();
+				   getDataForTourTableView();
 					siteTable.setVisible(false);
 					cityTable.setVisible(false);
 					tourTable.setVisible(true);

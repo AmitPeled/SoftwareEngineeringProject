@@ -20,7 +20,7 @@ final class SceneManagerImpl implements SceneManager {
 	 * @param name The SceneNames enum representation of the desired Scene
 	 * @return An initiated Scene object 
 	 */
-	@Override
+	@Override 
 	public Scene getScene(SceneNames name) { 
 		if(name == SceneNames.APPROVAL_REPORTS) {
 			((ApprovalReportsController)controllers.get(name)).initialize();

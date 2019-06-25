@@ -120,7 +120,7 @@ public class TourController  implements Initializable {
 	            	}
 	            }
 			})
-		);
+		); 
 	}
 	public void init() { 
 		// call function to retrieve list of sites that wasn't added for this map 
@@ -147,26 +147,32 @@ public class TourController  implements Initializable {
 		sitesPicker.setButtonCell(cellFactory.call(null));
 		sitesPicker.setCellFactory(cellFactory);
 
-		List<Site> exisitingSites = gcmDAO.getCitySites(cityId);
-		sitesPicker.setItems(FXCollections.observableArrayList(exisitingSites));
-		System.out.println(exisitingSites);
-		System.out.println(tour);
-		if(tour.getId() != -1) {
-			System.out.println(tour.getId());
-			description.setText(tour.getDescription());
-			
-			// set list of existing sites on tour
-			int index = 0;
-			for (Site site : tourSites) {
-				data.add(site.getName() + " - " + Integer.toString(sitesTimeToVisit.get(index)) + " hours");
-				index++;
-			}
-			
-			listOfSites.setItems(data);
-		}
+		
 		
 	}
-
+	public void initData() {
+		
+		description.setText("");
+		sitesPicker.setItems(null);
+		listOfSites.setItems(null);
+		data = FXCollections.observableArrayList();
+		if(cityId != -1) {
+			List<Site> exisitingSites = gcmDAO.getCitySites(cityId);
+			sitesPicker.setItems(FXCollections.observableArrayList(exisitingSites));
+			if(tour.getId() != -1) {
+				description.setText(tour.getDescription());
+				
+				// set list of existing sites on tour
+				int index = 0;
+				for (Site site : tourSites) {
+					data.add(site.getName() + " - " + Integer.toString(sitesTimeToVisit.get(index)) + " hours");
+					index++;
+				}
+				
+				listOfSites.setItems(data);
+			}
+		}
+	}
 	@FXML
 	public void onBackButton() {
 		gcmClient.back();
@@ -176,6 +182,7 @@ public class TourController  implements Initializable {
 		init();
 		addTourListener();
 		addPlaceListener();
+		initData();
 	}
 	public void initalizeControl(int cityId, int mapId, Tour tour) {
 	    this.cityId = cityId;
@@ -185,5 +192,6 @@ public class TourController  implements Initializable {
 		this.cityId = cityId;
 		tourSites = tour.getSites();
 		sitesTimeToVisit = tour.getSitesTimeToVisit();
+		initData();
 	}
 }

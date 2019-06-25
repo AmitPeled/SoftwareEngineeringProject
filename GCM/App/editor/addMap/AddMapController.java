@@ -130,21 +130,29 @@ public class AddMapController implements Initializable
 	}
 	 
 	public void initializeFields() {
-		Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
-		System.out.println(map);
-		if(map != null) {
-			mapName.setText(map.getName());
-			mapDescription.setText(map.getName());
-			height.setText(Float.toString(map.getHeight()));
-			width.setText(Float.toString(map.getWidth()));
-			xOffset.setText(Float.toString(map.getOffset().getX()));
-			yOffset.setText(Float.toString(map.getOffset().getY()));
+		mapName.setText("");
+		mapDescription.setText("");
+		height.setText(null);
+		width.setText(null);
+		xOffset.setText(null);
+		yOffset.setText(null);
+		
+		if(mapId != -1) {
+			Map map = gcmClient.getDataAccessObject().getMapDetails(mapId);
+			if(map != null) {
+				mapName.setText(map.getName());
+				mapDescription.setText(map.getName());
+				height.setText(Float.toString(map.getHeight()));
+				width.setText(Float.toString(map.getWidth()));
+				xOffset.setText(Float.toString(map.getOffset().getX()));
+				yOffset.setText(Float.toString(map.getOffset().getY()));
+			}
+	
 		}
-
 	}
 	
     /**
-	* @param url
+	* @param url 
 	* @param rb
 	**/
     @Override 
@@ -155,7 +163,9 @@ public class AddMapController implements Initializable
     	uploadMapListener();
     }
     
-    public void initalizeControl(int cityId) {
+    public void initalizeControl(int cityId, int mapId) {
     	this.cityId = cityId;
+    	this.mapId = mapId;
+    	initializeFields();
     }
 }

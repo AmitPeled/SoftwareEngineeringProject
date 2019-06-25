@@ -94,17 +94,19 @@ public class ReportsController implements Initializable {
 
 			   @Override
 			   public void handle(MouseEvent event) {
-					readInputFromTextFields();
-					cityResults.setVisible(true);
-					customerResults.setVisible(false);
-					workerResults.setVisible(false);
-					Date sDate = Date.valueOf(startDate);
-					Date eDate = Date.valueOf(endDate);
-					List<Report> reports = gcmDAO.getSystemReport(sDate, eDate);
-					ObservableList<CityItem> data = FXCollections.observableArrayList();
-					reports.forEach((report) -> data.add(reportToCityItem(report)));
-
-					cityResults.setItems(data);
+				   if(startDate != null && endDate != null) {
+						readInputFromTextFields();
+						cityResults.setVisible(true);
+						customerResults.setVisible(false);
+						workerResults.setVisible(false);
+						Date sDate = Date.valueOf(startDate);
+						Date eDate = Date.valueOf(endDate);
+						List<Report> reports = gcmDAO.getSystemReport(sDate, eDate);
+						ObservableList<CityItem> data = FXCollections.observableArrayList();
+						reports.forEach((report) -> data.add(reportToCityItem(report)));
+	
+						cityResults.setItems(data);
+				   }
 			   }
 
 		  }));

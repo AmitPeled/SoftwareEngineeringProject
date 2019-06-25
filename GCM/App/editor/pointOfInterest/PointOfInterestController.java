@@ -38,7 +38,7 @@ public class PointOfInterestController implements Initializable{
 	Button addEdit;
 	@FXML
 	public ToggleGroup disableOptions;
-	@FXML
+	@FXML 
 	TextField errors;
 	TextFieldUtility utilities;
 	
@@ -88,7 +88,11 @@ public class PointOfInterestController implements Initializable{
 		            		disable = false;
 		            	}
 	            		Site site = new Site(poiName, poiDescription, poiType, disable, coordinates);
-	            		gcmDAO.addNewSiteToCity(cityId, site);
+	            		if(siteId != -1) {
+		            		gcmDAO.addNewSiteToCity(cityId, site);
+	            		}else {
+	            			gcmDAO.UpdateSite(cityId, site);
+	            		}
 	            		System.out.println("Adding site["+coordinates.x+","+coordinates.y+"]: cityId: "+cityId+", name: "+poiName+", type: "+poiType+", description: "+poiDescription);
 	            		gcmClient.back();
 	            	}else {
@@ -103,22 +107,26 @@ public class PointOfInterestController implements Initializable{
 		gcmClient.back(); 
 	}
 	public void init() {
-		System.out.println(cityId);
-		System.out.println(siteId);
+		Site site = gcmDAO.getSiteById(siteId);
 
-//		if(cityId != -1) {
-//			Site site = gcmDAO.getSite(siteId);
-//			name.setText(site.getName());
-//			type.setText(site.getSiteType());
-//			description.setText(site.getDescription());
-//			if(site.isAccessibleForDisabled()) {
-//				disableYes.setSelected(true);
-//				disableNo.setSelected(false);
-//			}else {
-//				disableYes.setSelected(false);
-//				disableNo.setSelected(true);
-//			}
-//		}
+		if(cityId != -1 && site != null) {
+			name.setText(site.getName());
+			type.setText(site.getSiteType());
+			description.setText(site.getDescription());
+			if(site.isAccessibleForDisabled()) {
+				disableYes.setSelected(true);
+				disableNo.setSelected(false);
+			}else {
+				disableYes.setSelected(false);
+				disableNo.setSelected(true);
+			}
+		}else {
+			name.setText("");
+			type.setText("");
+			description.setText("");
+			disableYes.setSelected(false);
+			disableNo.setSelected(true);
+		}
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -127,9 +135,11 @@ public class PointOfInterestController implements Initializable{
 		pointOfInterestListener();		
 	}
 	
-	public void initalizeControl(int cityId, double widthLocation, double heightLocation) {
+	public void initalizeControl(int cityId, int siteId, double widthLocation, double heightLocation) {
 		this.cityId = cityId;
+		this.siteId = siteId;
 		this.coordinates = new Coordinates(widthLocation,heightLocation);
+		init();
 	}
 
 }

@@ -131,20 +131,22 @@ public class UserDetailsPresentationController implements Initializable {
 
 	public void setDeteails() {
 		user = gcmClient.getUserInfo().getUserDetailes();
-		nametf.setText(user.getFirstName());
-		lastnametf.setText(user.getLastName());
-		emailtf.setText(user.getEmail());
-		phonenumbertf.setText(user.getPhoneNumber());
-		usernametf.setText(user.getUsername());
-
-		List<PurchaseHistory> purchaseHistories = gcmClient.getDataAccessObject().getPurchaseHistory();
-		List<String> cityPurchaseStrings = new ArrayList<>();
-		purchaseHistories.forEach((purchaseHistory) -> {
-			cityPurchaseStrings.add(purchaseHistory.toString());
-			System.out.println(purchaseHistory.toString());
-		});
-		ObservableList<String> list = FXCollections.observableArrayList(cityPurchaseStrings);
-		listviewLV.setItems(list);
+		if(user != null) {
+			nametf.setText(user.getFirstName());
+			lastnametf.setText(user.getLastName());
+			emailtf.setText(user.getEmail());
+			phonenumbertf.setText(user.getPhoneNumber());
+			usernametf.setText(user.getUsername());
+	
+			List<PurchaseHistory> purchaseHistories = gcmClient.getDataAccessObject().getPurchaseHistory();
+			List<String> cityPurchaseStrings = new ArrayList<>();
+			purchaseHistories.forEach((purchaseHistory) -> {
+				cityPurchaseStrings.add(purchaseHistory.toString());
+				System.out.println(purchaseHistory.toString());
+			});
+			ObservableList<String> list = FXCollections.observableArrayList(cityPurchaseStrings);
+			listviewLV.setItems(list);
+		}
 	}
 
 	@Override

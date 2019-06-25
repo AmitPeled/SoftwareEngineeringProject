@@ -117,7 +117,7 @@ public class ListViewController implements Initializable
 		searchBtn.setOnMouseClicked((new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) { 
-	            	
+	            	cityInfo.setText("");
 	            	String searchText = searchBar.getText();
 	            	listView.setItems(null);
 	            	if(searchText != null && !searchText.isEmpty()) {
@@ -208,7 +208,9 @@ public class ListViewController implements Initializable
 		editPrice.setVisible(false);
 		RequestState userState = gcmClient.getUserInfo().getState();
 		permissionsForMap = false;
-		// permissionsForMap = gcmClient.getDataAccessObject().notifyMapView()
+		
+		permissionsForMap = gcmClient.getDataAccessObject().notifyMapView();
+				
 		if(userState == RequestState.customer && !permissionsForMap) {
 			buySubscriptionBtn.setVisible(true);
 		}else if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
@@ -242,12 +244,12 @@ public class ListViewController implements Initializable
     @FXML
     public void onAddNewMap() {
     	if (currentCity == null) return; 
-    		gcmClient.switchSceneToAddMap(currentCity.getId());
+    		gcmClient.switchSceneToAddMap(currentCity.getId(), -1);
     }
     @FXML
     public void onBuySubscription() {
     	if (currentCity == null) return; 
-    		gcmClient.switchSceneToAddMap(currentCity.getId());
+    		gcmClient.switchSceneToBuySubscription(currentCity.getId());
     }
     @FXML
     public void onBack() {gcmClient.back();}
@@ -259,5 +261,14 @@ public class ListViewController implements Initializable
 	public void goToMap(int mapId) {
 		System.out.println("Going to map: " + mapId);
 		gcmClient.loadMapDisplay(mapId);
+	}
+	public void initalizeControl() {
+    	listView.setItems(null);
+    	cityInfo.setText("");
+    	searchBar.setText("");
+    	siteBar.setVisible(false);
+    	editPrice.setVisible(false);
+    	buySubscriptionBtn.setVisible(false);
+		addNewMapBtn.setVisible(false);
 	}
 }

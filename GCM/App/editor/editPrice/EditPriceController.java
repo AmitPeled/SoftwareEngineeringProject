@@ -51,7 +51,7 @@ public class EditPriceController implements Initializable
 			TextFieldUtility utilities) {
 		this.gcmClient = gcmClient;
 		this.contentManagerDAO = contentManagerDAO;
-		this.cityId = 1;
+		this.cityId = -1;
 		this.utilities = utilities;
 	}
 	 
@@ -99,14 +99,13 @@ public class EditPriceController implements Initializable
 		City currCity = gcmClient.getDataAccessObject().getCity(cityId);
 		if(currCity != null) {
 			List<Double> pricesList = currCity.getPrices();
-			int i = 1;
+			System.out.println(pricesList);
+			int i = 0;
 			for (TextField textField : textFieldsList) {
-				for (Double currPrice : pricesList) {
-					//now all relevant prices can be retrieved by 
-					String price = Double.toString(currPrice);
-					textField.setText(price);
-					i++;
-				}
+				//now all relevant prices can be retrieved by 
+				String price = Double.toString(pricesList.get(i));
+				textField.setText(price);
+				i++;
 			}
 		}
 	}
@@ -123,5 +122,6 @@ public class EditPriceController implements Initializable
 
 	public void initalizeControl(int cityId) {
 		this.cityId = cityId;
+		initPrices();
 	}
 }

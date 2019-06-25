@@ -70,13 +70,15 @@ public interface GcmClient {
 	 */
 	GcmDAO getDataAccessObject();
 
-	void switchSceneToAddSite(int cityId, double widthLocation, double heightLocation);
+	void switchSceneToAddSite(int cityId, int siteId, double widthLocation, double heightLocation);
 
+	void switchSceneToSearch();
+	
 	void switchSceneToEditPrice(int cityId);
 
 	void switchSceneToCustomerReport();
 	
-	void switchSceneToAddMap(int cityId);
+	void switchSceneToAddMap(int cityId,int mapId);
 	
 	void switchSceneToBuySubscription(int cityId);
 	

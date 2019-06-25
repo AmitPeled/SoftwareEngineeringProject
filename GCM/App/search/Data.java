@@ -30,7 +30,7 @@ public class Data
 	private Button goTo;
 	
 	private ListViewController listViewController;
-	Boolean permissionsForMap;
+	Boolean permissionsForMap; 
 	
     public Data(ListViewController listViewController, RequestState userState, Boolean permissionsForMap){ 
         this.listViewController = listViewController;

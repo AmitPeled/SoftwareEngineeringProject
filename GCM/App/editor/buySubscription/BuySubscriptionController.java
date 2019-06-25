@@ -1,6 +1,7 @@
 package editor.buySubscription;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import dataAccess.users.PurchaseDetails;
@@ -16,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import mainApp.GcmClient;
+import maps.City;
 import utility.TextFieldUtility;
 
 
@@ -64,24 +66,26 @@ public class BuySubscriptionController implements Initializable
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String newMonth) {
 				String currentPrice = "0";
+				City currCity = gcmDAO.getCity(cityId);
+				List<Double> prices = currCity.getPrices();
 				switch(newMonth) {
 				  case "1":
-					  currentPrice = "10$";
+					  currentPrice = Double.toString(prices.get(1));
 					  break;
 				  case "2":
-					  currentPrice = "10$";
+					  currentPrice = Double.toString(prices.get(2));
 					  break;
 				  case "3":
-					  currentPrice = "10$";
+					  currentPrice = Double.toString(prices.get(3));
 					  break;
 				  case "4":
-					  currentPrice = "10$";
+					  currentPrice = Double.toString(prices.get(4));
 					  break;
 				  case "5":
-					  currentPrice = "10$";
+					  currentPrice = Double.toString(prices.get(5));
 					  break;
 				  case "6":
-					  currentPrice = "10$";
+					  currentPrice = Double.toString(prices.get(6));
 					  break;
 				  default:
 				}

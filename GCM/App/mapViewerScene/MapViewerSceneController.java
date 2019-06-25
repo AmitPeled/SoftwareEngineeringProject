@@ -154,17 +154,17 @@ public class MapViewerSceneController implements Initializable{
 		double widthLocation = mapViewer.getMapClickCoordinates().x * mapViewer.getImageWorldWidth();
 		double heightLocation = mapViewer.getMapClickCoordinates().y * mapViewer.getImageWorldHeight();
 		System.out.println("Adding site to "+ widthLocation + ","+heightLocation);
-		gcmClient.switchSceneToAddSite(cityId,
+		gcmClient.switchSceneToAddSite(cityId, -1,
 				widthLocation,
 				heightLocation); 
 	}
 	
 	@FXML
-	public void onEditSite() {
+	public void onEditSite() { 
 		Site site = sideMenuController.getSelectedSite();
 
 		if(site == null) return;
-		gcmClient.switchSceneToAddSite(cityId,
+		gcmClient.switchSceneToAddSite(cityId, site.getId(),
 				site.getCoordinates().getX(),
 				site.getCoordinates().getY()); 
 	}
@@ -201,7 +201,7 @@ public class MapViewerSceneController implements Initializable{
 	
 	@FXML
 	public void onEditMap() {
-		gcmClient.switchSceneToAddMap(cityId);
+		gcmClient.switchSceneToAddMap(cityId, mapId);
 	}
 	@FXML
 	public void onDeleteMap() {
