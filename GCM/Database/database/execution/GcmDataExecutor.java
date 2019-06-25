@@ -342,7 +342,7 @@ public class GcmDataExecutor implements
 	 public boolean hadPurchasedCityInPast(int cityId, String username) throws SQLException {
 		 return  queryExecutor.betweenDatesAnd2Conditions(
 		            DatabaseMetaData.getTableName(Tables.purchaseHistory), "*", new Date(0), "occurrenceDate",
-		                      new java.sql.Date(Calendar.getInstance().getTime().getTime()),"cityId", "username",cityId,username)).isEmpty();
+		                      new java.sql.Date(Calendar.getInstance().getTime().getTime()),"cityId", "username",cityId,username).isEmpty();
 	 }
 
 	 @Override
