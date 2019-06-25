@@ -151,4 +151,6 @@ public interface IGcmDataExecute {
 
 	 boolean ownActiveSubsicription(int i, String username) throws SQLException;
 
+	 boolean hadPurchasedCityInPast(int i, String username) throws SQLException;
+
 }
