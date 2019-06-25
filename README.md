@@ -13,7 +13,7 @@ Software engineering course final project.
 - [ ] **Adding a map to the city - DB exception**
 - [x] Adding a site to a city 
 - [ ] **Editing a site to a city - Not working. Simply adding another site and not removing the older one**
-- [x] Deleting a site to a city
+- [x] Deleting a site to a city - **It used to work but now we get server exceptions**
 - [ ] Creating a tour - **Not working. Not showing the available sites**
 - [ ] Editing a tour - **Not working**
 - [ ] Editing prices - **Not updating the database. Also not showing current prices**
