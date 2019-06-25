@@ -16,7 +16,7 @@ Software engineering course final project.
 - [x] Deleting a site to a city
 - [ ] Creating a tour - **Not working. Not showing the available sites**
 - [ ] Editing a tour - **Not working**
-- [ ] Editing prices - **Not showing current prices**
+- [ ] Editing prices - **Not updating the database. Also not showing current prices**
 
 ## Purchasing - Not working
 - [ ] Allow one-time purchasing of maps - **Not working. Doesn't show the purchase button**
