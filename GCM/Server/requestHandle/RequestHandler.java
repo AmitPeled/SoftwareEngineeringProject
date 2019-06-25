@@ -32,7 +32,7 @@ public class RequestHandler implements IHandleRequest {
 
 	 @SuppressWarnings("unchecked")
 	 @Override
-	 public ResponseObject handleRequest(RequestObject requestObject) { 
+	 public ResponseObject handleRequest(RequestObject requestObject) {
 		  List<Object> listToSend = new ArrayList<Object>();
 		  GcmQuery query = requestObject.getQuery();
 		  String username = requestObject.getUname(), password = requestObject.getPass();
@@ -119,7 +119,7 @@ public class RequestHandler implements IHandleRequest {
 							            (java.sql.Date) listObjectReceived.get(0),
 							            (java.sql.Date) listObjectReceived.get(1));
 							  break;
-						 case getUserReport: 
+						 case getUserReport:
 							  listToSend.add(gcmDataExecutor.getUserReport((java.sql.Date) listObjectReceived.get(0),
 							            (java.sql.Date) listObjectReceived.get(1), (String) listObjectReceived.get(2)));
 							  break;
@@ -145,9 +145,22 @@ public class RequestHandler implements IHandleRequest {
 						 case getActiveCitiesPurchases:
 							  listToSend = (List<Object>) (Object) gcmDataExecutor.getPurchasedMaps(username);
 							  break;
-						 case purchaseCity:
+						 case purchaseCitySubscription:
 							  listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),
 							            (int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2),
+							            username));
+							  break;
+						 case purchaseCityOneTime:
+							  listToSend = (List<Object>) (Object) gcmDataExecutor.purchaseCityOneTime(
+							            (int) listObjectReceived.get(0), (PurchaseDetails) listObjectReceived.get(1),
+							            username);
+							  break;
+						 case repurchaseSubsriptionToCity:
+							  listToSend.add(gcmDataExecutor.repurchaseMembershipBySavedDetails(
+							            (int) listObjectReceived.get(0), (int) listObjectReceived.get(1), username));
+							  break;
+						 case ownActiveSubsicription:
+							  listToSend.add(gcmDataExecutor.ownActiveSubsicription((int) listObjectReceived.get(0),
 							            username));
 							  break;
 						 case addExistingSiteToTour:
@@ -169,18 +182,13 @@ public class RequestHandler implements IHandleRequest {
 						 case notifyMapView:
 							  listToSend.add(gcmDataExecutor.notifyMapView(username, (int) listObjectReceived.get(0)));
 							  break;
-						 case purchaseMembershipToCity:
-							  listToSend.add(gcmDataExecutor.purchaseCity((int) listObjectReceived.get(0),
-							            (int) listObjectReceived.get(1), (PurchaseDetails) listObjectReceived.get(2),
-							            username));
-							  break;
 						 case deleteSiteFromMap:
 							  gcmDataExecutor.deleteSiteFromMapEdit((int) listObjectReceived.get(0),
 							            (int) listObjectReceived.get(1));
 							  break;
 						 case deleteSiteFromTour:
 							  gcmDataExecutor.deleteSiteFromTourEdit((int) listObjectReceived.get(0),
-										(int) listObjectReceived.get(1));
+							            (int) listObjectReceived.get(1));
 							  break;
 						 case deleteCity:
 							  gcmDataExecutor.deleteCityEdit((int) listObjectReceived.get(0));
@@ -329,7 +337,7 @@ public class RequestHandler implements IHandleRequest {
 					          || userType == RequestState.generalManager;
 			   case getActiveCitiesPurchases:
 					return userType == RequestState.customer;
-			   case purchaseCity:
+			   case purchaseCitySubscription:
 					return userType == RequestState.customer;
 			   case addNewTourToCity:
 					return userType == RequestState.editor || userType == RequestState.contentManager

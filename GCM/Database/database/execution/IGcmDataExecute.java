@@ -149,4 +149,6 @@ public interface IGcmDataExecute {
 
 	 Site getSite(int siteId) throws SQLException;
 
+	 boolean ownActiveSubsicription(int i, String username) throws SQLException;
+
 }

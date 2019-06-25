@@ -6,7 +6,7 @@ public enum GcmQuery implements Serializable {
 
 	 addCustomer, verifyUser, addMap, deleteMap, getMapDetails, getMapFile, addCity, deleteCity, addNewSiteToCity,
 	 addExistingSiteToMap, deleteSiteFromMap, getMapsByCityName, getMapsBySiteName, getMapsByDescription,
-	 getUserDetails, getCityByMapId, purchaseCity, getActiveCitiesPurchases, downloadMap, addNewTourToCity,
+	 getUserDetails, getCityByMapId, purchaseCitySubscription, getActiveCitiesPurchases, downloadMap, addNewTourToCity,
 	 addExistingTourToMap, addExistingSiteToTour, getCitySites, purchaseMembershipToCity, getToursDeleteEdits,
 	 getToursUpdateEdits, getToursAddEdits, getToursObjectAddedTo, getCitiesObjectAddedTo, getMapsObjectAddedTo,
 	 getSitesAddEdits, getCitiesDeleteEdits, getCitiesUpdateEdits, getCitiesAddEdits, getSitesDeleteEdits,
@@ -18,5 +18,5 @@ public enum GcmQuery implements Serializable {
 	 UpdateSite, deleteCityEdit, updateCity, changeCityPrices, getPriceSubmissions, approveCityPrice,
 	 getPurchaseHistory, getCity, logout, getTour, getCitySubmissions, editUsersWithNewPassword,
 	 getMapsBySiteAndCityNames, editUsersWithoutNewPassword, getSystemReport, getCityReport, getUserReports,
-	 getUserReport, getSiteById, deleteSiteFromTour
+	 getUserReport, getSiteById, deleteSiteFromTour, purchaseCityOneTime, repurchaseSubsriptionToCity, ownActiveSubsicription
 }

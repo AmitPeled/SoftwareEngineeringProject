@@ -46,12 +46,12 @@ public interface CustomerDAO {
 	 * 
 	 * @return false for invalid purchase details
 	 */
-	boolean repurchaseMembership(PurchaseDetails purchaseDetails);
+//	boolean repurchaseMembership(PurchaseDetails purchaseDetails);
 
 	/**
 	 * @return false if no valid user purchase details are stored in the database.
 	 */
-	boolean repurchaseMembershipBySavedDetails();
+	boolean repurchaseSubsriptionToCity();
 
 	/**
 	 * @return if user has access to view the map and update the system in
@@ -73,5 +73,7 @@ public interface CustomerDAO {
 RequestState updateUser(User user, String newPassword);
 
 RequestState updateUser(User user);
+
+boolean ownActiveSubsicription(int cityId);
 
 }

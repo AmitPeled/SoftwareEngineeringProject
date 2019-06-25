@@ -817,16 +817,39 @@ public class GcmDAO
 		  }
 	 }
 
+//	 @Override
+//	 public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
+//		  // TODO Auto-generated method stub
+//		  return false;
+//	 }
+
+	 /*
+	  * by last purchase details saved in system
+	  */
 	 @Override
-	 public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
-		  // TODO Auto-generated method stub
-		  return false;
+	 public boolean repurchaseSubsriptionToCity() {
+		  try {
+			   ResponseObject responseObject = send(new RequestObject(GcmQuery.repurchaseSubsriptionToCity,
+			             new ArrayList<Object>(), username, password));
+			   return (boolean) responseObject.getResponse().get(0);
+		  } catch (Exception e) {
+			   return false;
+		  }
 	 }
 
 	 @Override
-	 public boolean repurchaseMembershipBySavedDetails() {
-		  // TODO Auto-generated method stub
-		  return false;
+	 public boolean ownActiveSubsicription(int cityId) {
+		  try {
+			   ResponseObject responseObject = send(
+			             new RequestObject(GcmQuery.ownActiveSubsicription, new ArrayList<Object>() {
+					          {
+						           add(cityId);
+					          }
+			             }, username, password));
+			   return (boolean) responseObject.getResponse().get(0);
+		  } catch (Exception e) {
+			   return false;
+		  }
 	 }
 
 	 @Override
