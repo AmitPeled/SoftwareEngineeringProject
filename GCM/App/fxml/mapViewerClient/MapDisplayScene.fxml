@@ -19,21 +19,7 @@
    <children>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="795.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="editMap" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditMap" text="Edit map">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="deleteMap" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onDeleteMap" text="Delete map">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin></Button>
             <Button fx:id="addSite" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddSite" text="Add Site">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="editSite" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditSite" text="Edit Site">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
@@ -43,19 +29,6 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="addTour" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddTour" text="Add Tour">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="editTour" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onEditTour" text="Edit Tour">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin></Button>
-            <Button fx:id="deleteTour" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onDeleteTour" text="Delete Tour">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin></Button>
             <Button fx:id="backBtn" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onBack" text="Back">
                <HBox.margin>
                   <Insets left="30.0" />

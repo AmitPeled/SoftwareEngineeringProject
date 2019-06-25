@@ -116,13 +116,13 @@ public class MapViewerSceneController implements Initializable{
 		RequestState userState = gcmClient.getUserInfo().getState();
 		if(userState.equals(RequestState.editor) || userState.equals(RequestState.contentManager) || userState.equals(RequestState.generalManager) || userState.equals(RequestState.manager)) {
 			addSite.setVisible(true);
-			editSite.setVisible(true);
+			//editSite.setVisible(true);
 			deleteSite.setVisible(true);
-			addTour.setVisible(true);
-			editTour.setVisible(true);
-			deleteTour.setVisible(true);
-			editMap.setVisible(true);
-			deleteMap.setVisible(true);
+			//addTour.setVisible(true);
+			//editTour.setVisible(true);
+			//deleteTour.setVisible(true);
+			//editMap.setVisible(true);
+			//deleteMap.setVisible(true);
 		}
 	}
 	private List<Tour> fetchTours(List<Site> sitesInTour) {
@@ -181,7 +181,6 @@ public class MapViewerSceneController implements Initializable{
 	@FXML
 	public void onAddTour() {
 		Tour tour = new Tour(null);
-		if(tour == null) return;
 		gcmClient.switchSceneToTour(cityId, mapId, tour);
 	}
 	@FXML
@@ -231,12 +230,12 @@ public class MapViewerSceneController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		addSite.setVisible(false);
-		editSite.setVisible(false);
+		//editSite.setVisible(false);
 		deleteSite.setVisible(false);
-		addTour.setVisible(false);
-		editTour.setVisible(false);
-		deleteTour.setVisible(false);
-		editMap.setVisible(false);
-		deleteMap.setVisible(false);
+		//addTour.setVisible(false);
+		//editTour.setVisible(false);
+		//deleteTour.setVisible(false);
+		//editMap.setVisible(false);
+		//deleteMap.setVisible(false);
 	}
 }
