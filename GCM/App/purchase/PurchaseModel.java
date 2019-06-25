@@ -1,5 +1,6 @@
 package purchase;
 
+import dataAccess.users.PurchaseDetails;
 import mainApp.GcmClient;
 import mainApp.SceneNames;
 
@@ -20,6 +21,11 @@ public class PurchaseModel {
 	
 	public void back() {
 		gcmClient.back();
+	}
+	
+	public void purchase(int cityId,int timeInterval, PurchaseDetails purchaseDetails) {
+		gcmClient.getDataAccessObject().purchaseCity(cityId, timeInterval, purchaseDetails);
+		System.out.println("purchase command has been send");
 	}
 
 	

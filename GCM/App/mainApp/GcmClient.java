@@ -77,10 +77,12 @@ public interface GcmClient {
 	void switchSceneToEditPrice(int cityId);
 
 	void switchSceneToCustomerReport();
-	
-	void switchSceneToAddMap(int cityId,int mapId);
-	
+
+	void switchSceneToAddMap(int cityId);
+
 	void switchSceneToBuySubscription(int cityId);
-	
+
 	void switchSceneToTour(int cityId, int mapId, Tour tour);
+
+	void switchSceneToPurchase(int cityId,int timeInterval);
 }
