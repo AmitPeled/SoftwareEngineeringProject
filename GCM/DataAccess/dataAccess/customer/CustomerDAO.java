@@ -51,7 +51,7 @@ public interface CustomerDAO {
 	/**
 	 * @return false if no valid user purchase details are stored in the database.
 	 */
-	boolean repurchaseSubsriptionToCity();
+	boolean repurchaseSubsriptionToCity(int cityId);
 
 	/**
 	 * @return if user has access to view the map and update the system in

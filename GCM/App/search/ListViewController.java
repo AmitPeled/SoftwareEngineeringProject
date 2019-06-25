@@ -132,7 +132,7 @@ public class ListViewController implements Initializable
 		            		String siteText = siteBar.getText();
 		            		currentCity = gcmDAO.getMapsBySiteAndCityNames(searchText, siteText);
 		            	} 
-		            	permissionsForMap = gcmClient.getDataAccessObject().ownSubscriptionToCity(cityId);
+		            	permissionsForMap = gcmClient.getDataAccessObject().ownActiveSubsicription(cityId);
 		            		if(!permissionsForMap) {
 			            		cityInfo.setText("No subscription for this city!");
 		            		}else {
@@ -214,8 +214,8 @@ public class ListViewController implements Initializable
 		RequestState userState = gcmClient.getUserInfo().getState();
 		permissionsForMap = false;
 		
-		permissionsForMap = gcmClient.getDataAccessObject().ownSubscriptionToCity(cityId);
-				
+		permissionsForMap = gcmClient.getDataAccessObject().ownActiveSubsicription(cityId);
+		
 		if(userState == RequestState.customer && !permissionsForMap) {
 			buySubscriptionBtn.setVisible(true);
 		}else if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){

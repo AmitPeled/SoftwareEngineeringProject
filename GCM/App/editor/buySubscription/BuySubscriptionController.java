@@ -53,7 +53,11 @@ public class BuySubscriptionController implements Initializable
 	            		// add the correct pruchase details
 	            		PurchaseDetails purchaseDetails = new PurchaseDetails("1","2","3","4", "eli", "agami");
 	            		// need to insert cityId to buy membership to
-	            		gcmDAO.purchaseCity(cityId, Integer.parseInt(monthPickerValue), purchaseDetails);
+//	            		if(check if subscritpion exist) {
+//		            		gcmDAO.purchaseCity(cityId, Integer.parseInt(monthPickerValue), purchaseDetails);
+//	            		}else {
+//		            		gcmDAO.repurchaseSubsriptionToCity(cityId);
+//	            		}
 	            		gcmClient.back();
 	            	}
 	            }

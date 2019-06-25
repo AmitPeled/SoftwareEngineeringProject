@@ -88,7 +88,11 @@ public class AddMapController implements Initializable
 		            		if(file != null) {
 		            			errors.setVisible(false);
 			            		Map newMap = new Map(name, description, Float.parseFloat(mapWidth), Float.parseFloat(mapHeight), new Coordinates(Float.parseFloat(xCoordinates), Float.parseFloat(yCoordinates)));
-			            		gcmDAO.addMapToCity(cityId, newMap, file);
+			            		if(mapId != -1) {
+			            			gcmDAO.addMapToCity(cityId, newMap, file);
+			            		}else {
+			            			gcmDAO.updateMap(cityId, newMap);
+			            		}
 			            		gcmClient.back();
 		            		}else {
 		            			utilities.setErrors("No file added", errors);
