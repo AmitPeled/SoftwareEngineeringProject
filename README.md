@@ -18,9 +18,9 @@ Software engineering course final project.
 - [ ] Editing a tour - **Not working**
 - [ ] Editing prices - **Not showing current prices**
 
-## Purchasing - Not working because button leads to wrong scene
-- [ ] Allow one-time purchasing of maps
-- [ ] Allow subscription purchasing
+## Purchasing - Not working
+- [ ] Allow one-time purchasing of maps - **Not working. Doesn't show the purchase button**
+- [ ] Allow subscription purchasing - **Not working. Takes you to the add map screen(?!)**
 
 # Tasks
 ## Search
