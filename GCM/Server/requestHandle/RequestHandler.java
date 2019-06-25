@@ -178,6 +178,10 @@ public class RequestHandler implements IHandleRequest {
 							  gcmDataExecutor.deleteSiteFromMapEdit((int) listObjectReceived.get(0),
 							            (int) listObjectReceived.get(1));
 							  break;
+						 case deleteSiteFromTour:
+							  gcmDataExecutor.deleteSiteFromTourEdit((int) listObjectReceived.get(0),
+										(int) listObjectReceived.get(1));
+							  break;
 						 case deleteCity:
 							  gcmDataExecutor.deleteCityEdit((int) listObjectReceived.get(0));
 							  break;

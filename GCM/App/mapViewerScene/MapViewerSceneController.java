@@ -214,7 +214,7 @@ public class MapViewerSceneController implements Initializable{
 		if (alert.getResult() == ButtonType.YES) {
 			switch(type) {
 			case "map":
-				gcmClient.getDataAccessObject().deleteContent(mapId);
+				gcmClient.getDataAccessObject().deleteMap(mapId);
 				break;
 			case "tour":
 				gcmClient.getDataAccessObject().deleteTourFromMap(mapId, tourId);

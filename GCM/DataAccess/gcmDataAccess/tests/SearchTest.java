@@ -48,14 +48,14 @@ public class SearchTest {
 
 	@BeforeEach
 	void deleteInsertions() {
-		gcmDAO.deleteContent(mapId);
+		gcmDAO.deleteMap(mapId);
 		mapId = editorDAO.addMapToCity(cityId, new Map(12f, 8.4f), new File("import\\resources\\Gta3_map.gif"));
 		editorDAO.addExistingSiteToMap(mapId, siteId);
 	}
 
 	@AfterAll
 	static void eraseAll() {
-		gcmDAO.deleteContent(mapId);
+		gcmDAO.deleteMap(mapId);
 		// cityId
 
 	}
