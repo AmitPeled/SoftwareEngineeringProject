@@ -468,28 +468,19 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public int tourManager(int cityId, Tour tour) {
+	 public int tourManager(int cityId, Tour tour, List<Site> tempSitesList, List<Integer> tempSitesTimeEstimation) {
 		  int tourId = tour.getId();
+		  
 		  // check if tour existing if so add new tour
 		  if (tour.getId() == -1) {
 			   tourId = addNewTourToCity(cityId, tour);
 		  }else {
 			  updateTour(tour.getId(), tour);
 		  }
-
+		  System.out.println(tour.getSites());
 		  // add places to tour
-		  List<Site> sitesList = tour.getSites();
-		  List<Integer> sitesTimeEstimationList = tour.getSitesTimeToVisit();
-		  int numberOfLastAddedPlaces = tour.getNumberOfLastAddedPlaces();
-		  int startingIndex = 0;
-		  if (numberOfLastAddedPlaces != 0) {
-			   startingIndex = sitesList.size() - numberOfLastAddedPlaces + 1;
-		  }
-
-		  for (int i = startingIndex; i < sitesList.size(); i++) {
-			  if(i >= 0) {
-			   addExistingSiteToTour(tourId, sitesList.get(i).getId(), sitesTimeEstimationList.get(i));
-			  }
+		  for (int i = 0; i < tempSitesList.size(); i++) {
+			  addExistingSiteToTour(tourId, tempSitesList.get(i).getId(), tempSitesTimeEstimation.get(i));
 		  }
 
 		  return 0;

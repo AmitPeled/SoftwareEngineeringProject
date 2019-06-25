@@ -60,8 +60,8 @@ public interface EditorDAO {
 
 	public void deleteSiteFromTour(int mapId, int siteId);
 
-	public int tourManager(int cityId, Tour tour);
-	
+	public int tourManager(int cityId, Tour tour, List<Site> tempSitesList, List<Integer> tempSitesTimeEstimation);
+
 	void updateCity(int cityId, City city); 
 	void deleteCityEdit(int cityId); 
 	void UpdateSite(int siteId, Site newSite); 

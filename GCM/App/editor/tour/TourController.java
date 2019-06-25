@@ -2,6 +2,7 @@ package editor.tour;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,6 +51,8 @@ public class TourController  implements Initializable {
 	int mapId;
 	TextFieldUtility utilities;
 	GcmClient gcmClient;
+	List<Site> tempTourSites;
+	List<Integer> tempSitesTimeToVisit;
 	
 	public TourController(GcmClient gcmClient, int cityId, int mapId, Tour tour, TextFieldUtility utilities) {
 		this.gcmClient = gcmClient;
@@ -61,6 +64,8 @@ public class TourController  implements Initializable {
 		tourSites = tour.getSites();
 		sitesTimeToVisit = tour.getSitesTimeToVisit();
 		this.utilities = utilities;
+		tempTourSites = new ArrayList<Site>();
+		tempSitesTimeToVisit = new ArrayList<Integer>();
 	}
 	public void addPlaceListener() {	
 		addNewPlace.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -73,10 +78,12 @@ public class TourController  implements Initializable {
 		            	 String time = timeEstimation.getText();
 	            		 if(time != null && !time.isEmpty()){
 	            			 
-	 	            			if(!tour.checkIfSiteExist(sitesPickerValue)) {
+	 	            			if(!tour.checkIfSiteExist(sitesPickerValue) && utilities.isNumeric(time)) {
 		 	            			errors.setVisible(false);
 		 	            			tourSites.add(sitesPickerValue);
 		 		            		sitesTimeToVisit.add(Integer.parseInt(time));
+		 		            		tempSitesTimeToVisit.add(Integer.parseInt(time));
+		 		            		tempTourSites.add(sitesPickerValue);
 		 		            		data.add(sitesPickerValue.getName() + " - " + time + " hours");
 		 		            		listOfSites.setItems(data);
 		 		            		
@@ -107,13 +114,17 @@ public class TourController  implements Initializable {
 	            	
 	            	if(tourDescription != null && !tourDescription.isEmpty()) {
 	            		errors.setVisible(false);
+            			Tour newTour = new Tour(tourDescription);
+
+	            		if(tourId != -1) {
+	            			newTour = new Tour(tourId, tourDescription, tourSites, sitesTimeToVisit);
+	            		}else {
+	            			newTour.setSites(tourSites);
+	            			newTour.setSitesTimeToVisit(sitesTimeToVisit);
+	            			newTour.setNumberOfLastAddedPlaces(counterOfAddedPlaces);
+	            		}
 	            		
-	            		Tour newTour = new Tour(tourDescription);
-	            		newTour.setSites(tourSites);
-	            		newTour.setSitesTimeToVisit(sitesTimeToVisit);
-	            		newTour.setNumberOfLastAddedPlaces(counterOfAddedPlaces);
-	            		
-	            		gcmDAO.tourManager(cityId, newTour);
+	            		gcmDAO.tourManager(cityId, newTour, tempTourSites, tempSitesTimeToVisit);
 	            		gcmClient.back();
 	            	}else{
             			utilities.setErrors("Please add a tour description!", errors);
@@ -161,7 +172,6 @@ public class TourController  implements Initializable {
 			sitesPicker.setItems(FXCollections.observableArrayList(exisitingSites));
 			if(tour.getId() != -1) {
 				description.setText(tour.getDescription());
-				
 				// set list of existing sites on tour
 				int index = 0;
 				for (Site site : tourSites) {
@@ -192,6 +202,10 @@ public class TourController  implements Initializable {
 		this.cityId = cityId;
 		tourSites = tour.getSites();
 		sitesTimeToVisit = tour.getSitesTimeToVisit();
+		counterOfAddedPlaces = 0;
+		tempTourSites = new ArrayList<Site>();
+		tempSitesTimeToVisit = new ArrayList<Integer>();
+		listOfSites.setItems(null);
 		initData();
 	}
 }
