@@ -209,7 +209,7 @@ public class ListViewController implements Initializable
 		RequestState userState = gcmClient.getUserInfo().getState();
 		permissionsForMap = false;
 		
-		//permissionsForMap = gcmClient.getDataAccessObject().notifyMapView();
+		permissionsForMap = gcmClient.getDataAccessObject().notifyMapView();
 				
 		if(userState == RequestState.customer && !permissionsForMap) {
 			buySubscriptionBtn.setVisible(true);
