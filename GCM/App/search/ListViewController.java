@@ -132,34 +132,39 @@ public class ListViewController implements Initializable
 		            		String siteText = siteBar.getText();
 		            		currentCity = gcmDAO.getMapsBySiteAndCityNames(searchText, siteText);
 		            	} 
-			            	if(currentCity != null) {
-				        		List<Map> resultList = currentCity.getMaps();
-				            	List<MapItem> mapItemsListResults = parseResultSet(resultList);
-				            	
-				            	if(mapItemsListResults.isEmpty()) {
-				            		System.out.println("NO MAPS FOUND");
-				            		listView.setItems(null);
-				            		addNewMapBtn.setVisible(false);
-				            		buySubscriptionBtn.setVisible(false);
-		
-				            		RequestState userState = gcmClient.getUserInfo().getState();
-				            		if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
-				            			addNewMapBtn.setVisible(true);
-				            		}
-				            		
-				            	}else {
-				            		cityInfo.setText("City name: " + currentCity.getName() + "    Description: "+ currentCity.getDescription());
-				                	cityId = currentCity.getId();
-		
-				            		ObservableList<MapItem> data = FXCollections.observableArrayList();
-					            	for (MapItem item : mapItemsListResults) 
-					            	{ 
-					            		 data.add(item);
+		            	permissionsForMap = gcmClient.getDataAccessObject().ownSubscriptionToCity(cityId);
+		            		if(!permissionsForMap) {
+			            		cityInfo.setText("No subscription for this city!");
+		            		}else {
+				            	if(currentCity != null) {
+					        		List<Map> resultList = currentCity.getMaps();
+					            	List<MapItem> mapItemsListResults = parseResultSet(resultList);
+					            	
+					            	if(mapItemsListResults.isEmpty()) {
+					            		System.out.println("NO MAPS FOUND");
+					            		listView.setItems(null);
+					            		addNewMapBtn.setVisible(false);
+					            		buySubscriptionBtn.setVisible(false);
+			
+					            		RequestState userState = gcmClient.getUserInfo().getState();
+					            		if(userState == RequestState.editor || userState == RequestState.contentManager || userState == RequestState.generalManager || userState == RequestState.manager){
+					            			addNewMapBtn.setVisible(true);
+					            		}
+					            		
+					            	}else {
+					            		cityInfo.setText("City name: " + currentCity.getName() + "    Description: "+ currentCity.getDescription());
+					                	cityId = currentCity.getId();
+			
+					            		ObservableList<MapItem> data = FXCollections.observableArrayList();
+						            	for (MapItem item : mapItemsListResults) 
+						            	{ 
+						            		 data.add(item);
+						            	}
+						                listView.setItems(data);
+						                permissions();
 					            	}
-					                listView.setItems(data);
-					                permissions();
 				            	}
-			            	}
+		            		}
 		            	}else {
 		            		listView.setItems(null);
 		            		addNewMapBtn.setVisible(false);
@@ -209,7 +214,7 @@ public class ListViewController implements Initializable
 		RequestState userState = gcmClient.getUserInfo().getState();
 		permissionsForMap = false;
 		
-		permissionsForMap = gcmClient.getDataAccessObject().notifyMapView();
+		permissionsForMap = gcmClient.getDataAccessObject().ownSubscriptionToCity(cityId);
 				
 		if(userState == RequestState.customer && !permissionsForMap) {
 			buySubscriptionBtn.setVisible(true);
