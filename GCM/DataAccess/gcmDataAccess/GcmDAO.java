@@ -817,20 +817,15 @@ public class GcmDAO
 		  }
 	 }
 
-//	 @Override
-//	 public boolean repurchaseMembership(PurchaseDetails purchaseDetails) {
-//		  // TODO Auto-generated method stub
-//		  return false;
-//	 }
-
-	 /*
-	  * by last purchase details saved in system
-	  */
 	 @Override
-	 public boolean repurchaseSubsriptionToCity() {
+	 public boolean repurchaseSubscriptionToCity(int cityId) {
 		  try {
-			   ResponseObject responseObject = send(new RequestObject(GcmQuery.repurchaseSubsriptionToCity,
-			             new ArrayList<Object>(), username, password));
+			   ResponseObject responseObject = send(
+			             new RequestObject(GcmQuery.repurchaseSubsriptionToCity, new ArrayList<Object>() {
+					          {
+						           add(cityId);
+					          }
+			             }, username, password));
 			   return (boolean) responseObject.getResponse().get(0);
 		  } catch (Exception e) {
 			   return false;
@@ -838,7 +833,7 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public boolean ownActiveSubsicription(int cityId) {
+	 public boolean ownActiveSubscription(int cityId) {
 		  try {
 			   ResponseObject responseObject = send(
 			             new RequestObject(GcmQuery.ownActiveSubsicription, new ArrayList<Object>() {
@@ -863,6 +858,21 @@ public class GcmDAO
 			   return (Tour) responseObject.getResponse().get(0);
 		  } catch (Exception e) {
 			   return null;
+		  }
+	 }
+
+	 @Override
+	 public boolean hadPurchasedCityInPast(int cityId) {
+		  try {
+			   ResponseObject responseObject = send(
+			             new RequestObject(GcmQuery.hadPurchasedCityInPast, new ArrayList<Object>() {
+					          {
+						           add(cityId);
+					          }
+			             }, username, password));
+			   return (boolean) responseObject.getResponse().get(0);
+		  } catch (Exception e) {
+			   return false;
 		  }
 	 }
 
