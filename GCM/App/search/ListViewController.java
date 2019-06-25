@@ -247,7 +247,8 @@ public class ListViewController implements Initializable
     @FXML
     public void onBuySubscription() {
     	if (currentCity == null) return; 
-    		gcmClient.switchSceneToAddMap(currentCity.getId());
+    		//gcmClient.switchSceneToAddMap(currentCity.getId());
+    		gcmClient.switchScene(SceneNames.BUY_SUBSCRIPTION);
     }
     @FXML
     public void onBack() {gcmClient.back();}

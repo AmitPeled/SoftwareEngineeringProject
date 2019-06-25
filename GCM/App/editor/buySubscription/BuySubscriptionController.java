@@ -16,11 +16,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import mainApp.GcmClient;
+import mainApp.SceneNames;
 import utility.TextFieldUtility;
 
-
-public class BuySubscriptionController implements Initializable
-{
+public class BuySubscriptionController implements Initializable {
 	private GcmDAO gcmDAO;
 
 	@FXML
@@ -29,81 +28,84 @@ public class BuySubscriptionController implements Initializable
 	ComboBox<String> monthsPicker;
 	@FXML
 	TextField price;
-	
+
 	int cityId;
 	TextFieldUtility utilities;
 	GcmClient gcmClient;
-	
+
 	public BuySubscriptionController(GcmClient gcmClient, int cityId) {
 		this.gcmClient = gcmClient;
 		this.gcmDAO = gcmClient.getDataAccessObject();
 		this.cityId = cityId;
 	}
-	 
 
-	public void buyListener() {	
+	public void buyListener() {
 		buy.setOnMouseClicked((new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	String monthPickerValue = monthsPicker.getSelectionModel().getSelectedItem();
+			@Override
+			public void handle(MouseEvent event) {
+				String monthPickerValue = monthsPicker.getSelectionModel().getSelectedItem();
 
-	            	if(!monthPickerValue.isEmpty()) {
-	            		// add the correct pruchase details
-	            		PurchaseDetails purchaseDetails = new PurchaseDetails("1","2","3","4", "eli", "agami");
-	            		// need to insert cityId to buy membership to
-	            		gcmDAO.purchaseCity(cityId, Integer.parseInt(monthPickerValue), purchaseDetails);
-	            		gcmClient.back();
-	            	}
-	            }
-			})
-		);
+				if (!monthPickerValue.isEmpty()) {
+					// add the correct pruchase details
+					PurchaseDetails purchaseDetails = new PurchaseDetails("1", "2", "3", "4", "eli", "agami");
+					// need to insert cityId to buy membership to
+					gcmDAO.purchaseCity(cityId, Integer.parseInt(monthPickerValue), purchaseDetails);
+					String timeInterval = monthsPicker.getValue();
+					gcmClient.switchSceneToPurchase(cityId, Integer.parseInt(timeInterval));
+					// gcmClient.back();
+				}
+			}
+		}));
 	}
-	
+
 	public void monthsPickerListener() {
 		monthsPicker.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String newMonth) {
 				String currentPrice = "0";
-				switch(newMonth) {
-				  case "1":
-					  currentPrice = "10$";
-					  break;
-				  case "2":
-					  currentPrice = "10$";
-					  break;
-				  case "3":
-					  currentPrice = "10$";
-					  break;
-				  case "4":
-					  currentPrice = "10$";
-					  break;
-				  case "5":
-					  currentPrice = "10$";
-					  break;
-				  case "6":
-					  currentPrice = "10$";
-					  break;
-				  default:
+				switch (newMonth) {
+				case "1":
+					currentPrice = "10$";
+					break;
+				case "2":
+					currentPrice = "10$";
+					break;
+				case "3":
+					currentPrice = "10$";
+					break;
+				case "4":
+					currentPrice = "10$";
+					break;
+				case "5":
+					currentPrice = "10$";
+					break;
+				case "6":
+					currentPrice = "10$";
+					break;
+				default:
 				}
 				price.setText(currentPrice);
-			} 
+			}
 		});
 	}
+
 	@FXML
 	public void onBackButton() {
 		gcmClient.back();
 	}
+
 	public void initMonthsPicker() {
-		monthsPicker.setItems(FXCollections.observableArrayList("1","2","3","4","5","6"));
+		monthsPicker.setItems(FXCollections.observableArrayList("1", "2", "3", "4", "5", "6"));
 	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initMonthsPicker();
 		monthsPickerListener();
 		buyListener();
 	}
-	
-	 public void initalizeControl(int cityId) {
-	    this.cityId = cityId;
-	 }
+
+	public void initalizeControl(int cityId) {
+		this.cityId = cityId;
+	}
 }

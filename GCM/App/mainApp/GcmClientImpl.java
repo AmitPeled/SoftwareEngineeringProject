@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mapViewerScene.MapViewerSceneController;
 import maps.Tour;
+import purchase.PurchaseController;
 import userDetailsPresentation.UserDetailsPresentationController;
 import userInfo.UserInfo;
 
@@ -146,14 +147,13 @@ class GcmClientImpl implements GcmClient {
 		}
 
 	}
-	
+
 	@Override
 	public void switchSceneToAddMap(int cityId) {
 
 		Scene scene = manager.getScene(SceneNames.ADD_MAP);
 		try {
-			AddMapController controller = (AddMapController) manager
-					.getController(SceneNames.ADD_MAP);
+			AddMapController controller = (AddMapController) manager.getController(SceneNames.ADD_MAP);
 			controller.initalizeControl(cityId);
 			primaryStage.setScene(scene);
 			scenesStack.push(scene);
@@ -162,6 +162,7 @@ class GcmClientImpl implements GcmClient {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void switchSceneToBuySubscription(int cityId) {
 
@@ -177,14 +178,13 @@ class GcmClientImpl implements GcmClient {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void switchSceneToTour(int cityId, int mapId, Tour tour) {
 
 		Scene scene = manager.getScene(SceneNames.ADD_EDIT_TOUR);
 		try {
-			TourController controller = (TourController) manager
-					.getController(SceneNames.ADD_EDIT_TOUR);
+			TourController controller = (TourController) manager.getController(SceneNames.ADD_EDIT_TOUR);
 			controller.initalizeControl(cityId, mapId, tour);
 			primaryStage.setScene(scene);
 			scenesStack.push(scene);
@@ -192,5 +192,22 @@ class GcmClientImpl implements GcmClient {
 
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void switchSceneToPurchase(int cityId,int timeInterval) {
+		Scene scene = manager.getScene(SceneNames.PURCHASE);
+		try {
+
+			PurchaseController purchaseController = (PurchaseController) manager.getController(SceneNames.PURCHASE);
+			purchaseController.initilize(cityId,timeInterval);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			primaryStage.setTitle(gcmAppTitle);
+			scenesStack.push(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

@@ -3,6 +3,7 @@ package purchase;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dataAccess.users.PurchaseDetails;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +22,9 @@ public class PurchaseController implements Initializable {
 	private final int MAX_CVV_LENGTH = 3;
 	private final int MAX_CREDIT_CARD_NUMBER = 16;
 
+	int cityId;
+	int timeInterval = 3;
+
 	/** happen when i will connect with gabri code **/
 
 	// private UserInfoImpl userInfoImpl;
@@ -34,7 +38,7 @@ public class PurchaseController implements Initializable {
 	private ComboBox<String> yearPicker, mounthPicker;
 
 	@FXML
-	private TextField cardnumtxt, cvvtxt, nametxt, lastnametxt;
+	private TextField cardnumtxt, cvvtxt, nametxt, lastnametxt, Idtxt;
 
 	ObservableList<String> Monthlist = FXCollections.observableArrayList("01", "02", "03", "04", "05", "06", "07", "08",
 			"09", "10", "11", "12");
@@ -48,6 +52,7 @@ public class PurchaseController implements Initializable {
 		TextFieldUtility.addTextLimiter(cardnumtxt, MAX_CREDIT_CARD_NUMBER);
 		TextFieldUtility.numericTextOnly(cvvtxt);
 		TextFieldUtility.numericTextOnly(cardnumtxt);
+		TextFieldUtility.numericTextOnly(Idtxt);
 
 		/**
 		 * setting values if user already purchase once check with amit about how he
@@ -63,13 +68,22 @@ public class PurchaseController implements Initializable {
 		puchaseModel.back();
 	}
 
+	public void initilize(int cityId,int timeInterval) {
+		this.cityId = cityId;
+		this.timeInterval = timeInterval;
+	}
+
 	public void purchase(ActionEvent event) {
 		System.out.println("Purchase Map!");
 		// Need to validate all fileds of buyer.
 		// need to send to mail note about purchase of the user buyer
 		// need to update user payment details
+		PurchaseDetails purchaseDetails = new PurchaseDetails(cardnumtxt.getText(),
+				mounthPicker.getSelectionModel() + "/" + yearPicker.getSelectionModel(), cvvtxt.getText(),
+				Idtxt.getText(), nametxt.getText(), lastnametxt.getText());
+
+		puchaseModel.purchase(this.cityId, timeInterval, purchaseDetails);
 		puchaseModel.switchScene(SceneNames.MENU);
 	}
 
-	
 }
