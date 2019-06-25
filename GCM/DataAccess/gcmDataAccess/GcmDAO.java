@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class GcmDAO
 	 public static void main(String[] args) {
 		  GcmDAO gcmDAO = new GcmDAO();
 		  gcmDAO.login("editor", "editor");
-		  gcmDAO.getMapFile(497);
+		  gcmDAO.getMapFile(497); 
 	 }
 
 	 public GcmDAO() {
@@ -778,7 +779,7 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public Report getCityReport(java.sql.Date startDate, java.sql.Date endDate, String cityName) {
+	 public Report getCityReport(Date startDate, Date endDate, String cityName) {
 		  try {
 			   return (Report) send(new RequestObject(GcmQuery.getCityReport, new ArrayList<Object>() {
 					{
@@ -793,7 +794,7 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public List<Report> getSystemReport(java.sql.Date startDate, java.sql.Date endDate) {
+	 public List<Report> getSystemReport(Date startDate, Date endDate) {
 		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getSystemReport, new ArrayList<Object>() {
 			   {
 					add(startDate);

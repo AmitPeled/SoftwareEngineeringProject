@@ -1330,6 +1330,8 @@ public class GcmDataExecutor implements
 //		  return cities;
 //	 }
 
+
+
 	 private List<Tour> getToursByIds(List<Integer> tourIds, Status status) {
 		  List<Tour> tours = new ArrayList<>();
 		  tourIds.forEach((tourId) -> {

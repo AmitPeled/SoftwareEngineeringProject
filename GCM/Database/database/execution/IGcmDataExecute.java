@@ -77,7 +77,7 @@ public interface IGcmDataExecute {
 
 	 void editCityPrice(int cityId, double newPrice) throws SQLException;
 
-	 List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
+	List<PurchaseHistory> getPurchaseHistory(String username) throws SQLException;
 
 //	 Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName) throws SQLException;
 

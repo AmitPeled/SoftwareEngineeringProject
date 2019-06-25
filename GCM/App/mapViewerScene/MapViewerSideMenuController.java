@@ -48,8 +48,12 @@ public class MapViewerSideMenuController implements Initializable {
 	}
 	public Tour getSelectedTour() {
 		String selected = toursListView.getSelectionModel().getSelectedItem();
-		if (toursDictionary.get(selected) != null) {
-			return toursDictionary.get(selected);
+		if(selected != null) {
+			if (toursDictionary.get(selected) != null) {
+				return toursDictionary.get(selected);
+			}else {
+				return null;
+			}
 		}else {
 			return null;
 		}
@@ -57,9 +61,13 @@ public class MapViewerSideMenuController implements Initializable {
 	
 	public Site getSelectedSite() {
 		String selected = sitesListView.getSelectionModel().getSelectedItem();
-		if(!sitesDictionary.isEmpty()) {
-			if (sitesDictionary.get(selected) != null) {
-				return sitesDictionary.get(selected);
+		if(selected != null) {
+			if(!sitesDictionary.isEmpty()) {
+				if (sitesDictionary.get(selected) != null) {
+					return sitesDictionary.get(selected);
+				}else {
+					return null;
+				}
 			}else {
 				return null;
 			}

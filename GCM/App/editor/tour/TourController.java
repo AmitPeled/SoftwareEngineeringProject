@@ -80,7 +80,7 @@ public class TourController  implements Initializable {
 		 		            		data.add(sitesPickerValue.getName() + " - " + time + " hours");
 		 		            		listOfSites.setItems(data);
 		 		            		
-		 		            		timeEstimation.setText("");
+		 		            		timeEstimation.setText(""); 
 		 		            		counterOfAddedPlaces++;
 	 	            			}else {
 	 	            				utilities.setErrors("Site already exist!", errors);
@@ -122,7 +122,7 @@ public class TourController  implements Initializable {
 			})
 		);
 	}
-	public void init() {
+	public void init() { 
 		// call function to retrieve list of sites that wasn't added for this map 
 		// insert them to sites list
 		Callback<ListView<Site>, ListCell<Site>> cellFactory = new Callback<ListView<Site>, ListCell<Site>>() {
@@ -146,15 +146,13 @@ public class TourController  implements Initializable {
 
 		sitesPicker.setButtonCell(cellFactory.call(null));
 		sitesPicker.setCellFactory(cellFactory);
-		
-//		Site site1 = new Site(100, "beach", "a good beach", "fun", true, new Coordinates(1,2));
-//		Site site2 = new Site(200, "pasta basta", "a good pasta", "food", true, new Coordinates(1,2));
-//		List<Site> exisitingSites = Arrays.asList(site1, site2);
 
 		List<Site> exisitingSites = gcmDAO.getCitySites(cityId);
 		sitesPicker.setItems(FXCollections.observableArrayList(exisitingSites));
-		
+		System.out.println(exisitingSites);
+		System.out.println(tour);
 		if(tour.getId() != -1) {
+			System.out.println(tour.getId());
 			description.setText(tour.getDescription());
 			
 			// set list of existing sites on tour
