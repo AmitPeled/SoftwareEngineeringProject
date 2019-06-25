@@ -7,9 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import approvalReports.cityApprovalReports.CitySubmission;
@@ -38,6 +36,7 @@ import queries.RequestState;
 import request.RequestObject;
 import response.ResponseObject;
 import users.User;
+import users.UserReport;
 
 //import javax.net.ssl.SSLSocket;
 //import javax.net.ssl.SSLSocketFactory;
@@ -77,6 +76,20 @@ public class GcmDAO
 					}
 			   }, username, password));
 			   return (Map) responseObject.getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
+	 }
+
+	 @Override
+	 public Site getSiteById(int siteId) {
+		  try {
+			   ResponseObject responseObject = send(new RequestObject(GcmQuery.getSiteById, new ArrayList<Object>() {
+					{
+						 add(siteId);
+					}
+			   }, username, password));
+			   return (Site) responseObject.getResponse().get(0);
 		  } catch (Exception e) {
 			   return null;
 		  }
@@ -765,7 +778,7 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName) {
+	 public Report getCityReport(Date startDate, Date endDate, String cityName) {
 		  try {
 			   return (Report) send(new RequestObject(GcmQuery.getCityReport, new ArrayList<Object>() {
 					{
@@ -780,7 +793,7 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public List<Report> getSystemReport(java.util.Date startDate, java.util.Date endDate) {
+	 public List<Report> getSystemReport(Date startDate, Date endDate) {
 		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getSystemReport, new ArrayList<Object>() {
 			   {
 					add(startDate);
@@ -790,14 +803,18 @@ public class GcmDAO
 	 }
 
 	 @Override
-	 public List<Report> getReportsOnUser(java.util.Date startDate, java.util.Date endDate, String username) {
-		  return (List<Report>) (Object) send(new RequestObject(GcmQuery.getUserReports, new ArrayList<Object>() {
-			   {
-					add(startDate);
-					add(endDate);
-					add(username);
-			   }
-		  }, username, password)).getResponse();
+	 public UserReport getReportOnUser(java.sql.Date startDate, java.sql.Date endDate, String username) {
+		  try {
+			   return (UserReport) send(new RequestObject(GcmQuery.getUserReport, new ArrayList<Object>() {
+					{
+						 add(startDate);
+						 add(endDate);
+						 add(username);
+					}
+			   }, username, password)).getResponse().get(0);
+		  } catch (Exception e) {
+			   return null;
+		  }
 	 }
 
 	 @Override

@@ -73,5 +73,6 @@ public interface EditorDAO {
 	void updateMap(int mapId, Map newMap); 
 	Tour getTour(int tourId);
 	City getCity(int cityId);
+	Site getSiteById(int siteId);
 
 }

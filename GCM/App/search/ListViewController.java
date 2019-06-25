@@ -127,7 +127,7 @@ public class ListViewController implements Initializable
 		            	if(selectedRadioBtn.equals("City name")) {
 		            		currentCity = gcmDAO.getMapsByCityName(searchText);
 		            	}else if(selectedRadioBtn.equals("Point of interest")) {
-		            		currentCity = gcmDAO.getMapsBySiteName(searchText);
+		            		resultSet = gcmDAO.getMapsByDescription(searchText);
 		            	}else{
 		            		String siteText = siteBar.getText();
 		            		currentCity = gcmDAO.getMapsBySiteAndCityNames(searchText, siteText);

@@ -4,18 +4,18 @@ import java.sql.Date;
 import java.util.List;
 
 import approvalReports.priceApprovalReports.PriceSubmission;
+import users.UserReport;
 
 public interface GeneralManagerDAO {
 
-	 Report getCityReport(java.util.Date startDate, java.util.Date endDate, String cityName);
+	 List<Report> getSystemReport(java.sql.Date startDate, java.sql.Date endDate);
 
-	 List<Report> getSystemReport(java.util.Date startDate, java.util.Date endDate);
-	 
-	 List<Report> getReportsOnUser(java.util.Date startDate, java.util.Date endDate, String username);
+	 UserReport getReportOnUser(Date startDate, Date endDate, String username);
 
 	 List<PriceSubmission> getPriceSubmissions();
 
 	 void approveCityPrice(int cityId, List<Double> prices, boolean approve);
 
+	 Report getCityReport(java.sql.Date startDate, java.sql.Date endDate, String cityName);
 
 }
