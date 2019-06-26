@@ -11,6 +11,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
+import com.sun.xml.internal.ws.api.Component;
+
+import approvalReports.ActionTaken;
 import approvalReports.cityApprovalReports.CitySubmission;
 import approvalReports.mapApprovalReports.MapSubmission;
 import approvalReports.priceApprovalReports.PriceSubmission;
@@ -28,7 +33,16 @@ import dataAccess.users.PurchaseDetails;
 import dataAccess.users.UserDAO;
 import dataAccess.imageDownload.ImageDownloader;
 import database.serverObjects.MapSubmissionContent;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Path;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import mapFetchment.JFrameMapChooser;
 import maps.City;
+import maps.Coordinates;
 import maps.Map;
 import maps.Site;
 import maps.Tour;
@@ -50,7 +64,7 @@ public class GcmDAO
 	 private String password = null;
 	 private String username = null;
 
-	 private static final String PATH_TO_SOURCE_FOLDER = "import\\resources";
+	 private static final String PATH_TO_SOURCE_FOLDER = "import\\resources\\system-files";
 
 	 public GcmDAO(String host, int port) {
 		  serverHostname = host;
@@ -60,7 +74,41 @@ public class GcmDAO
 	 public static void main(String[] args) {
 		  GcmDAO gcmDAO = new GcmDAO();
 		  gcmDAO.login("editor", "editor");
-		  gcmDAO.getMapFile(497);
+		  City city = new City("Yokne'am", "Yokne'am is a small city");
+		  Map map = new Map("Aroma café", "best coffee seller in Israel", 1, 1, new Coordinates());
+		  int cityId = gcmDAO.addCity(city);
+		  File mapFile = JFrameMapChooser.chooseFromDialog("import//resources");
+		  if (mapFile != null) {
+			   int mapId = gcmDAO.addMapToCity(cityId, map, mapFile);
+			   map = new Map(mapId, "Aroma café", "best coffee seller in Israel", 1, 1, new Coordinates(), -1,
+			             new ArrayList<>(), new ArrayList<>());
+			   MapSubmission mapSubmission = new MapSubmission(cityId, map, mapFile, ActionTaken.ADD);
+			   gcmDAO.actionMapEdit(mapSubmission, true);
+			   gcmDAO.getMapFile(mapId);
+		  }
+	 }
+
+	 static public class JavaFXFileDialogChooser extends Application {
+		  public void launchChoose() {
+			   launch(new String[0]);
+		  }
+
+		  File selectedFile = null;
+
+		  @Override
+		  public void start(Stage primaryStage) {
+			   primaryStage.setTitle("JavaFX App");
+			   FileChooser fileChooser = new FileChooser();
+			   selectedFile = fileChooser.showOpenDialog(primaryStage);
+			   Thread.currentThread().interrupt();
+		  }
+
+	 }
+
+	 static File JavaFXDialogChoose() {
+		  GcmDAO.JavaFXFileDialogChooser javaFXFileDialogChooser = new GcmDAO.JavaFXFileDialogChooser();
+		  javaFXFileDialogChooser.launchChoose();
+		  return javaFXFileDialogChooser.selectedFile;
 	 }
 
 	 public GcmDAO() {
@@ -470,17 +518,17 @@ public class GcmDAO
 	 @Override
 	 public int tourManager(int cityId, Tour tour, List<Site> tempSitesList, List<Integer> tempSitesTimeEstimation) {
 		  int tourId = tour.getId();
-		  
+
 		  // check if tour existing if so add new tour
 		  if (tour.getId() == -1) {
 			   tourId = addNewTourToCity(cityId, tour);
-		  }else {
-			  updateTour(tour.getId(), tour);
+		  } else {
+			   updateTour(tour.getId(), tour);
 		  }
 		  System.out.println(tour.getSites());
 		  // add places to tour
 		  for (int i = 0; i < tempSitesList.size(); i++) {
-			  addExistingSiteToTour(tourId, tempSitesList.get(i).getId(), tempSitesTimeEstimation.get(i));
+			   addExistingSiteToTour(tourId, tempSitesList.get(i).getId(), tempSitesTimeEstimation.get(i));
 		  }
 
 		  return 0;

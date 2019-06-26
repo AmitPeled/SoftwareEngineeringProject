@@ -17,12 +17,6 @@ public class MapSubmission implements Serializable {
 	 */
 	private int containingCityID;
 
-	public MapSubmission(Map map, ActionTaken actionTaken) {
-		this.setContainingCityID(-1);
-		this.map = map;
-		this.actionTaken = actionTaken;
-	}
-
 	public MapSubmission(int containingCityID, Map map, File mapFile, ActionTaken actionTaken) {
 		this.setContainingCityID(containingCityID);
 		this.map = map;
